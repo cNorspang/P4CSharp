@@ -3,7 +3,7 @@
 namespace POTBAG.CSTtoAST
 {
     //Setup Node, consisting of all locations, and where they go
-    internal abstract class ProgNode{ };
+    internal abstract class ProgNode{ }
 
     internal class SetupNode : ProgNode
     {
@@ -19,20 +19,22 @@ namespace POTBAG.CSTtoAST
     {
         private string Source { get; set; }
         private List<string> Destinations { get; set; }
-    };
+
+    }
 
     //Statement Nodes
-    internal abstract class StatementNode : ProgNode { };
+    internal abstract class StatementNode : ProgNode { }
 
     internal class TextStatementNode : StatementNode
     {
         private List<string> Text { get; set; }
-    };
+    }
+
 
     internal class InputStatementNode : StatementNode
     {
         private List<string> Text { get; set; }
-    };
+    }
 
     internal class IfStatementNode : StatementNode
     {
@@ -47,11 +49,11 @@ namespace POTBAG.CSTtoAST
         private ProgNode body;
     }
 
-    internal class ifNode : ifChainStatementNode { };
+    internal class ifNode : ifChainStatementNode { }
 
-    internal class ElseIfStatementNode : ifChainStatementNode { };
+    internal class ElseIfStatementNode : ifChainStatementNode { }
 
-    internal class elseNode : ifChainStatementNode { };
+    internal class elseNode : ifChainStatementNode { }
 
     internal class predicateNode
     {
@@ -75,13 +77,13 @@ namespace POTBAG.CSTtoAST
     }
 
     //AssignNodes
-    internal abstract class AssignNode : ProgNode { };
+    internal abstract class AssignNode : ProgNode { }
 
     internal class IntAssignNode : AssignNode
     {
         private string Left { get; set; }
         private ExpressionNode Right { get; set; }
-    };
+    }
 
     internal class stringAssignNode : AssignNode
     {
