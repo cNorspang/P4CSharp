@@ -3,8 +3,7 @@
 namespace POTBAG.CSTtoAST
 {
     //Setup Node, consisting of all locations, and where they go
-    internal abstract class ProgNode
-    { };
+    internal abstract class ProgNode{ };
 
     internal class SetupNode : ProgNode
     {
