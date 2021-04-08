@@ -23,12 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e21882e6-1778-4157-8cdc-8d1d4cfe7387" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/POTBAG/AntlrFiles/BetterAdvGmBaseVisitor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/POTBAG/AntlrFiles/BetterAdvGmVisitor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/POTBAG/CSTtoAST/BetterAdvGmASTVisitor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/POTBAG/AntlrFiles/BetterAdvGmParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/POTBAG/AntlrFiles/BetterAdvGmParser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/POTBAG/CSTtoAST/ASTNodes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/POTBAG/CSTtoAST/ASTNodes.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/POTBAG/POTBAG.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/POTBAG/POTBAG.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.POTBAG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.POTBAG/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/POTBAG/CSTtoAST/BetterAdvGmASTVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/POTBAG/CSTtoAST/BetterAdvGmASTVisitor.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +81,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1617873078849</updated>
-      <workItem from="1617873081967" duration="3676000" />
+      <workItem from="1617873081967" duration="4837000" />
     </task>
     <servers />
   </component>

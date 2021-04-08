@@ -61,14 +61,14 @@ public partial class BetterAdvGmParser : Parser {
 		"string_declaration", "location_declaration", "predicate"
 	};
 
-	private static readonly string[] _LiteralNames = {
+	public static readonly string[] _LiteralNames = {
 		null, null, "'Text '", "'string '", "';'", null, "'Travel '", "'++'", 
 		"'{'", "'}'", "'('", "')'", "'['", "']'", "'userInput'", "'int'", "'if'", 
 		"'else'", "'else if'", "'while'", "'for'", "'Location'", "'setup'", "'LocationArray'", 
 		"'Locations'", "'choice'", "','", null, "'='", "'+='", "'*'", "'/'", "'+'", 
 		"'-'", "'->'"
 	};
-	private static readonly string[] _SymbolicNames = {
+	public static readonly string[] _SymbolicNames = {
 		null, "WHITESPACE", "KEYWORD_TEXT", "KEYWORD_STRING", "END_STMT", "STRING", 
 		"TRAVEL_KEYWORD", "INCREMENT", "CURLY_LEFT", "CURLY_RIGHT", "PAREN_LEFT", 
 		"PAREN_RIGHT", "SQUARE_LEFT", "SQUARE_RIGHT", "KEYWORD_INPUT", "KEYWORD_INT", 
@@ -491,7 +491,7 @@ public partial class BetterAdvGmParser : Parser {
 		return expression(0);
 	}
 
-	private ExpressionContext expression(int _p) {
+	public ExpressionContext expression(int _p) {
 		ParserRuleContext _parentctx = Context;
 		int _parentState = State;
 		ExpressionContext _localctx = new ExpressionContext(Context, _parentState);
@@ -2304,7 +2304,7 @@ public partial class BetterAdvGmParser : Parser {
 		return predicate(0);
 	}
 
-	private PredicateContext predicate(int _p) {
+	public PredicateContext predicate(int _p) {
 		ParserRuleContext _parentctx = Context;
 		int _parentState = State;
 		PredicateContext _localctx = new PredicateContext(Context, _parentState);
@@ -2435,7 +2435,7 @@ public partial class BetterAdvGmParser : Parser {
 		}
 		return true;
 	}
-	private bool expression_sempred(ExpressionContext _localctx, int predIndex) {
+	public bool expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0: return Precpred(Context, 9);
 		case 1: return Precpred(Context, 8);
@@ -2444,14 +2444,14 @@ public partial class BetterAdvGmParser : Parser {
 		}
 		return true;
 	}
-	private bool predicate_sempred(PredicateContext _localctx, int predIndex) {
+	public bool predicate_sempred(PredicateContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 4: return Precpred(Context, 1);
 		}
 		return true;
 	}
 
-	private static char[] _serializedATN = {
+	public static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
 		'\x5964', '\x3', '(', '\x159', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
 		'\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', '\x5', '\x4', 

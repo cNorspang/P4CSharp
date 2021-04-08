@@ -29,7 +29,7 @@ namespace POTBAG.CSTtoAST
             //destArr = (destArr.Count - 1, destArr[destArr.Count - 1].Substring(0, destArr[destArr.Count - 1].Length - 1));
             destArr[destArr.Count].Remove(destArr[destArr.Count].Length - 1);
             
-            node.setSource(source);
+            node.Source = source;
             node.setDestinations(destArr);
 
             Console.WriteLine("    Source = " + node.getSource());
