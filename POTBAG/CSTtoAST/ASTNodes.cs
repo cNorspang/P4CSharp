@@ -80,6 +80,7 @@ namespace POTBAG.CSTtoAST
     //AssignNodes
     public abstract class AssignNode : ProgNode { }
 
+
     public class IntAssignNode : AssignNode
     {
         private string Left { get; set; }
