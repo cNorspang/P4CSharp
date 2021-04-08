@@ -9,59 +9,20 @@ namespace POTBAG.CSTtoAST
     public class SetupNode : ProgNode
 
     {
-        public LocationsSetupNode getLocations()
-        {
-            return Locations;
-        }
-
-        public void setLocations(LocationsSetupNode locations)
-        {
-            Locations = locations;
-        }
-
-        public LocationsSetupNode Locations;
+        public LocationsSetupNode Locations { get; set; }
     }
 
     public class LocationsSetupNode
     {
-        public List<LocationMappingNode> Children;
-
-        public List<LocationMappingNode> getChildren()
-        {
-            return Children;
-        }
-
-        public void setChildren(List<LocationMappingNode> children)
-        {
-            Children = children;
-        }
+        public List<LocationMappingNode> Children { get; set; }
     }
 
     public class LocationMappingNode : ProgNode
     {
-        private string Source;
-        private List<string> Destinations;
+        private string Source { get; set; }
+        private List<string> Destinations { get; set; }
 
-        public string getSource()
-        {
-            return Source;
-        }
-
-        public void setSource(string source)
-        {
-            Source = source;
-        }
-
-        public List<string> getDestinations()
-        {
-            return Destinations;
-        }
-
-        public void setDestinations(List<string> destinations)
-        {
-            Destinations = destinations;
-        }
-    };
+    }
 
     //Statement Nodes
     public abstract class StatementNode : ProgNode { };
@@ -79,8 +40,6 @@ namespace POTBAG.CSTtoAST
             Text = text;
         }
 
-        private List<string> Text;
-    };
 
     public class InputStatementNode : StatementNode
 
@@ -127,33 +86,14 @@ namespace POTBAG.CSTtoAST
     public class TravelStatementNode : StatementNode
 
     {
-        private string Destination;
-
-        public string getDestination()
-        {
-            return Destination;
-        }
-
-        public void setDestination(string destination)
-        {
-            Destination = destination;
-        }
+        private string Destination { get; set; }
     }
 
     public class ChoiceStatementNode : StatementNode
 
+    internal class ChoiceStatementNode : StatementNode
     {
-        public List<OptionStatementNode> getOptions()
-        {
-            return Options;
-        }
-
-        public void setOptions(List<OptionStatementNode> options)
-        {
-            Options = options;
-        }
-
-        private List<OptionStatementNode> Options;
+        private List<OptionStatementNode> Options { get; set; }
     }
 
     public class OptionStatementNode
@@ -189,56 +129,15 @@ namespace POTBAG.CSTtoAST
     public class IntAssignNode : AssignNode
 
     {
-        public string getLeft()
-        {
-            return Left;
-        }
-
-        public void setLeft(string left)
-        {
-            Left = left;
-        }
-
-        public ExpressionNode getRight()
-        {
-            return Right;
-        }
-
-        public void setRight(ExpressionNode right)
-        {
-            Right = right;
-        }
-
-        private string Left;
-        private ExpressionNode Right;
-    };
+        private string Left { get; set; }
+        private ExpressionNode Right { get; set; }
+    }
 
     public class stringAssignNode : AssignNode
 
     {
-        public string getLeft()
-        {
-            return Left;
-        }
-
-        public void setLeft(string left)
-        {
-            Left = left;
-        }
-
-        private string Left;
-
-        public string getRight()
-        {
-            return Right;
-        }
-
-        public void setRight(string right)
-        {
-            Right = right;
-        }
-
-        private string Right;
+        private string Left { get; set; }
+        private string Right { get; set; }
     }
 
     public class InputAssignNode : AssignNode
@@ -262,17 +161,7 @@ namespace POTBAG.CSTtoAST
     public abstract class DeclarationNode : ProgNode
 
     {
-        private string VarName;
-
-        public string getVarName()
-        {
-            return VarName;
-        }
-
-        public void setVarName(string varName)
-        {
-            VarName = varName;
-        }
+        private string VarName { get; set; }
     }
 
     public class IntDeclarationNode : DeclarationNode { }
@@ -288,28 +177,8 @@ namespace POTBAG.CSTtoAST
     public abstract class ExpressionNode : ProgNode
 
     {
-        public ExpressionNode Left;
-        public ExpressionNode Right;
-
-        public ExpressionNode getRight()
-        {
-            return Right;
-        }
-
-        public void setRight(ExpressionNode right)
-        {
-            Right = right;
-        }
-
-        public ExpressionNode getLeft()
-        {
-            return Left;
-        }
-
-        public void setLeft(ExpressionNode left)
-        {
-            Left = left;
-        }
+        public ExpressionNode Left { get; set; }
+        public ExpressionNode Right { get; set; }
     }
 
     public class AdditionNode : ExpressionNode { }
@@ -323,16 +192,6 @@ namespace POTBAG.CSTtoAST
     public class NumberNode : ExpressionNode
 
     {
-        public int Value;
-
-        public double getValue()
-        {
-            return Value;
-        }
-
-        public void setValue(int value)
-        {
-            Value = value;
-        }
+        public int Value { get; set; }
     }
 }
