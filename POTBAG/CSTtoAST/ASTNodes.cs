@@ -7,99 +7,35 @@ namespace POTBAG.CSTtoAST
     { };
 
     internal class SetupNode : ProgNode
-
     {
-        public LocationsSetupNode getLocations()
-        {
-            return Locations;
-        }
-
-        public void setLocations(LocationsSetupNode locations)
-        {
-            Locations = locations;
-        }
-
-        public LocationsSetupNode Locations;
+        public LocationsSetupNode Locations { get; set; }
     }
 
     internal class LocationsSetupNode
     {
-        public List<LocationMappingNode> Children;
-
-        public List<LocationMappingNode> getChildren()
-        {
-            return Children;
-        }
-
-        public void setChildren(List<LocationMappingNode> children)
-        {
-            Children = children;
-        }
+        public List<LocationMappingNode> Children { get; set; }
     }
 
     internal class LocationMappingNode : ProgNode
     {
-        private string Source;
-        private List<string> Destinations;
-
-        public string getSource()
-        {
-            return Source;
-        }
-
-        public void setSource(string source)
-        {
-            Source = source;
-        }
-
-        public List<string> getDestinations()
-        {
-            return Destinations;
-        }
-
-        public void setDestinations(List<string> destinations)
-        {
-            Destinations = destinations;
-        }
+        private string Source { get; set; }
+        private List<string> Destinations { get; set; }
     };
 
     //Statement Nodes
     internal abstract class StatementNode : ProgNode { };
 
     internal class TextStatementNode : StatementNode
-
     {
-        public List<string> getText()
-        {
-            return Text;
-        }
-
-        public void setText(List<string> text)
-        {
-            Text = text;
-        }
-
-        private List<string> Text;
+        private List<string> Text { get; set; }
     };
 
     internal class InputStatementNode : StatementNode
-
     {
-        public List<string> getText()
-        {
-            return Text;
-        }
-
-        public void setText(List<string> text)
-        {
-            Text = text;
-        }
-
-        private List<string> Text;
+        private List<string> Text { get; set; }
     };
 
     internal class IfStatementNode : StatementNode
-
     {
         private ifNode ifNode;
         private List<ElseIfStatementNode> elseIfChain;
@@ -107,7 +43,6 @@ namespace POTBAG.CSTtoAST
     }
 
     internal class ifChainStatementNode : StatementNode
-
     {
         private predicateNode predicate;
         private ProgNode body;
@@ -125,131 +60,43 @@ namespace POTBAG.CSTtoAST
     }
 
     internal class TravelStatementNode : StatementNode
-
     {
-        private string Destination;
-
-        public string getDestination()
-        {
-            return Destination;
-        }
-
-        public void setDestination(string destination)
-        {
-            Destination = destination;
-        }
+        private string Destination { get; set; }
     }
 
     internal class ChoiceStatementNode : StatementNode
-
     {
-        public List<OptionStatementNode> getOptions()
-        {
-            return Options;
-        }
-
-        public void setOptions(List<OptionStatementNode> options)
-        {
-            Options = options;
-        }
-
-        private List<OptionStatementNode> Options;
+        private List<OptionStatementNode> Options { get; set; }
     }
 
     internal class OptionStatementNode
     {
-        public string getText()
-        {
-            return Text;
-        }
-
-        public void setText(string text)
-        {
-            Text = text;
-        }
-
-        private string Text;
-
-        public ProgNode getInnerNode()
-        {
-            return InnerNode;
-        }
-
-        public void setInnerNode(ProgNode innerNode)
-        {
-            InnerNode = innerNode;
-        }
-
-        private ProgNode InnerNode;
+        private string Text { get; set; }
+        private ProgNode InnerNode { get; set; }
     }
 
     //AssignNodes
     internal abstract class AssignNode : ProgNode { };
 
     internal class IntAssignNode : AssignNode
-
     {
-        public string getLeft()
-        {
-            return Left;
-        }
-
-        public void setLeft(string left)
-        {
-            Left = left;
-        }
-
-        public ExpressionNode getRight()
-        {
-            return Right;
-        }
-
-        public void setRight(ExpressionNode right)
-        {
-            Right = right;
-        }
-
-        private string Left;
-        private ExpressionNode Right;
+        private string Left { get; set; }
+        private ExpressionNode Right { get; set; }
     };
 
     internal class stringAssignNode : AssignNode
-
     {
-        public string getLeft()
-        {
-            return Left;
-        }
-
-        public void setLeft(string left)
-        {
-            Left = left;
-        }
-
-        private string Left;
-
-        public string getRight()
-        {
-            return Right;
-        }
-
-        public void setRight(string right)
-        {
-            Right = right;
-        }
-
-        private string Right;
+        private string Left { get; set; }
+        private string Right { get; set; }
     }
 
     internal class InputAssignNode : AssignNode
-
     {
         private string Left;
         private InputStatementNode Right;
     }
 
     internal class LocationAssignNode : AssignNode
-
     {
         private LocationDeclarationNode Left;
         private List<BetterAdvGmParser.StatementContext> RightStatement;
@@ -260,19 +107,8 @@ namespace POTBAG.CSTtoAST
 
     //Declaration Nodes
     internal abstract class DeclarationNode : ProgNode
-
     {
-        private string VarName;
-
-        public string getVarName()
-        {
-            return VarName;
-        }
-
-        public void setVarName(string varName)
-        {
-            VarName = varName;
-        }
+        private string VarName { get; set; }
     }
 
     internal class IntDeclarationNode : DeclarationNode { }
@@ -280,36 +116,14 @@ namespace POTBAG.CSTtoAST
     internal class stringDeclarationNode : DeclarationNode { }
 
     internal class LocationDeclarationNode : DeclarationNode
-
     {
         private string varName;
     }
 
     internal abstract class ExpressionNode : ProgNode
-
     {
-        public ExpressionNode Left;
-        public ExpressionNode Right;
-
-        public ExpressionNode getRight()
-        {
-            return Right;
-        }
-
-        public void setRight(ExpressionNode right)
-        {
-            Right = right;
-        }
-
-        public ExpressionNode getLeft()
-        {
-            return Left;
-        }
-
-        public void setLeft(ExpressionNode left)
-        {
-            Left = left;
-        }
+        public ExpressionNode Left { get; set; }
+        public ExpressionNode Right { get; set; }
     }
 
     internal class AdditionNode : ExpressionNode { }
@@ -321,18 +135,7 @@ namespace POTBAG.CSTtoAST
     internal class DivisionNode : ExpressionNode { }
 
     internal class NumberNode : ExpressionNode
-
     {
-        public int Value;
-
-        public double getValue()
-        {
-            return Value;
-        }
-
-        public void setValue(int value)
-        {
-            Value = value;
-        }
+        public int Value { get; set; }
     }
 }
