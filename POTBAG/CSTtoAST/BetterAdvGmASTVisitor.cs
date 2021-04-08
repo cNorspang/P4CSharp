@@ -30,10 +30,10 @@ namespace POTBAG.CSTtoAST
             destArr[destArr.Count].Remove(destArr[destArr.Count].Length - 1);
             
             node.Source = source;
-            node.setDestinations(destArr);
+            node.Destinations = destArr;
 
-            Console.WriteLine("    Source = " + node.getSource());
-            Console.WriteLine("    Destinations = " + node.getDestinations());
+            Console.WriteLine("    Source = " + node.Source);
+            Console.WriteLine("    Destinations = " + node.Destinations);
             return node;
         }
         
@@ -41,11 +41,11 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("TextStatement");
             TextStatementNode node = new TextStatementNode();
 
-            List<string> InnerVal = new List(ctx.GetText().Split("+"));
+            List<string> InnerVal = new List<string>(ctx.GetText().Split("+"));
             InnerVal[0] = InnerVal[0].Replace("Text ", "");
 
-            node.setText(InnerVal);
-            Console.WriteLine("    Child: " + node.GetText());
+            node.Text = InnerVal;
+            Console.WriteLine("    Child: " + node.Text);
             return node;
             //return super.visitText_statement(ctx);
         }
@@ -54,13 +54,13 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("InputStatement");
             InputStatementNode node = new InputStatementNode();
 
-            ArrayList<string> InnerVal = new ArrayList<>(Arrays.asList(ctx.GetText().split("[+]")));
+            List<string> InnerVal = new List<string>(ctx.GetText().Split("+"));
 
-            InnerVal.set(0, InnerVal.get(0).replace("userInput", ""));
-            InnerVal.set(InnerVal.size() - 1, InnerVal.get(InnerVal.size() - 1).substring(0, InnerVal.get(InnerVal.size() - 1).length() - 1));
-            node.setText(InnerVal);
-
-            Console.WriteLine("    Child: " + node.GetText());
+            //InnerVal.set(0, InnerVal.get(0).replace("userInput", ""));
+            InnerVal[0] = InnerVal[0].Replace("userInput", "");
+            InnerVal[InnerVal.Count].Remove(InnerVal[InnerVal.Count].Length - 1);
+            
+            Console.WriteLine("    Child: " + node.Text);
 
             return node;
         }

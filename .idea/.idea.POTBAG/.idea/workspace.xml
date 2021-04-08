@@ -23,7 +23,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e21882e6-1778-4157-8cdc-8d1d4cfe7387" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.POTBAG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.POTBAG/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/POTBAG/CSTtoAST/BetterAdvGmASTVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/POTBAG/CSTtoAST/BetterAdvGmASTVisitor.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1617873078849</updated>
-      <workItem from="1617873081967" duration="4837000" />
+      <workItem from="1617873081967" duration="5415000" />
     </task>
     <servers />
   </component>
@@ -113,9 +112,9 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="461" y="185" key="SettingsEditor/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1617873624749" />
-    <state x="1122" y="159" width="642" height="849" key="find.popup" timestamp="1617875641286">
+    <state x="1122" y="159" width="642" height="849" key="find.popup" timestamp="1617879137106">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="1122" y="159" width="642" height="849" key="find.popup/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1617875641286" />
+    <state x="1122" y="159" width="642" height="849" key="find.popup/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1617879137106" />
   </component>
 </project>
