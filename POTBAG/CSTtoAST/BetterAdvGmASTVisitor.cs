@@ -69,10 +69,10 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitInt_assign(BetterAdvGmParser.Int_assignContext ctx) {
             Console.WriteLine("Int_assign");
             IntAssignNode node = new IntAssignNode();
-            node.setLeft(ctx.int_declaration().VAR_NAME().GetText());
-            Console.WriteLine("    Left Child: "+node.getLeft());
-            node.setRight(node.getRight());
-            Console.WriteLine("    Right Child: " + node.getRight());
+            node.Left = ctx.int_declaration().VAR_NAME().GetText();
+            Console.WriteLine("    Left Child: "+node.Left);
+            node.Right = node.Right;
+            Console.WriteLine("    Right Child: " + node.Right);
             return node;
         }
 
@@ -80,23 +80,23 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitInt_declaration(BetterAdvGmParser.Int_declarationContext ctx) {
 
             IntDeclarationNode node = new IntDeclarationNode();
-            node.setVarName(ctx.VAR_NAME().GetText());
-            Console.WriteLine("    Child Varname of Int_declaration: " + node.getVarName());
+            node.VarName = ctx.VAR_NAME().GetText();
+            Console.WriteLine("    Child Varname of Int_declaration: " + node.VarName);
             //Console.WriteLine("yikes: "+node.getVarName());
 
             return node;
         }
 
         
-        public override ProgNode Visitstring_assign(BetterAdvGmParser.string_assignContext ctx) {
+        public override ProgNode VisitString_assign(BetterAdvGmParser.String_assignContext ctx) {
             Console.WriteLine("string_assign");
             stringAssignNode node = new stringAssignNode();
 
-            node.setLeft(ctx.string_declaration().VAR_NAME().GetText());
-            Console.WriteLine("    Left child of assign: " + node.getLeft());
+            node.Left = ctx.string_declaration().VAR_NAME().GetText();
+            Console.WriteLine("    Left child of assign: " + node.Left);
 
-            node.setRight(ctx.STRING().GetText());
-            Console.WriteLine("    Right child of assign: " + node.getRight());
+            node.Right = ctx.STRING().GetText();
+            Console.WriteLine("    Right child of assign: " + node.Right);
 
             //Console.WriteLine("string assignment: "+node.getLeft() + " = "+node.getRight());
             return node;
@@ -104,11 +104,11 @@ namespace POTBAG.CSTtoAST
         }
 
         //TODO this is never accessed, visitstring_assign grabs element from source
-        public override ProgNode Visitstring_declaration(BetterAdvGmParser.string_declarationContext ctx) {
+        public override ProgNode VisitString_declaration(BetterAdvGmParser.String_declarationContext ctx) {
             Console.WriteLine("string_declaration");
             stringDeclarationNode node = new stringDeclarationNode();
-            node.setVarName(ctx.VAR_NAME().GetText());
-            Console.WriteLine("    Child Varname of string_Declaration: " + node.getVarName());
+            node.VarName = ctx.VAR_NAME().GetText();
+            Console.WriteLine("    Child Varname of string_Declaration: " + node.VarName);
             return node;
         }
     }
