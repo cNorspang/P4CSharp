@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace POTBAG.CSTtoAST
 {
@@ -39,27 +38,26 @@ namespace POTBAG.CSTtoAST
     }
 
     internal class LocationMappingNode : ProgNode
-
     {
-        private String Source;
-        private List<String> Destinations;
+        private string Source;
+        private List<string> Destinations;
 
-        public String getSource()
+        public string getSource()
         {
             return Source;
         }
 
-        public void setSource(String source)
+        public void setSource(string source)
         {
             Source = source;
         }
 
-        public List<String> getDestinations()
+        public List<string> getDestinations()
         {
             return Destinations;
         }
 
-        public void setDestinations(List<String> destinations)
+        public void setDestinations(List<string> destinations)
         {
             Destinations = destinations;
         }
@@ -71,33 +69,33 @@ namespace POTBAG.CSTtoAST
     internal class TextStatementNode : StatementNode
 
     {
-        public List<String> getText()
+        public List<string> getText()
         {
             return Text;
         }
 
-        public void setText(List<String> text)
+        public void setText(List<string> text)
         {
             Text = text;
         }
 
-        private List<String> Text;
+        private List<string> Text;
     };
 
     internal class InputStatementNode : StatementNode
 
     {
-        public List<String> getText()
+        public List<string> getText()
         {
             return Text;
         }
 
-        public void setText(List<String> text)
+        public void setText(List<string> text)
         {
             Text = text;
         }
 
-        private List<String> Text;
+        private List<string> Text;
     };
 
     internal class IfStatementNode : StatementNode
@@ -129,14 +127,14 @@ namespace POTBAG.CSTtoAST
     internal class TravelStatementNode : StatementNode
 
     {
-        private String Destination;
+        private string Destination;
 
-        public String getDestination()
+        public string getDestination()
         {
             return Destination;
         }
 
-        public void setDestination(String destination)
+        public void setDestination(string destination)
         {
             Destination = destination;
         }
@@ -160,17 +158,17 @@ namespace POTBAG.CSTtoAST
 
     internal class OptionStatementNode
     {
-        public String getText()
+        public string getText()
         {
             return Text;
         }
 
-        public void setText(String text)
+        public void setText(string text)
         {
             Text = text;
         }
 
-        private String Text;
+        private string Text;
 
         public ProgNode getInnerNode()
         {
@@ -191,12 +189,12 @@ namespace POTBAG.CSTtoAST
     internal class IntAssignNode : AssignNode
 
     {
-        public String getLeft()
+        public string getLeft()
         {
             return Left;
         }
 
-        public void setLeft(String left)
+        public void setLeft(string left)
         {
             Left = left;
         }
@@ -211,42 +209,42 @@ namespace POTBAG.CSTtoAST
             Right = right;
         }
 
-        private String Left;
+        private string Left;
         private ExpressionNode Right;
     };
 
-    internal class StringAssignNode : AssignNode
+    internal class stringAssignNode : AssignNode
 
     {
-        public String getLeft()
+        public string getLeft()
         {
             return Left;
         }
 
-        public void setLeft(String left)
+        public void setLeft(string left)
         {
             Left = left;
         }
 
-        private String Left;
+        private string Left;
 
-        public String getRight()
+        public string getRight()
         {
             return Right;
         }
 
-        public void setRight(String right)
+        public void setRight(string right)
         {
             Right = right;
         }
 
-        private String Right;
+        private string Right;
     }
 
     internal class InputAssignNode : AssignNode
 
     {
-        private String Left;
+        private string Left;
         private InputStatementNode Right;
     }
 
@@ -264,14 +262,14 @@ namespace POTBAG.CSTtoAST
     internal abstract class DeclarationNode : ProgNode
 
     {
-        private String VarName;
+        private string VarName;
 
-        public String getVarName()
+        public string getVarName()
         {
             return VarName;
         }
 
-        public void setVarName(String varName)
+        public void setVarName(string varName)
         {
             VarName = varName;
         }
@@ -279,12 +277,12 @@ namespace POTBAG.CSTtoAST
 
     internal class IntDeclarationNode : DeclarationNode { }
 
-    internal class StringDeclarationNode : DeclarationNode { }
+    internal class stringDeclarationNode : DeclarationNode { }
 
     internal class LocationDeclarationNode : DeclarationNode
 
     {
-        private String varName;
+        private string varName;
     }
 
     internal abstract class ExpressionNode : ProgNode
