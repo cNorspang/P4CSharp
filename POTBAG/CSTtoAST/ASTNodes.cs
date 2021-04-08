@@ -65,6 +65,7 @@ namespace POTBAG.CSTtoAST
         private string Destination { get; set; }
     }
 
+
     internal class ChoiceStatementNode : StatementNode
     {
         private List<OptionStatementNode> Options { get; set; }
