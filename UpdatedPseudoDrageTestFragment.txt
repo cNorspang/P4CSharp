@@ -1,0 +1,30 @@
+setup{
+    Locations = {
+        Silkeborg -> Bibliotek, Lokale;
+        Bibliotek -> Silkeborg, KU;
+    };
+}
+
+Text "Hello adventurer! Welcome to the labyrinth game." + "Your goal is to make it to Hvidovre";
+int abc = 32;
+string bcd = "hello";
+
+Location Silkeborg = {
+    string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
+
+    if (nextLocation is "Bibliotek"){
+        Travel Bibliotek;
+    }
+    else if (nextLocation is "Lokale"){
+        Travel Lokale;
+    }
+    else {
+        string TryAgain = userInput "That location doesn't exit, try again [Bibliotek, Lokale]" + "Whoop";
+    };
+    
+    choice {
+        "Bibliotek" {Travel Bibliotek;};
+        "Lokale" { Travel Lokale; };
+    };
+};
+
