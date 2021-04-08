@@ -7,6 +7,12 @@ namespace POTBAG.CSTtoAST
 {
     public class BetterAdvGmASTVisitor : BetterAdvGmBaseVisitor<ProgNode>
     {
+        public override ProgNode VisitProg([NotNull] BetterAdvGmParser.ProgContext context)
+        {
+            Console.WriteLine("prog");
+            return base.VisitProg(context); 
+        }
+
         public override ProgNode VisitSetup(BetterAdvGmParser.SetupContext ctx) 
         {
             Console.WriteLine("setup");
@@ -27,13 +33,13 @@ namespace POTBAG.CSTtoAST
             
             List<string> destArr = deststring.Split(",").ToList(); 
             //destArr = (destArr.Count - 1, destArr[destArr.Count - 1].Substring(0, destArr[destArr.Count - 1].Length - 1));
-            destArr[destArr.Count].Remove(destArr[destArr.Count].Length - 1);
+            destArr[destArr.Count - 1].Remove(destArr[destArr.Count - 1].Length - 1);
             
             node.Source = source;
             node.Destinations = destArr;
 
             Console.WriteLine("    Source = " + node.Source);
-            Console.WriteLine("    Destinations = " + node.Destinations);
+            Console.WriteLine("    Child: " + String.Join(',', node.Destinations));
             return node;
         }
         
@@ -45,7 +51,7 @@ namespace POTBAG.CSTtoAST
             InnerVal[0] = InnerVal[0].Replace("Text ", "");
 
             node.Text = InnerVal;
-            Console.WriteLine("    Child: " + node.Text);
+            Console.WriteLine("    Child: " + String.Join(',', node.Text));
             return node;
             //return super.visitText_statement(ctx);
         }
@@ -58,9 +64,9 @@ namespace POTBAG.CSTtoAST
 
             //InnerVal.set(0, InnerVal.get(0).replace("userInput", ""));
             InnerVal[0] = InnerVal[0].Replace("userInput", "");
-            InnerVal[InnerVal.Count].Remove(InnerVal[InnerVal.Count].Length - 1);
-            
-            Console.WriteLine("    Child: " + node.Text);
+            InnerVal[InnerVal.Count - 1].Remove(InnerVal[InnerVal.Count - 1].Length - 1);
+            node.Text = InnerVal;
+            Console.WriteLine("    Child: " + String.Join(',',node.Text));
 
             return node;
         }

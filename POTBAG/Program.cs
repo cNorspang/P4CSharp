@@ -19,9 +19,9 @@ namespace POTBAG
             //set start node
             var cst = parser.prog(); ;
 
-            //var ast = new BetterAdvGmASTVisitor().visitProg(cst);
+            var ast = new BetterAdvGmASTVisitor().VisitProg(cst);
 
-
+            
             //var tree = Trees.ToStringTree(cst,parser);
             //Console.WriteLine(tree);
 
