@@ -3,10 +3,10 @@
 namespace POTBAG.CSTtoAST
 {
     //Setup Node, consisting of all locations, and where they go
-    internal abstract class ProgNode
+    public abstract class ProgNode
     { };
 
-    internal class SetupNode : ProgNode
+    public class SetupNode : ProgNode
 
     {
         public LocationsSetupNode getLocations()
@@ -22,7 +22,7 @@ namespace POTBAG.CSTtoAST
         public LocationsSetupNode Locations;
     }
 
-    internal class LocationsSetupNode
+    public class LocationsSetupNode
     {
         public List<LocationMappingNode> Children;
 
@@ -37,7 +37,7 @@ namespace POTBAG.CSTtoAST
         }
     }
 
-    internal class LocationMappingNode : ProgNode
+    public class LocationMappingNode : ProgNode
     {
         private string Source;
         private List<string> Destinations;
@@ -64,12 +64,12 @@ namespace POTBAG.CSTtoAST
     };
 
     //Statement Nodes
-    internal abstract class StatementNode : ProgNode { };
+    public abstract class StatementNode : ProgNode { };
 
-    internal class TextStatementNode : StatementNode
+    public class TextStatementNode : StatementNode
 
     {
-        public List<string> getText()
+        public List<string> GetText()
         {
             return Text;
         }
@@ -82,10 +82,10 @@ namespace POTBAG.CSTtoAST
         private List<string> Text;
     };
 
-    internal class InputStatementNode : StatementNode
+    public class InputStatementNode : StatementNode
 
     {
-        public List<string> getText()
+        public List<string> GetText()
         {
             return Text;
         }
@@ -98,7 +98,7 @@ namespace POTBAG.CSTtoAST
         private List<string> Text;
     };
 
-    internal class IfStatementNode : StatementNode
+    public class IfStatementNode : StatementNode
 
     {
         private ifNode ifNode;
@@ -106,25 +106,25 @@ namespace POTBAG.CSTtoAST
         private elseNode elseNode;
     }
 
-    internal class ifChainStatementNode : StatementNode
+    public class ifChainStatementNode : StatementNode
 
     {
         private predicateNode predicate;
         private ProgNode body;
     }
 
-    internal class ifNode : ifChainStatementNode { };
+    public class ifNode : ifChainStatementNode { };
 
-    internal class ElseIfStatementNode : ifChainStatementNode { };
+    public class ElseIfStatementNode : ifChainStatementNode { };
 
-    internal class elseNode : ifChainStatementNode { };
+    public class elseNode : ifChainStatementNode { };
 
-    internal class predicateNode
+    public class predicateNode
     {
         //TODO: NIGGERIAMAMAMIA ITALIANO SPAGET
     }
 
-    internal class TravelStatementNode : StatementNode
+    public class TravelStatementNode : StatementNode
 
     {
         private string Destination;
@@ -140,7 +140,7 @@ namespace POTBAG.CSTtoAST
         }
     }
 
-    internal class ChoiceStatementNode : StatementNode
+    public class ChoiceStatementNode : StatementNode
 
     {
         public List<OptionStatementNode> getOptions()
@@ -156,9 +156,9 @@ namespace POTBAG.CSTtoAST
         private List<OptionStatementNode> Options;
     }
 
-    internal class OptionStatementNode
+    public class OptionStatementNode
     {
-        public string getText()
+        public string GetText()
         {
             return Text;
         }
@@ -184,9 +184,9 @@ namespace POTBAG.CSTtoAST
     }
 
     //AssignNodes
-    internal abstract class AssignNode : ProgNode { };
+    public abstract class AssignNode : ProgNode { };
 
-    internal class IntAssignNode : AssignNode
+    public class IntAssignNode : AssignNode
 
     {
         public string getLeft()
@@ -213,7 +213,7 @@ namespace POTBAG.CSTtoAST
         private ExpressionNode Right;
     };
 
-    internal class stringAssignNode : AssignNode
+    public class stringAssignNode : AssignNode
 
     {
         public string getLeft()
@@ -241,14 +241,14 @@ namespace POTBAG.CSTtoAST
         private string Right;
     }
 
-    internal class InputAssignNode : AssignNode
+    public class InputAssignNode : AssignNode
 
     {
         private string Left;
         private InputStatementNode Right;
     }
 
-    internal class LocationAssignNode : AssignNode
+    public class LocationAssignNode : AssignNode
 
     {
         private LocationDeclarationNode Left;
@@ -259,7 +259,7 @@ namespace POTBAG.CSTtoAST
     }
 
     //Declaration Nodes
-    internal abstract class DeclarationNode : ProgNode
+    public abstract class DeclarationNode : ProgNode
 
     {
         private string VarName;
@@ -275,17 +275,17 @@ namespace POTBAG.CSTtoAST
         }
     }
 
-    internal class IntDeclarationNode : DeclarationNode { }
+    public class IntDeclarationNode : DeclarationNode { }
 
-    internal class stringDeclarationNode : DeclarationNode { }
+    public class stringDeclarationNode : DeclarationNode { }
 
-    internal class LocationDeclarationNode : DeclarationNode
+    public class LocationDeclarationNode : DeclarationNode
 
     {
         private string varName;
     }
 
-    internal abstract class ExpressionNode : ProgNode
+    public abstract class ExpressionNode : ProgNode
 
     {
         public ExpressionNode Left;
@@ -312,15 +312,15 @@ namespace POTBAG.CSTtoAST
         }
     }
 
-    internal class AdditionNode : ExpressionNode { }
+    public class AdditionNode : ExpressionNode { }
 
-    internal class SubtractionNode : ExpressionNode { }
+    public class SubtractionNode : ExpressionNode { }
 
-    internal class MultiplicationNode : ExpressionNode { }
+    public class MultiplicationNode : ExpressionNode { }
 
-    internal class DivisionNode : ExpressionNode { }
+    public class DivisionNode : ExpressionNode { }
 
-    internal class NumberNode : ExpressionNode
+    public class NumberNode : ExpressionNode
 
     {
         public int Value;

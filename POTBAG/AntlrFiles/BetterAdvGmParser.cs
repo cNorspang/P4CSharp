@@ -155,6 +155,12 @@ public partial class BetterAdvGmParser : Parser {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitProg(this);
 		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitProg(this);
+			else return visitor.VisitChildren(this);
+		}
 	}
 
 	[RuleVersion(0)]
@@ -242,6 +248,12 @@ public partial class BetterAdvGmParser : Parser {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitSetup(this);
 		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitSetup(this);
+			else return visitor.VisitChildren(this);
+		}
 	}
 
 	[RuleVersion(0)]
@@ -300,6 +312,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitLocationsetup(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitLocationsetup(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -373,6 +391,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitLocationmapping(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitLocationmapping(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -453,6 +477,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitExpression(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitExpression(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -691,6 +721,12 @@ public partial class BetterAdvGmParser : Parser {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitStatement(this);
 		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitStatement(this);
+			else return visitor.VisitChildren(this);
+		}
 	}
 
 	[RuleVersion(0)]
@@ -779,6 +815,12 @@ public partial class BetterAdvGmParser : Parser {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitAssign(this);
 		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitAssign(this);
+			else return visitor.VisitChildren(this);
+		}
 	}
 
 	[RuleVersion(0)]
@@ -855,6 +897,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitDeclaration(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDeclaration(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -937,6 +985,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitText_statement(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitText_statement(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -1029,6 +1083,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitInput_statement(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitInput_statement(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -1157,6 +1217,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitIf_statement(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitIf_statement(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -1352,6 +1418,12 @@ public partial class BetterAdvGmParser : Parser {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitTravel_statement(this);
 		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitTravel_statement(this);
+			else return visitor.VisitChildren(this);
+		}
 	}
 
 	[RuleVersion(0)]
@@ -1405,6 +1477,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitChoice_statement(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitChoice_statement(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -1495,6 +1573,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitOption_statment(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitOption_statment(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -1601,6 +1685,12 @@ public partial class BetterAdvGmParser : Parser {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitInt_assign(this);
 		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitInt_assign(this);
+			else return visitor.VisitChildren(this);
+		}
 	}
 
 	[RuleVersion(0)]
@@ -1692,6 +1782,12 @@ public partial class BetterAdvGmParser : Parser {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitString_assign(this);
 		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitString_assign(this);
+			else return visitor.VisitChildren(this);
+		}
 	}
 
 	[RuleVersion(0)]
@@ -1767,6 +1863,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitInput_assign(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitInput_assign(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -1863,6 +1965,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitLocation_assign(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitLocation_assign(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -2015,6 +2123,12 @@ public partial class BetterAdvGmParser : Parser {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitInt_declaration(this);
 		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitInt_declaration(this);
+			else return visitor.VisitChildren(this);
+		}
 	}
 
 	[RuleVersion(0)]
@@ -2059,6 +2173,12 @@ public partial class BetterAdvGmParser : Parser {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitString_declaration(this);
 		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitString_declaration(this);
+			else return visitor.VisitChildren(this);
+		}
 	}
 
 	[RuleVersion(0)]
@@ -2102,6 +2222,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitLocation_declaration(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitLocation_declaration(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
@@ -2164,6 +2290,12 @@ public partial class BetterAdvGmParser : Parser {
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
 			if (typedListener != null) typedListener.ExitPredicate(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitPredicate(this);
+			else return visitor.VisitChildren(this);
 		}
 	}
 
