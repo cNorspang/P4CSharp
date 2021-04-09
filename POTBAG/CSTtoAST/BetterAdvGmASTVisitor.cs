@@ -122,5 +122,38 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("    Child Varname of string_Declaration: " + node.VarName);
             return node;
         }
+
+        public override ProgNode VisitOption_statment([NotNull] BetterAdvGmParser.Option_statmentContext ctx)
+        {
+            Console.WriteLine("option_Statement");
+            OptionStatementNode node = new OptionStatementNode();
+            if(ctx.STRING() != null)
+            {
+                node.Text = ctx.STRING().GetText();
+                Console.WriteLine("     LEFT child of option_statement  "  + node.Text);
+            }
+            else 
+            { 
+                node.Text = ctx.VAR_NAME().GetText();
+                Console.WriteLine("     LEFT child of option_statement  " + node.Text);
+            }
+
+
+            node.right_declaration = ctx.declaration().ToList();
+            node.right_statement = ctx.statement().ToList();
+            node.right_expression = ctx.expression().ToList();
+            node.right_assign = ctx.assign().ToList();
+
+            node.right_declaration.ForEach(i => Console.WriteLine("    Child dcl of option_statement: " + i.GetText()));
+            node.right_assign.ForEach(i => Console.WriteLine("    Child dcl of option_statement: " + i.GetText()));
+            node.right_expression.ForEach(i => Console.WriteLine("    Child dcl of option_statement: " + i.GetText()));
+            node.right_statement.ForEach(i => Console.WriteLine("    Child dcl of option_statement: " + i.GetText()));
+
+
+
+
+            return node;
+        }
+
     }
 }

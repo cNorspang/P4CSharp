@@ -25,6 +25,7 @@ Location Silkeborg = {
     choice {
         "Bibliotek" {Travel Bibliotek;};
         "Lokale" { Travel Lokale; };
+	HelloWorld {string Hello = "my mom is dead";};
     };
 };
 

@@ -71,10 +71,15 @@ namespace POTBAG.CSTtoAST
         public List<OptionStatementNode> Options { get; set; }
     }
 
-    public class OptionStatementNode
+    public class OptionStatementNode : StatementNode
     {
+       
         public string Text { get; set; }
-        public ProgNode InnerNode { get; set; }
+        public List<BetterAdvGmParser.DeclarationContext> right_declaration;
+        public List<BetterAdvGmParser.StatementContext> right_statement;
+        public List<BetterAdvGmParser.ExpressionContext> right_expression;
+        public List<BetterAdvGmParser.AssignContext> right_assign;
+
     }
 
     //AssignNodes
