@@ -19,8 +19,13 @@ namespace POTBAG.CSTtoAST
             return base.VisitSetup(ctx);
         }
     
+        //TODO: Discuss whether or not this is needed
         public override ProgNode VisitLocationsetup(BetterAdvGmParser.LocationsetupContext ctx) {
             Console.WriteLine("LocationSetup");
+            LocationsSetupNode node = new LocationsSetupNode();
+            List<LocationMappingNode> childrenNodes = new List<LocationMappingNode>();
+
+            Console.WriteLine($"    {ctx.GetText()}");
             return base.VisitLocationsetup(ctx);
         }
         
