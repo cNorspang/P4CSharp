@@ -74,11 +74,11 @@ namespace POTBAG.CSTtoAST
     public class OptionStatementNode : StatementNode
     {
        
-        public string Text { get; set; }
-        public List<BetterAdvGmParser.DeclarationContext> right_declaration;
-        public List<BetterAdvGmParser.StatementContext> right_statement;
-        public List<BetterAdvGmParser.ExpressionContext> right_expression;
-        public List<BetterAdvGmParser.AssignContext> right_assign;
+        public string Left { get; set; } //var_name or string
+        public List<BetterAdvGmParser.DeclarationContext> RightDeclaration;
+        public List<BetterAdvGmParser.StatementContext> RightStatement;
+        public List<BetterAdvGmParser.ExpressionContext> RightExpression;
+        public List<BetterAdvGmParser.AssignContext> RightAssign;
 
     }
 
@@ -123,10 +123,7 @@ namespace POTBAG.CSTtoAST
 
     public class stringDeclarationNode : DeclarationNode { }
 
-    public class LocationDeclarationNode : DeclarationNode
-    {
-        public string varName;
-    }
+    public class LocationDeclarationNode : DeclarationNode { }
 
     public abstract class ExpressionNode : ProgNode
     {

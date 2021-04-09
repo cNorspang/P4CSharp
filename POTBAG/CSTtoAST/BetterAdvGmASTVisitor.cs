@@ -82,6 +82,7 @@ namespace POTBAG.CSTtoAST
             IntAssignNode node = new IntAssignNode();
             node.Left = ctx.int_declaration().VAR_NAME().GetText();
             Console.WriteLine("    Left Child: "+node.Left);
+            //hmm
             node.Right = node.Right;
             Console.WriteLine("    Right Child: " + node.Right);
             return node;
@@ -89,6 +90,7 @@ namespace POTBAG.CSTtoAST
 
         //TODO this is never accessed, visitInt_assign grabs element from source
         public override ProgNode VisitInt_declaration(BetterAdvGmParser.Int_declarationContext ctx) {
+            Console.WriteLine("int_declaraion");
 
             IntDeclarationNode node = new IntDeclarationNode();
             node.VarName = ctx.VAR_NAME().GetText();
@@ -123,37 +125,103 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitOption_statment([NotNull] BetterAdvGmParser.Option_statmentContext ctx)
+        public override ProgNode VisitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext ctx)
         {
-            Console.WriteLine("option_Statement");
-            OptionStatementNode node = new OptionStatementNode();
-            if(ctx.STRING() != null)
+            Console.WriteLine("location_assign");
+
+            LocationAssignNode node = new LocationAssignNode();
+
+            if (ctx.location_declaration() != null)
             {
-                node.Text = ctx.STRING().GetText();
-                Console.WriteLine("     LEFT child of option_statement  "  + node.Text);
+                node.Left = (LocationDeclarationNode)VisitLocation_declaration(ctx.location_declaration());
             }
-            else 
-            { 
-                node.Text = ctx.VAR_NAME().GetText();
-                Console.WriteLine("     LEFT child of option_statement  " + node.Text);
+            else
+            {
+                node.Left = new LocationDeclarationNode { VarName = ctx.VAR_NAME().GetText() };             
             }
+            Console.WriteLine("    Child Left of location_assign: " + node.Left.VarName);
+            
+            //TODO This is shit and should be changed. I does not call any visits and does not reflect the order.
+            node.RightDeclaration = ctx.declaration().ToList();
+            node.RightAssign = ctx.assign().ToList();
+            node.RightExpression = ctx.expression().ToList();
+            node.RightStatement = ctx.statement().ToList();
 
-
-            node.right_declaration = ctx.declaration().ToList();
-            node.right_statement = ctx.statement().ToList();
-            node.right_expression = ctx.expression().ToList();
-            node.right_assign = ctx.assign().ToList();
-
-            node.right_declaration.ForEach(i => Console.WriteLine("    Child dcl of option_statement: " + i.GetText()));
-            node.right_assign.ForEach(i => Console.WriteLine("    Child dcl of option_statement: " + i.GetText()));
-            node.right_expression.ForEach(i => Console.WriteLine("    Child dcl of option_statement: " + i.GetText()));
-            node.right_statement.ForEach(i => Console.WriteLine("    Child dcl of option_statement: " + i.GetText()));
-
-
-
+            node.RightDeclaration.ForEach(i => Console.WriteLine("    Child dcl of location_assign: " + i.GetText()));
+            node.RightAssign.ForEach(i => Console.WriteLine("    Child asg of location_assign: " + i.GetText()));
+            node.RightExpression.ForEach(i => Console.WriteLine("    Child expr of location_assign: " + i.GetText()));
+            node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of location_assign: " + i.GetText()));
 
             return node;
         }
 
+        public override ProgNode VisitLocation_declaration([NotNull] BetterAdvGmParser.Location_declarationContext ctx)
+        {
+            Console.WriteLine("location_declaration");
+            LocationDeclarationNode node = new LocationDeclarationNode();
+            node.VarName = ctx.VAR_NAME().GetText();
+            Console.WriteLine("    Child Varname of location_declaration: " + node.VarName);
+            return node;
+        }
+
+        public override ProgNode VisitTravel_statement([NotNull] BetterAdvGmParser.Travel_statementContext ctx)
+        {
+            Console.WriteLine("travel_statement");
+            TravelStatementNode node = new TravelStatementNode();
+            node.Destination = ctx.VAR_NAME().GetText();
+            Console.WriteLine("    Child destination of Travel_statement: " + node.Destination);
+            return node;
+        }
+
+        public override ProgNode VisitChoice_statement([NotNull] BetterAdvGmParser.Choice_statementContext ctx)
+        {
+            Console.WriteLine("choice_statement");
+            ChoiceStatementNode node = new ChoiceStatementNode();
+
+            List<OptionStatementNode> list = new List<OptionStatementNode>();
+
+            foreach (var item in ctx.option_statment())
+            {
+                var temp = (OptionStatementNode)VisitOption_statment(item);
+                if (temp != null) { list.Add(temp); }
+            }
+
+            node.Options = list;
+
+            node.Options.ForEach(i => Console.WriteLine("    Child option of choice_statement: " + i.Left + " + codeblock (Option_statement)"));
+
+            return node;
+        }
+
+        //stavefejl statEment
+        public override ProgNode VisitOption_statment([NotNull] BetterAdvGmParser.Option_statmentContext ctx)
+        {
+            Console.WriteLine("option_statement");
+
+            OptionStatementNode node = new OptionStatementNode();
+
+            if (ctx.STRING() != null)
+            {
+                node.Left = ctx.STRING().GetText();
+            }
+            else
+            {
+                node.Left = ctx.VAR_NAME().GetText();
+            }
+            Console.WriteLine("    Child Left of option_statement: " + node.Left);
+
+            //TODO This is shit and should be changed. I does not call any visits and does not reflect the order.
+            node.RightDeclaration = ctx.declaration().ToList();
+            node.RightAssign = ctx.assign().ToList();
+            node.RightExpression = ctx.expression().ToList();
+            node.RightStatement = ctx.statement().ToList();
+
+            node.RightDeclaration.ForEach(i => Console.WriteLine("    Child dcl of option_statement: " + i.GetText()));
+            node.RightAssign.ForEach(i => Console.WriteLine("    Child asg of option_statement: " + i.GetText()));
+            node.RightExpression.ForEach(i => Console.WriteLine("    Child expr of option_statement: " + i.GetText()));
+            node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of option_statement: " + i.GetText()));
+
+            return node;
+        }
     }
 }

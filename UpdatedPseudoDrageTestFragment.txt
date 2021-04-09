@@ -9,6 +9,17 @@ Text "Hello adventurer! Welcome to the labyrinth game." + "Your goal is to make 
 int abc = 32;
 string bcd = "hello";
 
+Location NoWhere;
+
+NoWhere = {int noWhereInt = 1;};
+Travel NoWhere;
+
+choice {
+        Bibliotek {Travel Bibliotek;};
+        "Lokale" { Travel Lokale; };
+	HelloWorld {string Hello = "my mom is dead";};
+    };
+
 Location Silkeborg = {
     string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
 
