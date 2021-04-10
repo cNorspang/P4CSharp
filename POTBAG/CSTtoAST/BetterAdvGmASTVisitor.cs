@@ -237,27 +237,40 @@ namespace POTBAG.CSTtoAST
             //Checking the operator
             if (ctx.AND_OPERATOR() != null) { node.Operator = "AND";} 
             else if (ctx.OR_OPERATOR() != null) { node.Operator = "OR";}
+            else if (ctx.BOOL_CMP_OPERATOR() != null)
+            {
+                node.Operator = ctx.BOOL_CMP_OPERATOR().GetText() switch
+                {
+                    "==" => "EQUALS",
+                    "is" => "EQUALS",
+                    "!=" => "NOT_EQUALS", 
+                    "is not" => "NOT_EQUALS",
+                    _ => node.Operator
+                };
+            }
             else if (ctx.CMP_OPERATOR() != null)
             {
                 node.Operator = ctx.CMP_OPERATOR().GetText() switch
                 {
-                    "==" => "EQUALS",
-                    "is" => "EQUALS",
-                    "!=" => "NOT_EQUALTS",
-                    "is not" => "NOT_EQUALTS",
-                    ">=" => "GREATER_THAN",
+                    ">" => "GREATER_THAN",
                     "greater than" => "GREATER_THAN",
-                    "<=" => "LESS_THAN",
+                    ">=" => "GREATER_THAN_EQUAL",
+                    "<" => "LESS_THAN",
                     "less than" => "LESS_THAN",
+                    "<=" => "LESS_THAN_EQUAL",
                     _ => node.Operator
                 };
             }
-            Console.WriteLine($"    Operator = {node.Operator}");
 
+            Console.WriteLine($"    Operator = {node.Operator}");
             
             //Right hand side
             node.Right = ctx.Payload.GetChild(2).GetText();
             Console.WriteLine($"    Right side = {node.Right}");
+
+            //Visit children, if children are visitable
+            ctx.predicate().ToList().ForEach(i => VisitPredicate(i));
+            ctx.expression().ToList().ForEach(i => VisitExpression(i));
 
             return node;
         }

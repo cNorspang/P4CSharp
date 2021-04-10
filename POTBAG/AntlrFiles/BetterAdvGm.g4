@@ -50,11 +50,16 @@ string_declaration: KEYWORD_STRING VAR_NAME;
 location_declaration: KEYWORD_LOCATION VAR_NAME;
 
 //Special Rules
-predicate: (VAR_NAME CMP_OPERATOR STRING | STRING CMP_OPERATOR VAR_NAME | VAR_NAME CMP_OPERATOR VAR_NAME
-         | VAR_NAME CMP_OPERATOR expression 
-         | expression CMP_OPERATOR VAR_NAME 
-         | expression CMP_OPERATOR expression) 
-         | predicate (AND_OPERATOR | OR_OPERATOR) predicate;
+predicate: (VAR_NAME BOOL_CMP_OPERATOR STRING | STRING BOOL_CMP_OPERATOR VAR_NAME 
+         | VAR_NAME (CMP_OPERATOR | BOOL_CMP_OPERATOR) VAR_NAME
+         | VAR_NAME (CMP_OPERATOR | BOOL_CMP_OPERATOR) expression 
+         | expression (CMP_OPERATOR | BOOL_CMP_OPERATOR) VAR_NAME 
+         | expression (CMP_OPERATOR | BOOL_CMP_OPERATOR) expression) 
+         | predicate (AND_OPERATOR | OR_OPERATOR) predicate
+         | VAR_NAME BOOL_CMP_OPERATOR BOOL
+         | BOOL BOOL_CMP_OPERATOR VAR_NAME
+         | VAR_NAME
+         | BOOL;
 
 //Lexer Rules
 fragment LETTERS   : [a-zA-Z];
@@ -84,7 +89,8 @@ KEYWORD_LOCATIONARRAY: 'LocationArray';
 KEYWORD_LOCATIONS  : 'Locations';
 KEYWORD_CHOICE     : 'choice';
 COMMA_SEPERATOR    : ',';
-CMP_OPERATOR       : ('is'|'is not'|'=='|'greater than' | 'lesser than' |'<=' | '>=' | '!=');
+BOOL_CMP_OPERATOR  : ('==' | 'is' | '!=' | 'is not');
+CMP_OPERATOR       : ('greater than' | 'lesser than' |'<' | '>' | '<=' | '>=');
 ASSIGN_OPERATOR    : '=';
 COMPOUND_OPERATOR  : '+=';
 TIMES_OPERATOR     : '*';
@@ -94,5 +100,6 @@ MINUS_OPERATOR     : '-';
 ARROW_OPERATOR     : '->';
 AND_OPERATOR       : ('&&' | 'and' | 'AND');
 OR_OPERATOR        : ('||'| 'or' | 'OR');
+BOOL               : ('true' | 'false');
 NUM                : [0-9]+;
 VAR_NAME           : (LETTERS | '_')+;
