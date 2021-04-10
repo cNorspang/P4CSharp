@@ -124,15 +124,13 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("    Child Varname of string_Declaration: " + node.VarName);
             return node;
         }
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+        
         public override ProgNode VisitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext ctx)
         {
             Console.WriteLine("location_assign");
 
             LocationAssignNode node = new LocationAssignNode();
-
+            
             if (ctx.location_declaration() != null)
             {
                 node.Left = (LocationDeclarationNode)VisitLocation_declaration(ctx.location_declaration());
@@ -148,13 +146,15 @@ namespace POTBAG.CSTtoAST
             node.RightAssign = ctx.assign().ToList();
             node.RightExpression = ctx.expression().ToList();
             node.RightStatement = ctx.statement().ToList();
-
+            //
             node.RightDeclaration.ForEach(i => Console.WriteLine("    Child dcl of location_assign: " + i.GetText()));
             node.RightAssign.ForEach(i => Console.WriteLine("    Child asg of location_assign: " + i.GetText()));
             node.RightExpression.ForEach(i => Console.WriteLine("    Child expr of location_assign: " + i.GetText()));
             node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of location_assign: " + i.GetText()));
-
-            return node;
+            
+            //BUG: Når den retunere sin egen node, virker VisitPredicate ikke, så derfor retunrere jeg lige base.visit
+            //return node;
+            return base.VisitLocation_assign(ctx);
         }
 
         public override ProgNode VisitLocation_declaration([NotNull] BetterAdvGmParser.Location_declarationContext ctx)
@@ -226,30 +226,19 @@ namespace POTBAG.CSTtoAST
             return node;
         }
         
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         public override ProgNode VisitPredicate(BetterAdvGmParser.PredicateContext ctx)
         {
-            Console.WriteLine("========================================================");
             predicateNode node = new predicateNode();
-            if (ctx.AND_OPERATOR() != null)
-            {
-                Console.WriteLine($"AND OPERATOR DETECTED = {ctx.AND_OPERATOR()}");
-                node.Operator = "AND";
-            } 
-            else if (ctx.OR_OPERATOR() != null)
-            {
-                Console.WriteLine($"OR OPERATOR DETECTED  = {ctx.OR_OPERATOR()}");
-                node.Operator = "OR";
-            }
+            Console.WriteLine("predicate");
+            //Left hand side
+            node.Left = ctx.Payload.GetChild(0).GetText();
+            Console.WriteLine($"    Left side = {node.Left}");
+            
+            //Checking the operator
+            if (ctx.AND_OPERATOR() != null) { node.Operator = "AND";} 
+            else if (ctx.OR_OPERATOR() != null) { node.Operator = "OR";}
             else if (ctx.CMP_OPERATOR() != null)
             {
-                Console.WriteLine($"Compare Opreator Detected = {ctx.CMP_OPERATOR()}");
-                node.Left = ctx.STRING().GetText();
-                Console.WriteLine(node.Left);
-                node.Right = ctx.
                 node.Operator = ctx.CMP_OPERATOR().GetText() switch
                 {
                     "==" => "EQUALS",
@@ -263,9 +252,14 @@ namespace POTBAG.CSTtoAST
                     _ => node.Operator
                 };
             }
-            Console.WriteLine("========================================================");
+            Console.WriteLine($"    Operator = {node.Operator}");
 
-            return base.VisitPredicate(ctx);
+            
+            //Right hand side
+            node.Right = ctx.Payload.GetChild(2).GetText();
+            Console.WriteLine($"    Right side = {node.Right}");
+
+            return node;
         }
     }
 }

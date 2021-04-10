@@ -56,7 +56,7 @@ namespace POTBAG.CSTtoAST
     //TODO: Pls work
     public class elseNode : StatementNode { }
 
-    public class predicateNode
+    public class predicateNode : ProgNode
     {
         public string Left { get; set; }
         public string Right{ get; set; }
