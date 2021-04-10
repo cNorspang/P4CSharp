@@ -125,6 +125,8 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         public override ProgNode VisitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext ctx)
         {
             Console.WriteLine("location_assign");
@@ -224,6 +226,10 @@ namespace POTBAG.CSTtoAST
             return node;
         }
         
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         public override ProgNode VisitPredicate(BetterAdvGmParser.PredicateContext ctx)
         {
             Console.WriteLine("========================================================");
