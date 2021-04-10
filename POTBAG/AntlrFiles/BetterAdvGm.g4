@@ -51,7 +51,10 @@ location_declaration: KEYWORD_LOCATION VAR_NAME;
 
 //Special Rules
 predicate: (VAR_NAME CMP_OPERATOR STRING | STRING CMP_OPERATOR VAR_NAME | VAR_NAME CMP_OPERATOR VAR_NAME
-         | VAR_NAME CMP_OPERATOR expression | expression CMP_OPERATOR VAR_NAME | expression CMP_OPERATOR expression) | predicate (AND_OPERATOR | OR_OPERATOR) predicate;
+         | VAR_NAME CMP_OPERATOR expression 
+         | expression CMP_OPERATOR VAR_NAME 
+         | expression CMP_OPERATOR expression) 
+         | predicate (AND_OPERATOR | OR_OPERATOR) predicate;
 
 //Lexer Rules
 fragment LETTERS   : [a-zA-Z];
@@ -81,7 +84,7 @@ KEYWORD_LOCATIONARRAY: 'LocationArray';
 KEYWORD_LOCATIONS  : 'Locations';
 KEYWORD_CHOICE     : 'choice';
 COMMA_SEPERATOR    : ',';
-CMP_OPERATOR       : ('is'|'is not'|'=='|'greater than' | 'lesser than' |'<=' | '>=' );
+CMP_OPERATOR       : ('is'|'is not'|'=='|'greater than' | 'lesser than' |'<=' | '>=' | '!=');
 ASSIGN_OPERATOR    : '=';
 COMPOUND_OPERATOR  : '+=';
 TIMES_OPERATOR     : '*';

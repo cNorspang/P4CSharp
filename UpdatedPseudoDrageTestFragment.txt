@@ -23,10 +23,10 @@ choice {
 Location Silkeborg = {
     string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
 
-    if (nextLocation is "Bibliotek"){
+    if ("nextLocation" is "Bibliotek"){
         Travel Bibliotek;
     }
-    else if (nextLocation is "Lokale"){
+    else if ("nextLocation" is "Lokale"){
         Travel Lokale;
     }
     else {

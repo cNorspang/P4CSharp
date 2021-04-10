@@ -52,12 +52,15 @@ namespace POTBAG.CSTtoAST
     public class ifNode : ifChainStatementNode { }
 
     public class ElseIfStatementNode : ifChainStatementNode { }
-
-    public class elseNode : ifChainStatementNode { }
+    
+    //TODO: Pls work
+    public class elseNode : StatementNode { }
 
     public class predicateNode
     {
-        //TODO: NIGGERIAMAMAMIA ITALIANO SPAGET
+        public string Left { get; set; }
+        public string Right{ get; set; }
+        public string Operator { get; set; }
     }
 
     public class TravelStatementNode : StatementNode

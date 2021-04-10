@@ -72,14 +72,14 @@ public partial class BetterAdvGmLexer : Lexer {
 		Interpreter = new LexerATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
 	}
 
-	public static readonly string[] _LiteralNames = {
+	private static readonly string[] _LiteralNames = {
 		null, null, "'Text '", "'string '", "';'", null, "'Travel '", "'++'", 
 		"'{'", "'}'", "'('", "')'", "'['", "']'", "'userInput'", "'int'", "'if'", 
 		"'else'", "'else if'", "'while'", "'for'", "'Location'", "'setup'", "'LocationArray'", 
 		"'Locations'", "'choice'", "','", null, "'='", "'+='", "'*'", "'/'", "'+'", 
 		"'-'", "'->'"
 	};
-	public static readonly string[] _SymbolicNames = {
+	private static readonly string[] _SymbolicNames = {
 		null, "WHITESPACE", "KEYWORD_TEXT", "KEYWORD_STRING", "END_STMT", "STRING", 
 		"TRAVEL_KEYWORD", "INCREMENT", "CURLY_LEFT", "CURLY_RIGHT", "PAREN_LEFT", 
 		"PAREN_RIGHT", "SQUARE_LEFT", "SQUARE_RIGHT", "KEYWORD_INPUT", "KEYWORD_INT", 
@@ -117,7 +117,7 @@ public partial class BetterAdvGmLexer : Lexer {
 			decisionToDFA[i] = new DFA(_ATN.GetDecisionState(i), i);
 		}
 	}
-	public static char[] _serializedATN = {
+	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
 		'\x5964', '\x2', '(', '\x136', '\b', '\x1', '\x4', '\x2', '\t', '\x2', 
 		'\x4', '\x3', '\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', 

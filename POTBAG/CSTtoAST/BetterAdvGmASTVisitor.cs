@@ -24,7 +24,7 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("LocationSetup");
             LocationsSetupNode node = new LocationsSetupNode();
             List<LocationMappingNode> childrenNodes = new List<LocationMappingNode>();
-
+         
             Console.WriteLine($"    {ctx.GetText()}");
             return base.VisitLocationsetup(ctx);
         }
@@ -43,8 +43,8 @@ namespace POTBAG.CSTtoAST
             node.Source = source;
             node.Destinations = destArr;
 
-            Console.WriteLine("    Source = " + node.Source);
-            Console.WriteLine("    Child: " + String.Join(',', node.Destinations));
+            Console.WriteLine("    Source: " + node.Source);
+            Console.WriteLine("    Child:  " + String.Join(',', node.Destinations));
             return node;
         }
         
@@ -222,6 +222,44 @@ namespace POTBAG.CSTtoAST
             node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of option_statement: " + i.GetText()));
 
             return node;
+        }
+        
+        public override ProgNode VisitPredicate(BetterAdvGmParser.PredicateContext ctx)
+        {
+            Console.WriteLine("========================================================");
+            predicateNode node = new predicateNode();
+            if (ctx.AND_OPERATOR() != null)
+            {
+                Console.WriteLine($"AND OPERATOR DETECTED = {ctx.AND_OPERATOR()}");
+                node.Operator = "AND";
+            } 
+            else if (ctx.OR_OPERATOR() != null)
+            {
+                Console.WriteLine($"OR OPERATOR DETECTED  = {ctx.OR_OPERATOR()}");
+                node.Operator = "OR";
+            }
+            else if (ctx.CMP_OPERATOR() != null)
+            {
+                Console.WriteLine($"Compare Opreator Detected = {ctx.CMP_OPERATOR()}");
+                node.Left = ctx.STRING().GetText();
+                Console.WriteLine(node.Left);
+                node.Right = ctx.
+                node.Operator = ctx.CMP_OPERATOR().GetText() switch
+                {
+                    "==" => "EQUALS",
+                    "is" => "EQUALS",
+                    "!=" => "NOT_EQUALTS",
+                    "is not" => "NOT_EQUALTS",
+                    ">=" => "GREATER_THAN",
+                    "greater than" => "GREATER_THAN",
+                    "<=" => "LESS_THAN",
+                    "less than" => "LESS_THAN",
+                    _ => node.Operator
+                };
+            }
+            Console.WriteLine("========================================================");
+
+            return base.VisitPredicate(ctx);
         }
     }
 }
