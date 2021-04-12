@@ -202,28 +202,30 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitOption_statment([NotNull] BetterAdvGmParser.Option_statmentContext ctx)
         {
             Console.WriteLine("option_statement");
-
-            OptionStatementNode node = new OptionStatementNode();
-
-            if (ctx.STRING() != null)
+            OptionStatementNode node = new OptionStatementNode
             {
-                node.Left = ctx.STRING().GetText();
-            }
-            else
-            {
-                node.Left = ctx.VAR_NAME().GetText();
-            }
+                Left = ctx.STRING() != null ? ctx.STRING().GetText() : ctx.VAR_NAME().GetText()
+            };
+
+
             Console.WriteLine("    Child Left of option_statement: " + node.Left);
 
-            //TODO This is shit and should be changed. I does not call any visits and does not reflect the order.
-            node.RightDeclaration = ctx.declaration().ToList();
-            node.RightAssign = ctx.assign().ToList();
-            node.RightExpression = ctx.expression().ToList();
-            node.RightStatement = ctx.statement().ToList();
+            foreach (IParseTree child in ctx.children)
+            {
+                switch (child)
+                {
+                    case BetterAdvGmParser.AssignContext _:
+                    case BetterAdvGmParser.ExpressionContext _:
+                    case BetterAdvGmParser.StatementContext _:
+                        node.Right.Add(Visit(child));
+                        break;
+                    case BetterAdvGmParser.DeclarationContext _:
+                        node.Right.Add(Visit(child.GetChild(0)));
+                        break;
+                }
+            }
 
-            node.RightDeclaration.ForEach(i => Console.WriteLine("    Child dcl of option_statement: " + i.GetText()));
-            node.RightAssign.ForEach(i => Console.WriteLine("    Child asg of option_statement: " + i.GetText()));
-            node.RightExpression.ForEach(i => Console.WriteLine("    Child expr of option_statement: " + i.GetText()));
+            node.Right.ForEach(i => Console.WriteLine($"LIST ENTRY: {i}"));
             node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of option_statement: " + i.GetText()));
 
             return node;

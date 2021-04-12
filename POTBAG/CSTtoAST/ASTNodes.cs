@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Antlr4.Runtime.Tree;
 
 namespace POTBAG.CSTtoAST
 {
@@ -78,6 +79,7 @@ namespace POTBAG.CSTtoAST
     {
        
         public string Left { get; set; } //var_name or string
+        public List<ProgNode> Right = new List<ProgNode>();
         public List<BetterAdvGmParser.DeclarationContext> RightDeclaration;
         public List<BetterAdvGmParser.StatementContext> RightStatement;
         public List<BetterAdvGmParser.ExpressionContext> RightExpression;

@@ -21,7 +21,7 @@ expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
 
 statement: text_statement | input_statement | if_statement | travel_statement | choice_statement;
 assign: int_assign | string_assign | input_assign | location_assign;
-declaration: int_declaration END_STMT| string_declaration END_STMT| location_declaration END_STMT;
+declaration: int_declaration END_STMT | string_declaration END_STMT| location_declaration END_STMT;
 
 //Statement Rules
 text_statement: KEYWORD_TEXT ((STRING|VAR_NAME) PLUS_OPERATOR)* (STRING | VAR_NAME) END_STMT;
