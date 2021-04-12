@@ -17,9 +17,18 @@ namespace POTBAG
             BetterAdvGmParser parser = new BetterAdvGmParser(tokenStream);
 
             //set start node
-            var cst = parser.prog(); ;
+            try
+            {
+                var cst = parser.prog(); ;
 
-            var ast = new BetterAdvGmASTVisitor().VisitProg(cst);
+                var ast = new BetterAdvGmASTVisitor().VisitProg(cst);
+                var Test = new TestEvaluation().Visit(ast);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
             
             //var tree = Trees.ToStringTree(cst,parser);

@@ -11,7 +11,7 @@ namespace POTBAG.CSTtoAST
         public LocationsSetupNode Locations { get; set; }
     }
 
-    public class LocationsSetupNode
+    public class LocationsSetupNode : ProgNode
     {
         public List<LocationMappingNode> Children { get; set; }
     }
