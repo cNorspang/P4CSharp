@@ -196,10 +196,18 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitIf_statement(BetterAdvGmParser.If_statementContext context)
+        public override ProgNode VisitIf_statement(BetterAdvGmParser.If_statementContext ctx)
         {
             Console.WriteLine("if_statement");
-            return base.VisitIf_statement(context);
+            IfStatementNode node = new IfStatementNode();
+            //node.predicate = (predicateNode)Visit(ctx.GetChild(2));
+            //node.ifNode.predicate = (ifNode)Visit(ctx.GetChild(2));
+            //ctx.inBlock().ToList().ForEach(i => node.elseIfChain.Add(Visit(i)));
+
+            node.ifNode.predicate = (predicateNode)Visit(ctx.GetChild(2));
+            Console.WriteLine(node.ifNode.predicate);
+            //node.ifNode.body = 
+            return node;
         }
 
         public override ProgNode VisitPredicate(BetterAdvGmParser.PredicateContext ctx)
