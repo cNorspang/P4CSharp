@@ -105,7 +105,8 @@ namespace POTBAG.CSTtoAST
 
     public class InputAssignNode : AssignNode
     {
-        public string Left;
+        public string LeftStr;
+        public stringDeclarationNode LeftStrDclNode;
         public InputStatementNode Right;
     }
 

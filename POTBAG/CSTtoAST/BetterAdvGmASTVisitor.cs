@@ -250,5 +250,26 @@ namespace POTBAG.CSTtoAST
 
             return node;
         }
+
+        public override ProgNode VisitInput_assign([NotNull] BetterAdvGmParser.Input_assignContext ctx)
+        {
+            Console.WriteLine("VisitInput_assign");
+
+            InputAssignNode node = new InputAssignNode();
+
+            if (ctx.string_declaration() != null)
+                node.LeftStrDclNode = (stringDeclarationNode)Visit(ctx.string_declaration());
+            else
+                node.LeftStr = ctx.VAR_NAME().GetText();
+
+            //Console.WriteLine("     VisitInput_assign left  child: " + node.LeftStr + node.LeftStrDclNode.VarName);
+
+            node.Right = (InputStatementNode)Visit(ctx.input_statement());
+
+            //Not needed, is printet in input_statement when Visit is called.
+            //node.Right.Text.ForEach(i => Console.WriteLine("     VisitInput_assign right List child: " + i));
+
+            return node;
+        }
     }
 }
