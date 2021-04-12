@@ -56,6 +56,12 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLocationmapping([NotNull] BetterAdvGmParser.LocationmappingContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.inBlock"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInBlock([NotNull] BetterAdvGmParser.InBlockContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

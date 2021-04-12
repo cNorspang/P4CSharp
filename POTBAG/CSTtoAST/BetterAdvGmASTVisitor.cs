@@ -92,9 +92,8 @@ namespace POTBAG.CSTtoAST
         //TODO this is never accessed, visitInt_assign grabs element from source
         public override ProgNode VisitInt_declaration(BetterAdvGmParser.Int_declarationContext ctx) {
             Console.WriteLine("int_declaraion");
-
-            IntDeclarationNode node = new IntDeclarationNode();
-            node.VarName = ctx.VAR_NAME().GetText();
+            
+            IntDeclarationNode node = new IntDeclarationNode {VarName = ctx.VAR_NAME().GetText()};
             Console.WriteLine("    Child Varname of Int_declaration: " + node.VarName);
             //Console.WriteLine("yikes: "+node.getVarName());
 
@@ -104,9 +103,8 @@ namespace POTBAG.CSTtoAST
         
         public override ProgNode VisitString_assign(BetterAdvGmParser.String_assignContext ctx) {
             Console.WriteLine("string_assign");
-            stringAssignNode node = new stringAssignNode();
+            stringAssignNode node = new stringAssignNode {Left = ctx.string_declaration().VAR_NAME().GetText()};
 
-            node.Left = ctx.string_declaration().VAR_NAME().GetText();
             Console.WriteLine("    Left child of assign: " + node.Left);
 
             node.Right = ctx.STRING().GetText();
@@ -130,34 +128,21 @@ namespace POTBAG.CSTtoAST
         {
             Console.WriteLine("location_assign");
 
-            LocationAssignNode node = new LocationAssignNode();
-            
-            if (ctx.location_declaration() != null)
+            LocationAssignNode node = new LocationAssignNode
             {
-                node.Left = (LocationDeclarationNode)VisitLocation_declaration(ctx.location_declaration());
-            }
-            else
-            {
-                node.Left = new LocationDeclarationNode { VarName = ctx.VAR_NAME().GetText() };             
-            }
-            Console.WriteLine("    Child Left of location_assign: " + node.Left.VarName);
-            
-            //TODO This is shit and should be changed. I does not call any visits and does not reflect the order.
-            node.RightDeclaration = ctx.declaration().ToList();
-            node.RightAssign = ctx.assign().ToList();
-            node.RightExpression = ctx.expression().ToList();
-            node.RightStatement = ctx.statement().ToList();
-            //
-            node.RightDeclaration.ForEach(i => Console.WriteLine("    Child dcl of location_assign: " + i.GetText()));
-            node.RightAssign.ForEach(i => Console.WriteLine("    Child asg of location_assign: " + i.GetText()));
-            node.RightExpression.ForEach(i => Console.WriteLine("    Child expr of location_assign: " + i.GetText()));
-            node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of location_assign: " + i.GetText()));
+                Left = ctx.location_declaration() != null
+                    ? (LocationDeclarationNode) VisitLocation_declaration(ctx.location_declaration())
+                    : new LocationDeclarationNode {VarName = ctx.VAR_NAME().GetText()}
+            };
 
-            
-            
-            //BUG: Når den retunere sin egen node, virker VisitPredicate ikke, så derfor retunrere jeg lige base.visit
-            return VisitChildren(ctx);
-            //return base.VisitLocation_assign(ctx);
+
+            Console.WriteLine("    Child Left of location_assign: " + node.Left.VarName);
+
+            ctx.inBlock().ToList().ForEach(i => node.Right.Add(Visit(i)));
+
+            node.Right.ForEach(i => Console.WriteLine($"LIST ENTRY: {i}"));
+
+            return node;
         }
 
         public override ProgNode VisitLocation_declaration([NotNull] BetterAdvGmParser.Location_declarationContext ctx)
@@ -183,15 +168,10 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("choice_statement");
             ChoiceStatementNode node = new ChoiceStatementNode();
 
-            List<OptionStatementNode> list = new List<OptionStatementNode>();
+            node.Options = ctx.option_statment().Select(item => (OptionStatementNode) VisitOption_statment(item))
+                .Where(temp => temp != null).ToList();
 
-            foreach (var item in ctx.option_statment())
-            {
-                var temp = (OptionStatementNode)VisitOption_statment(item);
-                if (temp != null) { list.Add(temp); }
-            }
-
-            node.Options = list;
+            
 
             node.Options.ForEach(i => Console.WriteLine("    Child option of choice_statement: " + i.Left + " + codeblock (Option_statement)"));
 
@@ -209,28 +189,19 @@ namespace POTBAG.CSTtoAST
 
 
             Console.WriteLine("    Child Left of option_statement: " + node.Left);
-
-            foreach (IParseTree child in ctx.children)
-            {
-                switch (child)
-                {
-                    case BetterAdvGmParser.AssignContext _:
-                    case BetterAdvGmParser.ExpressionContext _:
-                    case BetterAdvGmParser.StatementContext _:
-                        node.Right.Add(Visit(child));
-                        break;
-                    case BetterAdvGmParser.DeclarationContext _:
-                        node.Right.Add(Visit(child.GetChild(0)));
-                        break;
-                }
-            }
-
+            ctx.inBlock().ToList().ForEach(i => node.Right.Add(Visit(i)));
             node.Right.ForEach(i => Console.WriteLine($"LIST ENTRY: {i}"));
             //node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of option_statement: " + i.GetText()));
 
             return node;
         }
-        
+
+        public override ProgNode VisitIf_statement(BetterAdvGmParser.If_statementContext context)
+        {
+            Console.WriteLine("if_statement");
+            return base.VisitIf_statement(context);
+        }
+
         public override ProgNode VisitPredicate(BetterAdvGmParser.PredicateContext ctx)
         {
             predicateNode node = new predicateNode();

@@ -9,6 +9,7 @@ locationsetup: KEYWORD_LOCATIONS ASSIGN_OPERATOR CURLY_LEFT (locationmapping)+ C
 locationmapping: VAR_NAME ARROW_OPERATOR (VAR_NAME COMMA_SEPERATOR)* VAR_NAME END_STMT;
 
 //Base Rules
+inBlock: statement|expression|assign|declaration;
 expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
           | expression (PLUS_OPERATOR|MINUS_OPERATOR) expression
           | VAR_NAME (TIMES_OPERATOR|DIVISION_OPERATOR) expression
@@ -19,6 +20,8 @@ expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
           | VAR_NAME (PLUS_OPERATOR | MINUS_OPERATOR) VAR_NAME
           | NUM;
 
+
+
 statement: text_statement | input_statement | if_statement | travel_statement | choice_statement;
 assign: int_assign | string_assign | input_assign | location_assign;
 declaration: int_declaration END_STMT | string_declaration END_STMT| location_declaration END_STMT;
@@ -26,12 +29,12 @@ declaration: int_declaration END_STMT | string_declaration END_STMT| location_de
 //Statement Rules
 text_statement: KEYWORD_TEXT ((STRING|VAR_NAME) PLUS_OPERATOR)* (STRING | VAR_NAME) END_STMT;
 input_statement: KEYWORD_INPUT ((STRING|VAR_NAME) PLUS_OPERATOR)* (STRING | VAR_NAME) END_STMT;
-if_statement: KEYWORD_IF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT (statement|expression|assign|declaration)+ CURLY_RIGHT
-              ((KEYWORD_ELSEIF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT (statement|expression|assign|declaration)+ CURLY_RIGHT)?
-              KEYWORD_ELSE CURLY_LEFT (statement|expression|assign|declaration) CURLY_RIGHT)? END_STMT;
+if_statement: KEYWORD_IF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT
+              ((KEYWORD_ELSEIF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT)?
+              KEYWORD_ELSE CURLY_LEFT inBlock CURLY_RIGHT)? END_STMT;
 travel_statement: TRAVEL_KEYWORD VAR_NAME END_STMT;
 choice_statement: KEYWORD_CHOICE CURLY_LEFT (option_statment)+ CURLY_RIGHT END_STMT;
-option_statment: (VAR_NAME |STRING) CURLY_LEFT (statement|expression|assign|declaration)+ CURLY_RIGHT END_STMT;
+option_statment: (VAR_NAME |STRING) CURLY_LEFT inBlock+ CURLY_RIGHT END_STMT;
 
 //Assign Rules
 //TODO: Compund assign rules
@@ -41,8 +44,8 @@ int_assign: (VAR_NAME (ASSIGN_OPERATOR | COMPOUND_OPERATOR) expression END_STMT
             );
 string_assign: (VAR_NAME ASSIGN_OPERATOR STRING END_STMT | string_declaration ASSIGN_OPERATOR STRING END_STMT);
 input_assign: (VAR_NAME ASSIGN_OPERATOR input_statement | string_declaration ASSIGN_OPERATOR input_statement);
-location_assign: (VAR_NAME ASSIGN_OPERATOR '{' (statement | assign | declaration | expression)* '}' END_STMT
-               | location_declaration ASSIGN_OPERATOR '{' (statement | assign | declaration | expression)* '}' END_STMT);
+location_assign: (VAR_NAME ASSIGN_OPERATOR '{' inBlock* '}' END_STMT
+               | location_declaration ASSIGN_OPERATOR '{' inBlock* '}' END_STMT);
 
 //Declaration Rules
 int_declaration: KEYWORD_INT VAR_NAME;

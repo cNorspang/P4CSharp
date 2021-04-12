@@ -72,7 +72,7 @@ namespace POTBAG.CSTtoAST
 
     public class ChoiceStatementNode : StatementNode
     {
-        public List<OptionStatementNode> Options { get; set; }
+        public List<OptionStatementNode> Options { get; set; } = new List<OptionStatementNode>();
     }
 
     public class OptionStatementNode : StatementNode
@@ -112,10 +112,12 @@ namespace POTBAG.CSTtoAST
     public class LocationAssignNode : AssignNode
     {
         public LocationDeclarationNode Left;
-        public List<BetterAdvGmParser.StatementContext> RightStatement;
-        public List<BetterAdvGmParser.AssignContext> RightAssign;
-        public List<BetterAdvGmParser.DeclarationContext> RightDeclaration;
-        public List<BetterAdvGmParser.ExpressionContext> RightExpression;
+
+        public List<ProgNode> Right = new List<ProgNode>();
+        // public List<BetterAdvGmParser.StatementContext> RightStatement;
+        // public List<BetterAdvGmParser.AssignContext> RightAssign;
+        // public List<BetterAdvGmParser.DeclarationContext> RightDeclaration;
+        // public List<BetterAdvGmParser.ExpressionContext> RightExpression;
     }
 
     //Declaration Nodes
