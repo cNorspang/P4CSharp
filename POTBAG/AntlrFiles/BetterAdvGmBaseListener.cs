@@ -180,6 +180,30 @@ public partial class BetterAdvGmBaseListener : IBetterAdvGmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitIf_statement([NotNull] BetterAdvGmParser.If_statementContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.else_if_statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterElse_if_statement([NotNull] BetterAdvGmParser.Else_if_statementContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.else_if_statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitElse_if_statement([NotNull] BetterAdvGmParser.Else_if_statementContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.else_statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterElse_statement([NotNull] BetterAdvGmParser.Else_statementContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.else_statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitElse_statement([NotNull] BetterAdvGmParser.Else_statementContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.travel_statement"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

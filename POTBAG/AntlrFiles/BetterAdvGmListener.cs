@@ -151,6 +151,26 @@ public interface IBetterAdvGmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitIf_statement([NotNull] BetterAdvGmParser.If_statementContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.else_if_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterElse_if_statement([NotNull] BetterAdvGmParser.Else_if_statementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.else_if_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitElse_if_statement([NotNull] BetterAdvGmParser.Else_if_statementContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.else_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterElse_statement([NotNull] BetterAdvGmParser.Else_statementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.else_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitElse_statement([NotNull] BetterAdvGmParser.Else_statementContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.travel_statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
