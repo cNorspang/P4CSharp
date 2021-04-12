@@ -29,9 +29,9 @@ declaration: int_declaration END_STMT | string_declaration END_STMT| location_de
 //Statement Rules
 text_statement: KEYWORD_TEXT ((STRING|VAR_NAME) PLUS_OPERATOR)* (STRING | VAR_NAME) END_STMT;
 input_statement: KEYWORD_INPUT ((STRING|VAR_NAME) PLUS_OPERATOR)* (STRING | VAR_NAME) END_STMT;
-if_statement: KEYWORD_IF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT
-              ((KEYWORD_ELSEIF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT)?
-              KEYWORD_ELSE CURLY_LEFT inBlock CURLY_RIGHT)? END_STMT;
+if_statement: KEYWORD_IF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT else_if_statement* else_statement? END_STMT;
+else_if_statement: KEYWORD_ELSEIF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT;
+else_statement: KEYWORD_ELSE CURLY_LEFT inBlock CURLY_RIGHT;
 travel_statement: TRAVEL_KEYWORD VAR_NAME END_STMT;
 choice_statement: KEYWORD_CHOICE CURLY_LEFT (option_statment)+ CURLY_RIGHT END_STMT;
 option_statment: (VAR_NAME |STRING) CURLY_LEFT inBlock+ CURLY_RIGHT END_STMT;
