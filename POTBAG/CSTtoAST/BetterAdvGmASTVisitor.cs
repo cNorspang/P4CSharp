@@ -226,7 +226,7 @@ namespace POTBAG.CSTtoAST
             }
 
             node.Right.ForEach(i => Console.WriteLine($"LIST ENTRY: {i}"));
-            node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of option_statement: " + i.GetText()));
+            //node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of option_statement: " + i.GetText()));
 
             return node;
         }
