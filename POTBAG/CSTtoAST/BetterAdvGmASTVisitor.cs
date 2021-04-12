@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 
 namespace POTBAG.CSTtoAST
 {
@@ -151,10 +152,12 @@ namespace POTBAG.CSTtoAST
             node.RightAssign.ForEach(i => Console.WriteLine("    Child asg of location_assign: " + i.GetText()));
             node.RightExpression.ForEach(i => Console.WriteLine("    Child expr of location_assign: " + i.GetText()));
             node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of location_assign: " + i.GetText()));
+
+            
             
             //BUG: Når den retunere sin egen node, virker VisitPredicate ikke, så derfor retunrere jeg lige base.visit
-            //return node;
-            return base.VisitLocation_assign(ctx);
+            return VisitChildren(ctx);
+            //return base.VisitLocation_assign(ctx);
         }
 
         public override ProgNode VisitLocation_declaration([NotNull] BetterAdvGmParser.Location_declarationContext ctx)
