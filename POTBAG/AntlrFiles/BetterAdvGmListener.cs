@@ -151,6 +151,16 @@ public interface IBetterAdvGmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitInput_statement([NotNull] BetterAdvGmParser.Input_statementContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.if_chain_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIf_chain_statement([NotNull] BetterAdvGmParser.If_chain_statementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.if_chain_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIf_chain_statement([NotNull] BetterAdvGmParser.If_chain_statementContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.if_statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

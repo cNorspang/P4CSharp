@@ -212,25 +212,36 @@ namespace POTBAG.CSTtoAST
 
             return node;
         }
+        public override ProgNode VisitIf_chain_statement([NotNull] BetterAdvGmParser.If_chain_statementContext ctx)
+        {
+            Console.WriteLine("if_statement");
+            IfChainStatementNode node = new IfChainStatementNode();
 
+            node.ifNode = (ifNode)Visit(ctx.if_statement());
+            ctx.else_if_statement().ToList().ForEach(i => node.elseIfChain.Add((ElseIfStatementNode)Visit(i)));
+            node.elseNode = (elseNode)Visit(ctx.else_statement());
+
+            return node;
+        }
         public override ProgNode VisitIf_statement(BetterAdvGmParser.If_statementContext ctx)
         {
             Console.WriteLine("if_statement");
             IfStatementNode node = new IfStatementNode();
-            //node.predicate = (predicateNode)Visit(ctx.GetChild(2));
-            //node.ifNode.predicate = (ifNode)Visit(ctx.GetChild(2));
-            //ctx.inBlock().ToList().ForEach(i => node.elseIfChain.Add(Visit(i)));
-            //ctx.inBlock().ToList().ForEach(i => node.elseIfChain.Add(Visit(i)));
+            
 
-            //node.elseIfNode = ctx.inBlock().ToList().ForEach(i => node.elseIfChain.Add(Visit(i)));
-            //node.elseIfChain.ForEach(i => ctx.inBlock());
+            node.predicate = (predicateNode)VisitPredicate(ctx.predicate());
+            ctx.inBlock().ToList().ForEach(i => node.body.Add(Visit(i)));
 
-            node.ifNode.predicate = (predicateNode)VisitPredicate(ctx.predicate());
-            ctx.inBlock().ToList().ForEach(i => node.ifNode.body.Add(Visit(i)));
+            return node;
+        }
 
-            ctx.else_if_statement().predicate.ToList().ForEach(i => node.ifNode.body.Add(Visit(i)));
-            ctx.else_if_statement().inBlock().ToList().ForEach(i => node.ifNode.body.Add(Visit(i)));
+        public override ProgNode VisitElse_if_statement([NotNull] BetterAdvGmParser.Else_if_statementContext ctx)
+        {
+            Console.WriteLine("elif_statement");
+            ElseIfStatementNode node = new ElseIfStatementNode();
 
+            node.predicate = (predicateNode)VisitPredicate(ctx.predicate());
+            ctx.inBlock().ToList().ForEach(i => node.body.Add(Visit(i)));
 
             return node;
         }

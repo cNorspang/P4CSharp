@@ -106,7 +106,7 @@ namespace POTBAG.CSTtoAST
             return 0;
         }
 
-        public override int Visit(ifChainStatementNode node)
+        public override int Visit(IfChainStatementNode node)
         {
             FileHandler.write($"char* ifChainStatementNode{counter++};\n");
             return 0;

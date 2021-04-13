@@ -104,6 +104,12 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitInput_statement([NotNull] BetterAdvGmParser.Input_statementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.if_chain_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIf_chain_statement([NotNull] BetterAdvGmParser.If_chain_statementContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.if_statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
