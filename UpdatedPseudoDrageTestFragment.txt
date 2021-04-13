@@ -25,6 +25,7 @@ Location Silkeborg = {
 
     if (nextLocation is true){
         Travel Bibliotek;
+	Travel Silkeborg;
     }
     else if (nextLocation != 2 + 2){
         Travel Lokale;

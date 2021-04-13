@@ -203,10 +203,18 @@ namespace POTBAG.CSTtoAST
             //node.predicate = (predicateNode)Visit(ctx.GetChild(2));
             //node.ifNode.predicate = (ifNode)Visit(ctx.GetChild(2));
             //ctx.inBlock().ToList().ForEach(i => node.elseIfChain.Add(Visit(i)));
+            //ctx.inBlock().ToList().ForEach(i => node.elseIfChain.Add(Visit(i)));
 
-            node.ifNode.predicate = (predicateNode)Visit(ctx.GetChild(2));
-            Console.WriteLine(node.ifNode.predicate);
-            //node.ifNode.body = 
+            //node.elseIfNode = ctx.inBlock().ToList().ForEach(i => node.elseIfChain.Add(Visit(i)));
+            //node.elseIfChain.ForEach(i => ctx.inBlock());
+
+            node.ifNode.predicate = (predicateNode)VisitPredicate(ctx.predicate());
+            ctx.inBlock().ToList().ForEach(i => node.ifNode.body.Add(Visit(i)));
+
+            ctx.else_if_statement().predicate.ToList().ForEach(i => node.ifNode.body.Add(Visit(i)));
+            ctx.else_if_statement().inBlock().ToList().ForEach(i => node.ifNode.body.Add(Visit(i)));
+
+
             return node;
         }
 

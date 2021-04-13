@@ -39,20 +39,20 @@ namespace POTBAG.CSTtoAST
 
     public class IfStatementNode : StatementNode
     {
-        public ifNode ifNode;
-        public List<ElseIfStatementNode> elseIfChain;
-        public elseNode elseNode;
+        public ifNode ifNode = new ifNode();
+        public List<elseIfStatementNode> elseIfChain = new List<elseIfStatementNode>();
+        public elseNode elseNode = new elseNode();
     }
 
     public class ifNode : ifChainStatementNode { }
-    public class ElseIfStatementNode : ifChainStatementNode { }
+    public class elseIfStatementNode : ifChainStatementNode { }
     public class elseNode : StatementNode
     {
         public List<ProgNode> body { get; set; } = new List<ProgNode>();
     }
     public class ifChainStatementNode : StatementNode
     {
-        public predicateNode predicate;
+        public predicateNode predicate = new predicateNode();
         public List<ProgNode> body { get; set; } = new List<ProgNode>();
     }
 
