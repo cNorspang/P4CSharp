@@ -48,6 +48,18 @@ public partial class BetterAdvGmBaseListener : IBetterAdvGmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitProg([NotNull] BetterAdvGmParser.ProgContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.buffernode"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBuffernode([NotNull] BetterAdvGmParser.BuffernodeContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.buffernode"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBuffernode([NotNull] BetterAdvGmParser.BuffernodeContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.setup"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

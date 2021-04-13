@@ -1,6 +1,8 @@
 grammar BetterAdvGm;
 //Main Rule
-prog: setup (statement | assign | declaration | expression)* EOF;
+prog: buffernode EOF;
+
+buffernode: setup inBlock*;
 
 //Setup Rules
 setup: KEYWORD_SETUP CURLY_LEFT (locationsetup /* playersetup | playersetup locationsetup */) CURLY_RIGHT;

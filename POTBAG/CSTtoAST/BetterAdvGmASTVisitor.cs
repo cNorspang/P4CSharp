@@ -11,23 +11,39 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitProg([NotNull] BetterAdvGmParser.ProgContext context)
         {
             Console.WriteLine("prog");
-            return base.VisitProg(context); 
+            ProgNode node = (BufferNode)Visit(context.buffernode());
+            return node;
+        }
+
+        public override ProgNode VisitBuffernode(BetterAdvGmParser.BuffernodeContext context)
+        {
+            Console.WriteLine("Buffer_node");
+            BufferNode node = new BufferNode {SetUpNode = (SetupNode) Visit(context.setup())};
+            Console.WriteLine($"SETUP NODE IS === {Visit(context.setup())}");
+            context.inBlock().ToList().ForEach(i => node.inBlock.Add(Visit(i)));
+
+            return node;
         }
 
         public override ProgNode VisitSetup(BetterAdvGmParser.SetupContext ctx) 
         {
             Console.WriteLine("setup");
-            return base.VisitSetup(ctx);
+            SetupNode node = new SetupNode();
+
+            node.Locations = (LocationsSetupNode)Visit(ctx.locationsetup());
+            
+            return node;
         }
     
         //TODO: Discuss whether or not this is needed
         public override ProgNode VisitLocationsetup(BetterAdvGmParser.LocationsetupContext ctx) {
             Console.WriteLine("LocationSetup");
             LocationsSetupNode node = new LocationsSetupNode();
-            List<LocationMappingNode> childrenNodes = new List<LocationMappingNode>();
-         
+
+            ctx.locationmapping().ToList().ForEach(i => node.Children.Add((LocationMappingNode)Visit(i)));
+            
             Console.WriteLine($"    {ctx.GetText()}");
-            return base.VisitLocationsetup(ctx);
+            return node;
         }
         
         public override ProgNode VisitLocationmapping(BetterAdvGmParser.LocationmappingContext ctx) {
@@ -54,7 +70,8 @@ namespace POTBAG.CSTtoAST
             TextStatementNode node = new TextStatementNode();
 
             List<string> InnerVal = new List<string>(ctx.GetText().Split("+"));
-            InnerVal[0] = InnerVal[0].Replace("Text ", "");
+            InnerVal[0] = InnerVal[0].Substring(4);
+            InnerVal[InnerVal.Count - 1] = InnerVal[InnerVal.Count - 1].Remove(InnerVal[InnerVal.Count - 1].Length - 1); 
 
             node.Text = InnerVal;
             Console.WriteLine("    Child: " + String.Join(',', node.Text));
@@ -263,6 +280,27 @@ namespace POTBAG.CSTtoAST
             //Visit children, if children are visitable
             ctx.predicate().ToList().ForEach(i => VisitPredicate(i));
             ctx.expression().ToList().ForEach(i => VisitExpression(i));
+
+            return node;
+        }
+
+        public override ProgNode VisitInput_assign([NotNull] BetterAdvGmParser.Input_assignContext ctx)
+        {
+            Console.WriteLine("VisitInput_assign");
+
+            InputAssignNode node = new InputAssignNode();
+
+            if (ctx.string_declaration() != null)
+                node.LeftStrDclNode = (stringDeclarationNode)Visit(ctx.string_declaration());
+            else
+                node.LeftStr = ctx.VAR_NAME().GetText();
+
+            //Console.WriteLine("     VisitInput_assign left  child: " + node.LeftStr + node.LeftStrDclNode.VarName);
+
+            node.Right = (InputStatementNode)Visit(ctx.input_statement());
+
+            //Not needed, is printet in input_statement when Visit is called.
+            //node.Right.Text.ForEach(i => Console.WriteLine("     VisitInput_assign right List child: " + i));
 
             return node;
         }

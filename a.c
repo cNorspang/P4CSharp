@@ -1,1 +1,24 @@
-(prog (setup setup { (locationsetup Locations = { (locationmapping Silkeborg -> Bibliotek , Lokale ;) (locationmapping Bibliotek -> Silkeborg , KU ;) } ;) }) (statement (text_statement Text  "Hello adventurer! Welcome to the labyrinth game." + "Your goal is to make it to Hvidovre" ;)) (assign (int_assign (int_declaration int abc) = (expression 32) ;)) (assign (string_assign (string_declaration string  bcd) = "hello" ;)) (assign (location_assign (location_declaration Location Silkeborg) = { (assign (input_assign (string_declaration string  nextLocation) = (input_statement userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]" ;))) (statement (if_statement if ( (predicate nextLocation is "Bibliotek") ) { (statement (travel_statement Travel  Bibliotek ;)) } else if ( (predicate nextLocation is "Lokale") ) { (statement (travel_statement Travel  Lokale ;)) } else { (assign (input_assign (string_declaration string  TryAgain) = (input_statement userInput "That location doesn't exit, try again [Bibliotek, Lokale]" + "Whoop" ;))) } ;)) (statement (choice_statement choice { (option_statment "Bibliotek" { (statement (travel_statement Travel  Bibliotek ;)) } ;) (option_statment "Lokale" { (statement (travel_statement Travel  Lokale ;)) } ;) } ;)) } ;)) <EOF>)
+#include <stdio.h>
+int main(int argc, char const *argv[]){
+char* SetupNode0;
+
+char* LocationsSetupNode1;
+
+char* LocationMappingNode2;
+
+char* LocationMappingNode3;
+
+char* TextStatementNode4;
+
+printf("%s%s", "Hello adventdurer! Welcome to the labyrinth game.","Your goal is to make it to Hvidovre");
+char* IntAssignNode5;
+
+char* stringAssignNode6;
+
+char* IntAssignNode7;
+
+char* LocationAssignNode8;
+
+char* LocationAssignNode9;
+
+return 0;}

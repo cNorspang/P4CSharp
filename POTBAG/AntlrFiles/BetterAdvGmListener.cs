@@ -41,6 +41,16 @@ public interface IBetterAdvGmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitProg([NotNull] BetterAdvGmParser.ProgContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.buffernode"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBuffernode([NotNull] BetterAdvGmParser.BuffernodeContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.buffernode"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBuffernode([NotNull] BetterAdvGmParser.BuffernodeContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.setup"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

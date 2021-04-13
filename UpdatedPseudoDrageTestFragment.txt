@@ -5,10 +5,10 @@ setup{
     };
 }
 
-Text "Hello adventurer! Welcome to the labyrinth game." + "Your goal is to make it to Hvidovre";
+Text "Hello adventdurer! Welcome to the labyrinth game." + "Your goal is to make it to Hvidovre";
 int abc = 32;
 string bcd = "hello";
-
+int bcd = 2 + 2;
 Location NoWhere;
 
 NoWhere = {int noWhereInt = 1;};

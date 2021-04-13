@@ -38,6 +38,12 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitProg([NotNull] BetterAdvGmParser.ProgContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.buffernode"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBuffernode([NotNull] BetterAdvGmParser.BuffernodeContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.setup"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
