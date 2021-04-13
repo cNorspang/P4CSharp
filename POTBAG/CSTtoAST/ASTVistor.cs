@@ -1,7 +1,12 @@
+using System;
+using System.Collections.Generic;
+
 namespace POTBAG.CSTtoAST
 {
     public abstract class ASTVistor<T>
     {
+        public abstract T Visit(List<ProgNode> node);
+        public abstract T Visit(BufferNode node);
         public abstract T Visit(SetupNode node);
         public abstract T Visit(LocationsSetupNode node);
         public abstract T Visit(LocationMappingNode node);
@@ -35,29 +40,8 @@ namespace POTBAG.CSTtoAST
 
         public T Visit(ProgNode node)
         {
-            FileHandler.write("int main(int argc, char const *argv[]){");
-            switch (node)
-            {
-                case SetupNode setupNode:
-                    Visit(setupNode);
-                    break;
-                case LocationsSetupNode setupNode:
-                    Visit(setupNode);
-                    break;
-                case LocationMappingNode mappingNode:
-                    Visit(mappingNode);
-                    break;
-                case TextStatementNode textStatementNode:
-                    Visit(textStatementNode);
-                    break;
-                case InputStatementNode inputStatementNode:
-                    Visit(inputStatementNode);
-                    break;
-            }
-            FileHandler.write("return 0;}");
-
-            FileHandler.WriteToFile();
-            return Visit((StatementNode)node);
+            FileHandler.write("#include <stdio.h>\nint main(int argc, char const *argv[]){");
+            return Visit((dynamic)node);
         }
     }
 }

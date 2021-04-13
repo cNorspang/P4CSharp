@@ -23,6 +23,8 @@ namespace POTBAG
 
                 var ast = new BetterAdvGmASTVisitor().VisitProg(cst);
                 var Test = new TestEvaluation().Visit(ast);
+                FileHandler.write("return 0;}");
+                FileHandler.WriteToFile();
             }
             catch (Exception e)
             {

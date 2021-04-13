@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Antlr4.Runtime.Tree;
 
 namespace POTBAG.CSTtoAST
@@ -6,6 +7,12 @@ namespace POTBAG.CSTtoAST
     //Setup Node, consisting of all locations, and where they go
     public abstract class ProgNode { }
 
+    public class BufferNode : ProgNode
+    {
+        public SetupNode SetUpNode { get; set; } = new SetupNode(); 
+        public List<ProgNode> inBlock = new List<ProgNode>();
+    } 
+    
     public class SetupNode : ProgNode
     {
         public LocationsSetupNode Locations { get; set; }
@@ -13,7 +20,7 @@ namespace POTBAG.CSTtoAST
 
     public class LocationsSetupNode : ProgNode
     {
-        public List<LocationMappingNode> Children { get; set; }
+        public List<LocationMappingNode> Children { get; set; } = new List<LocationMappingNode>();
     }
 
     public class LocationMappingNode : ProgNode
