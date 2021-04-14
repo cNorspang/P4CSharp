@@ -181,6 +181,21 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
+        public override ProgNode VisitExpression(BetterAdvGmParser.ExpressionContext ctx)
+        {
+            string op = "";
+            if (ctx.PLUS_OPERATOR() != null) { op = "PLUS"; }
+            else if (ctx.DIVISION_OPERATOR() != null) { op = "DIVISION"; }
+            else if (ctx.TIMES_OPERATOR() != null) { op = "TIMES"; } 
+            else if (ctx.MINUS_OPERATOR() != null) { op = "MINUS"; }
+
+            switch (op)
+            {
+                case "PLUS":
+                    return (AdditionNode) Visit(ctx.);
+            }
+        }
+
         public override ProgNode VisitChoice_statement([NotNull] BetterAdvGmParser.Choice_statementContext ctx)
         {
             Console.WriteLine("choice_statement");
