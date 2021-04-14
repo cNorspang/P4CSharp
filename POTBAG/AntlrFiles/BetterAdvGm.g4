@@ -24,7 +24,7 @@ expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
 
 
 
-statement: text_statement | input_statement | if_statement | travel_statement | choice_statement;
+statement: text_statement | input_statement | if_chain_statement | travel_statement | choice_statement;
 assign: int_assign | string_assign | input_assign | location_assign;
 declaration: int_declaration END_STMT | string_declaration END_STMT| location_declaration END_STMT;
 
@@ -34,7 +34,7 @@ input_statement: KEYWORD_INPUT ((STRING|VAR_NAME) PLUS_OPERATOR)* (STRING | VAR_
 if_chain_statement: if_statement else_if_statement* else_statement? END_STMT;
 if_statement: KEYWORD_IF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT;
 else_if_statement: KEYWORD_ELSEIF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT;
-else_statement: KEYWORD_ELSE CURLY_LEFT inBlock CURLY_RIGHT;
+else_statement: KEYWORD_ELSE CURLY_LEFT inBlock+ CURLY_RIGHT;
 travel_statement: TRAVEL_KEYWORD VAR_NAME END_STMT;
 choice_statement: KEYWORD_CHOICE CURLY_LEFT (option_statment)+ CURLY_RIGHT END_STMT;
 option_statment: (VAR_NAME |STRING) CURLY_LEFT inBlock+ CURLY_RIGHT END_STMT;
