@@ -35,7 +35,7 @@ Location Silkeborg = {
     };
     
     choice {
-        "Declatation" {int benno;};
+        "Declaration" {int benno = 10;};
         "Bibliotek" {Travel Bibliotek;};
         "Lokale" { Travel Lokale; };
 	      HelloWorld {string Hello = "my mom is dead";};

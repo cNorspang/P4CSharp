@@ -98,9 +98,10 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitInt_assign(BetterAdvGmParser.Int_assignContext ctx) {
             Console.WriteLine("Int_assign");
             IntAssignNode node = new IntAssignNode();
-            node.Left = ctx.int_declaration().VAR_NAME().GetText();
+            node.Left = (IntDeclarationNode)Visit(ctx.int_declaration());
+            
             Console.WriteLine("    Left Child: "+node.Left);
-            //hmm
+            //hmmmm
             node.Right = node.Right;
             Console.WriteLine("    Right Child: " + node.Right);
             return node;
@@ -157,7 +158,7 @@ namespace POTBAG.CSTtoAST
 
             ctx.inBlock().ToList().ForEach(i => node.Right.Add(Visit(i)));
 
-            node.Right.ForEach(i => Console.WriteLine($"LIST ENTRY: {i}"));
+            node.Right.ForEach(i => Console.WriteLine($"LIST ENTRY: {i} location"));
 
             return node;
         }
@@ -207,14 +208,17 @@ namespace POTBAG.CSTtoAST
 
             Console.WriteLine("    Child Left of option_statement: " + node.Left);
             ctx.inBlock().ToList().ForEach(i => node.Right.Add(Visit(i)));
+            Console.WriteLine("################");
+            Console.WriteLine(node.Right.Count());
             node.Right.ForEach(i => Console.WriteLine($"LIST ENTRY: {i}"));
             //node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of option_statement: " + i.GetText()));
 
             return node;
         }
+
         public override ProgNode VisitIf_chain_statement([NotNull] BetterAdvGmParser.If_chain_statementContext ctx)
         {
-            Console.WriteLine("if_statement");
+            Console.WriteLine("if_chain_statement");
             IfChainStatementNode node = new IfChainStatementNode();
 
             node.ifNode = (ifNode)Visit(ctx.if_statement());
@@ -226,7 +230,7 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitIf_statement(BetterAdvGmParser.If_statementContext ctx)
         {
             Console.WriteLine("if_statement");
-            IfStatementNode node = new IfStatementNode();
+            ifNode node = new ifNode();
             
 
             node.predicate = (predicateNode)VisitPredicate(ctx.predicate());
@@ -243,6 +247,15 @@ namespace POTBAG.CSTtoAST
             node.predicate = (predicateNode)VisitPredicate(ctx.predicate());
             ctx.inBlock().ToList().ForEach(i => node.body.Add(Visit(i)));
 
+            return node;
+        }
+
+        public override ProgNode VisitElse_statement([NotNull] BetterAdvGmParser.Else_statementContext ctx)
+        {
+            Console.WriteLine("else_statement");
+            elseNode node = new elseNode();
+
+            ctx.inBlock().ToList().ForEach(i => node.body.Add(Visit(i)));
             return node;
         }
 

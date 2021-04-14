@@ -101,10 +101,6 @@ namespace POTBAG.CSTtoAST
        
         public string Left { get; set; } //var_name or string
         public List<ProgNode> Right = new List<ProgNode>();
-        public List<BetterAdvGmParser.DeclarationContext> RightDeclaration;
-        public List<BetterAdvGmParser.StatementContext> RightStatement;
-        public List<BetterAdvGmParser.ExpressionContext> RightExpression;
-        public List<BetterAdvGmParser.AssignContext> RightAssign;
 
     }
 
@@ -114,7 +110,7 @@ namespace POTBAG.CSTtoAST
 
     public class IntAssignNode : AssignNode
     {
-        public string Left { get; set; }
+        public IntDeclarationNode Left { get; set; }
         public ExpressionNode Right { get; set; }
     }
 

@@ -21,6 +21,4 @@ char* LocationAssignNode8;
 
 char* LocationAssignNode9;
 
-char* InputAssignNode10;
-
 return 0;}
