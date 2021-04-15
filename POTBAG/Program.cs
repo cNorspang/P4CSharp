@@ -22,9 +22,14 @@ namespace POTBAG
                 var cst = parser.prog(); ;
 
                 var ast = new BetterAdvGmASTVisitor().VisitProg(cst);
+
+                FileHandler.write("#include <stdio.h>\nint main(int argc, char const *argv[]){");
+
                 var Test = new TestEvaluation().Visit(ast);
                 FileHandler.write("return 0;}");
+                //Console.WriteLine("### FILE WRITE ###");
                 FileHandler.WriteToFile();
+                //FileHandler.PrintCCodeDebug();
             }
             catch (Exception e)
             {

@@ -8,17 +8,37 @@ char* LocationMappingNode2;
 
 char* LocationMappingNode3;
 
-char* TextStatementNode4;
+char* ifChainStatementNode4;
 
-printf("%s%s", "Hello adventdurer! Welcome to the labyrinth game.","Your goal is to make it to Hvidovre");
-char* IntAssignNode5;
+char* ifNode5;
 
 char* stringAssignNode6;
 
-char* IntAssignNode7;
+char* ifChainStatementNode7;
 
-char* LocationAssignNode8;
+char* ifNode8;
 
-char* LocationAssignNode9;
+char* IntAssignNode9;
+
+char* IntAssignNode10;
+
+char* ifChainStatementNode11;
+
+char* ifNode12;
+
+char* stringAssignNode13;
+
+char* TextStatementNode14;
+
+printf("%s%s", "Hello Dadventdurer! Welcome to the labyrinth game.","Your goal is to make it to Hvidovre");
+char* IntAssignNode15;
+
+char* stringAssignNode16;
+
+char* IntAssignNode17;
+
+char* LocationAssignNode18;
+
+char* LocationAssignNode19;
 
 return 0;}

@@ -19,6 +19,7 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(ElseIfStatementNode node);
         public abstract T Visit(elseNode node);
         public abstract T Visit(predicateNode node);
+        //public abstract T Visit(BoolNode node);
         public abstract T Visit(TravelStatementNode node);
         public abstract T Visit(ChoiceStatementNode node);
         public abstract T Visit(OptionStatementNode node);
@@ -40,7 +41,6 @@ namespace POTBAG.CSTtoAST
 
         public T Visit(ProgNode node)
         {
-            FileHandler.write("#include <stdio.h>\nint main(int argc, char const *argv[]){");
             return Visit((dynamic)node);
         }
     }

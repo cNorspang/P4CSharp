@@ -358,6 +358,42 @@ public partial class BetterAdvGmBaseListener : IBetterAdvGmListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitPredicate([NotNull] BetterAdvGmParser.PredicateContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.variable"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterVariable([NotNull] BetterAdvGmParser.VariableContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.variable"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitVariable([NotNull] BetterAdvGmParser.VariableContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.string_obj"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterString_obj([NotNull] BetterAdvGmParser.String_objContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.string_obj"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitString_obj([NotNull] BetterAdvGmParser.String_objContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.bool_obj"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.bool_obj"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

@@ -98,12 +98,31 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitInt_assign(BetterAdvGmParser.Int_assignContext ctx) {
             Console.WriteLine("Int_assign");
             IntAssignNode node = new IntAssignNode();
-            node.Left = (IntDeclarationNode)Visit(ctx.int_declaration());
+
+            if (ctx.ASSIGN_OPERATOR() != null)
+                node.Operator = "ASSIGN_OPERATOR";
+            else if (ctx.COMPOUND_OPERATOR() != null)
+                node.Operator = "COMPOUND_OPERATOR";
+            else
+                throw new NotImplementedException();
+
+            if (ctx.variable() != null)
+                node.Left = (variableNode)Visit(ctx.variable());
+            else if (ctx.int_declaration() != null)
+                node.Left = Visit(ctx.int_declaration());
+            else
+                throw new NotImplementedException();
             
-            Console.WriteLine("    Left Child: "+node.Left);
-            //hmmmm
-            node.Right = node.Right;
-            Console.WriteLine("    Right Child: " + node.Right);
+            Console.WriteLine("    Left Child Int_assign: "+node.Left + "\n     Operator child Int_assign: "+node.Operator);
+            
+            if (ctx.expression() != null)
+                node.Right = Visit(ctx.expression());
+            else if (ctx.input_statement() != null)
+                node.Right = Visit(ctx.input_statement());
+            else
+                throw new NotImplementedException();
+
+            Console.WriteLine("    Right Child Int_assign: " + node.Right);
             return node;
         }
 
@@ -111,7 +130,7 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitInt_declaration(BetterAdvGmParser.Int_declarationContext ctx) {
             Console.WriteLine("int_declaraion");
             
-            IntDeclarationNode node = new IntDeclarationNode {VarName = ctx.VAR_NAME().GetText()};
+            IntDeclarationNode node = new IntDeclarationNode {VarName = (variableNode)Visit(ctx.variable())};
             Console.WriteLine("    Child Varname of Int_declaration: " + node.VarName);
             //Console.WriteLine("yikes: "+node.getVarName());
 
@@ -121,11 +140,19 @@ namespace POTBAG.CSTtoAST
         
         public override ProgNode VisitString_assign(BetterAdvGmParser.String_assignContext ctx) {
             Console.WriteLine("string_assign");
-            stringAssignNode node = new stringAssignNode {Left = ctx.string_declaration().VAR_NAME().GetText()};
+            //if check på left vari || string_dec
+            stringAssignNode node = new stringAssignNode();
+
+            if (ctx.string_declaration() != null)
+                node.Left = (stringDeclarationNode)Visit(ctx.string_declaration());
+            else if (ctx.variable() != null)
+                node.Left = (variableNode)Visit(ctx.variable());
+            else
+                throw new NotImplementedException();
 
             Console.WriteLine("    Left child of assign: " + node.Left);
 
-            node.Right = ctx.STRING().GetText();
+            node.Right = (stringNode)Visit(ctx.string_obj());
             Console.WriteLine("    Right child of assign: " + node.Right);
 
             //Console.WriteLine("string assignment: "+node.getLeft() + " = "+node.getRight());
@@ -137,7 +164,7 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitString_declaration(BetterAdvGmParser.String_declarationContext ctx) {
             Console.WriteLine("string_declaration");
             stringDeclarationNode node = new stringDeclarationNode();
-            node.VarName = ctx.VAR_NAME().GetText();
+            node.VarName = (variableNode)Visit(ctx.variable());
             Console.WriteLine("    Child Varname of string_Declaration: " + node.VarName);
             return node;
         }
@@ -150,7 +177,7 @@ namespace POTBAG.CSTtoAST
             {
                 Left = ctx.location_declaration() != null
                     ? (LocationDeclarationNode) VisitLocation_declaration(ctx.location_declaration())
-                    : new LocationDeclarationNode {VarName = ctx.VAR_NAME().GetText()}
+                    : new LocationDeclarationNode {VarName =  (variableNode)Visit(ctx.variable())}
             };
 
 
@@ -167,7 +194,7 @@ namespace POTBAG.CSTtoAST
         {
             Console.WriteLine("location_declaration");
             LocationDeclarationNode node = new LocationDeclarationNode();
-            node.VarName = ctx.VAR_NAME().GetText();
+            node.VarName =  (variableNode)Visit(ctx.variable());
             Console.WriteLine("    Child Varname of location_declaration: " + node.VarName);
             return node;
         }
@@ -176,24 +203,82 @@ namespace POTBAG.CSTtoAST
         {
             Console.WriteLine("travel_statement");
             TravelStatementNode node = new TravelStatementNode();
-            node.Destination = ctx.VAR_NAME().GetText();
+            node.Destination = (variableNode)Visit(ctx.variable());
             Console.WriteLine("    Child destination of Travel_statement: " + node.Destination);
             return node;
         }
 
         public override ProgNode VisitExpression(BetterAdvGmParser.ExpressionContext ctx)
         {
+
             string op = "";
             if (ctx.PLUS_OPERATOR() != null) { op = "PLUS"; }
             else if (ctx.DIVISION_OPERATOR() != null) { op = "DIVISION"; }
             else if (ctx.TIMES_OPERATOR() != null) { op = "TIMES"; } 
             else if (ctx.MINUS_OPERATOR() != null) { op = "MINUS"; }
+            else if (ctx.NUM() != null) { op = "NUM"; }
+            else if (ctx.variable() != null) { op = "VAR"; }
+            else if (ctx.PAREN_LEFT() != null) { op = "ISO"; }
+
+            ExpressionNode node;
 
             switch (op)
             {
                 case "PLUS":
-                    return (AdditionNode) Visit(ctx.);
+                    Console.WriteLine("ADD     "+ ctx.GetChild(0).GetText() +" "+ctx.GetChild(2).GetText());
+                    AdditionNode nodeADD = new AdditionNode();
+                    nodeADD.Left = (ExpressionNode)Visit(ctx.GetChild(0));
+                    nodeADD.Right = (ExpressionNode)Visit(ctx.GetChild(2));
+                    node = nodeADD;
+                    break;
+                case "DIVISION":
+                    Console.WriteLine("DIV     " + ctx.GetChild(0).GetText() + " " + ctx.GetChild(2).GetText());
+                    DivisionNode nodeDIV = new DivisionNode();
+                    nodeDIV.Left = (ExpressionNode)Visit(ctx.GetChild(0));
+                    nodeDIV.Right = (ExpressionNode)Visit(ctx.GetChild(2));
+                    node = nodeDIV;
+                    break;
+                case "TIMES":
+                    Console.WriteLine("TIMES   " + ctx.GetChild(0).GetText() + " " + ctx.GetChild(2).GetText());
+                    MultiplicationNode nodeMUL = new MultiplicationNode();
+                    nodeMUL.Left = (ExpressionNode)Visit(ctx.GetChild(0));
+                    nodeMUL.Right = (ExpressionNode)Visit(ctx.GetChild(2));
+                    node = nodeMUL;
+                    break;
+                case "MINUS":
+                    Console.WriteLine("SUB     " + ctx.GetChild(0).GetText() + " " + ctx.GetChild(2).GetText());
+
+                    SubtractionNode nodeSUB = new SubtractionNode();
+                    nodeSUB.Left = (ExpressionNode)Visit(ctx.GetChild(0));
+                    nodeSUB.Right = (ExpressionNode)Visit(ctx.GetChild(2));
+                    node = nodeSUB;
+                    break;
+                case "NUM":
+                    Console.WriteLine("NUM     " + ctx.NUM().GetText());
+                    NumberNode nodeNUM = new NumberNode();
+                    nodeNUM.Value = int.Parse(ctx.NUM().GetText());
+                    node = nodeNUM;
+                    break;
+                case "VAR":
+                    Console.WriteLine("VAR     " + ctx.variable().GetText());
+                    ExpressionVarNameNode nodeVAR = new ExpressionVarNameNode();
+                    nodeVAR.VarName = ctx.variable().GetText();
+                    node = nodeVAR;
+                    break;
+                case "ISO":
+                    Console.WriteLine("ISO     " + ctx.expression(0).GetText());
+                    ExpressionSoloNode nodeISO = new ExpressionSoloNode();
+                    nodeISO.expr = (ExpressionNode)Visit(ctx.GetChild(1));
+                    node = nodeISO;
+                    break;
+                default:
+                    throw new NotImplementedException();
+                    break;
             }
+
+            return node;
+
+
         }
 
         public override ProgNode VisitChoice_statement([NotNull] BetterAdvGmParser.Choice_statementContext ctx)
@@ -215,16 +300,16 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitOption_statment([NotNull] BetterAdvGmParser.Option_statmentContext ctx)
         {
             Console.WriteLine("option_statement");
-            OptionStatementNode node = new OptionStatementNode
-            {
-                Left = ctx.STRING() != null ? ctx.STRING().GetText() : ctx.VAR_NAME().GetText()
-            };
+            OptionStatementNode node = new OptionStatementNode();
+
+            if(ctx.string_obj() != null)
+                node.Left = Visit(ctx.string_obj());
+            else if(ctx.variable() != null)
+                node.Left = Visit(ctx.variable());
 
 
             Console.WriteLine("    Child Left of option_statement: " + node.Left);
             ctx.inBlock().ToList().ForEach(i => node.Right.Add(Visit(i)));
-            Console.WriteLine("################");
-            Console.WriteLine(node.Right.Count());
             node.Right.ForEach(i => Console.WriteLine($"LIST ENTRY: {i}"));
             //node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of option_statement: " + i.GetText()));
 
@@ -238,7 +323,8 @@ namespace POTBAG.CSTtoAST
 
             node.ifNode = (ifNode)Visit(ctx.if_statement());
             ctx.else_if_statement().ToList().ForEach(i => node.elseIfChain.Add((ElseIfStatementNode)Visit(i)));
-            node.elseNode = (elseNode)Visit(ctx.else_statement());
+            if(ctx.else_statement() != null)
+                node.elseNode = (elseNode)Visit(ctx.else_statement());
 
             return node;
         }
@@ -278,8 +364,30 @@ namespace POTBAG.CSTtoAST
         {
             predicateNode node = new predicateNode();
             Console.WriteLine("predicate");
+
+
+            //if (ctx.BOOL() != null && ctx.BOOL_CMP_OPERATOR() == null)
+            //{
+            //    BoolNode nodebool = new BoolNode();
+            //    nodebool.value = bool.Parse(ctx.BOOL().GetText());
+            //    Console.WriteLine($"    Bool = {nodebool.value}");
+            //    return nodebool;
+            //}
+            //else if(ctx.BOOL() != null && ctx.BOOL_CMP_OPERATOR() != null)
+            //{
+            //    BoolCMPNode nodeBoolCMP = new BoolCMPNode();
+            //    nodeBoolCMP.value = bool.Parse(ctx.BOOL().GetText());
+            //    node = nodeBoolCMP;
+            //    Console.WriteLine($"    Bool CMP = {nodeBoolCMP.value}");
+            //}
+            //else { 
+            //    node.Left = Visit(ctx.GetChild(0));
+            //}
+
             //Left hand side
-            node.Left = ctx.Payload.GetChild(0).GetText();
+            node.Left = Visit(ctx.GetChild(0));
+
+            //node.Left = ctx.Payload.GetChild(0).GetText();
             Console.WriteLine($"    Left side = {node.Left}");
             
             //Checking the operator
@@ -309,17 +417,44 @@ namespace POTBAG.CSTtoAST
                     _ => node.Operator
                 };
             }
+            else
+            {
+                return node;
+            }
 
             Console.WriteLine($"    Operator = {node.Operator}");
-            
+
             //Right hand side
-            node.Right = ctx.Payload.GetChild(2).GetText();
+            //node.Right = ctx.Payload.GetChild(2).GetText();
+            node.Right = Visit(ctx.GetChild(2));
             Console.WriteLine($"    Right side = {node.Right}");
 
+            //Wtf makes no sense..
             //Visit children, if children are visitable
-            ctx.predicate().ToList().ForEach(i => VisitPredicate(i));
-            ctx.expression().ToList().ForEach(i => VisitExpression(i));
+            //ctx.predicate().ToList().ForEach(i => VisitPredicate(i));
+            //ctx.expression().ToList().ForEach(i => VisitExpression(i));
 
+            return node;
+        }
+
+        public override ProgNode VisitVariable([NotNull] BetterAdvGmParser.VariableContext ctx)
+        {
+            variableNode node = new variableNode();
+            node.variableName = ctx.VAR_NAME().GetText();
+            return node;
+        }
+
+        public override ProgNode VisitString_obj([NotNull] BetterAdvGmParser.String_objContext ctx)
+        {
+            stringNode node = new stringNode();
+            node.strVal = ctx.STRING().GetText();
+            return node;
+        }
+
+        public override ProgNode VisitBool_obj([NotNull] BetterAdvGmParser.Bool_objContext ctx)
+        {
+            BoolNode node = new BoolNode();
+            node.value = bool.Parse(ctx.BOOL().GetText());
             return node;
         }
 
@@ -332,7 +467,7 @@ namespace POTBAG.CSTtoAST
             if (ctx.string_declaration() != null)
                 node.LeftStrDclNode = (stringDeclarationNode)Visit(ctx.string_declaration());
             else
-                node.LeftStr = ctx.VAR_NAME().GetText();
+                node.LeftStr = (variableNode)Visit(ctx.variable());
 
             //Console.WriteLine("     VisitInput_assign left  child: " + node.LeftStr + node.LeftStrDclNode.VarName);
 
