@@ -8,6 +8,8 @@ namespace POTBAG.CSTtoAST
         private int counter = 0;
         public override int Visit(List<ProgNode> node)
         {
+            FileHandler.write($"char* InBlock{counter++};\n");
+
             node.ForEach(i =>
             {
                 switch (i)
@@ -47,7 +49,6 @@ namespace POTBAG.CSTtoAST
         public override int Visit(LocationsSetupNode node)
         {
             FileHandler.write($"char* LocationsSetupNode{counter++};\n");
-            Console.WriteLine("LocationSetuNodeVisit");
             
             node.Children.ForEach(i => Visit(i));
             return 0;
@@ -74,6 +75,15 @@ namespace POTBAG.CSTtoAST
                     Visit(statementNode);
                     break;
                 case IfChainStatementNode statementNode:
+                    Visit(statementNode);
+                    break;
+                case TravelStatementNode statementNode:
+                    Visit(statementNode);
+                    break;
+                case ChoiceStatementNode statementNode:
+                    Visit(statementNode);
+                    break;
+                case OptionStatementNode statementNode:
                     Visit(statementNode);
                     break;
             }
@@ -130,42 +140,71 @@ namespace POTBAG.CSTtoAST
         public override int Visit(ElseIfStatementNode node)
         {
             FileHandler.write($"char* ElseIfStatementNode{counter++};\n");
+            Visit(node.predicate);
+            node.body.ForEach(i => Visit(i));
             return 0;
         }
 
         public override int Visit(elseNode node)
         {
             FileHandler.write($"char* elseNode{counter++};\n");
+            node.body.ForEach(i => Visit(i));
             return 0;
         }
 
         public override int Visit(predicateNode node)
         {
             FileHandler.write($"char* predicateNode{counter++};\n");
-            
+
+            ProgNode nodeLeft;
+
             switch (node.Left)
             {
                 //FileHandler.write("StatementNode \n");
                 case variableNode NodeNode:
-                    Visit(NodeNode);
+                    nodeLeft = NodeNode;
+                    //Visit(NodeNode);
                     break;
                 case stringNode NodeNode:
-                    Visit(NodeNode);
+                    nodeLeft = NodeNode;
+                    //Visit(NodeNode);
                     break;
                 case ExpressionNode NodeNode:
-                    Visit(NodeNode);
+                    nodeLeft = NodeNode;
+                    //Visit(NodeNode);
                     break;
-                //case BoolNode NodeNode:
-                //    Visit(NodeNode);
-                //    break;
+                case BoolNode NodeNode:
+                    nodeLeft = NodeNode;
+                    //Visit(NodeNode);
+                    break;
+                case predicateNode NodeNode:
+                    nodeLeft = NodeNode;
+                    //Visit(NodeNode);
+                    break;
+                default:
+                    Console.WriteLine("#### ERROR #### => "+node.Left.GetType());
+                    Console.ReadKey();
+                    throw new NotImplementedException();
             }
+
+            var hej = Visit(nodeLeft);         
+            
+
             return 0;
         }
-        //public override int Visit(BoolNode node)
-        //{
-        //    //FileHandler.write($"char* BoolNode{counter++};\n");
-        //    return 0;
-        //}
+
+        public override int Visit(stringNode node)
+        {
+            FileHandler.write($"char* stringNode{counter++}; //{node.strVal}\n");
+
+            return 0;
+        }
+
+        public override int Visit(BoolNode node)
+        {
+            //FileHandler.write($"char* BoolNode{counter++};\n");
+            return 0;
+        }
 
 
         public override int Visit(TravelStatementNode node)
@@ -215,7 +254,20 @@ namespace POTBAG.CSTtoAST
         public override int Visit(stringAssignNode node)
         {
             FileHandler.write($"char* stringAssignNode{counter++};\n");
-            return 0;
+
+            switch (node.Left)
+            {
+                case variableNode varNode:
+                    Visit(varNode);
+                    break;
+                case stringDeclarationNode stringDclNode:
+                    Visit(stringDclNode);
+                    break;
+            }
+
+            Visit(node.Right);
+
+                    return 0;
         }
 
         public override int Visit(InputAssignNode node)
@@ -247,6 +299,13 @@ namespace POTBAG.CSTtoAST
             return 0;
         }
 
+        public override int Visit(variableNode node)
+        {
+            FileHandler.write($"char* variableNode{counter++}; //{node.variableName}\n");
+
+            return 0;
+        }
+
         public override int Visit(IntDeclarationNode node)
         {
             FileHandler.write($"char* IntDeclarationNode{counter++};\n");
@@ -256,6 +315,8 @@ namespace POTBAG.CSTtoAST
         public override int Visit(stringDeclarationNode node)
         {
             FileHandler.write($"char* stringDeclarationNode{counter++};\n");
+            Visit(node.VarName);
+            
             return 0;
         }
 

@@ -8,37 +8,69 @@ char* LocationMappingNode2;
 
 char* LocationMappingNode3;
 
-char* ifChainStatementNode4;
+char* InBlock4;
 
-char* ifNode5;
+char* ifChainStatementNode5;
 
-char* stringAssignNode6;
+char* ifNode6;
 
-char* ifChainStatementNode7;
+char* predicateNode7;
 
-char* ifNode8;
+char* variableNode8; //abc
 
-char* IntAssignNode9;
+char* stringAssignNode9;
 
-char* IntAssignNode10;
+char* variableNode10; //hej
 
-char* ifChainStatementNode11;
+char* stringNode11; //"yo"
 
-char* ifNode12;
+char* ifChainStatementNode12;
 
-char* stringAssignNode13;
+char* ifNode13;
 
-char* TextStatementNode14;
+char* predicateNode14;
 
-printf("%s%s", "Hello Dadventdurer! Welcome to the labyrinth game.","Your goal is to make it to Hvidovre");
 char* IntAssignNode15;
 
-char* stringAssignNode16;
+char* IntAssignNode16;
 
-char* IntAssignNode17;
+char* ifChainStatementNode17;
 
-char* LocationAssignNode18;
+char* ifNode18;
 
-char* LocationAssignNode19;
+char* predicateNode19;
+
+char* predicateNode20;
+
+char* variableNode21; //abc
+
+char* stringAssignNode22;
+
+char* variableNode23; //yo
+
+char* stringNode24; //"to"
+
+char* TextStatementNode25;
+
+printf("%s%s", "Hello Dadventdurer! Welcome to the labyrinth game.","Your goal is to make it to Hvidovre");
+char* IntAssignNode26;
+
+char* stringAssignNode27;
+
+char* stringDeclarationNode28;
+
+char* variableNode29; //bcd
+
+char* stringNode30; //"hello"
+
+char* IntAssignNode31;
+
+char* LocationAssignNode32;
+
+char* TravelStatementNode33;
+
+char* ChoiceStatementNode34;
+
+char* LocationAssignNode35;
 
 return 0;}

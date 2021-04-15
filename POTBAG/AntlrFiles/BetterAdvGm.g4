@@ -24,7 +24,8 @@ expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
           | NUM;
           */
 
-expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR|PLUS_OPERATOR|MINUS_OPERATOR) expression
+expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
+          | expression (PLUS_OPERATOR|MINUS_OPERATOR) expression
           | PAREN_LEFT expression PAREN_RIGHT
           | variable
           | NUM;
