@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using POTBAG.ContextualAnalysis;
 using POTBAG.CSTtoAST;
 using System;
 

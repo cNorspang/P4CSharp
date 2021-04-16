@@ -1,7 +1,8 @@
+using POTBAG.CSTtoAST;
 using System;
 using System.Collections.Generic;
 
-namespace POTBAG.CSTtoAST
+namespace POTBAG.ContextualAnalysis
 {
     public class TestEvaluation : ASTVistor<int>
     {
@@ -49,7 +50,7 @@ namespace POTBAG.CSTtoAST
         public override int Visit(LocationsSetupNode node)
         {
             FileHandler.write($"char* LocationsSetupNode{counter++};\n");
-            
+
             node.Children.ForEach(i => Visit(i));
             return 0;
         }
@@ -97,10 +98,10 @@ namespace POTBAG.CSTtoAST
             FileHandler.write($"char* TextStatementNode{counter++};\n");
             outputstring += "printf(\"";
             node.Text.ForEach(i => outputstring += "%s");
-            outputstring +="\",";
+            outputstring += "\",";
             node.Text.ForEach(i => outputstring += $"{i},");
             outputstring = outputstring.Remove(outputstring.LastIndexOf(','));
-            outputstring +=");";
+            outputstring += ");";
             outputstring = outputstring.Replace("\r", "");
             outputstring = outputstring.Replace("\n", @"\n");
             FileHandler.write(outputstring);
@@ -124,7 +125,7 @@ namespace POTBAG.CSTtoAST
             FileHandler.write($"char* ifChainStatementNode{counter++};\n");
             Visit(node.ifNode);
             node.elseIfChain.ForEach(i => Visit(i));
-            if(node.elseNode.body.Count != 0) Visit(node.elseNode);
+            if (node.elseNode.body.Count != 0) Visit(node.elseNode);
 
             return 0;
         }
@@ -182,13 +183,13 @@ namespace POTBAG.CSTtoAST
                     //Visit(NodeNode);
                     break;
                 default:
-                    Console.WriteLine("#### ERROR #### => "+node.Left.GetType());
+                    Console.WriteLine("#### ERROR #### => " + node.Left.GetType());
                     Console.ReadKey();
                     throw new NotImplementedException();
             }
 
-            var hej = Visit(nodeLeft);         
-            
+            var hej = Visit(nodeLeft);
+
 
             return 0;
         }
@@ -267,7 +268,7 @@ namespace POTBAG.CSTtoAST
 
             Visit(node.Right);
 
-                    return 0;
+            return 0;
         }
 
         public override int Visit(InputAssignNode node)
@@ -316,7 +317,7 @@ namespace POTBAG.CSTtoAST
         {
             FileHandler.write($"char* stringDeclarationNode{counter++};\n");
             Visit(node.VarName);
-            
+
             return 0;
         }
 
@@ -357,9 +358,9 @@ namespace POTBAG.CSTtoAST
         }
 
         public override int Visit(NumberNode node)
-         {
-             FileHandler.write($"char* NumberNode{counter++};\n");
-             return 0;
+        {
+            FileHandler.write($"char* NumberNode{counter++};\n");
+            return 0;
         }
     }
 }

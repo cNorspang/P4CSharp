@@ -1,8 +1,9 @@
-﻿using System;
+﻿using POTBAG.CSTtoAST;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace POTBAG.CSTtoAST
+namespace POTBAG.ContextualAnalysis
 {
     public class ASTContextualAnalysis : ASTVistor<object>
     {
@@ -69,11 +70,11 @@ namespace POTBAG.CSTtoAST
         {
             st.PushScope();
             node.Children.ForEach(n => Visit(n));
-            st.CurrentScope().PrintAllAccesssableKeys();
+            st.CurrentScope().PrintAllAccessibleKeys();
             st.PopScope();
             return true;
         }
-        
+
         public override object Visit(LocationMappingNode node)
         {
             st.CurrentScope().Define(node.Source, typeof(LocationMappingNode));
