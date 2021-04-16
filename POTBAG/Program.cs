@@ -23,12 +23,16 @@ namespace POTBAG
 
                 var ast = new BetterAdvGmASTVisitor().VisitProg(cst);
 
+                SymbolTable symbolTable = new SymbolTable();
+                var contextualAnalysis = new ASTContextualAnalysis(symbolTable).Visit(ast);
+
+
                 FileHandler.write("#include <stdio.h>\nint main(int argc, char const *argv[]){");
 
-                var Test = new TestEvaluation().Visit(ast);
+                //var Test = new TestEvaluation().Visit(ast);
                 FileHandler.write("return 0;}");
                 //Console.WriteLine("### FILE WRITE ###");
-                FileHandler.WriteToFile();
+                //FileHandler.WriteToFile();
                 //FileHandler.PrintCCodeDebug();
             }
             catch (Exception e)
