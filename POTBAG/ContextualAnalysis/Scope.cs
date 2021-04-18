@@ -38,8 +38,11 @@ namespace POTBAG.ContextualAnalysis
         {
             Symbol symbol;
 
-            if (symbolMap.TryGetValue(name, out symbol)) return symbol;
-
+            if (symbolMap.ContainsKey(name))
+            {
+                symbol = symbolMap[name];
+                return symbol;
+            }
             if (enclosingScope != null) return enclosingScope.Resolve(name);
 
             return null; // not found
@@ -59,7 +62,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 keys += entry.Value.ToString() + " : ";
             }
-            return symbolMap.Keys.Count != 0 ? keys : "symbolMap is empty :(";
+            return symbolMap.Keys.Count != 0 ? keys : "-<empty>-";
         }
 
         public void PrintAllAccessibleKeys()
@@ -70,7 +73,7 @@ namespace POTBAG.ContextualAnalysis
 
         private void PrintKeysRecursively()
         {
-            Console.WriteLine("-$ " + ToString());
+            Console.WriteLine("-$"+type+"$ " + ToString());
             if (enclosingScope != null) enclosingScope.PrintKeysRecursively();
         }
     }

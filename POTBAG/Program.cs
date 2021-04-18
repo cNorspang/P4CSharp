@@ -10,7 +10,7 @@ namespace POTBAG
     {
         static void Main(string[] args)
         {
-            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTestFragment.txt");
+            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTestFragmentFragment.txt");
 
             ICharStream input = CharStreams.fromString(stream);
             ITokenSource lexer = new BetterAdvGmLexer(input);

@@ -15,15 +15,20 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitBuffernode(BetterAdvGmParser.BuffernodeContext context)
+        public override ProgNode VisitBuffernode(BetterAdvGmParser.BuffernodeContext ctx)
         {
             Console.WriteLine("Buffer_node");
-            BufferNode node = new BufferNode {SetUpNode = (SetupNode) Visit(context.setup())};
-            Console.WriteLine($"SETUP NODE IS === {Visit(context.setup())}");
-            context.inBlock().ToList().ForEach(i => node.inBlock.Add(Visit(i)));
+            BufferNode node = new BufferNode {SetUpNode = (SetupNode) Visit(ctx.setup())};
+            ctx.inBlock().ToList().ForEach(i => node.inBlock.Add(Visit(i)));
 
             return node;
         }
+
+        public override ProgNode VisitDeclaration([NotNull] BetterAdvGmParser.DeclarationContext ctx)
+        {
+            return Visit(ctx.GetChild(0));
+        }
+
 
         public override ProgNode VisitSetup(BetterAdvGmParser.SetupContext ctx) 
         {
@@ -31,6 +36,7 @@ namespace POTBAG.CSTtoAST
             SetupNode node = new SetupNode();
 
             node.Locations = (LocationsSetupNode)Visit(ctx.locationsetup());
+            
             
             return node;
         }
@@ -64,14 +70,25 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("    Child:  " + String.Join(',', node.Destinations));
             return node;
         }
+
         
         public override ProgNode VisitText_statement(BetterAdvGmParser.Text_statementContext ctx) {
             Console.WriteLine("TextStatement");
             TextStatementNode node = new TextStatementNode();
+            
+            List<ProgNode> InnerVal = new List<ProgNode>();
+            string[] textStmtElements = ctx.GetText().Split("+");
 
-            List<string> InnerVal = new List<string>(ctx.GetText().Split("+"));
-            InnerVal[0] = InnerVal[0].Substring(4);
-            InnerVal[InnerVal.Count - 1] = InnerVal[InnerVal.Count - 1].Remove(InnerVal[InnerVal.Count - 1].Length - 1); 
+            textStmtElements[0] = textStmtElements[0].Substring(4, textStmtElements.Length - 1);
+            //not needed anymore... textStmtElements[textStmtElements.Length - 1] = textStmtElements[textStmtElements.Length - 1].Remove(textStmtElements[textStmtElements.Length - 1].Length - 1);
+
+            foreach (string item in textStmtElements)
+            {
+                if (item.StartsWith('\"'))
+                    InnerVal.Add(new stringNode { strVal = item });
+                else
+                    InnerVal.Add(new variableNode { variableName = item });
+            }
 
             node.Text = InnerVal;
             Console.WriteLine("    Child: " + String.Join(',', node.Text));
@@ -94,7 +111,6 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        //TODO right node is never set
         public override ProgNode VisitInt_assign(BetterAdvGmParser.Int_assignContext ctx) {
             Console.WriteLine("Int_assign");
             IntAssignNode node = new IntAssignNode();
@@ -365,29 +381,8 @@ namespace POTBAG.CSTtoAST
             predicateNode node = new predicateNode();
             Console.WriteLine("predicate");
 
-
-            //if (ctx.BOOL() != null && ctx.BOOL_CMP_OPERATOR() == null)
-            //{
-            //    BoolNode nodebool = new BoolNode();
-            //    nodebool.value = bool.Parse(ctx.BOOL().GetText());
-            //    Console.WriteLine($"    Bool = {nodebool.value}");
-            //    return nodebool;
-            //}
-            //else if(ctx.BOOL() != null && ctx.BOOL_CMP_OPERATOR() != null)
-            //{
-            //    BoolCMPNode nodeBoolCMP = new BoolCMPNode();
-            //    nodeBoolCMP.value = bool.Parse(ctx.BOOL().GetText());
-            //    node = nodeBoolCMP;
-            //    Console.WriteLine($"    Bool CMP = {nodeBoolCMP.value}");
-            //}
-            //else { 
-            //    node.Left = Visit(ctx.GetChild(0));
-            //}
-
             //Left hand side
             node.Left = Visit(ctx.GetChild(0));
-
-            //node.Left = ctx.Payload.GetChild(0).GetText();
             Console.WriteLine($"    Left side = {node.Left}");
             
             //Checking the operator
@@ -425,14 +420,9 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine($"    Operator = {node.Operator}");
 
             //Right hand side
-            //node.Right = ctx.Payload.GetChild(2).GetText();
             node.Right = Visit(ctx.GetChild(2));
             Console.WriteLine($"    Right side = {node.Right}");
 
-            //Wtf makes no sense..
-            //Visit children, if children are visitable
-            //ctx.predicate().ToList().ForEach(i => VisitPredicate(i));
-            //ctx.expression().ToList().ForEach(i => VisitExpression(i));
 
             return node;
         }

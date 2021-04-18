@@ -68,6 +68,11 @@ namespace POTBAG.ContextualAnalysis
             return genId;
         }
 
+        public void PrintAllKeysInSymbolTable()
+        {
+            allScopes.ForEach(i => Console.WriteLine("-$"+i.type+"$ "+i.ToString()));
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();

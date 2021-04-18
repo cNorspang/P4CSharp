@@ -4,14 +4,18 @@ setup{
         Bibliotek -> Silkeborg, KU;
     };
 }
+string hej;
+if(hej != argds){hej = "yo";};
 
-if(abc != argds){hej = "yo";};
+Text hej + " sup boi";
+
+int yup = 8;
 
 if(false){
-int b = 1 * 100 - ((20 / 5) + ninjaNum) + Yup / 8;
+int b = 1 * 100 - ((20 / 5) + 69) + yup / 8;
 b += 1;
 };
-if(abc != true && ehj == "jhe"){yo = "to";};
+
 
 Text "Hello Dadventdurer! Welcome to the labyrinth game." + "Your goal is to make it to Hvidovre";
 int abc = 32;

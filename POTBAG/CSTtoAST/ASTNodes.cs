@@ -35,7 +35,7 @@ namespace POTBAG.CSTtoAST
 
     public class TextStatementNode : StatementNode
     {
-        public List<string> Text { get; set; }
+        public List<ProgNode> Text { get; set; }
     }
 
 

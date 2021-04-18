@@ -28,7 +28,7 @@ namespace POTBAG.ContextualAnalysis
             return name;
         }
 
-        public Type GetTypeScopeType()
+        public Type GetSymbolType()
         {
             return type;
         }
