@@ -362,5 +362,10 @@ namespace POTBAG.ContextualAnalysis
             FileHandler.write($"char* NumberNode{counter++};\n");
             return 0;
         }
+
+        public override int Visit(WhileStatementNode node)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

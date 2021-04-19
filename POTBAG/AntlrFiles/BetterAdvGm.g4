@@ -45,7 +45,7 @@ else_statement: KEYWORD_ELSE CURLY_LEFT inBlock+ CURLY_RIGHT;
 travel_statement: TRAVEL_KEYWORD variable END_STMT;
 choice_statement: KEYWORD_CHOICE CURLY_LEFT (option_statment)+ CURLY_RIGHT END_STMT;
 option_statment: (variable |string_obj) CURLY_LEFT inBlock+ CURLY_RIGHT END_STMT;
-while_statement: KEYWORD_WHILE PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock CURLY_RIGHT;
+while_statement: KEYWORD_WHILE PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT;
 
 //Assign Rules
 //TODO: Compund assign rules

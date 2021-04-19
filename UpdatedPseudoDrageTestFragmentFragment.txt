@@ -15,3 +15,5 @@ if(false){
 int b = 1 * 100 - ((20 / 5) + 69) + yup / 8;
 b += 1;
 };
+int dunnis = 0;
+while(dunnis < 1000){dunnis += 323;};
