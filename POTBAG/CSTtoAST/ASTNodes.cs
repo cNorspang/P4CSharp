@@ -25,8 +25,8 @@ namespace POTBAG.CSTtoAST
 
     public class LocationMappingNode : ProgNode
     {
-        public string Source { get; set; }
-        public List<string> Destinations { get; set; }
+        public variableNode Source { get; set; }
+        public List<variableNode> Destinations { get; set; } = new List<variableNode>();
 
     }
 
@@ -35,13 +35,13 @@ namespace POTBAG.CSTtoAST
 
     public class TextStatementNode : StatementNode
     {
-        public List<ProgNode> Text { get; set; }
+        public List<ProgNode> Text { get; set; } = new List<ProgNode>();
     }
 
 
     public class InputStatementNode : StatementNode
     {
-        public List<string> Text { get; set; }
+        public List<ProgNode> Text { get; set; } = new List<ProgNode>();
     }
 
     public class IfChainStatementNode : StatementNode
@@ -71,7 +71,7 @@ namespace POTBAG.CSTtoAST
         public ProgNode Right{ get; set; }
         public string Operator { get; set; }
     }
-    //TODO
+
     public class BoolNode : ProgNode
     {
         public bool value { get; set; }
@@ -118,14 +118,13 @@ namespace POTBAG.CSTtoAST
 
     public class InputAssignNode : AssignNode
     {
-        public variableNode LeftStr;
-        public stringDeclarationNode LeftStrDclNode;
+        public ProgNode Left;
         public InputStatementNode Right;
     }
 
     public class LocationAssignNode : AssignNode
     {
-        public LocationDeclarationNode Left;
+        public ProgNode Left;
 
         public List<ProgNode> Right = new List<ProgNode>();
         // public List<BetterAdvGmParser.StatementContext> RightStatement;

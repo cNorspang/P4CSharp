@@ -8,10 +8,10 @@ namespace POTBAG.CSTtoAST
 {
     public class BetterAdvGmASTVisitor : BetterAdvGmBaseVisitor<ProgNode>
     {
-        public override ProgNode VisitProg([NotNull] BetterAdvGmParser.ProgContext context)
+        public override ProgNode VisitProg([NotNull] BetterAdvGmParser.ProgContext ctx)
         {
             Console.WriteLine("prog");
-            ProgNode node = (BufferNode)Visit(context.buffernode());
+            ProgNode node = (BufferNode)Visit(ctx.buffernode());
             return node;
         }
 
@@ -26,6 +26,7 @@ namespace POTBAG.CSTtoAST
 
         public override ProgNode VisitDeclaration([NotNull] BetterAdvGmParser.DeclarationContext ctx)
         {
+            //this is important. everything breaks if this is touched.
             return Visit(ctx.GetChild(0));
         }
 
@@ -47,8 +48,8 @@ namespace POTBAG.CSTtoAST
             LocationsSetupNode node = new LocationsSetupNode();
 
             ctx.locationmapping().ToList().ForEach(i => node.Children.Add((LocationMappingNode)Visit(i)));
-            
-            Console.WriteLine($"    {ctx.GetText()}");
+
+            Console.WriteLine("     - Location setup done");
             return node;
         }
         
@@ -56,15 +57,9 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("LocationMapping");
 
             LocationMappingNode node = new LocationMappingNode();
-            string source = ctx.GetText().Substring(0, ctx.GetText().IndexOf('-'));
-            string deststring = ctx.GetText().Substring(ctx.GetText().IndexOf('>') + 1);
-            
-            List<string> destArr = deststring.Split(",").ToList(); 
-            //destArr = (destArr.Count - 1, destArr[destArr.Count - 1].Substring(0, destArr[destArr.Count - 1].Length - 1));
-            destArr[destArr.Count - 1].Remove(destArr[destArr.Count - 1].Length - 1);
-            
-            node.Source = source;
-            node.Destinations = destArr;
+            node.Source = (variableNode)Visit(ctx.GetChild(0));
+
+            ctx.variable().ToList().ForEach(i => node.Destinations.Add((variableNode)Visit(i)));
 
             Console.WriteLine("    Source: " + node.Source);
             Console.WriteLine("    Child:  " + String.Join(',', node.Destinations));
@@ -76,38 +71,28 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("TextStatement");
             TextStatementNode node = new TextStatementNode();
             
-            List<ProgNode> InnerVal = new List<ProgNode>();
-            string[] textStmtElements = ctx.GetText().Split("+");
-
-            textStmtElements[0] = textStmtElements[0].Substring(4, textStmtElements.Length - 1);
-            //not needed anymore... textStmtElements[textStmtElements.Length - 1] = textStmtElements[textStmtElements.Length - 1].Remove(textStmtElements[textStmtElements.Length - 1].Length - 1);
-
-            foreach (string item in textStmtElements)
+            //works because every other child is a variable. (keyword var + var + var ;...)
+            for (int i = 1; i <= ctx.children.Count - 1; i += 2)
             {
-                if (item.StartsWith('\"'))
-                    InnerVal.Add(new stringNode { strVal = item });
-                else
-                    InnerVal.Add(new variableNode { variableName = item });
+                node.Text.Add(Visit(ctx.GetChild(i)));
+                Console.WriteLine(ctx.GetChild(i).GetText());   
             }
-
-            node.Text = InnerVal;
             Console.WriteLine("    Child: " + String.Join(',', node.Text));
             return node;
-            //return super.visitText_statement(ctx);
         }
         
         public override ProgNode VisitInput_statement(BetterAdvGmParser.Input_statementContext ctx) {
             Console.WriteLine("InputStatement");
             InputStatementNode node = new InputStatementNode();
 
-            List<string> InnerVal = new List<string>(ctx.GetText().Split("+"));
-
-            //InnerVal.set(0, InnerVal.get(0).replace("userInput", ""));
-            InnerVal[0] = InnerVal[0].Replace("userInput", "");
-            InnerVal[InnerVal.Count - 1].Remove(InnerVal[InnerVal.Count - 1].Length - 1);
-            node.Text = InnerVal;
-            Console.WriteLine("    Child: " + String.Join(',',node.Text));
-
+            //works because every other child is a variable. (keyword var + var + var ;...)
+            for (int i = 1; i <= ctx.children.Count - 1; i += 2)
+            {
+                Console.WriteLine(ctx.GetChild(i).GetText());
+                //breaks...
+                node.Text.Add(Visit(ctx.GetChild(i)));
+            }
+            Console.WriteLine("    Child: " + String.Join(',', node.Text));
             return node;
         }
 
@@ -122,27 +107,14 @@ namespace POTBAG.CSTtoAST
             else
                 throw new NotImplementedException();
 
-            if (ctx.variable() != null)
-                node.Left = (variableNode)Visit(ctx.variable());
-            else if (ctx.int_declaration() != null)
-                node.Left = Visit(ctx.int_declaration());
-            else
-                throw new NotImplementedException();
-            
+            node.Left = Visit(ctx.GetChild(0));          
             Console.WriteLine("    Left Child Int_assign: "+node.Left + "\n     Operator child Int_assign: "+node.Operator);
-            
-            if (ctx.expression() != null)
-                node.Right = Visit(ctx.expression());
-            else if (ctx.input_statement() != null)
-                node.Right = Visit(ctx.input_statement());
-            else
-                throw new NotImplementedException();
 
+            node.Right = Visit(ctx.GetChild(2));
             Console.WriteLine("    Right Child Int_assign: " + node.Right);
             return node;
         }
 
-        //TODO this is never accessed, visitInt_assign grabs element from source
         public override ProgNode VisitInt_declaration(BetterAdvGmParser.Int_declarationContext ctx) {
             Console.WriteLine("int_declaraion");
             
@@ -159,24 +131,15 @@ namespace POTBAG.CSTtoAST
             //if check på left vari || string_dec
             stringAssignNode node = new stringAssignNode();
 
-            if (ctx.string_declaration() != null)
-                node.Left = (stringDeclarationNode)Visit(ctx.string_declaration());
-            else if (ctx.variable() != null)
-                node.Left = (variableNode)Visit(ctx.variable());
-            else
-                throw new NotImplementedException();
-
+            node.Left = Visit(ctx.GetChild(0));
             Console.WriteLine("    Left child of assign: " + node.Left);
 
-            node.Right = (stringNode)Visit(ctx.string_obj());
+            node.Right = (stringNode)Visit(ctx.GetChild(2));
             Console.WriteLine("    Right child of assign: " + node.Right);
-
-            //Console.WriteLine("string assignment: "+node.getLeft() + " = "+node.getRight());
             return node;
 
         }
 
-        //TODO this is never accessed, visitstring_assign grabs element from source
         public override ProgNode VisitString_declaration(BetterAdvGmParser.String_declarationContext ctx) {
             Console.WriteLine("string_declaration");
             stringDeclarationNode node = new stringDeclarationNode();
@@ -188,21 +151,13 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext ctx)
         {
             Console.WriteLine("location_assign");
+            LocationAssignNode node = new LocationAssignNode();
 
-            LocationAssignNode node = new LocationAssignNode
-            {
-                Left = ctx.location_declaration() != null
-                    ? (LocationDeclarationNode) VisitLocation_declaration(ctx.location_declaration())
-                    : new LocationDeclarationNode {VarName =  (variableNode)Visit(ctx.variable())}
-            };
-
-
-            Console.WriteLine("    Child Left of location_assign: " + node.Left.VarName);
+            node.Left = Visit(ctx.GetChild(0));
+            Console.WriteLine("    Child Left of location_assign: " + node.Left);
 
             ctx.inBlock().ToList().ForEach(i => node.Right.Add(Visit(i)));
-
             node.Right.ForEach(i => Console.WriteLine($"LIST ENTRY: {i} location"));
-
             return node;
         }
 
@@ -302,10 +257,7 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("choice_statement");
             ChoiceStatementNode node = new ChoiceStatementNode();
 
-            node.Options = ctx.option_statment().Select(item => (OptionStatementNode) VisitOption_statment(item))
-                .Where(temp => temp != null).ToList();
-
-            
+            ctx.option_statment().ToList().ForEach(i => node.Options.Add((OptionStatementNode)Visit(i)));
 
             node.Options.ForEach(i => Console.WriteLine("    Child option of choice_statement: " + i.Left + " + codeblock (Option_statement)"));
 
@@ -318,13 +270,9 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("option_statement");
             OptionStatementNode node = new OptionStatementNode();
 
-            if(ctx.string_obj() != null)
-                node.Left = Visit(ctx.string_obj());
-            else if(ctx.variable() != null)
-                node.Left = Visit(ctx.variable());
-
-
+            node.Left = Visit(ctx.GetChild(0));
             Console.WriteLine("    Child Left of option_statement: " + node.Left);
+
             ctx.inBlock().ToList().ForEach(i => node.Right.Add(Visit(i)));
             node.Right.ForEach(i => Console.WriteLine($"LIST ENTRY: {i}"));
             //node.RightStatement.ForEach(i => Console.WriteLine("    Child stmt of option_statement: " + i.GetText()));
@@ -349,10 +297,8 @@ namespace POTBAG.CSTtoAST
             Console.WriteLine("if_statement");
             ifNode node = new ifNode();
             
-
             node.predicate = (predicateNode)VisitPredicate(ctx.predicate());
             ctx.inBlock().ToList().ForEach(i => node.body.Add(Visit(i)));
-
             return node;
         }
 
@@ -363,7 +309,6 @@ namespace POTBAG.CSTtoAST
 
             node.predicate = (predicateNode)VisitPredicate(ctx.predicate());
             ctx.inBlock().ToList().ForEach(i => node.body.Add(Visit(i)));
-
             return node;
         }
 
@@ -462,21 +407,10 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitInput_assign([NotNull] BetterAdvGmParser.Input_assignContext ctx)
         {
             Console.WriteLine("VisitInput_assign");
-
             InputAssignNode node = new InputAssignNode();
-
-            if (ctx.string_declaration() != null)
-                node.LeftStrDclNode = (stringDeclarationNode)Visit(ctx.string_declaration());
-            else
-                node.LeftStr = (variableNode)Visit(ctx.variable());
-
-            //Console.WriteLine("     VisitInput_assign left  child: " + node.LeftStr + node.LeftStrDclNode.VarName);
+            node.Left = Visit(ctx.GetChild(0));
 
             node.Right = (InputStatementNode)Visit(ctx.input_statement());
-
-            //Not needed, is printet in input_statement when Visit is called.
-            //node.Right.Text.ForEach(i => Console.WriteLine("     VisitInput_assign right List child: " + i));
-
             return node;
         }
     }

@@ -19,7 +19,6 @@ b += 1;
 
 Text "Hello Dadventdurer! Welcome to the labyrinth game." + "Your goal is to make it to Hvidovre";
 int abc = 32;
-string bcd = "hello";
 int bcd = 2 + 2;
 Location NoWhere;
 
