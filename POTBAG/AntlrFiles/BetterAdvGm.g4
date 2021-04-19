@@ -31,7 +31,7 @@ expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
           | NUM;
 
 
-statement: text_statement | input_statement | if_chain_statement | travel_statement | choice_statement;
+statement: text_statement | input_statement | if_chain_statement | travel_statement | choice_statement | while_statement;
 assign: int_assign | string_assign | input_assign | location_assign;
 declaration: int_declaration END_STMT | string_declaration END_STMT| location_declaration END_STMT;
 
@@ -45,6 +45,7 @@ else_statement: KEYWORD_ELSE CURLY_LEFT inBlock+ CURLY_RIGHT;
 travel_statement: TRAVEL_KEYWORD variable END_STMT;
 choice_statement: KEYWORD_CHOICE CURLY_LEFT (option_statment)+ CURLY_RIGHT END_STMT;
 option_statment: (variable |string_obj) CURLY_LEFT inBlock+ CURLY_RIGHT END_STMT;
+while_statement: KEYWORD_WHILE PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock CURLY_RIGHT;
 
 //Assign Rules
 //TODO: Compund assign rules

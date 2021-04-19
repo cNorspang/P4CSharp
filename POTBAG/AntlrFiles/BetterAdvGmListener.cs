@@ -221,6 +221,16 @@ public interface IBetterAdvGmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitOption_statment([NotNull] BetterAdvGmParser.Option_statmentContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.while_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWhile_statement([NotNull] BetterAdvGmParser.While_statementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.while_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWhile_statement([NotNull] BetterAdvGmParser.While_statementContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.int_assign"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

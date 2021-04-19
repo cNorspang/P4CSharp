@@ -63,6 +63,7 @@ namespace POTBAG.CSTtoAST
         public List<ProgNode> body { get; set; } = new List<ProgNode>();
     }
 
+    public class WhileStatementNode : IfStatementNode { }
 
     public class predicateNode : ProgNode
     {
