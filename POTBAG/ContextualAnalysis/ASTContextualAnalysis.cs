@@ -53,10 +53,9 @@ namespace POTBAG.ContextualAnalysis
 
             Visit(node.SetUpNode);
             Visit(node.inBlock);
-            
-            //for debugging
-            st.PrintAllKeysInSymbolTable();
 
+            //for debugging
+            //st.PrintAllKeysInSymbolTable();
             return true;
         }
 
@@ -123,7 +122,7 @@ namespace POTBAG.ContextualAnalysis
                     case variableNode varNode:
                         Visit(varNode);
                         //Validate variable
-                        st.CurrentScope().Resolve(varNode.variableName);
+                        st.CurrentScope().Resolve(varNode.variableName, typeof(string));
                         break;
                     case stringNode strNode:
                         Visit(strNode);
@@ -152,6 +151,9 @@ namespace POTBAG.ContextualAnalysis
             Visit(node.ifNode);
             node.elseIfChain.ForEach(i => Visit(i));
             if (node.elseNode.body.Count != 0) Visit(node.elseNode);
+
+            st.CurrentScope().PrintAllAccessibleKeys();
+
             return true;
         }
 
@@ -248,14 +250,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName);
-
-                    if (symbol.GetSymbolType() != typeof(int))
-                    {
-                        Console.WriteLine($"### ERROR IntAssignNode: Variable not of type int. => {symbol.GetSymbolType().Name}");
-                        //TODO
-                        throw new NotImplementedException();
-                    }
+                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(int));
                     break;
                 case IntDeclarationNode intDclNode:
                     Visit(intDclNode);
@@ -281,14 +276,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName);
-                    
-                    if (symbol.GetSymbolType() != typeof(string))
-                    {
-                        Console.WriteLine($"### ERROR stringAssignNode: Variable not of type string. => {symbol.GetSymbolType().Name}");
-                        //TODO
-                        throw new NotImplementedException();
-                    }
+                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string));
                     break;
                 case stringDeclarationNode stringDclNode:
                     Visit(stringDclNode);
@@ -361,24 +349,21 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(ExpressionNode node)
         {
+            Console.WriteLine(node);
             //might be wrong.. maybe the visits should be in the actual notes.. further investigation required
             switch (node)
             {
                 case AdditionNode nodeADD:
-                    Visit(nodeADD.Left);
-                    Visit(nodeADD.Right);
+                    Visit(nodeADD);
                     break;
                 case DivisionNode nodeDIV:
-                    Visit(nodeDIV.Left);
-                    Visit(nodeDIV.Right);
+                    Visit(nodeDIV);
                     break;
                 case MultiplicationNode nodeMUL:
-                    Visit(nodeMUL.Left);
-                    Visit(nodeMUL.Right);
+                    Visit(nodeMUL);
                     break;
                 case SubtractionNode nodeSUB:
-                    Visit(nodeSUB.Left);
-                    Visit(nodeSUB.Right);
+                    Visit(nodeSUB);
                     break;
                 case NumberNode nodeNUM:
                     Visit(nodeNUM);
@@ -386,14 +371,7 @@ namespace POTBAG.ContextualAnalysis
                 case ExpressionVarNameNode nodeVAR:
                     //causes stackoverflow: Visit(nodeVAR);
                     //validate the variable.
-                    Symbol symbol = st.CurrentScope().Resolve(nodeVAR.VarName);
-
-                    if (symbol.GetSymbolType() != typeof(int))
-                    {
-                        Console.WriteLine($"### ERROR ExpressionNode: Variable not of type int. => {symbol.GetSymbolType().Name}");
-                        //TODO
-                        throw new NotImplementedException();
-                    }
+                    Symbol symbol = st.CurrentScope().Resolve(nodeVAR.VarName, typeof(int));
                     break;
                 case ExpressionSoloNode nodeISO:
                     Visit(nodeISO.expr);
@@ -408,22 +386,30 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(AdditionNode node)
         {
-            throw new NotImplementedException();
+            Visit(node.Left);
+            Visit(node.Right);
+            return true;
         }
 
         public override object Visit(SubtractionNode node)
         {
-            throw new NotImplementedException();
+            Visit(node.Left);
+            Visit(node.Right);
+            return true;
         }
 
         public override object Visit(MultiplicationNode node)
         {
-            throw new NotImplementedException();
+            Visit(node.Left);
+            Visit(node.Right);
+            return true;
         }
 
         public override object Visit(DivisionNode node)
         {
-            throw new NotImplementedException();
+            Visit(node.Left);
+            Visit(node.Right);
+            return true;
         }
 
         public override object Visit(NumberNode node)

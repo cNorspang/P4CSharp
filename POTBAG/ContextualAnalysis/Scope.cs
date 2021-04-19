@@ -34,16 +34,17 @@ namespace POTBAG.ContextualAnalysis
          * progressively search the enclosing scopes. 
          * Return null if not found in any applicable scope.
          */
-        public Symbol Resolve(string name)
+        public Symbol Resolve(string name, Type type)
         {
             Symbol symbol;
 
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
+                if (symbol.GetSymbolType() != type) { throw new NotImplementedException(); }
                 return symbol;
             }
-            if (enclosingScope != null) return enclosingScope.Resolve(name);
+            if (enclosingScope != null) return enclosingScope.Resolve(name, type);
 
             return null; // not found
         }
