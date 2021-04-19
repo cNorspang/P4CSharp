@@ -146,6 +146,12 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitOption_statment([NotNull] BetterAdvGmParser.Option_statmentContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.while_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitWhile_statement([NotNull] BetterAdvGmParser.While_statementContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.int_assign"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

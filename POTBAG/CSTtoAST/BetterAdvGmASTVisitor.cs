@@ -376,6 +376,17 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
+        public override ProgNode VisitWhile_statement([NotNull] BetterAdvGmParser.While_statementContext ctx)
+        {
+            Console.WriteLine("while_statement");
+            WhileStatementNode node = new WhileStatementNode();
+
+            node.predicate = (predicateNode)VisitPredicate(ctx.predicate());
+            ctx.inBlock().children.ToList().ForEach(i => node.body.Add(Visit(i)));
+            
+            return node;
+        }
+
         public override ProgNode VisitPredicate(BetterAdvGmParser.PredicateContext ctx)
         {
             predicateNode node = new predicateNode();

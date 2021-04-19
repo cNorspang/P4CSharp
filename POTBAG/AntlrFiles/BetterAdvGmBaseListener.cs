@@ -263,6 +263,18 @@ public partial class BetterAdvGmBaseListener : IBetterAdvGmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitOption_statment([NotNull] BetterAdvGmParser.Option_statmentContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.while_statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterWhile_statement([NotNull] BetterAdvGmParser.While_statementContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.while_statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitWhile_statement([NotNull] BetterAdvGmParser.While_statementContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.int_assign"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
