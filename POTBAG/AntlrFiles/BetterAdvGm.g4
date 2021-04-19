@@ -54,8 +54,8 @@ int_assign: (variable (ASSIGN_OPERATOR | COMPOUND_OPERATOR) expression END_STMT
             );
 string_assign: (variable ASSIGN_OPERATOR string_obj END_STMT | string_declaration ASSIGN_OPERATOR string_obj END_STMT);
 input_assign: (variable ASSIGN_OPERATOR input_statement | string_declaration ASSIGN_OPERATOR input_statement);
-location_assign: (variable ASSIGN_OPERATOR '{' inBlock* '}' END_STMT
-               | location_declaration ASSIGN_OPERATOR '{' inBlock* '}' END_STMT);
+location_assign: (variable ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT END_STMT
+               | location_declaration ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT END_STMT);
 
 //Declaration Rules
 int_declaration: KEYWORD_INT variable;

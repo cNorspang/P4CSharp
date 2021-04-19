@@ -32,6 +32,9 @@ namespace POTBAG
 
                 //var Test = new TestEvaluation().Visit(ast);
                 FileHandler.write("return 0;}");
+                //var tree = Trees.ToStringTree(cst, parser);
+                //Console.WriteLine(tree);
+
                 //Console.WriteLine("### FILE WRITE ###");
                 //FileHandler.WriteToFile();
                 //FileHandler.PrintCCodeDebug();
@@ -43,7 +46,6 @@ namespace POTBAG
             }
 
             
-            //var tree = Trees.ToStringTree(cst,parser);
             //Console.WriteLine(tree);
 
             //System.out.println(ast);

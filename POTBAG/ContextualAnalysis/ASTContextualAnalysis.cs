@@ -55,7 +55,7 @@ namespace POTBAG.ContextualAnalysis
             Visit(node.inBlock);
 
             //for debugging
-            //st.PrintAllKeysInSymbolTable();
+            st.PrintAllKeysInSymbolTable();
             return true;
         }
 
@@ -79,7 +79,7 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(LocationMappingNode node)
         {
             //TODO this is not done at all. not sure how it should work.
-            st.CurrentScope().Define(node.Source, typeof(LocationMappingNode));
+            st.CurrentScope().Define(node.Source.variableName, typeof(LocationMappingNode));
             return true;
         }
 
@@ -151,8 +151,6 @@ namespace POTBAG.ContextualAnalysis
             Visit(node.ifNode);
             node.elseIfChain.ForEach(i => Visit(i));
             if (node.elseNode.body.Count != 0) Visit(node.elseNode);
-
-            st.CurrentScope().PrintAllAccessibleKeys();
 
             return true;
         }
@@ -285,7 +283,7 @@ namespace POTBAG.ContextualAnalysis
 
             Visit(node.Right);
             return true;
-        }
+        } 
 
         public override object Visit(InputAssignNode node)
         {
@@ -349,8 +347,6 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(ExpressionNode node)
         {
-            Console.WriteLine(node);
-            //might be wrong.. maybe the visits should be in the actual notes.. further investigation required
             switch (node)
             {
                 case AdditionNode nodeADD:
@@ -369,7 +365,6 @@ namespace POTBAG.ContextualAnalysis
                     Visit(nodeNUM);
                     break;
                 case ExpressionVarNameNode nodeVAR:
-                    //causes stackoverflow: Visit(nodeVAR);
                     //validate the variable.
                     Symbol symbol = st.CurrentScope().Resolve(nodeVAR.VarName, typeof(int));
                     break;
