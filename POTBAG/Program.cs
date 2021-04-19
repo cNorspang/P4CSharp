@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using POTBAG.ContextualAnalysis;
 using POTBAG.CSTtoAST;
 using System;
 
@@ -9,7 +10,7 @@ namespace POTBAG
     {
         static void Main(string[] args)
         {
-            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTestFragment.txt");
+            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTestFragmentFragment.txt");
 
             ICharStream input = CharStreams.fromString(stream);
             ITokenSource lexer = new BetterAdvGmLexer(input);
@@ -22,9 +23,18 @@ namespace POTBAG
                 var cst = parser.prog(); ;
 
                 var ast = new BetterAdvGmASTVisitor().VisitProg(cst);
-                var Test = new TestEvaluation().Visit(ast);
+
+                SymbolTable symbolTable = new SymbolTable();
+                var contextualAnalysis = new ASTContextualAnalysis(symbolTable).Visit(ast);
+
+
+                FileHandler.write("#include <stdio.h>\nint main(int argc, char const *argv[]){");
+
+                //var Test = new TestEvaluation().Visit(ast);
                 FileHandler.write("return 0;}");
-                FileHandler.WriteToFile();
+                //Console.WriteLine("### FILE WRITE ###");
+                //FileHandler.WriteToFile();
+                //FileHandler.PrintCCodeDebug();
             }
             catch (Exception e)
             {

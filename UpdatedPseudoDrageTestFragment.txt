@@ -4,8 +4,20 @@ setup{
         Bibliotek -> Silkeborg, KU;
     };
 }
+string hej;
+if(hej != argds){hej = "yo";};
 
-Text "Hello adventdurer! Welcome to the labyrinth game." + "Your goal is to make it to Hvidovre";
+Text hej + " sup boi";
+
+int yup = 8;
+
+if(false){
+int b = 1 * 100 - ((20 / 5) + 69) + yup / 8;
+b += 1;
+};
+
+
+Text "Hello Dadventdurer! Welcome to the labyrinth game." + "Your goal is to make it to Hvidovre";
 int abc = 32;
 string bcd = "hello";
 int bcd = 2 + 2;
@@ -23,9 +35,8 @@ choice {
 Location Silkeborg = {
     string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
 
-    if (nextLocation is true){
+    if (10 * benno +10 < 100){
         Travel Bibliotek;
-	Travel Silkeborg;
     }
     else if (nextLocation != 2 + 2){
         Travel Lokale;
@@ -33,9 +44,9 @@ Location Silkeborg = {
     else {
         string TryAgain = userInput "That location doesn't exit, try again [Bibliotek, Lokale]" + "Whoop";
     };
-    
+
     choice {
-        "Declaration" {int benno = 10;};
+        "Declatation" {int benno = 10+2;};
         "Bibliotek" {Travel Bibliotek;};
         "Lokale" { Travel Lokale; };
 	      HelloWorld {string Hello = "my mom is dead";};

@@ -35,7 +35,7 @@ namespace POTBAG.CSTtoAST
 
     public class TextStatementNode : StatementNode
     {
-        public List<string> Text { get; set; }
+        public List<ProgNode> Text { get; set; }
     }
 
 
@@ -64,30 +64,22 @@ namespace POTBAG.CSTtoAST
     }
 
 
-
-    //public class ifChainStatementNode : StatementNode
-    //{
-    //    public predicateNode predicate;
-    //    public List<ProgNode> body { get; set; } = new List<ProgNode>();
-    //}
-
-    //public class ifNode : ifChainStatementNode { }
-
-    //public class ElseIfStatementNode : ifChainStatementNode { }
-
-    ////TODO: Pls work
-    //public class elseNode : StatementNode { }
-
     public class predicateNode : ProgNode
     {
-        public string Left { get; set; }
-        public string Right{ get; set; }
+        public ProgNode Left { get; set; }
+        public ProgNode Right{ get; set; }
         public string Operator { get; set; }
     }
+    //TODO
+    public class BoolNode : ProgNode
+    {
+        public bool value { get; set; }
+    }
+
 
     public class TravelStatementNode : StatementNode
     {
-        public string Destination { get; set; }
+        public variableNode Destination { get; set; }
     }
 
 
@@ -99,7 +91,7 @@ namespace POTBAG.CSTtoAST
     public class OptionStatementNode : StatementNode
     {
        
-        public string Left { get; set; } //var_name or string
+        public ProgNode Left { get; set; } //var_name or string
         public List<ProgNode> Right = new List<ProgNode>();
 
     }
@@ -110,19 +102,22 @@ namespace POTBAG.CSTtoAST
 
     public class IntAssignNode : AssignNode
     {
-        public IntDeclarationNode Left { get; set; }
-        public ExpressionNode Right { get; set; }
+        //ProgNode allows Int_declarationNode, variableNode
+        public ProgNode Left { get; set; }
+        public string Operator { get; set; }
+        //progNode allows expressionNode, inputStatement
+        public ProgNode Right { get; set; }
     }
 
     public class stringAssignNode : AssignNode
     {
-        public string Left { get; set; }
-        public string Right { get; set; }
+        public ProgNode Left { get; set; }
+        public stringNode Right { get; set; }
     }
 
     public class InputAssignNode : AssignNode
     {
-        public string LeftStr;
+        public variableNode LeftStr;
         public stringDeclarationNode LeftStrDclNode;
         public InputStatementNode Right;
     }
@@ -141,7 +136,7 @@ namespace POTBAG.CSTtoAST
     //Declaration Nodes
     public abstract class DeclarationNode : ProgNode
     {
-        public string VarName { get; set; }
+        public variableNode VarName { get; set; }
     }
 
     public class IntDeclarationNode : DeclarationNode { }
@@ -150,10 +145,31 @@ namespace POTBAG.CSTtoAST
 
     public class LocationDeclarationNode : DeclarationNode { }
 
+    public class variableNode : ProgNode
+    {
+        public string variableName { get; set; }
+    }
+
+    public class stringNode : ProgNode
+    {
+        public string strVal { get; set; }
+    }
+
+
     public abstract class ExpressionNode : ProgNode
     {
         public ExpressionNode Left { get; set; }
         public ExpressionNode Right { get; set; }
+    }
+
+    public class ExpressionVarNameNode : ExpressionNode 
+    {
+        public string VarName { get; set; }
+    }
+
+    public class ExpressionSoloNode : ExpressionNode
+    {
+        public ExpressionNode expr { get; set; }
     }
 
     public class AdditionNode : ExpressionNode { }

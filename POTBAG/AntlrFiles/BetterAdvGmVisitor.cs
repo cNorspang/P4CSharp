@@ -193,4 +193,22 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitPredicate([NotNull] BetterAdvGmParser.PredicateContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.variable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitVariable([NotNull] BetterAdvGmParser.VariableContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.string_obj"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitString_obj([NotNull] BetterAdvGmParser.String_objContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.bool_obj"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context);
 }

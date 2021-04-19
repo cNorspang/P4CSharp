@@ -300,4 +300,34 @@ public interface IBetterAdvGmListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitPredicate([NotNull] BetterAdvGmParser.PredicateContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.variable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterVariable([NotNull] BetterAdvGmParser.VariableContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.variable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitVariable([NotNull] BetterAdvGmParser.VariableContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.string_obj"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterString_obj([NotNull] BetterAdvGmParser.String_objContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.string_obj"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitString_obj([NotNull] BetterAdvGmParser.String_objContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.bool_obj"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.bool_obj"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context);
 }

@@ -6,22 +6,29 @@ buffernode: setup inBlock*;
 
 //Setup Rules
 setup: KEYWORD_SETUP CURLY_LEFT (locationsetup /* playersetup | playersetup locationsetup */) CURLY_RIGHT;
-//locationsetup: KEYWORD_LOCATIONARRAY SQUARE_LEFT (VAR_NAME COMMA_SEPERATOR)* VAR_NAME SQUARE_RIGHT END_STMT;
+//locationsetup: KEYWORD_LOCATIONARRAY SQUARE_LEFT (variable COMMA_SEPERATOR)* variable SQUARE_RIGHT END_STMT;
 locationsetup: KEYWORD_LOCATIONS ASSIGN_OPERATOR CURLY_LEFT (locationmapping)+ CURLY_RIGHT END_STMT;
-locationmapping: VAR_NAME ARROW_OPERATOR (VAR_NAME COMMA_SEPERATOR)* VAR_NAME END_STMT;
+locationmapping: variable ARROW_OPERATOR (variable COMMA_SEPERATOR)* variable END_STMT;
 
 //Base Rules
 inBlock: statement|expression|assign|declaration;
+/* //old version
 expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
           | expression (PLUS_OPERATOR|MINUS_OPERATOR) expression
-          | VAR_NAME (TIMES_OPERATOR|DIVISION_OPERATOR) expression
-          | VAR_NAME (PLUS_OPERATOR | MINUS_OPERATOR) expression
-          | expression (TIMES_OPERATOR|DIVISION_OPERATOR) VAR_NAME
-          | expression (PLUS_OPERATOR | MINUS_OPERATOR) VAR_NAME
-          | VAR_NAME (TIMES_OPERATOR|DIVISION_OPERATOR) VAR_NAME
-          | VAR_NAME (PLUS_OPERATOR | MINUS_OPERATOR) VAR_NAME
+          | variable (TIMES_OPERATOR|DIVISION_OPERATOR) expression
+          | variable (PLUS_OPERATOR | MINUS_OPERATOR) expression
+          | expression (TIMES_OPERATOR|DIVISION_OPERATOR) variable
+          | expression (PLUS_OPERATOR | MINUS_OPERATOR) variable
+          | variable (TIMES_OPERATOR|DIVISION_OPERATOR) variable
+          | variable (PLUS_OPERATOR | MINUS_OPERATOR) variable
           | NUM;
+          */
 
+expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
+          | expression (PLUS_OPERATOR|MINUS_OPERATOR) expression
+          | PAREN_LEFT expression PAREN_RIGHT
+          | variable
+          | NUM;
 
 
 statement: text_statement | input_statement | if_chain_statement | travel_statement | choice_statement;
@@ -29,44 +36,48 @@ assign: int_assign | string_assign | input_assign | location_assign;
 declaration: int_declaration END_STMT | string_declaration END_STMT| location_declaration END_STMT;
 
 //Statement Rules
-text_statement: KEYWORD_TEXT ((STRING|VAR_NAME) PLUS_OPERATOR)* (STRING | VAR_NAME) END_STMT;
-input_statement: KEYWORD_INPUT ((STRING|VAR_NAME) PLUS_OPERATOR)* (STRING | VAR_NAME) END_STMT;
+text_statement: KEYWORD_TEXT ((string_obj|variable) PLUS_OPERATOR)* (string_obj | variable) END_STMT;
+input_statement: KEYWORD_INPUT ((string_obj|variable) PLUS_OPERATOR)* (string_obj | variable) END_STMT;
 if_chain_statement: if_statement else_if_statement* else_statement? END_STMT;
 if_statement: KEYWORD_IF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT;
 else_if_statement: KEYWORD_ELSEIF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT;
 else_statement: KEYWORD_ELSE CURLY_LEFT inBlock+ CURLY_RIGHT;
-travel_statement: TRAVEL_KEYWORD VAR_NAME END_STMT;
+travel_statement: TRAVEL_KEYWORD variable END_STMT;
 choice_statement: KEYWORD_CHOICE CURLY_LEFT (option_statment)+ CURLY_RIGHT END_STMT;
-option_statment: (VAR_NAME |STRING) CURLY_LEFT inBlock+ CURLY_RIGHT END_STMT;
+option_statment: (variable |string_obj) CURLY_LEFT inBlock+ CURLY_RIGHT END_STMT;
 
 //Assign Rules
 //TODO: Compund assign rules
-int_assign: (VAR_NAME (ASSIGN_OPERATOR | COMPOUND_OPERATOR) expression END_STMT
+int_assign: (variable (ASSIGN_OPERATOR | COMPOUND_OPERATOR) expression END_STMT
             | int_declaration ASSIGN_OPERATOR expression END_STMT
             | int_declaration ASSIGN_OPERATOR input_statement
             );
-string_assign: (VAR_NAME ASSIGN_OPERATOR STRING END_STMT | string_declaration ASSIGN_OPERATOR STRING END_STMT);
-input_assign: (VAR_NAME ASSIGN_OPERATOR input_statement | string_declaration ASSIGN_OPERATOR input_statement);
-location_assign: (VAR_NAME ASSIGN_OPERATOR '{' inBlock* '}' END_STMT
+string_assign: (variable ASSIGN_OPERATOR string_obj END_STMT | string_declaration ASSIGN_OPERATOR string_obj END_STMT);
+input_assign: (variable ASSIGN_OPERATOR input_statement | string_declaration ASSIGN_OPERATOR input_statement);
+location_assign: (variable ASSIGN_OPERATOR '{' inBlock* '}' END_STMT
                | location_declaration ASSIGN_OPERATOR '{' inBlock* '}' END_STMT);
 
 //Declaration Rules
-int_declaration: KEYWORD_INT VAR_NAME;
-string_declaration: KEYWORD_STRING VAR_NAME;
-location_declaration: KEYWORD_LOCATION VAR_NAME;
+int_declaration: KEYWORD_INT variable;
+string_declaration: KEYWORD_STRING variable;
+location_declaration: KEYWORD_LOCATION variable;
 
 //Special Rules
-predicate: (VAR_NAME BOOL_CMP_OPERATOR STRING | STRING BOOL_CMP_OPERATOR VAR_NAME 
-         | VAR_NAME (CMP_OPERATOR | BOOL_CMP_OPERATOR) VAR_NAME
-         | VAR_NAME (CMP_OPERATOR | BOOL_CMP_OPERATOR) expression 
-         | expression (CMP_OPERATOR | BOOL_CMP_OPERATOR) VAR_NAME 
-         | expression (CMP_OPERATOR | BOOL_CMP_OPERATOR) expression) 
+predicate: (variable BOOL_CMP_OPERATOR string_obj
+         | string_obj BOOL_CMP_OPERATOR variable
+         | variable (CMP_OPERATOR | BOOL_CMP_OPERATOR) variable
+         | variable (CMP_OPERATOR | BOOL_CMP_OPERATOR) expression
+         | expression (CMP_OPERATOR | BOOL_CMP_OPERATOR) variable
+         | expression (CMP_OPERATOR | BOOL_CMP_OPERATOR) expression)
          | predicate (AND_OPERATOR | OR_OPERATOR) predicate
-         | VAR_NAME BOOL_CMP_OPERATOR BOOL
-         | BOOL BOOL_CMP_OPERATOR VAR_NAME
-         | VAR_NAME
-         | BOOL;
+         | variable BOOL_CMP_OPERATOR bool_obj
+         | bool_obj BOOL_CMP_OPERATOR variable
+         | variable
+         | bool_obj;
 
+variable: VAR_NAME;
+string_obj: STRING;
+bool_obj: BOOL;
 //Lexer Rules
 fragment LETTERS   : [a-zA-Z];
 WHITESPACE         : (' ' | '\t' | '\n' | '\r')+ -> skip;

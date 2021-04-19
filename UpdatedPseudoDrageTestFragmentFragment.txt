@@ -1,0 +1,17 @@
+setup{
+    Locations = {
+        Silkeborg -> Bibliotek, Lokale;
+        Bibliotek -> Silkeborg, KU;
+    };
+}
+string hej;
+if(1 < 5){hej = "yo";};
+
+Text hej + " sup boi";
+
+int yup = 8;
+
+if(false){
+int b = 1 * 100 - ((20 / 5) + 69) + yup / 8;
+b += 1;
+};
