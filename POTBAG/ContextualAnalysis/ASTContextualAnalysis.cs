@@ -90,6 +90,9 @@ namespace POTBAG.ContextualAnalysis
                 case TextStatementNode statementNode:
                     Visit(statementNode);
                     break;
+                case WhileStatementNode statementNode:
+                    Visit(statementNode);
+                    break;
                 case InputStatementNode statementNode:
                     Visit(statementNode);
                     break;
@@ -135,6 +138,11 @@ namespace POTBAG.ContextualAnalysis
             return true;
         }
 
+        public override object Visit(WhileStatementNode node)
+        {
+            return true;
+        }
+
         public override object Visit(InputStatementNode node)
         {
             throw new NotImplementedException();
@@ -160,7 +168,6 @@ namespace POTBAG.ContextualAnalysis
             st.PushScope();
             Visit(node.predicate);
             Visit(node.body);
-            //node.body.ForEach(i => Visit(i));
             st.PopScope();
             return true;
         }

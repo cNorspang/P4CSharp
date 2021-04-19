@@ -13,6 +13,7 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(StatementNode node);
         public abstract T Visit(TextStatementNode node);
         public abstract T Visit(InputStatementNode node);
+        public abstract T Visit(WhileStatementNode node);
         public abstract T Visit(IfStatementNode node);
         public abstract T Visit(IfChainStatementNode node);
         public abstract T Visit(ifNode node);
@@ -40,6 +41,7 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(MultiplicationNode node);
         public abstract T Visit(DivisionNode node);
         public abstract T Visit(NumberNode node);
+        
 
         public T Visit(ProgNode node)
         {

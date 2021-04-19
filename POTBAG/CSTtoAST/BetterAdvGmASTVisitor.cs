@@ -327,7 +327,7 @@ namespace POTBAG.CSTtoAST
             WhileStatementNode node = new WhileStatementNode();
 
             node.predicate = (predicateNode)VisitPredicate(ctx.predicate());
-            ctx.inBlock().children.ToList().ForEach(i => node.body.Add(Visit(i)));
+            ctx.inBlock().ToList().ForEach(i => node.body.Add(Visit(i)));
             
             return node;
         }
