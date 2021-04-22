@@ -8,6 +8,7 @@ namespace POTBAG.ContextualAnalysis
     public class ASTContextualAnalysis : ASTVistor<object>
     {
         private SymbolTable st;
+
         public ASTContextualAnalysis(SymbolTable symbolTable)
         {
             st = symbolTable;
@@ -42,13 +43,13 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(BufferNode node)
         {
             #region debugSplit
-            Console.WriteLine("" +
+            Console.WriteLine(st.Clr(1) +
                 "\n   ______            __            __              __   ___                __           _     " +
                 "\n  / ____/___  ____  / /____  _  __/ /___  ______ _/ /  /   |  ____  ____ _/ /_  _______(_)____" +
                 "\n / /   / __ \\/ __ \\/ __/ _ \\| |/_/ __/ / / / __ `/ /  / /| | / __ \\/ __ `/ / / / / ___/ / ___/" +
                 "\n/ /___/ /_/ / / / / /_/  __/>  </ /_/ /_/ / /_/ / /  / ___ |/ / / / /_/ / / /_/ (__  ) (__  ) " +
                 "\n\\____/\\____/_/ /_/\\__/\\___/_/|_|\\__/\\__,_/\\__,_/_/  /_/  |_/_/ /_/\\__,_/_/\\__, /____/_/____/  " +
-                "\n                                                                         /____/               \n");
+                "\n                                                                         /____/               \n"+st.Clr());
             #endregion
 
             Visit(node.SetUpNode);
@@ -73,13 +74,13 @@ namespace POTBAG.ContextualAnalysis
             st.PushScope();
             node.Children.ForEach(n => Visit(n));
             st.PopScope();
+            st.ValidateTravelArrangement();
             return true;
         }
 
         public override object Visit(LocationMappingNode node)
         {
-            //TODO this is not done at all. not sure how it should work.
-            st.CurrentScope().Define(node.Source.variableName, typeof(LocationMappingNode));
+            st.DefineNewTravelSource(node);
             return true;
         }
 
@@ -233,7 +234,6 @@ namespace POTBAG.ContextualAnalysis
                     sbRight = st.CurrentScope().Resolve(NodeNode.variableName);
                     //this does not work :(
                     if (sbLeft.GetSymbolType() != sbRight.GetSymbolType()) { throw new NotImplementedException(); }
-                    Console.WriteLine(" &&&&&&&&&&&&&&&&&&&&&&&&& "+sbLeft.GetSymbolType() + " ## "+sbRight.GetSymbolType());
                     break;
                 case stringNode NodeNode:
                     Visit(NodeNode);
@@ -262,7 +262,9 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(TravelStatementNode node)
         {
-            throw new NotImplementedException();
+            Symbol symbol = st.CurrentScope().Resolve(node.Destination.variableName, typeof(LocationDeclarationNode));
+            st.ResolveTravel(node, st.CurrentScope());
+            return true;
         }
 
         public override object Visit(ChoiceStatementNode node)
@@ -351,7 +353,18 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(LocationAssignNode node)
         {
-            throw new NotImplementedException();
+            switch (node.Left)
+            {
+                case variableNode varNode:
+                    Visit(varNode);
+                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(LocationDeclarationNode));
+                    break;
+                case LocationDeclarationNode locationDclNode:
+                    Visit(locationDclNode);
+                    break;
+            }
+            Visit(node.Right);
+            return true;
         }
 
         public override object Visit(DeclarationNode node)
@@ -395,7 +408,8 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(LocationDeclarationNode node)
         {
-            throw new NotImplementedException();
+            st.CurrentScope().Define(node.VarName.variableName, typeof(LocationDeclarationNode));
+            return true;
         }
 
         public override object Visit(ExpressionNode node)
