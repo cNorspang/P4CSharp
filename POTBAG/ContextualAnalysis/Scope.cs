@@ -34,6 +34,11 @@ namespace POTBAG.ContextualAnalysis
          * progressively search the enclosing scopes. 
          * Return null if not found in any applicable scope.
          */
+        public Symbol Resolve(string name)
+        {
+            return Resolve(name, typeof(TypeAccessException));
+        }
+
         public Symbol Resolve(string name, Type type)
         {
             Symbol symbol;
@@ -41,7 +46,7 @@ namespace POTBAG.ContextualAnalysis
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
-                if (symbol.GetSymbolType() != type) { throw new NotImplementedException(); }
+                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new NotImplementedException(); }
                 return symbol;
             }
             if (enclosingScope != null) return enclosingScope.Resolve(name, type);

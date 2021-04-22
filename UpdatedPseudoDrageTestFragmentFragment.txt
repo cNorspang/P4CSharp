@@ -9,11 +9,11 @@ if(1 < 5){hej = "yo";};
 
 Text hej + " sup boi";
 
-int yup = 8;
+int yup = 24;
 
-if(false){
+if(yup < 9){
 int b = 1 * 100 - ((20 / 5) + 69) + yup / 8;
 b += 1;
 };
 int dunnis = 0;
-while(dunnis < 1000){dunnis += 323;};
+while(dunnis < yup){dunnis += 3;}

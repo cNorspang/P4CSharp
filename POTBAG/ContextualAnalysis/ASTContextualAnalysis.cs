@@ -140,6 +140,10 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(WhileStatementNode node)
         {
+            st.PushScope();
+            Visit(node.predicate);
+            Visit(node.body);
+            st.PopScope();
             return true;
         }
 
@@ -150,7 +154,7 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(IfStatementNode node)
         {
-            //Dont change this, pretty sure it is never called. Maybe remove from ASTVisitor.cs.
+            //Dont change this, pretty sure it is never called. Maybe remove from ASTVisitor.cs. and/or rename node.
             throw new NotImplementedException();
         }
 
@@ -174,21 +178,34 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(ElseIfStatementNode node)
         {
-            throw new NotImplementedException();
+            st.PushScope();
+            Visit(node.predicate);
+            Visit(node.body);
+            st.PopScope();
+            return true;
         }
 
         public override object Visit(elseNode node)
         {
-            throw new NotImplementedException();
+            st.PushScope();
+            Visit(node.body);
+            st.PopScope();
+            return true;
         }
 
         public override object Visit(predicateNode node)
         {
-            //TODO send help... 1/5 done
+            //TODO send help or im gonna git commit -m "sudoku"
+            //Predicate is stupid and i hate it. GLHF
+
+            Symbol sbLeft = new Symbol(null,null);
+            Symbol sbRight = new Symbol(null,null);
             switch (node.Left)
             {
                 case variableNode NodeNode:
                     Visit(NodeNode);
+                    sbLeft = st.CurrentScope().Resolve(NodeNode.variableName);
+                    //if (sb.GetSymbolType() != node.Right.GetType()) Console.WriteLine(" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& "+sb.GetSymbolType() + " ## "+node.Right.GetType());
                     break;
                 case stringNode NodeNode:
                     Visit(NodeNode);
@@ -203,9 +220,38 @@ namespace POTBAG.ContextualAnalysis
                     Visit(NodeNode);
                     break;
                 default:
-                    Console.WriteLine("#### ERROR predicateNode => " + node.Left.GetType());
+                    Console.WriteLine("#### ERROR predicateNode left => " + node.Left.GetType());
                     throw new NotImplementedException();
             }
+
+            if (node.Right == null) return true;
+
+            switch (node.Right)
+            {
+                case variableNode NodeNode:
+                    Visit(NodeNode);
+                    sbRight = st.CurrentScope().Resolve(NodeNode.variableName);
+                    //this does not work :(
+                    if (sbLeft.GetSymbolType() != sbRight.GetSymbolType()) { throw new NotImplementedException(); }
+                    Console.WriteLine(" &&&&&&&&&&&&&&&&&&&&&&&&& "+sbLeft.GetSymbolType() + " ## "+sbRight.GetSymbolType());
+                    break;
+                case stringNode NodeNode:
+                    Visit(NodeNode);
+                    break;
+                case ExpressionNode NodeNode:
+                    Visit(NodeNode);
+                    break;
+                case BoolNode NodeNode:
+                    Visit(NodeNode);
+                    break;
+                case predicateNode NodeNode:
+                    Visit(NodeNode);
+                    break;
+                default:
+                    Console.WriteLine("#### ERROR predicateNode right => " + node.Right.GetType());
+                    throw new NotImplementedException();
+            }
+
             return true;
         }
 
@@ -287,7 +333,7 @@ namespace POTBAG.ContextualAnalysis
                     Visit(stringDclNode);
                     break;
             }
-
+            //can only be one string_obj node so just a visit
             Visit(node.Right);
             return true;
         } 
@@ -336,7 +382,7 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(stringDeclarationNode node)
         {
-            //TODO should typeof be of stringNode og string?
+            //TODO should typeof be of stringNode og string? same prob with int above
             st.CurrentScope().Define(node.VarName.variableName, typeof(string));
             return true;
         }
