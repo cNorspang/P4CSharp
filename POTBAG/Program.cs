@@ -18,8 +18,8 @@ namespace POTBAG
             BetterAdvGmParser parser = new BetterAdvGmParser(tokenStream);
 
             //set start node
-            try
-            {
+            //try
+            //{
                 var cst = parser.prog(); ;
 
                 var ast = new BetterAdvGmASTVisitor().VisitProg(cst);
@@ -38,12 +38,12 @@ namespace POTBAG
                 //Console.WriteLine("### FILE WRITE ###");
                 //FileHandler.WriteToFile();
                 //FileHandler.PrintCCodeDebug();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw;
+            //}
 
             
             //Console.WriteLine(tree);

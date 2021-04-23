@@ -1,6 +1,7 @@
 ﻿using POTBAG.CSTtoAST;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 
@@ -115,6 +116,11 @@ namespace POTBAG.ContextualAnalysis
 
         }
 
+        /* This method validates:
+         * - All mapped and declared locations correspond 1 to 1.
+         * - Minimum of 1 end point exists.
+         * - A location can only be mapped to itself if it contains only that map. 
+         */
         public void ValidateTravelArrangement()
         {
             Console.WriteLine($"{Clr(1)}$$$_LOCATION_MAPS_$$${Clr()}");
@@ -125,30 +131,55 @@ namespace POTBAG.ContextualAnalysis
                 i.Value.ForEach(l => Console.Write(l.variableName+", "));
                 Console.WriteLine(Clr());
             }
+            
+            List<string> keys = new List<string>();
+            List<string> declaredLocations = new List<string>();
+            bool canEnd = false;
 
-            List<string> a = new List<string>();
-            List<string> b = new List<string>();
-
-            foreach (var loc in locations)
+            foreach (Scope scp in allScopes)
             {
-                a.Add(loc.Key);
-                foreach (var col in loc.Value)
+                foreach (var dic in scp.symbolMap)
                 {
-                    b.Add(col.variableName);
+                    if (dic.Value.GetSymbolType().Name == typeof(LocationDeclarationNode).Name)
+                        declaredLocations.Add(dic.Key);
                 }
             }
 
-            foreach (var lc in b)
+
+            foreach (var loc in locations)
             {
-                if (!a.Contains(lc))
-                    throw new NotImplementedException($"Travel arrangement not valid: {lc} is a dead-end");
+                string key = loc.Key;
+                keys.Add(loc.Key);
+
+                foreach (var col in loc.Value)
+                {
+                    if (key == col.variableName && loc.Value.Count == 1)
+                    {
+                        //register end
+                        canEnd = true;
+                        Console.WriteLine(Clr(2) + "End point registered: " + key);
+                    }
+                    else if (key != col.variableName) ;
+                    else
+                    {
+                        throw new NotImplementedException($"Travel arrangement not valid: {key} cannot goto {col.variableName} and not be an End point.");
+                    }
+                }
             }
 
+            declaredLocations.Sort();
+            keys.Sort();
+
+            if (!canEnd) 
+                throw new NotImplementedException($"Travel arrangement not valid: An End point is required.");
+            else if (!Enumerable.SequenceEqual(declaredLocations, keys))
+                throw new NotImplementedException($"Travel arrangement not valid: Declared Locations and Mapped Locations are not equal 1=1.[{declaredLocations.Count} != {keys.Count}]");
         }
 
         public string Clr(int num = 0)
         {
-            string mNum = num == 0 ? "0" : "38;5;"+(num % 7 + 196).ToString();
+            int theme = 23; //OG: 23
+            string mNum = num == 0 ? "0" : $"38;5;{(num % 7 + 22 + 6*theme) % 231}";
             return $"\u001b[{mNum}m";
         }
     }

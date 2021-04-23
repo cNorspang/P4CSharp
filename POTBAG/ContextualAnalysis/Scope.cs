@@ -12,7 +12,7 @@ namespace POTBAG.ContextualAnalysis
 
         public ScopeType type;
         public Scope enclosingScope;
-        protected IDictionary<string, Symbol> symbolMap = new Dictionary<string, Symbol>();
+        public IDictionary<string, Symbol> symbolMap = new Dictionary<string, Symbol>();
 
         public Scope(ScopeType Type, int GenId, Scope EnclosingScope)
         {
@@ -61,8 +61,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 if (item.Value.GetSymbolType().Name == typeof(LocationDeclarationNode).Name)
                     return item.Value;
-            }        
-
+            }
             if (enclosingScope != null) return enclosingScope.GetLocation();
             /* TODO this feels weird, !kosher
              * location not found, travel is called from no place

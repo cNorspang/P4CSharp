@@ -2,8 +2,9 @@ setup{
     Locations = {
         Silkeborg -> Bibliotek, Lokale;
         Bibliotek -> Silkeborg, KU;
-        KU -> Silkeborg;
-        Lokale -> Silkeborg;
+        Lokale -> Lokale;
+        KU -> End;
+        End -> End;
     };
 }
 string hej;
@@ -14,10 +15,12 @@ Text hej + " sup boi";
 int yup = 24;
 
 if(yup < 9){
-int b = 1 * 100 - ((20 / 5) + 69) + yup / 8;
+int b = 5 * 100 * (20 * 2 +5) + yup / 8;
 b += 1;
 };
+
 int dunnis = 0;
+
 while(dunnis < yup){dunnis += 3;}
 
 Location Silkeborg = {
@@ -33,3 +36,16 @@ Location Silkeborg = {
         dunnis = 1000;
     };
 };
+
+
+Location Bibliotek = {
+    string streng = "";
+    int dun = 5;
+    while(dun > 1){
+        streng = "X";
+    }
+};
+
+Location KU = { };
+Location End = { };
+Location Lokale = { };

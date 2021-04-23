@@ -54,6 +54,8 @@ namespace POTBAG.ContextualAnalysis
 
             Visit(node.SetUpNode);
             Visit(node.inBlock);
+            st.ValidateTravelArrangement();
+
 
             //for debugging
             st.PrintAllKeysInSymbolTable();
@@ -74,7 +76,6 @@ namespace POTBAG.ContextualAnalysis
             st.PushScope();
             node.Children.ForEach(n => Visit(n));
             st.PopScope();
-            st.ValidateTravelArrangement();
             return true;
         }
 
@@ -353,6 +354,12 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(LocationAssignNode node)
         {
+            /* This makes the location exist in its own scope instead of main.
+             * This is very much on purpose, since it allows Scope.cs to search
+             * for location via enclosing scopes.
+             */
+            st.PushScope();
+
             switch (node.Left)
             {
                 case variableNode varNode:
@@ -363,7 +370,9 @@ namespace POTBAG.ContextualAnalysis
                     Visit(locationDclNode);
                     break;
             }
+
             Visit(node.Right);
+            st.PopScope();
             return true;
         }
 
