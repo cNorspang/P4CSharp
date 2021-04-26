@@ -216,17 +216,13 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(predicateNode node)
         {
-            //TODO send help or im gonna git commit -m "sudoku"
-            //Predicate is stupid and i hate it. GLHF
-
-            Symbol sbLeft = new Symbol(null,null);
-            Symbol sbRight = new Symbol(null,null);
+            Console.WriteLine($"predicate: {node.Left} {node.Operator} {node.Right}");
             switch (node.Left)
             {
                 case variableNode NodeNode:
                     Visit(NodeNode);
-                    sbLeft = st.CurrentScope().Resolve(NodeNode.variableName);
-                    //if (sb.GetSymbolType() != node.Right.GetType()) Console.WriteLine(" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& "+sb.GetSymbolType() + " ## "+node.Right.GetType());
+                    Symbol sbLeft = st.CurrentScope().Resolve(NodeNode.variableName);
+                    if (sbLeft.GetSymbolType() != node.Right.GetType()) Console.WriteLine(" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& "+sbLeft.GetSymbolType() + " ## "+node.Right.GetType());
                     break;
                 case stringNode NodeNode:
                     Visit(NodeNode);
@@ -241,36 +237,9 @@ namespace POTBAG.ContextualAnalysis
                     Visit(NodeNode);
                     break;
                 default:
-                    throw new BennoException("#### ERROR predicateNode left => " + node.Left.GetType());
-            }
-
-            if (node.Right == null) return true;
-
-            switch (node.Right)
-            {
-                case variableNode NodeNode:
-                    Visit(NodeNode);
-                    sbRight = st.CurrentScope().Resolve(NodeNode.variableName);
-                    //this does not work :(
-                    if (sbLeft.GetSymbolType() != sbRight.GetSymbolType()) { throw new NotImplementedException(); }
-                    break;
-                case stringNode NodeNode:
-                    Visit(NodeNode);
-                    break;
-                case ExpressionNode NodeNode:
-                    Visit(NodeNode);
-                    break;
-                case BoolNode NodeNode:
-                    Visit(NodeNode);
-                    break;
-                case predicateNode NodeNode:
-                    Visit(NodeNode);
-                    break;
-                default:
-                    Console.WriteLine("#### ERROR predicateNode right => " + node.Right.GetType());
+                    Console.WriteLine("#### ERROR predicateNode => " + node.Left.GetType());
                     throw new NotImplementedException();
             }
-
             return true;
         }
 
