@@ -1,4 +1,5 @@
-﻿using System;
+﻿using POTBAG.CSTtoAST;
+using System;
 using System.Collections.Generic;
 
 
@@ -11,7 +12,7 @@ namespace POTBAG.ContextualAnalysis
 
         public ScopeType type;
         public Scope enclosingScope;
-        protected IDictionary<string, Symbol> symbolMap = new Dictionary<string, Symbol>();
+        public IDictionary<string, Symbol> symbolMap = new Dictionary<string, Symbol>();
 
         public Scope(ScopeType Type, int GenId, Scope EnclosingScope)
         {
@@ -21,7 +22,7 @@ namespace POTBAG.ContextualAnalysis
         }
 
 
-        /** Define a symbol in the current scope */
+        /* Define a symbol in the current scope */
         public void Define(string name, Type type)
         {
             Symbol symbol = new Symbol(name, type);
@@ -29,7 +30,7 @@ namespace POTBAG.ContextualAnalysis
             symbolMap.Add(symbol.GetName(), symbol);
         }
 
-        /**
+        /*
          * Look up the symbol name in this scope and, if not found, 
          * progressively search the enclosing scopes. 
          * Return null if not found in any applicable scope.
@@ -54,8 +55,23 @@ namespace POTBAG.ContextualAnalysis
             return null; // not found
         }
 
+        public Symbol GetLocation()
+        {
+            foreach (var item in symbolMap)
+            {
+                if (item.Value.GetSymbolType().Name == typeof(LocationDeclarationNode).Name)
+                    return item.Value;
+            }
+            if (enclosingScope != null) return enclosingScope.GetLocation();
+            /* TODO this feels weird, !kosher
+             * location not found, travel is called from no place
+             */
+            throw new NotImplementedException();  
 
-        /** Where to look next for symbols */
+            return null;
+        }
+
+        /* Where to look next for symbols */
         public Scope EnclosingScope()
         {
             return enclosingScope;
@@ -68,7 +84,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 keys += entry.Value.ToString() + " : ";
             }
-            return symbolMap.Keys.Count != 0 ? keys : "-<empty>-";
+            return symbolMap.Keys.Count != 0 ? keys : "~~";
         }
 
         public void PrintAllAccessibleKeys()

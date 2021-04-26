@@ -61,6 +61,8 @@ namespace POTBAG.CSTtoAST
             node.Source = (variableNode)Visit(ctx.GetChild(0));
 
             ctx.variable().ToList().ForEach(i => node.Destinations.Add((variableNode)Visit(i)));
+            //The  first entry is the source
+            node.Destinations.RemoveAt(0);
 
             Console.WriteLine("    Source: " + node.Source);
             Console.WriteLine("    Child:  " + String.Join(',', node.Destinations));

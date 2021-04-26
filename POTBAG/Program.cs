@@ -1,4 +1,4 @@
-﻿using Antlr4.Runtime;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using POTBAG.ContextualAnalysis;
 using POTBAG.CSTtoAST;
@@ -47,7 +47,6 @@ namespace POTBAG
                 errorListener.Report(e);
                 System.Environment.Exit(52);
             }
-
             
             //Console.WriteLine(tree);
 

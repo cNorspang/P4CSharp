@@ -2,6 +2,9 @@ setup{
     Locations = {
         Silkeborg -> Bibliotek, Lokale;
         Bibliotek -> Silkeborg, KU;
+        Lokale -> Lokale;
+        KU -> End;
+        End -> End;
     };
 }
 string hej;
@@ -15,5 +18,34 @@ if(yup < 9){
 int b = 1 * 2 - ((20 / 5) + 69) + yup / 8;
 b += 1;
 };
+
 int dunnis = 0;
+
 while(dunnis < yup){dunnis += 3;}
+
+Location Silkeborg = {
+    string nextLocation = "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
+
+    if (10 * benno +10 < 100){
+        Travel Bibliotek;
+    }
+    else if (nextLocation != 2 + 2){
+        Travel Lokale;
+    }
+    else {
+        dunnis = 1000;
+    };
+};
+
+
+Location Bibliotek = {
+    string streng = "";
+    int dun = 5;
+    while(dun > 1){
+        streng = "X";
+    }
+};
+
+Location KU = { };
+Location End = { };
+Location Lokale = { };
