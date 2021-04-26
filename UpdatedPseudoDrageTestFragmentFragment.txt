@@ -7,8 +7,9 @@ setup{
         End -> End;
     };
 }
-
-if(true){int intdcl = 1;};
+int tis = 1;
+string hej = "hej";
+if(tis == 2-1){int intdcl = 1;};
 
 
 Location Silkeborg = {};
@@ -16,4 +17,3 @@ Location Bibliotek = {};
 Location KU = { };
 Location End = { };
 Location Lokale = { };
-Location KU = { };

@@ -1,6 +1,7 @@
 using System;
 using Antlr4.Runtime;
 using POTBAG.ContextualAnalysis;
+using static POTBAG.DebugPrinter;
 
 namespace POTBAG.Exceptions
 {
@@ -11,7 +12,7 @@ namespace POTBAG.Exceptions
 
         public void Report(Exception e)
         {
-            Console.WriteLine(table.Clr(1));
+            CcwError("");
             Console.WriteLine("======= ERROR =======");
             switch (e)
             {
@@ -34,6 +35,9 @@ namespace POTBAG.Exceptions
                     Console.WriteLine($"Duplicate declaration of variable \"{ex.Message}\"");
                     break;
                 case InvalidTravelArrangementException ex:
+                    Console.WriteLine($"{e.Message}");
+                    break;
+                case NotImplementedException ex: //sry norspang
                     Console.WriteLine($"{e.Message}");
                     break;
                 default:

@@ -4,6 +4,7 @@ using POTBAG.ContextualAnalysis;
 using POTBAG.CSTtoAST;
 using System;
 using POTBAG.Exceptions;
+using static POTBAG.DebugPrinter;
 
 namespace POTBAG
 {
@@ -56,13 +57,14 @@ namespace POTBAG
                     case InvalidOperationException _:
                     case DuplicateVariableError _:    
                     case TypeErrorException _:
+                    case NotImplementedException _:
                         errorListener.Report((dynamic)e);
                         break;
                 }
             }
             finally
             {
-                Console.WriteLine(symbolTable.Clr());
+                Ccwipe();
                 Environment.Exit(52);
             }
 
