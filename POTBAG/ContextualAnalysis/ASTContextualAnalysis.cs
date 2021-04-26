@@ -1,4 +1,5 @@
 ﻿using POTBAG.CSTtoAST;
+using POTBAG.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +16,7 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(List<ProgNode> node)
         {
-            foreach (var item in node)
+            foreach (ProgNode item in node)
             {
                 switch (item)
                 {
@@ -32,8 +33,8 @@ namespace POTBAG.ContextualAnalysis
                         Visit(assignNode);
                         break;
                     default:
-                        Console.WriteLine($"### ERROR List<ProgNode> (inBlock) => {String.Join(',', node)}");
-                        throw new NotImplementedException();
+                        Console.WriteLine($"### ERROR List<ProgNode> (inBlock) => {string.Join(',', node)}");
+                        throw new inBlockErrorException();
                 }
             }
             return true;
@@ -50,7 +51,7 @@ namespace POTBAG.ContextualAnalysis
                 "\n\\____/\\____/_/ /_/\\__/\\___/_/|_|\\__/\\__,_/\\__,_/_/  /_/  |_/_/ /_/\\__,_/_/\\__, /____/_/____/  " +
                 "\n                                                                         /____/               \n");
             #endregion
-
+            
             Visit(node.SetUpNode);
             Visit(node.inBlock);
 
@@ -70,9 +71,18 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(LocationsSetupNode node)
         {
-            st.PushScope();
-            node.Children.ForEach(n => Visit(n));
-            st.PopScope();
+            try
+            {
+                st.PushScope();
+                node.Children.ForEach(n => Visit(n));
+                st.PopScope();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new LocationSetupErrorException();
+            }
+            
             return true;
         }
 
@@ -118,7 +128,7 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(TextStatementNode node)
         {
-            foreach (var item in node.Text)
+            foreach (ProgNode item in node.Text)
             {
                 switch (item)
                 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace POTBAG.CSTtoAST
 {
-    public abstract class ASTVistor<T>
+    public abstract class ASTVistor<T> : BetterAdvGmBaseVisitor<T>
     {
         public abstract T Visit(List<ProgNode> node);
         public abstract T Visit(BufferNode node);
@@ -41,7 +41,6 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(MultiplicationNode node);
         public abstract T Visit(DivisionNode node);
         public abstract T Visit(NumberNode node);
-        
 
         public T Visit(ProgNode node)
         {
