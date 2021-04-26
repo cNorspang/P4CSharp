@@ -42,8 +42,7 @@ namespace POTBAG.CSTtoAST
             
             return node;
         }
-    
-        //TODO: Discuss whether or not this is needed
+
         public override ProgNode VisitLocationsetup(BetterAdvGmParser.LocationsetupContext ctx) {
             Console.WriteLine("LocationSetup");
             LocationsSetupNode node = new LocationsSetupNode();
@@ -108,7 +107,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.COMPOUND_OPERATOR() != null)
                 node.Operator = "COMPOUND_OPERATOR";
             else
-                throw new NotImplementedException();
+                throw new InvalidOperationException();
 
             node.Left = Visit(ctx.GetChild(0));          
             Console.WriteLine("    Left Child Int_assign: "+node.Left + "\n     Operator child Int_assign: "+node.Operator);
@@ -246,7 +245,7 @@ namespace POTBAG.CSTtoAST
                     node = nodeISO;
                     break;
                 default:
-                    throw new NotImplementedException();
+                    throw new InvalidOperationException();
                     break;
             }
 

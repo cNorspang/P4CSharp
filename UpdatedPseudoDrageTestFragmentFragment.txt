@@ -8,10 +8,16 @@ setup{
     };
 }
 string hej;
+string hej;
+
+string sup;
+string sup;
 
 Text hej + "Suh, dude";
 
 if(1 < 5){hej = "sup";};
+
+Travel Silkeborg;
 
 int yup = 24;
 

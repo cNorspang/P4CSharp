@@ -27,10 +27,7 @@ namespace POTBAG
             {
                 BetterAdvGmParser.ProgContext cst = parser.prog();
 
-                if (parser.NumberOfSyntaxErrors != 0)
-                {
-                    Environment.Exit(1);
-                }
+                if (parser.NumberOfSyntaxErrors != 0) { Environment.Exit(1); }
 
                 ProgNode ast = new BetterAdvGmASTVisitor().VisitProg(cst);
 
@@ -48,25 +45,20 @@ namespace POTBAG
                 //FileHandler.WriteToFile();
                 //FileHandler.PrintCCodeDebug();
             }
-            catch (TypeErrorException e)
-            {
-                errorListener.Report(e);
-            }
-            catch (LocationSetupErrorException e)
-            {
-                errorListener.Report(e);
-            }
-            catch (InvalidTravelArrangementException e)
-            {
-                errorListener.Report(e);
-            }
-            catch (IllegalTravelException e)
-            {
-                errorListener.Report(e);
-            }
             catch (Exception e)
             {
-                errorListener.Report(e);
+                switch (e)
+                {
+                    case LocationSetupErrorException _:
+                    case InvalidTravelArrangementException _:
+                    case IllegalTravelException _:
+                    case TravelOutsideLocationException _:
+                    case InvalidOperationException _:
+                    case DuplicateVariableError _:    
+                    case TypeErrorException _:
+                        errorListener.Report((dynamic)e);
+                        break;
+                }
             }
             finally
             {
