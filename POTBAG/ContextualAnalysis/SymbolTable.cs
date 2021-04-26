@@ -75,8 +75,8 @@ namespace POTBAG.ContextualAnalysis
 
         public void PrintAllKeysInSymbolTable()
         {
-            Ccw("\n$$$_SCOPES_$$$");
-            allScopes.ForEach(i => Ccw("-$"+i.type+"$ "+i.ToString()));          
+            Ccwl("\n$$$_SCOPES_$$$");
+            allScopes.ForEach(i => Ccwl("-$"+i.type+"$ "+i.ToString()));          
         }
 
         public override string ToString()
@@ -127,12 +127,12 @@ namespace POTBAG.ContextualAnalysis
         {
             IEnumerable<string> DeclaredNotMapped;
             IEnumerable<string> MappedNotDeclared;
-            Ccw("$$$_LOCATION_MAPS_$$$");
+            Ccwl("$$$_LOCATION_MAPS_$$$");
             foreach (var i in locations)
             {
-                Ccwnl($"LocationMap: "+i.Key+" -> ");
-                i.Value.ForEach(l => Ccwnl(l.variableName+", "));
-                Ccw("");
+                Ccw($"LocationMap: "+i.Key+" -> ");
+                i.Value.ForEach(l => Ccw(l.variableName+", "));
+                Ccwl("");
             }
             
             List<string> keys = new List<string>();
@@ -153,7 +153,7 @@ namespace POTBAG.ContextualAnalysis
                     {
                         //register end
                         canEnd = true;
-                        Ccw("End point registered: " + key);
+                        Ccwl("End point registered: " + key);
                     }
                     else if (key == col.variableName)
                         throw new InvalidTravelArrangementException($"Travel arrangement not valid: {key} cannot goto {col.variableName} and not be an End point.");

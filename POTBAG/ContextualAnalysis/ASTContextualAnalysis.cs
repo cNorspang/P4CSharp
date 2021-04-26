@@ -45,7 +45,7 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(BufferNode node)
         {
             #region debugSplit
-            Ccw(
+            Ccwl(
                 "\n   ______            __            __              __   ___                __           _     " +
                 "\n  / ____/___  ____  / /____  _  __/ /___  ______ _/ /  /   |  ____  ____ _/ /_  _______(_)____" +
                 "\n / /   / __ \\/ __ \\/ __/ _ \\| |/_/ __/ / / / __ `/ /  / /| | / __ \\/ __ `/ / / / / ___/ / ___/" +
