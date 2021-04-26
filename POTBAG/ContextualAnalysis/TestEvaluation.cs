@@ -114,12 +114,6 @@ namespace POTBAG.ContextualAnalysis
             return 0;
         }
 
-        public override int Visit(IfStatementNode node)
-        {
-            FileHandler.write($"char* IfStatementNode{counter++};\n");
-            return 0;
-        }
-
         public override int Visit(IfChainStatementNode node)
         {
             FileHandler.write($"char* ifChainStatementNode{counter++};\n");

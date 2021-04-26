@@ -154,11 +154,6 @@ namespace POTBAG.ContextualAnalysis
             throw new NotImplementedException();
         }
 
-        public override object Visit(IfStatementNode node)
-        {
-            //Dont change this, pretty sure it is never called. Maybe remove from ASTVisitor.cs. and/or rename node.
-            throw new NotImplementedException();
-        }
 
         public override object Visit(IfChainStatementNode node)
         {

@@ -120,6 +120,7 @@ namespace POTBAG.ContextualAnalysis
          * - All mapped and declared locations correspond 1 to 1.
          * - Minimum of 1 end point exists.
          * - A location can only be mapped to itself if it contains only that map. 
+         * - ...it also makes big O go brrrrrr ◑﹏◐.
          */
         public void ValidateTravelArrangement()
         {
@@ -146,24 +147,21 @@ namespace POTBAG.ContextualAnalysis
             }
 
 
-            foreach (var loc in locations)
+            foreach (KeyValuePair<string, List<variableNode>> loc in locations)
             {
                 string key = loc.Key;
-                keys.Add(loc.Key);
+                keys.Add(key);
 
-                foreach (var col in loc.Value)
+                foreach (variableNode col in loc.Value)
                 {
                     if (key == col.variableName && loc.Value.Count == 1)
                     {
                         //register end
                         canEnd = true;
-                        Console.WriteLine(Clr(2) + "End point registered: " + key);
+                        Console.WriteLine(Clr(1) + "End point registered: " + key);
                     }
-                    else if (key != col.variableName) ;
-                    else
-                    {
+                    else if (key == col.variableName)
                         throw new NotImplementedException($"Travel arrangement not valid: {key} cannot goto {col.variableName} and not be an End point.");
-                    }
                 }
             }
 
@@ -179,7 +177,7 @@ namespace POTBAG.ContextualAnalysis
         public string Clr(int num = 0)
         {
             int theme = 23; //OG: 23
-            string mNum = num == 0 ? "0" : $"38;5;{(num % 7 + 22 + 6*theme) % 231}";
+            string mNum = num == 0 ? "0" : $"38;5;{(num % 7 + 22 + 6 * theme) % 231}";
             return $"\u001b[{mNum}m";
         }
     }
