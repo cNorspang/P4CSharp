@@ -24,7 +24,8 @@ int dunnis = 0;
 while(dunnis < yup){dunnis += 3;}
 
 Location Silkeborg = {
-    string nextLocation = "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
+    string nextLocation;
+    nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
 
     if (10 * benno +10 < 100){
         Travel Bibliotek;

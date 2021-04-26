@@ -151,9 +151,26 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(InputStatementNode node)
         {
-            throw new NotImplementedException();
+            foreach (var item in node.Text)
+            {
+                switch (item)
+                {
+                    case variableNode varNode:
+                        Visit(varNode);
+                        //Validate variable
+                        st.CurrentScope().Resolve(varNode.variableName, typeof(string));
+                        break;
+                    case stringNode strNode:
+                        Visit(strNode);
+                        break;
+                    default:
+                        Console.WriteLine($"### ERROR InputStatementNode => {node.GetType().Name}");
+                        //TODO exactly the same as text_stmt
+                        throw new NotImplementedException();
+                }
+            }
+            return true;
         }
-
 
         public override object Visit(IfChainStatementNode node)
         {
@@ -265,12 +282,29 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(ChoiceStatementNode node)
         {
-            throw new NotImplementedException();
+            node.Options.ForEach(i => Visit(i));
+            return true;
         }
 
         public override object Visit(OptionStatementNode node)
         {
-            throw new NotImplementedException();
+            switch (node.Left)
+            {
+                case variableNode varNode:
+                    Visit(varNode);
+                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(int));
+                    break;
+                case stringDeclarationNode strDclNode:
+                    Visit(strDclNode);
+                    break;
+                default:
+                    Console.WriteLine($"### ERROR OptionStatementNode Left => {node.Left.GetType().Name}");
+                    //TODO exactly the same as string_assign
+                    throw new NotImplementedException();
+            }
+            node.Right.ForEach(i => Visit(i));
+
+            return true;
         }
 
         public override object Visit(AssignNode node)
@@ -330,6 +364,10 @@ namespace POTBAG.ContextualAnalysis
                 case stringDeclarationNode stringDclNode:
                     Visit(stringDclNode);
                     break;
+                default:
+                    Console.WriteLine($"### ERROR stringAssignNode => {node.GetType().Name}");
+                    //TODO exactly the same as input_assign
+                    throw new NotImplementedException();
             }
             //can only be one string_obj node so just a visit
             Visit(node.Right);
@@ -338,7 +376,23 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(InputAssignNode node)
         {
-            throw new NotImplementedException();
+            switch (node.Left)
+            {
+                case variableNode varNode:
+                    Visit(varNode);
+                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string));
+                    break;
+                case stringDeclarationNode strDclNode:
+                    Visit(strDclNode);
+                    break;
+                default:
+                    Console.WriteLine($"### ERROR InputAssignNode => {node.Left.GetType().Name}");
+                    //TODO exactly the same as string_assign
+                    throw new NotImplementedException();
+            }
+            //can only be one string_obj node so just a visit
+            Visit(node.Right);
+            return true;
         }
 
         public override object Visit(variableNode node)
@@ -406,7 +460,6 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(stringNode node)
         {
-            //Well... idk what to do, its a string.
             return true;
         }
 
