@@ -1,8 +1,9 @@
-﻿using Antlr4.Runtime;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using POTBAG.ContextualAnalysis;
 using POTBAG.CSTtoAST;
 using System;
+using POTBAG.Exceptions;
 
 namespace POTBAG
 {
@@ -16,11 +17,12 @@ namespace POTBAG
             ITokenSource lexer = new BetterAdvGmLexer(input);
             ITokenStream tokenStream = new CommonTokenStream(lexer);
             BetterAdvGmParser parser = new BetterAdvGmParser(tokenStream);
+            POTBAGErrorListener errorListener = new POTBAGErrorListener();
 
             //set start node
-            //try
-            //{
-                var cst = parser.prog(); ;
+            try
+            {
+                var cst = parser.prog();
 
                 var ast = new BetterAdvGmASTVisitor().VisitProg(cst);
 
@@ -38,13 +40,13 @@ namespace POTBAG
                 //Console.WriteLine("### FILE WRITE ###");
                 //FileHandler.WriteToFile();
                 //FileHandler.PrintCCodeDebug();
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //    throw;
-            //}
-
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                errorListener.Report(e);
+                System.Environment.Exit(52);
+            }
             
             //Console.WriteLine(tree);
 
