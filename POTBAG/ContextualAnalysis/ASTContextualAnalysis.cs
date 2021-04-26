@@ -143,8 +143,7 @@ namespace POTBAG.ContextualAnalysis
                         Visit(strNode);
                         break;
                     default:
-                        Console.WriteLine($"### ERROR TextStatementNode => {node.GetType().Name}");
-                        throw new NotImplementedException();
+                        throw new BennoException($"### ERROR TextStatementNode => {node.GetType().Name}");
                 }
             }
             return true;
@@ -227,8 +226,7 @@ namespace POTBAG.ContextualAnalysis
                     Visit(NodeNode);
                     break;
                 default:
-                    Console.WriteLine("#### ERROR predicateNode left => " + node.Left.GetType());
-                    throw new NotImplementedException();
+                    throw new BennoException("#### ERROR predicateNode left => " + node.Left.GetType());
             }
 
             if (node.Right == null) return true;

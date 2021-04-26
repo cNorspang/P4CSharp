@@ -1,6 +1,7 @@
 ﻿using POTBAG.CSTtoAST;
 using System;
 using System.Collections.Generic;
+using POTBAG.Exceptions;
 
 
 namespace POTBAG.ContextualAnalysis
@@ -47,7 +48,7 @@ namespace POTBAG.ContextualAnalysis
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
-                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new NotImplementedException(); }
+                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new TypeErrorException(symbol.GetSymbolType(), type); }
                 return symbol;
             }
             if (enclosingScope != null) return enclosingScope.Resolve(name, type);

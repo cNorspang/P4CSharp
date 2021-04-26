@@ -17,16 +17,23 @@ namespace POTBAG
             ITokenSource lexer = new BetterAdvGmLexer(input);
             ITokenStream tokenStream = new CommonTokenStream(lexer);
             BetterAdvGmParser parser = new BetterAdvGmParser(tokenStream);
+            SymbolTable symbolTable = new SymbolTable();
+
+            
             POTBAGErrorListener errorListener = new POTBAGErrorListener();
 
             //set start node
             try
             {
-                var cst = parser.prog();
+                BetterAdvGmParser.ProgContext cst = parser.prog();
 
-                var ast = new BetterAdvGmASTVisitor().VisitProg(cst);
+                if (parser.NumberOfSyntaxErrors != 0)
+                {
+                    Environment.Exit(1);
+                }
 
-                SymbolTable symbolTable = new SymbolTable();
+                ProgNode ast = new BetterAdvGmASTVisitor().VisitProg(cst);
+
                 var contextualAnalysis = new ASTContextualAnalysis(symbolTable).Visit(ast);
 
 
@@ -41,13 +48,32 @@ namespace POTBAG
                 //FileHandler.WriteToFile();
                 //FileHandler.PrintCCodeDebug();
             }
+            catch (TypeErrorException e)
+            {
+                errorListener.Report(e);
+            }
+            catch (LocationSetupErrorException e)
+            {
+                errorListener.Report(e);
+            }
+            catch (InvalidTravelArrangementException e)
+            {
+                errorListener.Report(e);
+            }
+            catch (IllegalTravelException e)
+            {
+                errorListener.Report(e);
+            }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 errorListener.Report(e);
-                System.Environment.Exit(52);
             }
-            
+            finally
+            {
+                Console.WriteLine(symbolTable.Clr());
+                Environment.Exit(52);
+            }
+
             //Console.WriteLine(tree);
 
             //System.out.println(ast);
