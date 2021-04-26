@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using POTBAG.Exceptions;
 
 
 namespace POTBAG.ContextualAnalysis
@@ -106,13 +107,14 @@ namespace POTBAG.ContextualAnalysis
             List<variableNode> gotoList = locations[sym.GetName()];
 
             bool i = false;
-            foreach (variableNode gotoLocation in gotoList)
-            {
-                if (gotoLocation.variableName == node.Destination.variableName)
-                    i = true;
-            }
+            i = gotoList.Exists(i => i.variableName == node.Destination.variableName);
+            // foreach (variableNode gotoLocation in gotoList)
+            // {
+            //     if (gotoLocation.variableName == node.Destination.variableName)
+            //         i = true;
+            // }
 
-            if (!i) { throw new NotImplementedException($"Travel statement does not resolve. Locations do not connect: {sym.GetName()} -> {node.Destination.variableName}"); }
+            if (!i) { throw new IllegalTravelException($"Illegal Travel: Cannot go from {sym.GetName()} to {node.Destination.variableName}"); }
 
         }
 
@@ -124,6 +126,8 @@ namespace POTBAG.ContextualAnalysis
          */
         public void ValidateTravelArrangement()
         {
+            IEnumerable<string> DeclaredNotMapped;
+            IEnumerable<string> MappedNotDeclared;
             Console.WriteLine($"{Clr(1)}$$$_LOCATION_MAPS_$$${Clr()}");
             int clrNum = 6;
             foreach (var i in locations)
@@ -134,17 +138,10 @@ namespace POTBAG.ContextualAnalysis
             }
             
             List<string> keys = new List<string>();
-            List<string> declaredLocations = new List<string>();
             bool canEnd = false;
 
-            foreach (Scope scp in allScopes)
-            {
-                foreach (var dic in scp.symbolMap)
-                {
-                    if (dic.Value.GetSymbolType().Name == typeof(LocationDeclarationNode).Name)
-                        declaredLocations.Add(dic.Key);
-                }
-            }
+            List<string> declaredLocations = (from scp in allScopes from dic in scp.symbolMap 
+                where dic.Value.GetSymbolType().Name == nameof(LocationDeclarationNode) select dic.Key).ToList();
 
 
             foreach (KeyValuePair<string, List<variableNode>> loc in locations)
@@ -161,7 +158,7 @@ namespace POTBAG.ContextualAnalysis
                         Console.WriteLine(Clr(1) + "End point registered: " + key);
                     }
                     else if (key == col.variableName)
-                        throw new NotImplementedException($"Travel arrangement not valid: {key} cannot goto {col.variableName} and not be an End point.");
+                        throw new InvalidTravelArrangementException($"Travel arrangement not valid: {key} cannot goto {col.variableName} and not be an End point.");
                 }
             }
 
@@ -169,14 +166,35 @@ namespace POTBAG.ContextualAnalysis
             keys.Sort();
 
             if (!canEnd) 
-                throw new NotImplementedException($"Travel arrangement not valid: An End point is required.");
-            else if (!Enumerable.SequenceEqual(declaredLocations, keys))
-                throw new NotImplementedException($"Travel arrangement not valid: Declared Locations and Mapped Locations are not equal 1=1.[{declaredLocations.Count} != {keys.Count}]");
+                throw new InvalidTravelArrangementException($"Travel arrangement not valid: An End point is required.");
+            if (!declaredLocations.SequenceEqual(keys))
+            {
+                DeclaredNotMapped = declaredLocations.Except(keys);
+                MappedNotDeclared = keys.Except(declaredLocations);
+                IEnumerable<string> mappedNotDeclared = MappedNotDeclared as string[] ?? MappedNotDeclared.ToArray();
+                if (DeclaredNotMapped.Count() != 0 && mappedNotDeclared.Count() != 0)
+                {
+                    throw new InvalidTravelArrangementException($"The Following Locations are mapped, but not declared [{string.Join(',', mappedNotDeclared.ToList())}]\n" +
+                                                                $"The Following Locations are declared, but not mapped [{string.Join(',',DeclaredNotMapped.ToList())}]");
+                } 
+                if (DeclaredNotMapped.Count() != 0)
+                {
+                    throw new InvalidTravelArrangementException($"The Following Locations are declared, but not mapped [{string.Join(',',DeclaredNotMapped.ToList())}]");
+                }
+
+                if (mappedNotDeclared.Count() != 0)
+                {
+                    throw new InvalidTravelArrangementException($"The Following Locations are mapped, but not declared [{string.Join(',', mappedNotDeclared.ToList())}]");
+                }
+                
+                throw new InvalidTravelArrangementException(
+                    $"Travel arrangement not valid: Declared Locations and Mapped Locations are not equal 1=1.[{declaredLocations.Count} != {keys.Count}]");
+            }
         }
 
         public string Clr(int num = 0)
         {
-            int theme = 23; //OG: 23
+            int theme = 9; //OG: 23
             string mNum = num == 0 ? "0" : $"38;5;{(num % 7 + 22 + 6 * theme) % 231}";
             return $"\u001b[{mNum}m";
         }

@@ -143,8 +143,7 @@ namespace POTBAG.ContextualAnalysis
                         Visit(strNode);
                         break;
                     default:
-                        Console.WriteLine($"### ERROR TextStatementNode => {node.GetType().Name}");
-                        throw new NotImplementedException();
+                        throw new BennoException($"### ERROR TextStatementNode => {node.GetType().Name}");
                 }
             }
             return true;
@@ -161,7 +160,7 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(InputStatementNode node)
         {
-            foreach (var item in node.Text)
+            foreach (ProgNode item in node.Text)
             {
                 switch (item)
                 {
@@ -174,9 +173,7 @@ namespace POTBAG.ContextualAnalysis
                         Visit(strNode);
                         break;
                     default:
-                        Console.WriteLine($"### ERROR InputStatementNode => {node.GetType().Name}");
-                        //TODO exactly the same as text_stmt
-                        throw new NotImplementedException();
+                        throw new BennoException($"### ERROR InputStatementNode => {node.GetType().Name}");
                 }
             }
             return true;
@@ -244,8 +241,7 @@ namespace POTBAG.ContextualAnalysis
                     Visit(NodeNode);
                     break;
                 default:
-                    Console.WriteLine("#### ERROR predicateNode left => " + node.Left.GetType());
-                    throw new NotImplementedException();
+                    throw new BennoException("#### ERROR predicateNode left => " + node.Left.GetType());
             }
 
             if (node.Right == null) return true;
@@ -308,9 +304,7 @@ namespace POTBAG.ContextualAnalysis
                     Visit(strDclNode);
                     break;
                 default:
-                    Console.WriteLine($"### ERROR OptionStatementNode Left => {node.Left.GetType().Name}");
-                    //TODO exactly the same as string_assign
-                    throw new NotImplementedException();
+                    throw new BennoException($"### ERROR OptionStatementNode Left => {node.Left.GetType().Name}");
             }
             node.Right.ForEach(i => Visit(i));
 
@@ -375,9 +369,7 @@ namespace POTBAG.ContextualAnalysis
                     Visit(stringDclNode);
                     break;
                 default:
-                    Console.WriteLine($"### ERROR stringAssignNode => {node.GetType().Name}");
-                    //TODO exactly the same as input_assign
-                    throw new NotImplementedException();
+                    throw new BennoException($"### ERROR stringAssignNode => {node.GetType().Name}");
             }
             //can only be one string_obj node so just a visit
             Visit(node.Right);
@@ -396,9 +388,7 @@ namespace POTBAG.ContextualAnalysis
                     Visit(strDclNode);
                     break;
                 default:
-                    Console.WriteLine($"### ERROR InputAssignNode => {node.Left.GetType().Name}");
-                    //TODO exactly the same as string_assign
-                    throw new NotImplementedException();
+                    throw new BennoException($"### ERROR InputAssignNode => {node.Left.GetType().Name}");
             }
             //can only be one string_obj node so just a visit
             Visit(node.Right);
@@ -449,8 +439,7 @@ namespace POTBAG.ContextualAnalysis
                     Visit(locationDeclarationNode);
                     break;
                 default:
-                    Console.WriteLine($"### ERROR DeclarationNode => {node.GetType().Name}");
-                    throw new NotImplementedException();
+                    throw new BennoException($"### ERROR DeclarationNode => {node.GetType().Name}");
             }
             return true;
         }
@@ -463,7 +452,6 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(stringDeclarationNode node)
         {
-            //TODO should typeof be of stringNode og string? same prob with int above
             st.CurrentScope().Define(node.VarName.variableName, typeof(string));
             return true;
         }
@@ -506,8 +494,7 @@ namespace POTBAG.ContextualAnalysis
                     Visit(nodeISO.expr);
                     break;
                 default:
-                    Console.WriteLine($"### ERROR ExpressionNode => {node.GetType().Name}");
-                    throw new NotImplementedException();
+                    throw new BennoException($"### ERROR ExpressionNode => {node.GetType().Name}");
             }
 
             return true;

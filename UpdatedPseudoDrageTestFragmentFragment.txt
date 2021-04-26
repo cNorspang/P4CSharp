@@ -8,9 +8,16 @@ setup{
     };
 }
 string hej;
+string hej;
+
+string sup;
+string sup;
+
+Text hej + "Suh, dude";
+
 if(1 < 5){hej = "sup";};
 
-Text hej + " sup boi";
+Travel Silkeborg;
 
 int yup = 24;
 
@@ -26,6 +33,8 @@ while(dunnis < yup){dunnis += 3;}
 Location Silkeborg = {
     string nextLocation;
     nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
+
+    Travel KU;
 
     if (10 * benno +10 < 100){
         Travel Bibliotek;
@@ -46,7 +55,6 @@ Location Bibliotek = {
         streng = "X";
     }
 };
-
-Location KU = { };
 Location End = { };
 Location Lokale = { };
+Location KU = { };

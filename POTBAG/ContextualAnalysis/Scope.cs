@@ -1,6 +1,7 @@
 ﻿using POTBAG.CSTtoAST;
 using System;
 using System.Collections.Generic;
+using POTBAG.Exceptions;
 
 
 namespace POTBAG.ContextualAnalysis
@@ -25,9 +26,16 @@ namespace POTBAG.ContextualAnalysis
         /* Define a symbol in the current scope */
         public void Define(string name, Type type)
         {
-            Symbol symbol = new Symbol(name, type);
-            symbol.SetScope(this);
-            symbolMap.Add(symbol.GetName(), symbol);
+            try
+            {
+                Symbol symbol = new Symbol(name, type);
+                symbol.SetScope(this);
+                symbolMap.Add(symbol.GetName(), symbol);
+            }
+            catch (Exception e)
+            {
+                throw new DuplicateVariableError(name);
+            }
         }
 
         /*
@@ -47,7 +55,7 @@ namespace POTBAG.ContextualAnalysis
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
-                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new NotImplementedException(); }
+                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new TypeErrorException(symbol.GetSymbolType(), type); }
                 return symbol;
             }
             if (enclosingScope != null) return enclosingScope.Resolve(name, type);
@@ -57,18 +65,14 @@ namespace POTBAG.ContextualAnalysis
 
         public Symbol GetLocation()
         {
-            foreach (var item in symbolMap)
+            foreach (KeyValuePair<string, Symbol> item in symbolMap)
             {
                 if (item.Value.GetSymbolType().Name == typeof(LocationDeclarationNode).Name)
                     return item.Value;
             }
             if (enclosingScope != null) return enclosingScope.GetLocation();
-            /* TODO this feels weird, !kosher
-             * location not found, travel is called from no place
-             */
-            throw new NotImplementedException();  
 
-            return null;
+            throw new TravelOutsideLocationException("Cannot Travel from global scope, all Travel statements must be from within a location");
         }
 
         /* Where to look next for symbols */

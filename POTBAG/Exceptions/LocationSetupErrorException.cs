@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace POTBAG.Exceptions
 {
     [Serializable]
-    internal class LocationSetupErrorException : Exception
+    public class LocationSetupErrorException : Exception
     {
         public LocationSetupErrorException()
         {
