@@ -7,6 +7,7 @@ namespace POTBAG
     public static class DebugPrinter
     {
         private static int CIndex = 1;
+        internal static bool isDebug;
 
         public static void Ccwl(string msg)
         {
@@ -30,6 +31,7 @@ namespace POTBAG
 
         public static string ColorChange(int num = 0)
         {
+            if (isDebug) { 
             int theme = 23; //OG: 23
             //string mNum = num == 0 ? "0" : $"38;5;{(num % 7 + 22 + 6 * theme) % 231}";
 
@@ -45,6 +47,13 @@ namespace POTBAG
             string mNum = num == 0 ? "0" : $"38;5;{NorspangsTheme[num % 6]}";
 
             return $"\u001b[{mNum}m";
+            }
+            else
+            {
+                int[] NorspangsTheme = { 214, 202, 172, 166, 94, 173 };
+                string mNum = num == 0 ? "0" : $"38;5;{NorspangsTheme[num % 6]}";
+                return $"\u001b[{mNum}m";
+            }
         }
 
     }

@@ -12,7 +12,7 @@ namespace POTBAG
     {
         static void Main(string[] args)
         {
-            const bool debug = true;
+            const bool debug = true; 
             string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTest.txt");
 
             ICharStream input = CharStreams.fromString(stream);
@@ -23,7 +23,7 @@ namespace POTBAG
 
             
             POTBAGErrorListener errorListener = new POTBAGErrorListener(debug);
-
+            DebugPrinter.isDebug = debug;
             //set start node
             try
             {
