@@ -12,7 +12,7 @@ namespace POTBAG
     {
         static void Main(string[] args)
         {
-            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTestFragmentFragment.txt");
+            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTest.txt");
 
             ICharStream input = CharStreams.fromString(stream);
             ITokenSource lexer = new BetterAdvGmLexer(input);
@@ -57,7 +57,9 @@ namespace POTBAG
                     case InvalidOperationException _:
                     case DuplicateVariableError _:    
                     case TypeErrorException _:
-                    case NotImplementedException _:
+                    case BennoException _:
+                    case NotImplementedException _: //sry
+                    case Exception _:
                         errorListener.Report((dynamic)e);
                         break;
                 }

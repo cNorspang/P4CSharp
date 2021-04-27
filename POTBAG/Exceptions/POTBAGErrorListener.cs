@@ -36,6 +36,9 @@ namespace POTBAG.Exceptions
                 case InvalidTravelArrangementException ex:
                     CcwlError($"{e.Message}");
                     break;
+                case BennoException ex: //sry norspang
+                    CcwlError($"BENNO EXCEPTION BITCHES::!: {e.Message}");
+                    break;
                 case NotImplementedException ex: //sry norspang
                     CcwlError($"{e.Message}");
                     break;
