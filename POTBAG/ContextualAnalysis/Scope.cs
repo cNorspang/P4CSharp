@@ -25,13 +25,14 @@ namespace POTBAG.ContextualAnalysis
 
 
         /* Define a symbol in the current scope */
-        public void Define(string name, Type type)
+        public Symbol Define(string name, Type type)
         {
             try
             {
                 Symbol symbol = new Symbol(name, type);
                 symbol.SetScope(this);
                 symbolMap.Add(symbol.GetName(), symbol);
+                return symbol;
             }
             catch (Exception e)
             {
@@ -56,6 +57,7 @@ namespace POTBAG.ContextualAnalysis
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
+                if (symbol.GetContentStatus() == Symbol.AssignedStatus.empty) throw new NotImplementedException($"WHY U NO ASSIGN! {symbol.GetName()} is empty u donkey");
                 if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString()); }
                 return symbol;
             }

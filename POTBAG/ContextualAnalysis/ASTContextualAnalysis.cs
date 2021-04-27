@@ -332,34 +332,39 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(AssignNode node)
         {
+            Symbol symbol = new Symbol(null, null);
             switch (node)
             {
                 case IntAssignNode intAssignNode:
-                    Visit(intAssignNode);
+                    symbol = (Symbol)Visit(intAssignNode);
                     break;
                 case stringAssignNode stringAssignNode:
-                    Visit(stringAssignNode);
+                    symbol = (Symbol)Visit(stringAssignNode);
                     break;
                 case InputAssignNode inputAssignNode:
-                    Visit(inputAssignNode);
+                    symbol = (Symbol)Visit(inputAssignNode);
                     break;
                 case LocationAssignNode locationAssignNode:
-                    Visit(locationAssignNode);
+                    symbol = (Symbol)Visit(locationAssignNode);
                     break;
             }
+
+            symbol.SetContentStatus(Symbol.AssignedStatus.full);
+
             return true;
         }
 
         public override object Visit(IntAssignNode node)
         {
+            Symbol symbol = new Symbol(null, null);
             switch (node.Left)
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(int));
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(int));
                     break;
                 case IntDeclarationNode intDclNode:
-                    Visit(intDclNode);
+                    symbol = (Symbol)Visit(intDclNode);
                     break;
             }
             
@@ -374,45 +379,49 @@ namespace POTBAG.ContextualAnalysis
                     break;
             }
 
-            return true;
+            return symbol;
         }
 
         public override object Visit(stringAssignNode node)
         {
+            Symbol symbol = new Symbol(null, null);
+
             switch (node.Left)
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string));
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string));
                     break;
                 case stringDeclarationNode stringDclNode:
-                    Visit(stringDclNode);
+                    symbol = (Symbol)Visit(stringDclNode);
                     break;
                 default:
                     throw new BennoException($"### ERROR stringAssignNode => {node.GetType().Name}");
             }
             //can only be one string_obj node so just a visit
             Visit(node.Right);
-            return true;
+            return symbol;
         } 
 
         public override object Visit(InputAssignNode node)
         {
+            Symbol symbol = new Symbol(null, null);
+
             switch (node.Left)
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string));
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string));
                     break;
                 case stringDeclarationNode strDclNode:
-                    Visit(strDclNode);
+                    symbol = (Symbol)Visit(strDclNode);
                     break;
                 default:
                     throw new BennoException($"### ERROR InputAssignNode => {node.Left.GetType().Name}");
             }
             //can only be one string_obj node so just a visit
             Visit(node.Right);
-            return true;
+            return symbol;
         }
 
         public override object Visit(variableNode node)
@@ -429,51 +438,55 @@ namespace POTBAG.ContextualAnalysis
              */
             st.PushScope();
 
+            Symbol symbol = new Symbol(null, null);
+
             switch (node.Left)
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(LocationDeclarationNode));
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(LocationDeclarationNode));
                     break;
                 case LocationDeclarationNode locationDclNode:
-                    Visit(locationDclNode);
+                    symbol = (Symbol)Visit(locationDclNode);
                     break;
             }
 
             Visit(node.Right);
             st.PopScope();
-            return true;
+            return symbol;
         }
 
         public override object Visit(DeclarationNode node)
         {
+            Symbol symbol = new Symbol(null, null);
+
             switch (node)
             {
                 case IntDeclarationNode intdeclarationNode:
-                    Visit(intdeclarationNode);
+                    symbol = (Symbol)Visit(intdeclarationNode);
                     break;
                 case stringDeclarationNode stringDeclarationNode:
-                    Visit(stringDeclarationNode);
+                    symbol = (Symbol)Visit(stringDeclarationNode);
                     break;
                 case LocationDeclarationNode locationDeclarationNode:
-                    Visit(locationDeclarationNode);
+                    symbol = (Symbol)Visit(locationDeclarationNode);
                     break;
                 default:
                     throw new BennoException($"### ERROR DeclarationNode => {node.GetType().Name}");
             }
-            return true;
+            return symbol;
         }
 
         public override object Visit(IntDeclarationNode node)
         {
-            st.CurrentScope().Define(node.VarName.variableName, typeof(int));
-            return true;
+            Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(int));
+            return symbol;
         }
 
         public override object Visit(stringDeclarationNode node)
         {
-            st.CurrentScope().Define(node.VarName.variableName, typeof(string));
-            return true;
+            Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(string));
+            return symbol;
         }
 
         public override object Visit(stringNode node)
@@ -483,8 +496,8 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(LocationDeclarationNode node)
         {
-            st.CurrentScope().Define(node.VarName.variableName, typeof(LocationDeclarationNode));
-            return true;
+            Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(LocationDeclarationNode));
+            return symbol;
         }
 
         public override object Visit(ExpressionNode node)

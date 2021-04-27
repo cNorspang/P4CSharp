@@ -18,7 +18,7 @@ Location Silkeborg = {
     string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
 
     if (nextLocation is "Bibliotek"){
-        Travel hej;
+        Travel Bibliotek;
     }
     else if (nextLocation is "Lokale"){
         Travel Lokale;

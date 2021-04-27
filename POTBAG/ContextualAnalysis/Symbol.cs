@@ -23,7 +23,7 @@ namespace POTBAG.ContextualAnalysis
              ContentStatus = newStatus;
         }
 
-        public object GetContentStatus()
+        public AssignedStatus GetContentStatus()
         {
             return ContentStatus;
         }

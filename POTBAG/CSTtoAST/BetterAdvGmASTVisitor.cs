@@ -128,8 +128,7 @@ namespace POTBAG.CSTtoAST
 
             return node;
         }
-
-        
+       
         public override ProgNode VisitString_assign(BetterAdvGmParser.String_assignContext ctx) {
             Ccwl("string_assign");
             //if check på left vari || string_dec
@@ -296,6 +295,7 @@ namespace POTBAG.CSTtoAST
 
             return node;
         }
+
         public override ProgNode VisitIf_statement(BetterAdvGmParser.If_statementContext ctx)
         {
             Ccwl("if_statement");
@@ -417,5 +417,7 @@ namespace POTBAG.CSTtoAST
             node.Right = (InputStatementNode)Visit(ctx.input_statement());
             return node;
         }
+
+        
     }
 }
