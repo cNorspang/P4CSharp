@@ -15,8 +15,8 @@ namespace POTBAG.Exceptions
             CcwlError("======= ERROR =======");
             switch (e)
             {
-                case LocationSetupErrorException _:
-                    CcwlError("There was an error is Location Setup");
+                case LocationSetupErrorException ex:
+                    CcwlError(ex.Message);
                     break;
                 case InvalidOperationException _ :
                     CcwlError("Wrong Operator");
