@@ -9,7 +9,7 @@ setup{
         Hvidovre -> Hvidovre;
     };
 }
-
+int a = 1 + hej;
 Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
 
 Location Silkeborg = {

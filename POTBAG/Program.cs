@@ -27,7 +27,6 @@ namespace POTBAG
             try
             {
                 BetterAdvGmParser.ProgContext cst = parser.prog();
-
                 if (parser.NumberOfSyntaxErrors != 0) { Environment.Exit(1); }
 
                 ProgNode ast = new BetterAdvGmASTVisitor().VisitProg(cst);

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using POTBAG.Exceptions;
+using static POTBAG.DebugPrinter;
 
 
 namespace POTBAG.ContextualAnalysis
@@ -60,7 +61,7 @@ namespace POTBAG.ContextualAnalysis
             }
             if (enclosingScope != null) return enclosingScope.Resolve(name, type);
 
-            return null; // not found
+            throw new NotImplementedException($"Symbol cannot be resolved: {name} is not declared."); // not found
         }
 
         public Symbol GetLocation()

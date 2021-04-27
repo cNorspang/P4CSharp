@@ -231,7 +231,7 @@ namespace POTBAG.ContextualAnalysis
                     switch (node.Right)
                     {
                         case stringNode strNode:
-                            if (symbol.GetSymbolType() != typeof(string)) throw new NotImplementedException(symbol.GetName()+" is not not of type string, strings can only be compared to strings");
+                            if (symbol.GetSymbolType() != typeof(string)) throw new TypeErrorException(typeof(string), symbol.GetSymbolType());
                             Visit(strNode);
                             break;
                         case variableNode varNode:
@@ -240,11 +240,11 @@ namespace POTBAG.ContextualAnalysis
                             Visit(varNode);
                             break;
                         case ExpressionNode exprNode:
-                            if (symbol.GetSymbolType() != typeof(int)) throw new NotImplementedException($"{symbol.GetName()} is not of type int, variable have to be of type int");
+                            if (symbol.GetSymbolType() != typeof(int)) throw new TypeErrorException(typeof(int), symbol.GetSymbolType());
                             Visit(exprNode);
                             break;
                         case BoolNode boolNode:
-                            if (symbol.GetSymbolType() != typeof(bool)) throw new NotImplementedException("variable have to be of type bool");
+                            if (symbol.GetSymbolType() != typeof(bool)) throw new TypeErrorException(typeof(bool), symbol.GetSymbolType());
                             Visit(boolNode);
                             break;
                         default:
