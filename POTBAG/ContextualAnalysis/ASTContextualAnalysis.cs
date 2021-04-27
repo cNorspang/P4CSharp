@@ -231,16 +231,16 @@ namespace POTBAG.ContextualAnalysis
                     switch (node.Right)
                     {
                         case stringNode strNode:
-                            if (symbol.GetSymbolType() != typeof(string)) throw new NotImplementedException("strings can only be compared to strings");
+                            if (symbol.GetSymbolType() != typeof(string)) throw new NotImplementedException(symbol.GetName()+" is not not of type string, strings can only be compared to strings");
                             Visit(strNode);
                             break;
                         case variableNode varNode:
                             Symbol rightSymbol = st.CurrentScope().Resolve(varNode.variableName, symbol.GetSymbolType());
-                            if (symbol.GetSymbolType() != typeof(LocationDeclarationNode)) throw new NotImplementedException("nononono, plz dont use locations as predicates.");
+                            if (symbol.GetSymbolType() == typeof(LocationDeclarationNode)) throw new NotImplementedException("nononono, plz dont use locations as predicates.");
                             Visit(varNode);
                             break;
                         case ExpressionNode exprNode:
-                            if (symbol.GetSymbolType() != typeof(int)) throw new NotImplementedException("variable have to be of type int");
+                            if (symbol.GetSymbolType() != typeof(int)) throw new NotImplementedException($"{symbol.GetName()} is not of type int, variable have to be of type int");
                             Visit(exprNode);
                             break;
                         case BoolNode boolNode:
@@ -320,7 +320,7 @@ namespace POTBAG.ContextualAnalysis
                     Visit(varNode);
                     Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(int));
                     break;
-                case stringDeclarationNode strDclNode:
+                case stringNode strDclNode:
                     Visit(strDclNode);
                     break;
                 default:

@@ -3,7 +3,6 @@ setup{
         Silkeborg -> Bibliotek, Lokale;
         Bibliotek -> Silkeborg, KU;
         Lokale -> Lokale;
-        Lokale -> End;
         KU -> End;
         End -> End;
     };
@@ -33,7 +32,7 @@ Location Silkeborg = {
     if (10 * benno +10 < 100){
         Travel Bibliotek;
     }
-    else if (nextLocation != 2 + 2){
+    else if (true){
         Travel Lokale;
     }
     else {

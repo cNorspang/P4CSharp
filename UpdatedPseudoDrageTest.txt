@@ -6,7 +6,7 @@ setup{
         KU -> Bibliotek, Aalborg_station;
         Aalborg_station -> KU, Gaden;
         Gaden -> Aalborg_station, Hvidovre;
-        Hvidvore -> Hvidvore;
+        Hvidovre -> Hvidovre;
     };
 }
 
@@ -43,7 +43,7 @@ Location Bibliotek = {
     else {
         string TryAgain = userInput "That location doesn't exit, try again [Silkeborg, KU]";
     };
-    
+
     Text nextLocation;
     choice {
         "Silkeborg" {Travel Silkeborg;};
@@ -58,16 +58,16 @@ Location Lokale = {
 
 Location KU = {
     string nextLocation = "You are now at KU, where would you like to go next?";
-    
+
     Text nextLocation;
     choice {
         "Bibliotek" { Travel Bibliotek;};
-        
+
         "Aalborg Station" {Travel Aalborg_station;};
     };
 };
 
-Location Aalborg_Station = {
+Location Aalborg_station = {
     string nextLocation = userInput "You are now at Aalborg_Station, where would you like to go next? [KU, Gaden]";
 
     if (nextLocation is "KU"){
@@ -79,7 +79,7 @@ Location Aalborg_Station = {
     else {
         string TryAgain = userInput "That location doesn't exit, try again [KU, Gaden]";
     };
-    
+
     choice {
         "KU" { Travel KU; };
         "Gaden" {Travel Gaden;};
@@ -89,8 +89,8 @@ Location Aalborg_Station = {
 Location Gaden = {
     string nextLocation = userInput "You are now in Gaden, where would you like to go next? [Aalborg_Station, Hvidovre]";
 
-    if (nextLocation is "Aalborg_Station"){
-        Travel Aalborg_Station;
+    if (nextLocation is "Aalborg_station"){
+        Travel Aalborg_station;
     }
     else if (nextLocation is "Hvidovre"){
         Travel Hvidovre;
@@ -98,7 +98,7 @@ Location Gaden = {
     else {
         string TryAgain = userInput "That location doesn't exit, try again [Aalborg_Station, Hvidovre]";
     };
-    
+
     choice {
         "Aalborg Station" { Travel Aalborg_station; };
         "Hvidovre" {Travel Hvidovre;};
