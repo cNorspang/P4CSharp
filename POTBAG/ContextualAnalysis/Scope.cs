@@ -57,7 +57,7 @@ namespace POTBAG.ContextualAnalysis
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
-                if (symbol.GetContentStatus() == Symbol.AssignedStatus.empty) throw new NotImplementedException($"WHY U NO ASSIGN! {symbol.GetName()} is empty u donkey");
+                if (symbol.GetContentStatus() == Symbol.AssignedStatus.empty) throw new UsedWithoutValueException(symbol.GetName());
                 if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString()); }
                 return symbol;
             }
@@ -75,7 +75,7 @@ namespace POTBAG.ContextualAnalysis
             }
             if (enclosingScope != null) return enclosingScope.GetLocation();
 
-            throw new TravelOutsideLocationException("Cannot Travel from global scope, all Travel statements must be from within a location");
+            throw new TravelOutsideLocationException();
         }
 
         /* Where to look next for symbols */

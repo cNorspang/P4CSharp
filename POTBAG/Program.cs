@@ -12,6 +12,7 @@ namespace POTBAG
     {
         static void Main(string[] args)
         {
+            const bool debug = true;
             string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTest.txt");
 
             ICharStream input = CharStreams.fromString(stream);
@@ -21,7 +22,7 @@ namespace POTBAG
             SymbolTable symbolTable = new SymbolTable();
 
             
-            POTBAGErrorListener errorListener = new POTBAGErrorListener();
+            POTBAGErrorListener errorListener = new POTBAGErrorListener(debug);
 
             //set start node
             try
@@ -58,6 +59,7 @@ namespace POTBAG
                     case TypeErrorException _:
                     case BennoException _:
                     case VariableNotDeclaredException _:
+                    case UsedWithoutValueException _:
                     case NotImplementedException _: //sry
                     case Exception _:
                         errorListener.Report((dynamic)e);
