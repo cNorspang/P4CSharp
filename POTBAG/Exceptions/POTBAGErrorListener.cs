@@ -1,6 +1,7 @@
 using System;
 using Antlr4.Runtime;
 using POTBAG.ContextualAnalysis;
+using static POTBAG.DebugPrinter;
 
 namespace POTBAG.Exceptions
 {
@@ -11,33 +12,35 @@ namespace POTBAG.Exceptions
 
         public void Report(Exception e)
         {
-            Console.WriteLine(table.Clr(1));
-            Console.WriteLine("======= ERROR =======");
+            CcwlError("======= ERROR =======");
             switch (e)
             {
                 case LocationSetupErrorException ex:
-                    Console.WriteLine(ex.Message);
+                    CcwlError(ex.Message);
                     break;
                 case InvalidOperationException _ :
-                    Console.WriteLine("Wrong Operator");
+                    CcwlError("Wrong Operator");
                     break;
                 case TravelOutsideLocationException ex:
-                    Console.WriteLine(ex.Message);
+                    CcwlError(ex.Message);
                     break;
                 case TypeErrorException ex:
-                    Console.WriteLine($"Type Error - Excpeted Type: {ex.expected} | Got Type: {ex.actual}");
+                    CcwlError($"Type Error - Excpeted Type: {ex.expected} | Got Type: {ex.actual}");
                     break;
                 case IllegalTravelException ex:
-                    Console.WriteLine($"{ex.Message}");
+                    CcwlError($"{ex.Message}");
                     break;
                 case DuplicateVariableError ex:
-                    Console.WriteLine($"Duplicate declaration of variable \"{ex.Message}\"");
+                    CcwlError($"Duplicate declaration of variable \"{ex.Message}\"");
                     break;
                 case InvalidTravelArrangementException ex:
-                    Console.WriteLine($"{e.Message}");
+                    CcwlError($"{e.Message}");
+                    break;
+                case NotImplementedException ex: //sry norspang
+                    CcwlError($"{e.Message}");
                     break;
                 default:
-                    Console.WriteLine($"Hey, du fucker med vores grundvand! Fuck dig Karsten: {e}");
+                    CcwlError($"Hey, du fucker med vores grundvand! Fuck dig Karsten: {e}");
                     break;
             }
         }

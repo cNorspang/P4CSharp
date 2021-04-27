@@ -3,6 +3,7 @@ using POTBAG.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static POTBAG.DebugPrinter;
 
 namespace POTBAG.ContextualAnalysis
 {
@@ -44,13 +45,13 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(BufferNode node)
         {
             #region debugSplit
-            Console.WriteLine(st.Clr(1) +
+            Ccwl(
                 "\n   ______            __            __              __   ___                __           _     " +
                 "\n  / ____/___  ____  / /____  _  __/ /___  ______ _/ /  /   |  ____  ____ _/ /_  _______(_)____" +
                 "\n / /   / __ \\/ __ \\/ __/ _ \\| |/_/ __/ / / / __ `/ /  / /| | / __ \\/ __ `/ / / / / ___/ / ___/" +
                 "\n/ /___/ /_/ / / / / /_/  __/>  </ /_/ /_/ / /_/ / /  / ___ |/ / / / /_/ / / /_/ (__  ) (__  ) " +
                 "\n\\____/\\____/_/ /_/\\__/\\___/_/|_|\\__/\\__,_/\\__,_/_/  /_/  |_/_/ /_/\\__,_/_/\\__, /____/_/____/  " +
-                "\n                                                                         /____/               \n"+st.Clr());
+                "\n                                                                         /____/               \n");
             #endregion
             
             Visit(node.SetUpNode);
@@ -212,64 +213,84 @@ namespace POTBAG.ContextualAnalysis
             st.PopScope();
             return true;
         }
-
+        //Absolut horrible code.. good luck reading
         public override object Visit(predicateNode node)
         {
-            //TODO send help or im gonna git commit -m "sudoku"
-            //Predicate is stupid and i hate it. GLHF
-
-            Symbol sbLeft = new Symbol(null,null);
-            Symbol sbRight = new Symbol(null,null);
             switch (node.Left)
             {
                 case variableNode NodeNode:
                     Visit(NodeNode);
-                    sbLeft = st.CurrentScope().Resolve(NodeNode.variableName);
-                    //if (sb.GetSymbolType() != node.Right.GetType()) Console.WriteLine(" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& "+sb.GetSymbolType() + " ## "+node.Right.GetType());
+
+                    if (node.Right == null) 
+                    {
+                        st.CurrentScope().Resolve(NodeNode.variableName, typeof(bool));
+                        break;
+                    }
+                    Symbol symbol = st.CurrentScope().Resolve(NodeNode.variableName);
+
+                    switch (node.Right)
+                    {
+                        case stringNode strNode:
+                            if (symbol.GetSymbolType() != typeof(string)) throw new NotImplementedException("strings can only be compared to strings");
+                            Visit(strNode);
+                            break;
+                        case variableNode varNode:
+                            Symbol rightSymbol = st.CurrentScope().Resolve(varNode.variableName, symbol.GetSymbolType());
+                            if (symbol.GetSymbolType() != typeof(LocationDeclarationNode)) throw new NotImplementedException("nononono, plz dont use locations as predicates.");
+                            Visit(varNode);
+                            break;
+                        case ExpressionNode exprNode:
+                            if (symbol.GetSymbolType() != typeof(int)) throw new NotImplementedException("variable have to be of type int");
+                            Visit(exprNode);
+                            break;
+                        case BoolNode boolNode:
+                            if (symbol.GetSymbolType() != typeof(bool)) throw new NotImplementedException("variable have to be of type bool");
+                            Visit(boolNode);
+                            break;
+                        default:
+                            throw new BennoException("predicate variable right node no wuuurking");
+                    }
+
                     break;
                 case stringNode NodeNode:
                     Visit(NodeNode);
+                    variableNode strVarNode = (variableNode)node.Right;
+                    st.CurrentScope().Resolve(strVarNode.variableName, typeof(string));
+                    Visit(strVarNode);
                     break;
                 case ExpressionNode NodeNode:
                     Visit(NodeNode);
+                    switch (node.Right)
+                    {
+                        case variableNode exprVarNode:
+                            st.CurrentScope().Resolve(exprVarNode.variableName, typeof(int));
+                            Visit(exprVarNode);
+                            break;
+                        case ExpressionNode exprExprNode:
+                            Visit(exprExprNode);
+                            break;
+                        default:
+                            throw new BennoException("predicate expr node no wuuurking");
+                            break;
+                    }
                     break;
                 case BoolNode NodeNode:
                     Visit(NodeNode);
+                    if (node.Right != null)
+                    {
+                        variableNode boolVarNode = (variableNode)node.Right;
+                        st.CurrentScope().Resolve(boolVarNode.variableName, typeof(bool));
+                        Visit(boolVarNode);
+                    }                   
                     break;
                 case predicateNode NodeNode:
                     Visit(NodeNode);
+                    Visit(node.Right);
                     break;
                 default:
-                    throw new BennoException("#### ERROR predicateNode left => " + node.Left.GetType());
-            }
-
-            if (node.Right == null) return true;
-
-            switch (node.Right)
-            {
-                case variableNode NodeNode:
-                    Visit(NodeNode);
-                    sbRight = st.CurrentScope().Resolve(NodeNode.variableName);
-                    //this does not work :(
-                    if (sbLeft.GetSymbolType() != sbRight.GetSymbolType()) { throw new NotImplementedException(); }
-                    break;
-                case stringNode NodeNode:
-                    Visit(NodeNode);
-                    break;
-                case ExpressionNode NodeNode:
-                    Visit(NodeNode);
-                    break;
-                case BoolNode NodeNode:
-                    Visit(NodeNode);
-                    break;
-                case predicateNode NodeNode:
-                    Visit(NodeNode);
-                    break;
-                default:
-                    Console.WriteLine("#### ERROR predicateNode right => " + node.Right.GetType());
+                    Console.WriteLine("#### ERROR predicateNode => " + node.Left.GetType());
                     throw new NotImplementedException();
             }
-
             return true;
         }
 

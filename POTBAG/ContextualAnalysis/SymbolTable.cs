@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using POTBAG.Exceptions;
+using static POTBAG.DebugPrinter;
 
 
 namespace POTBAG.ContextualAnalysis
@@ -74,10 +75,8 @@ namespace POTBAG.ContextualAnalysis
 
         public void PrintAllKeysInSymbolTable()
         {
-            int j = 6;
-            Console.WriteLine($"\n{Clr(1)}$$$_SCOPES_$$${Clr()}");
-            allScopes.ForEach(i => Console.WriteLine($"{Clr(j++)}-$"+i.type+"$ "+i.ToString()));
-            Console.Write(Clr());
+            Ccwl("\n$$$_SCOPES_$$$");
+            allScopes.ForEach(i => Ccwl("-$"+i.type+"$ "+i.ToString()));          
         }
 
         public override string ToString()
@@ -136,13 +135,12 @@ namespace POTBAG.ContextualAnalysis
         {
             IEnumerable<string> DeclaredNotMapped;
             IEnumerable<string> MappedNotDeclared;
-            Console.WriteLine($"{Clr(1)}$$$_LOCATION_MAPS_$$${Clr()}");
-            int clrNum = 6;
+            Ccwl("$$$_LOCATION_MAPS_$$$");
             foreach (var i in locations)
             {
-                Console.Write($"{Clr(clrNum++)}LocationMap: "+i.Key+" -> ");
-                i.Value.ForEach(l => Console.Write(l.variableName+", "));
-                Console.WriteLine(Clr());
+                Ccw($"LocationMap: "+i.Key+" -> ");
+                i.Value.ForEach(l => Ccw(l.variableName+", "));
+                Ccwl("");
             }
             
             List<string> keys = new List<string>();
@@ -163,7 +161,7 @@ namespace POTBAG.ContextualAnalysis
                     {
                         //register end
                         canEnd = true;
-                        Console.WriteLine(Clr(1) + "End point registered: " + key);
+                        Ccwl("End point registered: " + key);
                     }
                     else if (key == col.variableName)
                         throw new InvalidTravelArrangementException($"Travel arrangement not valid: {key} cannot goto {col.variableName} and not be an End point.");
@@ -216,12 +214,6 @@ namespace POTBAG.ContextualAnalysis
             }
         }
 
-        public string Clr(int num = 0)
-        {
-            int theme = 9; //OG: 23
-            string mNum = num == 0 ? "0" : $"38;5;{(num % 7 + 22 + 6 * theme) % 231}";
-            return $"\u001b[{mNum}m";
-        }
     }
 
     public enum ScopeType

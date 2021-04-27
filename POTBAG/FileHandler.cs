@@ -12,7 +12,7 @@ namespace POTBAG.CSTtoAST
 
         public static string readFromInputStream(string filePath)
         {
-            string fileAsString = File.ReadAllText(filePath);
+            string fileAsString = File.ReadAllText("..\\..\\..\\..\\"+filePath);
 
             return fileAsString;
         }

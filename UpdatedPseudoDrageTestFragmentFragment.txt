@@ -8,6 +8,7 @@ setup{
         End -> End;
     };
 }
+
 string hej;
 
 Text hej + "Suh, dude";
