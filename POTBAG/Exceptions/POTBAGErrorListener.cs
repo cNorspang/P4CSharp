@@ -15,8 +15,8 @@ namespace POTBAG.Exceptions
             Console.WriteLine("======= ERROR =======");
             switch (e)
             {
-                case LocationSetupErrorException _:
-                    Console.WriteLine("There was an error is Location Setup");
+                case LocationSetupErrorException ex:
+                    Console.WriteLine(ex.Message);
                     break;
                 case InvalidOperationException _ :
                     Console.WriteLine("Wrong Operator");

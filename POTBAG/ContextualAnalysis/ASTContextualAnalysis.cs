@@ -82,8 +82,7 @@ namespace POTBAG.ContextualAnalysis
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw new LocationSetupErrorException();
+                throw new LocationSetupErrorException(e.Message);
             }
             
             return true;

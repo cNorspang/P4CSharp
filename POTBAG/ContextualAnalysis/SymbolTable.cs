@@ -92,7 +92,15 @@ namespace POTBAG.ContextualAnalysis
 
          public bool DefineNewTravelSource(LocationMappingNode node)
         {
-            locations.Add(node.Source.variableName, node.Destinations);
+            try
+            {
+                locations.Add(node.Source.variableName, node.Destinations);
+            }
+            catch (ArgumentException)
+            {
+                throw new LocationSetupErrorException($"Duplicate mapping of location \"{node.Source.variableName}\"");
+            }
+
 
             return true;
         }
@@ -167,26 +175,42 @@ namespace POTBAG.ContextualAnalysis
 
             if (!canEnd) 
                 throw new InvalidTravelArrangementException($"Travel arrangement not valid: An End point is required.");
+            
             if (!declaredLocations.SequenceEqual(keys))
             {
                 DeclaredNotMapped = declaredLocations.Except(keys);
                 MappedNotDeclared = keys.Except(declaredLocations);
+                
                 IEnumerable<string> mappedNotDeclared = MappedNotDeclared as string[] ?? MappedNotDeclared.ToArray();
-                if (DeclaredNotMapped.Count() != 0 && mappedNotDeclared.Count() != 0)
+                IEnumerable<string> declaredNotMapped = DeclaredNotMapped.ToList();
+                if (declaredNotMapped.Count() != 0 && mappedNotDeclared.Count() != 0)
                 {
                     throw new InvalidTravelArrangementException($"The Following Locations are mapped, but not declared [{string.Join(',', mappedNotDeclared.ToList())}]\n" +
-                                                                $"The Following Locations are declared, but not mapped [{string.Join(',',DeclaredNotMapped.ToList())}]");
+                                                                $"The Following Locations are declared, but not mapped [{string.Join(',',declaredNotMapped.ToList())}]");
                 } 
-                if (DeclaredNotMapped.Count() != 0)
+                if (declaredNotMapped.Count() != 0)
                 {
-                    throw new InvalidTravelArrangementException($"The Following Locations are declared, but not mapped [{string.Join(',',DeclaredNotMapped.ToList())}]");
+                    throw new InvalidTravelArrangementException($"The Following Locations are declared, but not mapped [{string.Join(',',declaredNotMapped.ToList())}]");
                 }
 
                 if (mappedNotDeclared.Count() != 0)
                 {
                     throw new InvalidTravelArrangementException($"The Following Locations are mapped, but not declared [{string.Join(',', mappedNotDeclared.ToList())}]");
                 }
-                
+
+                if (declaredLocations.Count() != declaredLocations.Distinct().Count())
+                {
+                    List<string> temp = new List<string>();
+
+                    foreach (string i in declaredLocations)
+                    {
+                        if (temp.Contains(i))
+                            throw new InvalidTravelArrangementException($"Duplicate declarations of location: \"{i}\"");
+                        
+                        temp.Add(i);
+                    }
+                }
+
                 throw new InvalidTravelArrangementException(
                     $"Travel arrangement not valid: Declared Locations and Mapped Locations are not equal 1=1.[{declaredLocations.Count} != {keys.Count}]");
             }
