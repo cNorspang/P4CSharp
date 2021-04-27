@@ -231,7 +231,7 @@ namespace POTBAG.ContextualAnalysis
                     switch (node.Right)
                     {
                         case stringNode strNode:
-                            if (symbol.GetSymbolType() != typeof(string)) throw new TypeErrorException(typeof(string), symbol.GetSymbolType());
+                            if (symbol.GetSymbolType() != typeof(string)) throw new TypeErrorException(typeof(string).ToString(), symbol.GetSymbolType().ToString());
                             Visit(strNode);
                             break;
                         case variableNode varNode:
@@ -240,11 +240,11 @@ namespace POTBAG.ContextualAnalysis
                             Visit(varNode);
                             break;
                         case ExpressionNode exprNode:
-                            if (symbol.GetSymbolType() != typeof(int)) throw new TypeErrorException(typeof(int), symbol.GetSymbolType());
+                            if (symbol.GetSymbolType() != typeof(int)) throw new TypeErrorException(typeof(int).ToString(), symbol.GetSymbolType().ToString());
                             Visit(exprNode);
                             break;
                         case BoolNode boolNode:
-                            if (symbol.GetSymbolType() != typeof(bool)) throw new TypeErrorException(typeof(bool), symbol.GetSymbolType());
+                            if (symbol.GetSymbolType() != typeof(bool)) throw new TypeErrorException(typeof(bool).ToString(), symbol.GetSymbolType().ToString());
                             Visit(boolNode);
                             break;
                         default:
@@ -301,7 +301,6 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(TravelStatementNode node)
         {
-            Symbol symbol = st.CurrentScope().Resolve(node.Destination.variableName, typeof(LocationDeclarationNode));
             st.ResolveTravel(node, st.CurrentScope());
             return true;
         }

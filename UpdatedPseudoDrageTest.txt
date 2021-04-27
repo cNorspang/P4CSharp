@@ -9,6 +9,8 @@ setup{
         Hvidovre -> Hvidovre;
     };
 }
+
+int hej;
 int a = 1 + hej;
 Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
 
@@ -16,7 +18,7 @@ Location Silkeborg = {
     string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
 
     if (nextLocation is "Bibliotek"){
-        Travel Bibliotek;
+        Travel hej;
     }
     else if (nextLocation is "Lokale"){
         Travel Lokale;

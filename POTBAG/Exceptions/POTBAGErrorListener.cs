@@ -30,11 +30,14 @@ namespace POTBAG.Exceptions
                 case IllegalTravelException ex:
                     CcwlError($"{ex.Message}");
                     break;
+                case VariableNotDeclaredException ex:
+                    CcwlError($"The variable \"{ex.Name}\" is used, but never delared");
+                    break;
                 case DuplicateVariableError ex:
                     CcwlError($"Duplicate declaration of variable \"{ex.Message}\"");
                     break;
                 case InvalidTravelArrangementException ex:
-                    CcwlError($"{e.Message}");
+                    CcwlError($"{ex.Message}");
                     break;
                 case BennoException ex: //sry norspang
                     CcwlError($"BENNO EXCEPTION BITCHES::!: {e.Message}");

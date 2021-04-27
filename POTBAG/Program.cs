@@ -57,6 +57,7 @@ namespace POTBAG
                     case DuplicateVariableError _:    
                     case TypeErrorException _:
                     case BennoException _:
+                    case VariableNotDeclaredException _:
                     case NotImplementedException _: //sry
                     case Exception _:
                         errorListener.Report((dynamic)e);

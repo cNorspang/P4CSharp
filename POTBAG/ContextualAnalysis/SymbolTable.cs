@@ -110,6 +110,12 @@ namespace POTBAG.ContextualAnalysis
          */
         public void ResolveTravel(TravelStatementNode node, Scope currentScope)
         {
+
+            if (!locations.ContainsKey(node.Destination.variableName) && currentScope.Resolve(node.Destination.variableName).GetName() != null)
+            {
+                throw new TypeErrorException("Location", node.Destination.GetType().ToString());
+            }
+            
             Symbol sym = currentScope.GetLocation();
             List<variableNode> gotoList = locations[sym.GetName()];
 

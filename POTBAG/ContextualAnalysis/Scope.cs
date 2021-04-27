@@ -56,12 +56,12 @@ namespace POTBAG.ContextualAnalysis
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
-                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new TypeErrorException(symbol.GetSymbolType(), type); }
+                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString()); }
                 return symbol;
             }
             if (enclosingScope != null) return enclosingScope.Resolve(name, type);
 
-            throw new NotImplementedException($"Symbol cannot be resolved: {name} is not declared."); // not found
+            throw new VariableNotDeclaredException(name); // not found
         }
 
         public Symbol GetLocation()
