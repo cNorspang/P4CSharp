@@ -121,11 +121,6 @@ namespace POTBAG.ContextualAnalysis
 
             bool i = false;
             i = gotoList.Exists(i => i.variableName == node.Destination.variableName);
-            // foreach (variableNode gotoLocation in gotoList)
-            // {
-            //     if (gotoLocation.variableName == node.Destination.variableName)
-            //         i = true;
-            // }
 
             if (!i) { throw new IllegalTravelException($"Illegal Travel: Cannot go from {sym.GetName()} to {node.Destination.variableName}"); }
 

@@ -362,6 +362,7 @@ namespace POTBAG.ContextualAnalysis
                     Visit(intDclNode);
                     break;
             }
+            
 
             switch (node.Right)
             {

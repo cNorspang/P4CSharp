@@ -25,7 +25,7 @@ namespace POTBAG.Exceptions
                     CcwlError(ex.Message);
                     break;
                 case TypeErrorException ex:
-                    CcwlError($"Type Error - Excpeted Type: {ex.expected} | Got Type: {ex.actual}");
+                    CcwlError($"Type Error - Expected Type: {ex.expected} | Got Type: {ex.actual}");
                     break;
                 case IllegalTravelException ex:
                     CcwlError($"{ex.Message}");
