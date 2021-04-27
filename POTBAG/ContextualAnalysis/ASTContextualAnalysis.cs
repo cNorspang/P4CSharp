@@ -50,7 +50,7 @@ namespace POTBAG.ContextualAnalysis
             Ccwl(" / /   / __ \\/ __ \\/ __/ _ \\| |/_/ __/ / / / __ `/ /  / /| | / __ \\/ __ `/ / / / / ___/ / ___/");
             Ccwl("/ /___/ /_/ / / / / /_/  __/>  </ /_/ /_/ / /_/ / /  / ___ |/ / / / /_/ / / /_/ (__  ) (__  ) ");
             Ccwl("\\____/\\____/_/ /_/\\__/\\___/_/|_|\\__/\\__,_/\\__,_/_/  /_/  |_/_/ /_/\\__,_/_/\\__, /____/_/____/  ");
-            Ccwl($"                                                                         /____/ featuring {Environment.UserName}  \n");
+            Ccwl($"                                                                         /____/ feat. {Environment.UserName}  \n");
             #endregion
             
             #region debugSplit
