@@ -39,10 +39,10 @@ namespace POTBAG
                               114, 112, 106, //green
                                31,  32,  33, //blue
                               201, 200, 127};//purple
-            string mNum = num == 0 ? "0" : $"38;5;{rainbow[num % 18]}";
+            //string mNum = num == 0 ? "0" : $"38;5;{rainbow[num % 18]}";
 
-            int[] cyperpunk = { 105, 208, 197, 198, 199, 200};
-            //string mNum = num == 0 ? "0" : $"38;5;{cyperpunk[num % 5]}";
+            int[] NorspangsTheme = { 214, 202, 172, 166, 94, 173};
+            string mNum = num == 0 ? "0" : $"38;5;{NorspangsTheme[num % 6]}";
 
             return $"\u001b[{mNum}m";
         }
