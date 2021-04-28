@@ -379,7 +379,7 @@ namespace POTBAG.ContextualAnalysis
                     break;
             }
             
-
+            //TODO inputStmt cannot take intergers.. also IF this should be implemented *correct* it should be done in Input_assign
             switch (node.Right)
             {
                 case ExpressionNode exprNode:
