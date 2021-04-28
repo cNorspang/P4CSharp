@@ -176,6 +176,12 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.bool_assign"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBool_assign([NotNull] BetterAdvGmParser.Bool_assignContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.int_declaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -193,6 +199,12 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitLocation_declaration([NotNull] BetterAdvGmParser.Location_declarationContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.bool_declaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBool_declaration([NotNull] BetterAdvGmParser.Bool_declarationContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.predicate"/>.
 	/// </summary>
