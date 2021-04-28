@@ -70,7 +70,19 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        
+        public override ProgNode VisitPlayersetup([NotNull] BetterAdvGmParser.PlayersetupContext ctx)
+        {
+            Ccwl("PlayerSetup");
+
+            PlayerSetupNode node = new PlayerSetupNode();
+            ctx.assign().ToList().ForEach(i => node.variableNodes.Add((variableNode)Visit(i)));
+
+            Ccwl($"Player property: {node.variableNodes}");
+
+            return node;
+        }
+
+
         public override ProgNode VisitText_statement(BetterAdvGmParser.Text_statementContext ctx) {
             Ccwl("TextStatement");
             TextStatementNode node = new TextStatementNode();
@@ -303,6 +315,7 @@ namespace POTBAG.CSTtoAST
             
             node.predicate = (predicateNode)VisitPredicate(ctx.predicate());
             ctx.inBlock().ToList().ForEach(i => node.body.Add(Visit(i)));
+
             return node;
         }
 

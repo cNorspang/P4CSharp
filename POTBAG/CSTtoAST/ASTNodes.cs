@@ -27,7 +27,11 @@ namespace POTBAG.CSTtoAST
     {
         public variableNode Source { get; set; }
         public List<variableNode> Destinations { get; set; } = new List<variableNode>();
+    }
 
+    public class PlayerSetupNode : ProgNode
+    {
+        public List<variableNode> variableNodes { get; set; } = new List<variableNode>();
     }
 
     //Statement Nodes

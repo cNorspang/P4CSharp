@@ -106,6 +106,11 @@ namespace POTBAG.ContextualAnalysis
             return true;
         }
 
+        public override object Visit(PlayerSetupNode node)
+        {
+            throw new NotImplementedException();
+        }
+
         public override object Visit(StatementNode node)
         {
             switch (node)

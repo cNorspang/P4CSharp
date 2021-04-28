@@ -10,6 +10,16 @@ setup{
     };
 }
 
+player{
+    int dillermand = 2;
+    string bussemand = "bussemand";
+    string fuckdether = userInput "dunnis tester kode :)";
+    
+    Location mitCrib = {
+	int plugWalk = 69;
+    };
+}
+
 int hej;
 hej = 1;
 int a = 1 + hej;

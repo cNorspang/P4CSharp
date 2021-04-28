@@ -10,6 +10,7 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(SetupNode node);
         public abstract T Visit(LocationsSetupNode node);
         public abstract T Visit(LocationMappingNode node);
+        public abstract T Visit(PlayerSetupNode node);
         public abstract T Visit(StatementNode node);
         public abstract T Visit(TextStatementNode node);
         public abstract T Visit(InputStatementNode node);
