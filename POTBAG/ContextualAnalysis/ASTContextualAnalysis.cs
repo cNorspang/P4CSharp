@@ -328,7 +328,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(int));
+                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string));
                     break;
                 case stringNode strDclNode:
                     Visit(strDclNode);

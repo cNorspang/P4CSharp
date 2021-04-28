@@ -10,8 +10,10 @@ setup{
     };
 }
 
-int hej = 1;
-int a = 1 + hej;
+int hej = userInput "type a num dumdum";
+int test;
+test = 1;
+int a = 1 + hej + test;
 Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
 
 Location Silkeborg = {
