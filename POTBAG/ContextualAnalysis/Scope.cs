@@ -47,21 +47,21 @@ namespace POTBAG.ContextualAnalysis
          */
         public Symbol Resolve(string name)
         {
-            return Resolve(name, typeof(TypeAccessException));
+            return Resolve(name, typeof(TypeAccessException), false);
         }
 
-        public Symbol Resolve(string name, Type type)
+        public Symbol Resolve(string name, Type type, bool needsToBeAssigned)
         {
             Symbol symbol;
 
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
-                if (symbol.GetContentStatus() == Symbol.AssignedStatus.empty) throw new UsedWithoutValueException(symbol.GetName());
+                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) throw new UsedWithoutValueException(symbol.GetName());
                 if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString()); }
                 return symbol;
             }
-            if (enclosingScope != null) return enclosingScope.Resolve(name, type);
+            if (enclosingScope != null) return enclosingScope.Resolve(name, type, needsToBeAssigned);
 
             throw new VariableNotDeclaredException(name); // not found
         }
