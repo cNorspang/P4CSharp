@@ -38,10 +38,9 @@ namespace POTBAG.CSTtoAST
         {
             Ccwl("setup");
             SetupNode node = new SetupNode();
-
             node.Locations = (LocationsSetupNode)Visit(ctx.locationsetup());
-            
-            
+            node.PlayerNode = (PlayerSetupNode)Visit(ctx.playersetup());
+
             return node;
         }
 
@@ -75,9 +74,8 @@ namespace POTBAG.CSTtoAST
             Ccwl("PlayerSetup");
 
             PlayerSetupNode node = new PlayerSetupNode();
-            ctx.assign().ToList().ForEach(i => node.variableNodes.Add((variableNode)Visit(i)));
+            ctx.assign().ToList().ForEach(i => node.assignNodes.Add((AssignNode)Visit(i)));
 
-            Ccwl($"Player property: {node.variableNodes}");
 
             return node;
         }

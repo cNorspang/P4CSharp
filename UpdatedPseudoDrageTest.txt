@@ -7,18 +7,15 @@ setup{
         Aalborg_station -> KU, Gaden;
         Gaden -> Aalborg_station, Hvidovre;
         Hvidovre -> Hvidovre;
-    };
+    }
+    player{
+        int dillermand = 2;
+        string bussemand = "bussemand";
+        string fuckdether = userInput "dunnis tester kode :)";
+    }
 }
 
-player{
-    int dillermand = 2;
-    string bussemand = "bussemand";
-    string fuckdether = userInput "dunnis tester kode :)";
-    
-    Location mitCrib = {
-	int plugWalk = 69;
-    };
-}
+
 
 int hej;
 hej = 1;

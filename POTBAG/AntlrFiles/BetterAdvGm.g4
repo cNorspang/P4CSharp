@@ -2,15 +2,15 @@ grammar BetterAdvGm;
 //Main Rule
 prog: buffernode EOF;
 
-buffernode: setup playersetup inBlock*;
+buffernode: setup inBlock*;
 
 //Setup Rules
-setup: KEYWORD_SETUP CURLY_LEFT (locationsetup /* playersetup | playersetup locationsetup */) CURLY_RIGHT;
+setup: KEYWORD_SETUP CURLY_LEFT locationsetup playersetup CURLY_RIGHT;
 //locationsetup: KEYWORD_LOCATIONARRAY SQUARE_LEFT (variable COMMA_SEPERATOR)* variable SQUARE_RIGHT END_STMT;
-locationsetup: KEYWORD_LOCATIONS ASSIGN_OPERATOR CURLY_LEFT (locationmapping)+ CURLY_RIGHT END_STMT;
+locationsetup: KEYWORD_LOCATIONS ASSIGN_OPERATOR CURLY_LEFT (locationmapping)+ CURLY_RIGHT;
 locationmapping: variable ARROW_OPERATOR (variable COMMA_SEPERATOR)* variable END_STMT;
-
 playersetup: KEYWORD_PLAYER CURLY_LEFT (assign)+ CURLY_RIGHT;
+
 
 //Base Rules
 inBlock: statement|expression|assign|declaration;

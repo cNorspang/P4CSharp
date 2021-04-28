@@ -9,13 +9,14 @@ namespace POTBAG.CSTtoAST
 
     public class BufferNode : ProgNode
     {
-        public SetupNode SetUpNode { get; set; } = new SetupNode(); 
+        public SetupNode SetUpNode { get; set; } = new SetupNode();
         public List<ProgNode> inBlock = new List<ProgNode>();
     } 
     
     public class SetupNode : ProgNode
     {
         public LocationsSetupNode Locations { get; set; }
+        public PlayerSetupNode PlayerNode { get; set; } = new PlayerSetupNode();
     }
 
     public class LocationsSetupNode : ProgNode
@@ -29,9 +30,9 @@ namespace POTBAG.CSTtoAST
         public List<variableNode> Destinations { get; set; } = new List<variableNode>();
     }
 
-    public class PlayerSetupNode : ProgNode
+    public class PlayerSetupNode : AssignNode
     {
-        public List<variableNode> variableNodes { get; set; } = new List<variableNode>();
+        public List<AssignNode> assignNodes { get; set; } = new List<AssignNode>();
     }
 
     //Statement Nodes

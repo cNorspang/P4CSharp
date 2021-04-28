@@ -79,6 +79,7 @@ namespace POTBAG.ContextualAnalysis
         {
             st.PushScope();
             Visit(node.Locations);
+            Visit(node.PlayerNode);
             st.PopScope();
 
             return true;
@@ -108,7 +109,8 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(PlayerSetupNode node)
         {
-            throw new NotImplementedException();
+            node.assignNodes.ForEach(i => Visit(i));
+            return true;
         }
 
         public override object Visit(StatementNode node)
