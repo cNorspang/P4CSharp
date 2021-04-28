@@ -56,8 +56,6 @@ Location Bibliotek = {
 
 Location Lokale = {
     hejsa = true;
-    string hel = "h";
-    hel = 12;
     Text "You are now at Lokale, which is a dead end, so you travel back to your previous location.";
     Travel Silkeborg;
 };

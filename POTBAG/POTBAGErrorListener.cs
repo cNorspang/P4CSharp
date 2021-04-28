@@ -32,7 +32,7 @@ namespace POTBAG.Exceptions
                         CcwlError("Svar mig lige, hvordan fuck jeg skal tjekke om jeg kan komme et sted hen, hvis jeg ikke allerede er et sted??");
                         break;
                     case TypeErrorException ex:
-                        CcwlError($"Hallooo, jeg skal bruge: \"{ex.expected}\" ikk: \"{ex.actual}\",vel??");
+                        CcwlError($"jaa, det var så en: \"{ex.expected}\" ikk: \"{ex.actual}\",vel??");
                         break;
                     case IllegalTravelException ex:
                         CcwlError($"{ex.Message}");
