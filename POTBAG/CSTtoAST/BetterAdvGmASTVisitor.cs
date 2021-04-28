@@ -150,7 +150,26 @@ namespace POTBAG.CSTtoAST
             Ccwl("    Child Varname of string_Declaration: " + node.VarName);
             return node;
         }
-        
+        public override ProgNode VisitBool_assign([NotNull] BetterAdvGmParser.Bool_assignContext ctx)
+        {
+            Ccwl("bool_assign");
+            BoolAssignNode node = new BoolAssignNode();
+            node.Left = Visit(ctx.GetChild(0));
+            Ccwl("    Left child of bool_assign: " + node.Left);
+
+            node.Right = (BoolNode)Visit(ctx.GetChild(2));
+            Ccwl("    Right child of bool_assign: " + node.Right);
+            return node;
+        }
+
+        public override ProgNode VisitBool_declaration([NotNull] BetterAdvGmParser.Bool_declarationContext ctx)
+        {
+            Ccwl("bool_declaration");
+            BoolDeclarationNode node = new BoolDeclarationNode();
+            node.VarName = (variableNode)Visit(ctx.variable());
+            return node;
+        }
+
         public override ProgNode VisitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext ctx)
         {
             Ccwl("location_assign");

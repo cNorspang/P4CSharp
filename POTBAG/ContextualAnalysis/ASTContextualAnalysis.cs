@@ -358,6 +358,9 @@ namespace POTBAG.ContextualAnalysis
                 case LocationAssignNode locationAssignNode:
                     symbol = (Symbol)Visit(locationAssignNode);
                     break;
+                case BoolAssignNode boolAssignNode:
+                    symbol = (Symbol)Visit(boolAssignNode);
+                    break;
             }
 
             symbol.SetContentStatus(Symbol.AssignedStatus.full);
@@ -412,7 +415,29 @@ namespace POTBAG.ContextualAnalysis
             //can only be one string_obj node so just a visit
             Visit(node.Right);
             return symbol;
-        } 
+        }
+
+        public override object Visit(BoolAssignNode node)
+        {
+            Symbol symbol = new Symbol(null, null);
+
+            switch (node.Left)
+            {
+                case variableNode varNode:
+                    Visit(varNode);
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(bool), false);
+                    break;
+                case BoolDeclarationNode boolDclNode:
+                    symbol = (Symbol)Visit(boolDclNode);
+                    break;
+                default:
+                    throw new BennoException($"### ERROR boolAssignNode => {node.GetType().Name}");
+            }
+            Visit(node.Right);
+            return symbol;
+        }
+
+      
 
         public override object Visit(InputAssignNode node)
         {
@@ -482,6 +507,9 @@ namespace POTBAG.ContextualAnalysis
                 case LocationDeclarationNode locationDeclarationNode:
                     symbol = (Symbol)Visit(locationDeclarationNode);
                     break;
+                case BoolDeclarationNode boolDeclarationNode:
+                    symbol = (Symbol)Visit(boolDeclarationNode);
+                    break;
                 default:
                     throw new BennoException($"### ERROR DeclarationNode => {node.GetType().Name}");
             }
@@ -497,6 +525,12 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(stringDeclarationNode node)
         {
             Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(string));
+            return symbol;
+        }
+
+        public override object Visit(BoolDeclarationNode node)
+        {
+            Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(bool));
             return symbol;
         }
 
@@ -576,5 +610,7 @@ namespace POTBAG.ContextualAnalysis
         {
             return true;
         }
+
+       
     }
 }

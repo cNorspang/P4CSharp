@@ -26,12 +26,14 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(AssignNode node);
         public abstract T Visit(IntAssignNode node);
         public abstract T Visit(stringAssignNode node);
+        public abstract T Visit(BoolAssignNode node);
         public abstract T Visit(InputAssignNode node);
         public abstract T Visit(variableNode node);
         public abstract T Visit(LocationAssignNode node);
         public abstract T Visit(DeclarationNode node);
         public abstract T Visit(IntDeclarationNode node);
         public abstract T Visit(stringDeclarationNode node);
+        public abstract T Visit(BoolDeclarationNode node);
         public abstract T Visit(stringNode node);
         public abstract T Visit(LocationDeclarationNode node);
         public abstract T Visit(ExpressionNode node);
