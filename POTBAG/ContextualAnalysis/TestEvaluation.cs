@@ -1,6 +1,7 @@
 using POTBAG.CSTtoAST;
 using System;
 using System.Collections.Generic;
+using POTBAG.Exceptions;
 
 namespace POTBAG.ContextualAnalysis
 {
@@ -114,12 +115,6 @@ namespace POTBAG.ContextualAnalysis
             return 0;
         }
 
-        public override int Visit(IfStatementNode node)
-        {
-            FileHandler.write($"char* IfStatementNode{counter++};\n");
-            return 0;
-        }
-
         public override int Visit(IfChainStatementNode node)
         {
             FileHandler.write($"char* ifChainStatementNode{counter++};\n");
@@ -185,7 +180,7 @@ namespace POTBAG.ContextualAnalysis
                 default:
                     Console.WriteLine("#### ERROR #### => " + node.Left.GetType());
                     Console.ReadKey();
-                    throw new NotImplementedException();
+                    throw new BennoException();
             }
 
             var hej = Visit(nodeLeft);
@@ -365,7 +360,7 @@ namespace POTBAG.ContextualAnalysis
 
         public override int Visit(WhileStatementNode node)
         {
-            throw new NotImplementedException();
+            throw new  BennoException();
         }
     }
 }

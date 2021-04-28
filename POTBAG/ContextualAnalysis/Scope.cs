@@ -1,5 +1,8 @@
-﻿using System;
+﻿using POTBAG.CSTtoAST;
+using System;
 using System.Collections.Generic;
+using POTBAG.Exceptions;
+using static POTBAG.DebugPrinter;
 
 
 namespace POTBAG.ContextualAnalysis
@@ -11,7 +14,7 @@ namespace POTBAG.ContextualAnalysis
 
         public ScopeType type;
         public Scope enclosingScope;
-        protected IDictionary<string, Symbol> symbolMap = new Dictionary<string, Symbol>();
+        public IDictionary<string, Symbol> symbolMap = new Dictionary<string, Symbol>();
 
         public Scope(ScopeType Type, int GenId, Scope EnclosingScope)
         {
@@ -21,36 +24,61 @@ namespace POTBAG.ContextualAnalysis
         }
 
 
-        /** Define a symbol in the current scope */
-        public void Define(string name, Type type)
+        /* Define a symbol in the current scope */
+        public Symbol Define(string name, Type type)
         {
-            Symbol symbol = new Symbol(name, type);
-            symbol.SetScope(this);
-            symbolMap.Add(symbol.GetName(), symbol);
+            try
+            {
+                Symbol symbol = new Symbol(name, type);
+                symbol.SetScope(this);
+                symbolMap.Add(symbol.GetName(), symbol);
+                return symbol;
+            }
+            catch (Exception e)
+            {
+                throw new DuplicateVariableError(name);
+            }
         }
 
-        /**
+        /*
          * Look up the symbol name in this scope and, if not found, 
          * progressively search the enclosing scopes. 
          * Return null if not found in any applicable scope.
          */
-        public Symbol Resolve(string name, Type type)
+        public Symbol Resolve(string name)
+        {
+            return Resolve(name, typeof(TypeAccessException), false);
+        }
+
+        public Symbol Resolve(string name, Type type, bool needsToBeAssigned)
         {
             Symbol symbol;
 
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
-                if (symbol.GetSymbolType() != type) { throw new NotImplementedException(); }
+                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) throw new UsedWithoutValueException(symbol.GetName());
+                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString()); }
                 return symbol;
             }
-            if (enclosingScope != null) return enclosingScope.Resolve(name, type);
+            if (enclosingScope != null) return enclosingScope.Resolve(name, type, needsToBeAssigned);
 
-            return null; // not found
+            throw new VariableNotDeclaredException(name); // not found
         }
 
+        public Symbol GetLocation()
+        {
+            foreach (KeyValuePair<string, Symbol> item in symbolMap)
+            {
+                if (item.Value.GetSymbolType().Name == typeof(LocationDeclarationNode).Name)
+                    return item.Value;
+            }
+            if (enclosingScope != null) return enclosingScope.GetLocation();
 
-        /** Where to look next for symbols */
+            throw new TravelOutsideLocationException();
+        }
+
+        /* Where to look next for symbols */
         public Scope EnclosingScope()
         {
             return enclosingScope;
@@ -63,7 +91,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 keys += entry.Value.ToString() + " : ";
             }
-            return symbolMap.Keys.Count != 0 ? keys : "-<empty>-";
+            return symbolMap.Keys.Count != 0 ? keys : "~~";
         }
 
         public void PrintAllAccessibleKeys()

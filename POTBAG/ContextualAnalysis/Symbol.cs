@@ -7,21 +7,26 @@ namespace POTBAG.ContextualAnalysis
     {
 
         protected Scope scope; // the owning scope
-        //protected BaseDescriptor descriptor;
+        protected AssignedStatus ContentStatus;
         protected string name;
         protected Type type;
 
-        public Symbol(/*BaseDescriptor descriptor,*/ string name, Type type)
+        public Symbol(string name, Type type)
         {
-            //this.descriptor = descriptor;
             this.name = name;
+            ContentStatus = AssignedStatus.empty;
             this.type = type;
         }
 
-        //public BaseDescriptor GetDescriptor()
-        //{
-        //    return descriptor;
-        //}
+        public void SetContentStatus(AssignedStatus newStatus)
+        {
+             ContentStatus = newStatus;
+        }
+
+        public AssignedStatus GetContentStatus()
+        {
+            return ContentStatus;
+        }
 
         public string GetName()
         {
@@ -52,6 +57,12 @@ namespace POTBAG.ContextualAnalysis
         {
             if (type != null) return '<' + GetName() + ":" + type.Name + '>';
             return GetName();
+        }
+
+        public enum AssignedStatus
+        {
+            empty,
+            full
         }
     }
 }
