@@ -10,9 +10,7 @@ setup{
     };
 }
 
-int hej;
-hej = 21;
-
+int hej = 1;
 int a = 1 + hej;
 Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
 

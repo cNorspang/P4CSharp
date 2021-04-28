@@ -148,7 +148,7 @@ namespace POTBAG.ContextualAnalysis
                     case variableNode varNode:
                         Visit(varNode);
                         //Validate variable
-                        st.CurrentScope().Resolve(varNode.variableName, typeof(string), true);
+                        st.CurrentScope().Resolve(varNode.variableName, typeof(string));
                         break;
                     case stringNode strNode:
                         Visit(strNode);
@@ -178,7 +178,7 @@ namespace POTBAG.ContextualAnalysis
                     case variableNode varNode:
                         Visit(varNode);
                         //Validate variable
-                        st.CurrentScope().Resolve(varNode.variableName, typeof(string), true);
+                        st.CurrentScope().Resolve(varNode.variableName, typeof(string));
                         break;
                     case stringNode strNode:
                         Visit(strNode);
@@ -234,7 +234,7 @@ namespace POTBAG.ContextualAnalysis
 
                     if (node.Right == null) 
                     {
-                        st.CurrentScope().Resolve(NodeNode.variableName, typeof(bool), true);
+                        st.CurrentScope().Resolve(NodeNode.variableName, typeof(bool));
                         break;
                     }
                     Symbol symbol = st.CurrentScope().Resolve(NodeNode.variableName);
@@ -246,7 +246,7 @@ namespace POTBAG.ContextualAnalysis
                             Visit(strNode);
                             break;
                         case variableNode varNode:
-                            Symbol rightSymbol = st.CurrentScope().Resolve(varNode.variableName, symbol.GetSymbolType(), true);
+                            Symbol rightSymbol = st.CurrentScope().Resolve(varNode.variableName, symbol.GetSymbolType());
                             if (symbol.GetSymbolType() == typeof(LocationDeclarationNode)) throw new NotImplementedException("nononono, plz dont use locations as predicates.");
                             Visit(varNode);
                             break;
@@ -266,7 +266,7 @@ namespace POTBAG.ContextualAnalysis
                 case stringNode NodeNode:
                     Visit(NodeNode);
                     variableNode strVarNode = (variableNode)node.Right;
-                    st.CurrentScope().Resolve(strVarNode.variableName, typeof(string), true);
+                    st.CurrentScope().Resolve(strVarNode.variableName, typeof(string));
                     Visit(strVarNode);
                     break;
                 case ExpressionNode NodeNode:
@@ -274,7 +274,7 @@ namespace POTBAG.ContextualAnalysis
                     switch (node.Right)
                     {
                         case variableNode exprVarNode:
-                            st.CurrentScope().Resolve(exprVarNode.variableName, typeof(int), true);
+                            st.CurrentScope().Resolve(exprVarNode.variableName, typeof(int));
                             Visit(exprVarNode);
                             break;
                         case ExpressionNode exprExprNode:
@@ -290,7 +290,7 @@ namespace POTBAG.ContextualAnalysis
                     if (node.Right != null)
                     {
                         variableNode boolVarNode = (variableNode)node.Right;
-                        st.CurrentScope().Resolve(boolVarNode.variableName, typeof(bool), true);
+                        st.CurrentScope().Resolve(boolVarNode.variableName, typeof(bool));
                         Visit(boolVarNode);
                     }                   
                     break;
@@ -328,7 +328,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(int), true);
+                    Symbol symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(int));
                     break;
                 case stringNode strDclNode:
                     Visit(strDclNode);
@@ -372,7 +372,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(int), false);
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(int));
                     break;
                 case IntDeclarationNode intDclNode:
                     symbol = (Symbol)Visit(intDclNode);
@@ -401,7 +401,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string), false);
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string));
                     break;
                 case stringDeclarationNode stringDclNode:
                     symbol = (Symbol)Visit(stringDclNode);
@@ -422,7 +422,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string), false);
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string));
                     break;
                 case stringDeclarationNode strDclNode:
                     symbol = (Symbol)Visit(strDclNode);
@@ -455,7 +455,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 case variableNode varNode:
                     Visit(varNode);
-                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(LocationDeclarationNode), false);
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(LocationDeclarationNode));
                     break;
                 case LocationDeclarationNode locationDclNode:
                     symbol = (Symbol)Visit(locationDclNode);
@@ -532,7 +532,7 @@ namespace POTBAG.ContextualAnalysis
                     break;
                 case ExpressionVarNameNode nodeVAR:
                     //validate the variable.
-                    Symbol symbol = st.CurrentScope().Resolve(nodeVAR.VarName, typeof(int), true);
+                    Symbol symbol = st.CurrentScope().Resolve(nodeVAR.VarName, typeof(int));
                     break;
                 case ExpressionSoloNode nodeISO:
                     Visit(nodeISO.expr);
