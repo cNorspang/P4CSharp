@@ -113,7 +113,7 @@ namespace POTBAG.ContextualAnalysis
 
             if (!locations.ContainsKey(node.Destination.variableName) && currentScope.Resolve(node.Destination.variableName).GetName() != null)
             {
-                throw new TypeErrorException("Location", node.Destination.GetType().ToString());
+                throw new TypeErrorException("Location", GetTypeOf(node.Destination.variableName));
             }
             
             Symbol sym = currentScope.GetLocation();
@@ -132,6 +132,23 @@ namespace POTBAG.ContextualAnalysis
          * - A location can only be mapped to itself if it contains only that map. 
          * - ...it also makes big O go brrrrrr ◑﹏◐.
          */
+
+        string GetTypeOf(string varname)
+        {
+            Symbol retType = null;
+            foreach (Scope scope in allScopes.Where(scope => retType == null))
+            {
+                scope.symbolMap.TryGetValue(varname, out retType);
+            }
+
+            if (retType != null)
+            {
+                return retType.GetSymbolType().Name == "Int32" ? "Int" : retType.GetSymbolType().Name;
+            }
+            
+            throw new BennoException($"Symbol with name {varname} not found");
+        }
+        
         public void ValidateTravelArrangement()
         {
             IEnumerable<string> DeclaredNotMapped;
