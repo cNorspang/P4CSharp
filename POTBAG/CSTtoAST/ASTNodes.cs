@@ -9,13 +9,14 @@ namespace POTBAG.CSTtoAST
 
     public class BufferNode : ProgNode
     {
-        public SetupNode SetUpNode { get; set; } = new SetupNode(); 
+        public SetupNode SetUpNode { get; set; } = new SetupNode();
         public List<ProgNode> inBlock = new List<ProgNode>();
     } 
     
     public class SetupNode : ProgNode
     {
         public LocationsSetupNode Locations { get; set; }
+        public PlayerSetupNode PlayerNode { get; set; } = new PlayerSetupNode();
     }
 
     public class LocationsSetupNode : ProgNode
@@ -25,9 +26,13 @@ namespace POTBAG.CSTtoAST
 
     public class LocationMappingNode : ProgNode
     {
-        public string Source { get; set; }
-        public List<string> Destinations { get; set; }
+        public variableNode Source { get; set; }
+        public List<variableNode> Destinations { get; set; } = new List<variableNode>();
+    }
 
+    public class PlayerSetupNode : AssignNode
+    {
+        public List<AssignNode> assignNodes { get; set; } = new List<AssignNode>();
     }
 
     //Statement Nodes
@@ -35,45 +40,51 @@ namespace POTBAG.CSTtoAST
 
     public class TextStatementNode : StatementNode
     {
-        public List<string> Text { get; set; }
+        public List<ProgNode> Text { get; set; } = new List<ProgNode>();
     }
 
 
     public class InputStatementNode : StatementNode
     {
-        public List<string> Text { get; set; }
+        public List<ProgNode> Text { get; set; } = new List<ProgNode>();
     }
 
+    public class IfChainStatementNode : StatementNode
+    {
+        public ifNode ifNode = new ifNode();
+        public List<ElseIfStatementNode> elseIfChain = new List<ElseIfStatementNode>();
+        public elseNode elseNode = new elseNode();
+    }
+
+    public class ifNode : IfStatementNode { }
+    public class ElseIfStatementNode : IfStatementNode { }
+    public class elseNode : StatementNode
+    {
+        public List<ProgNode> body { get; set; } = new List<ProgNode>();
+    }
     public class IfStatementNode : StatementNode
     {
-        public ifNode ifNode;
-        public List<ElseIfStatementNode> elseIfChain;
-        public elseNode elseNode;
+        public predicateNode predicate = new predicateNode();
+        public List<ProgNode> body { get; set; } = new List<ProgNode>();
     }
 
-    public class ifChainStatementNode : StatementNode
-    {
-        public predicateNode predicate;
-        public ProgNode body;
-    }
-
-    public class ifNode : ifChainStatementNode { }
-
-    public class ElseIfStatementNode : ifChainStatementNode { }
-    
-    //TODO: Pls work
-    public class elseNode : StatementNode { }
+    public class WhileStatementNode : IfStatementNode { }
 
     public class predicateNode : ProgNode
     {
-        public string Left { get; set; }
-        public string Right{ get; set; }
+        public ProgNode Left { get; set; }
+        public ProgNode Right{ get; set; }
         public string Operator { get; set; }
+    }
+
+    public class BoolNode : ProgNode
+    {
+        public bool value { get; set; }
     }
 
     public class TravelStatementNode : StatementNode
     {
-        public string Destination { get; set; }
+        public variableNode Destination { get; set; }
     }
 
 
@@ -85,12 +96,8 @@ namespace POTBAG.CSTtoAST
     public class OptionStatementNode : StatementNode
     {
        
-        public string Left { get; set; } //var_name or string
+        public ProgNode Left { get; set; } //var_name or string
         public List<ProgNode> Right = new List<ProgNode>();
-        public List<BetterAdvGmParser.DeclarationContext> RightDeclaration;
-        public List<BetterAdvGmParser.StatementContext> RightStatement;
-        public List<BetterAdvGmParser.ExpressionContext> RightExpression;
-        public List<BetterAdvGmParser.AssignContext> RightAssign;
 
     }
 
@@ -100,26 +107,34 @@ namespace POTBAG.CSTtoAST
 
     public class IntAssignNode : AssignNode
     {
-        public string Left { get; set; }
-        public ExpressionNode Right { get; set; }
+        //ProgNode allows Int_declarationNode, variableNode
+        public ProgNode Left { get; set; }
+        public string Operator { get; set; }
+        //progNode allows expressionNode, inputStatement
+        public ProgNode Right { get; set; }
     }
 
     public class stringAssignNode : AssignNode
     {
-        public string Left { get; set; }
-        public string Right { get; set; }
+        public ProgNode Left { get; set; }
+        public stringNode Right { get; set; }
+    }
+
+    public class BoolAssignNode : AssignNode 
+    {
+        public ProgNode Left { get; set; }
+        public BoolNode Right { get; set; }
     }
 
     public class InputAssignNode : AssignNode
     {
-        public string LeftStr;
-        public stringDeclarationNode LeftStrDclNode;
+        public ProgNode Left;
         public InputStatementNode Right;
     }
 
     public class LocationAssignNode : AssignNode
     {
-        public LocationDeclarationNode Left;
+        public ProgNode Left;
 
         public List<ProgNode> Right = new List<ProgNode>();
         // public List<BetterAdvGmParser.StatementContext> RightStatement;
@@ -131,19 +146,42 @@ namespace POTBAG.CSTtoAST
     //Declaration Nodes
     public abstract class DeclarationNode : ProgNode
     {
-        public string VarName { get; set; }
+        public variableNode VarName { get; set; }
     }
 
     public class IntDeclarationNode : DeclarationNode { }
 
     public class stringDeclarationNode : DeclarationNode { }
 
+    public class BoolDeclarationNode : DeclarationNode { }
+
     public class LocationDeclarationNode : DeclarationNode { }
+
+    public class variableNode : ProgNode
+    {
+        public string variableName { get; set; }
+    }
+
+    public class stringNode : ProgNode
+    {
+        public string strVal { get; set; }
+    }
+
 
     public abstract class ExpressionNode : ProgNode
     {
         public ExpressionNode Left { get; set; }
         public ExpressionNode Right { get; set; }
+    }
+
+    public class ExpressionVarNameNode : ExpressionNode 
+    {
+        public string VarName { get; set; }
+    }
+
+    public class ExpressionSoloNode : ExpressionNode
+    {
+        public ExpressionNode expr { get; set; }
     }
 
     public class AdditionNode : ExpressionNode { }

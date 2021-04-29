@@ -96,6 +96,18 @@ public partial class BetterAdvGmBaseListener : IBetterAdvGmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLocationmapping([NotNull] BetterAdvGmParser.LocationmappingContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.playersetup"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterPlayersetup([NotNull] BetterAdvGmParser.PlayersetupContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.playersetup"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitPlayersetup([NotNull] BetterAdvGmParser.PlayersetupContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.inBlock"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -180,6 +192,18 @@ public partial class BetterAdvGmBaseListener : IBetterAdvGmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitInput_statement([NotNull] BetterAdvGmParser.Input_statementContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.if_chain_statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterIf_chain_statement([NotNull] BetterAdvGmParser.If_chain_statementContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.if_chain_statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitIf_chain_statement([NotNull] BetterAdvGmParser.If_chain_statementContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.if_statement"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -252,6 +276,18 @@ public partial class BetterAdvGmBaseListener : IBetterAdvGmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitOption_statment([NotNull] BetterAdvGmParser.Option_statmentContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.while_statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterWhile_statement([NotNull] BetterAdvGmParser.While_statementContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.while_statement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitWhile_statement([NotNull] BetterAdvGmParser.While_statementContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.int_assign"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -300,6 +336,18 @@ public partial class BetterAdvGmBaseListener : IBetterAdvGmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.bool_assign"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBool_assign([NotNull] BetterAdvGmParser.Bool_assignContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.bool_assign"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBool_assign([NotNull] BetterAdvGmParser.Bool_assignContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.int_declaration"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -336,6 +384,18 @@ public partial class BetterAdvGmBaseListener : IBetterAdvGmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLocation_declaration([NotNull] BetterAdvGmParser.Location_declarationContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.bool_declaration"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBool_declaration([NotNull] BetterAdvGmParser.Bool_declarationContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.bool_declaration"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBool_declaration([NotNull] BetterAdvGmParser.Bool_declarationContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.predicate"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -347,6 +407,42 @@ public partial class BetterAdvGmBaseListener : IBetterAdvGmListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitPredicate([NotNull] BetterAdvGmParser.PredicateContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.variable"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterVariable([NotNull] BetterAdvGmParser.VariableContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.variable"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitVariable([NotNull] BetterAdvGmParser.VariableContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.string_obj"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterString_obj([NotNull] BetterAdvGmParser.String_objContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.string_obj"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitString_obj([NotNull] BetterAdvGmParser.String_objContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.bool_obj"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.bool_obj"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

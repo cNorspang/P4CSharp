@@ -62,6 +62,12 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLocationmapping([NotNull] BetterAdvGmParser.LocationmappingContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.playersetup"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPlayersetup([NotNull] BetterAdvGmParser.PlayersetupContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.inBlock"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -104,6 +110,12 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitInput_statement([NotNull] BetterAdvGmParser.Input_statementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.if_chain_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIf_chain_statement([NotNull] BetterAdvGmParser.If_chain_statementContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.if_statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -140,6 +152,12 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitOption_statment([NotNull] BetterAdvGmParser.Option_statmentContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.while_statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitWhile_statement([NotNull] BetterAdvGmParser.While_statementContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.int_assign"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -164,6 +182,12 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.bool_assign"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBool_assign([NotNull] BetterAdvGmParser.Bool_assignContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.int_declaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -182,9 +206,33 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLocation_declaration([NotNull] BetterAdvGmParser.Location_declarationContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.bool_declaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBool_declaration([NotNull] BetterAdvGmParser.Bool_declarationContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.predicate"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitPredicate([NotNull] BetterAdvGmParser.PredicateContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.variable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitVariable([NotNull] BetterAdvGmParser.VariableContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.string_obj"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitString_obj([NotNull] BetterAdvGmParser.String_objContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.bool_obj"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context);
 }

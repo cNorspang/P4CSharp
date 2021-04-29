@@ -1,0 +1,115 @@
+setup{
+    Locations = {
+        Silkeborg -> Bibliotek, Lokale;
+        Bibliotek -> Silkeborg, KU;
+        Lokale -> Silkeborg;
+        KU -> Bibliotek, Aalborg_station;
+        Aalborg_station -> KU, Gaden;
+        Gaden -> Aalborg_station, Hvidovre;
+        Hvidovre -> Hvidovre;
+    };
+}
+
+bool hejsa = true;
+int hej;
+int yeet;
+int a = 1 + hej + yeet;
+Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
+
+Location Silkeborg = {
+    string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
+
+    if (nextLocation is "Bibliotek" AND hejsa){
+        Travel Bibliotek;
+    }
+    else if (nextLocation is "Lokale"){
+        Travel hej;
+    }
+    else {
+        string TryAgain = userInput "That location doesn't exit, try again [Bibliotek, Lokale]";
+    };
+    
+    choice {
+        "Bibliotek" {Travel Bibliotek;};
+        "Lokale" { Travel Lokale; };
+    };
+};
+
+Location Bibliotek = {
+    string nextLocation = userInput "You are now in Bibliotek, where would you like to go next? [Silkeborg, KU]";
+
+    if (nextLocation is "Silkeborg"){
+        Travel Silkeborg;
+    }
+    else if (nextLocation is "KU"){
+        Travel KU;
+    }
+    else {
+        string TryAgain = userInput "That location doesn't exit, try again [Silkeborg, KU]";
+    };
+
+    Text nextLocation;
+    choice {
+        "Silkeborg" {Travel Silkeborg;};
+        "KU" { Travel KU; };
+    };
+};
+
+Location Lokale = {
+    hejsa = true;
+    Text "You are now at Lokale, which is a dead end, so you travel back to your previous location.";
+    Travel Silkeborg;
+};
+
+Location KU = {
+    string nextLocation = "You are now at KU, where would you like to go next?";
+
+    Text nextLocation;
+    choice {
+        "Bibliotek" { Travel Bibliotek; hejsa = false;};
+
+        "Aalborg Station" {Travel Aalborg_station;};
+    };
+};
+
+Location Aalborg_station = {
+    string nextLocation = userInput "You are now at Aalborg_Station, where would you like to go next? [KU, Gaden]";
+
+    if (nextLocation is "KU"){
+        Travel KU;
+    }
+    else if (nextLocation is "Gaden"){
+        Travel Gaden;
+    }
+    else {
+        string TryAgain = userInput "That location doesn't exit, try again [KU, Gaden]";
+    };
+
+    choice {
+        "KU" { Travel KU; };
+        "Gaden" {Travel Gaden;};
+    };
+};
+
+Location Gaden = {
+    string nextLocation = userInput "You are now in Gaden, where would you like to go next? [Aalborg_Station, Hvidovre]";
+
+    if (nextLocation is "Aalborg_station"){
+        Travel Aalborg_station;
+    }
+    else if (nextLocation is "Hvidovre"){
+        Travel Hvidovre;
+    }
+    else {
+        string TryAgain = userInput "That location doesn't exit, try again [Aalborg_Station, Hvidovre]";
+    };
+
+    choice {
+        "Aalborg Station" { Travel Aalborg_station; };
+        "Hvidovre" {Travel Hvidovre;};
+    };
+};
+
+Location Hvidovre = {
+    Text "Congratulations, you managed to get to Hvidovre!";
+};

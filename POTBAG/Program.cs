@@ -1,7 +1,10 @@
-﻿using Antlr4.Runtime;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using POTBAG.ContextualAnalysis;
 using POTBAG.CSTtoAST;
 using System;
+using POTBAG.Exceptions;
+using static POTBAG.DebugPrinter;
 
 namespace POTBAG
 {
@@ -9,31 +12,66 @@ namespace POTBAG
     {
         static void Main(string[] args)
         {
-            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTestFragment.txt");
+            const bool debug = true; 
+            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTest.txt");
 
             ICharStream input = CharStreams.fromString(stream);
             ITokenSource lexer = new BetterAdvGmLexer(input);
             ITokenStream tokenStream = new CommonTokenStream(lexer);
             BetterAdvGmParser parser = new BetterAdvGmParser(tokenStream);
+            SymbolTable symbolTable = new SymbolTable();
 
+
+            POTBAGErrorListener.conTroller = false;
+            DebugPrinter.isDebug = debug;
             //set start node
             try
             {
-                var cst = parser.prog(); ;
+                BetterAdvGmParser.ProgContext cst = parser.prog();
+                if (parser.NumberOfSyntaxErrors != 0) { Environment.Exit(1); }
 
-                var ast = new BetterAdvGmASTVisitor().VisitProg(cst);
-                var Test = new TestEvaluation().Visit(ast);
+                ProgNode ast = new BetterAdvGmASTVisitor().VisitProg(cst);
+
+                var contextualAnalysis = new ASTContextualAnalysis(symbolTable).Visit(ast);
+                POTBAGErrorListener.ErrorCheck();
+
+                FileHandler.write("#include <stdio.h>\nint main(int argc, char const *argv[]){");
+
+                //var Test = new TestEvaluation().Visit(ast);
                 FileHandler.write("return 0;}");
-                FileHandler.WriteToFile();
+                //var tree = Trees.ToStringTree(cst, parser);
+                //Console.WriteLine(tree);
+
+                //Console.WriteLine("### FILE WRITE ###");
+                //FileHandler.WriteToFile();
+                //FileHandler.PrintCCodeDebug();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                switch (e)
+                {
+                    case LocationSetupErrorException _:
+                    case InvalidTravelArrangementException _:
+                    case IllegalTravelException _:
+                    case TravelOutsideLocationException _:
+                    case InvalidOperationException _:
+                    case DuplicateVariableError _:    
+                    case TypeErrorException _:
+                    case BennoException _:
+                    case VariableNotDeclaredException _:
+                    case UsedWithoutValueException _:
+                    case NotImplementedException _: //sry
+                    case Exception _:
+                        POTBAGErrorListener.Report((dynamic)e);
+                        break;
+                }
+            }
+            finally
+            {
+                Ccwipe();
+                Environment.Exit(52);
             }
 
-            
-            //var tree = Trees.ToStringTree(cst,parser);
             //Console.WriteLine(tree);
 
             //System.out.println(ast);
