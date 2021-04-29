@@ -184,6 +184,12 @@ namespace POTBAG.CSTtoAST
         public ExpressionNode expr { get; set; }
     }
 
+    public class RandomExpressionNode : ExpressionNode
+    {
+        public ExpressionNode MinValue {get; set;}
+        public ExpressionNode MaxValue {get; set;}
+    }
+
     public class AdditionNode : ExpressionNode { }
 
     public class SubtractionNode : ExpressionNode { }
