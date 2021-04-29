@@ -8,7 +8,7 @@ buffernode: setup inBlock*;
 setup: KEYWORD_SETUP CURLY_LEFT locationsetup playersetup CURLY_RIGHT;
 //locationsetup: KEYWORD_LOCATIONARRAY SQUARE_LEFT (variable COMMA_SEPERATOR)* variable SQUARE_RIGHT END_STMT;
 locationsetup: KEYWORD_LOCATIONS ASSIGN_OPERATOR CURLY_LEFT (locationmapping)+ CURLY_RIGHT;
-locationmapping: variable ARROW_OPERATOR (variable COMMA_SEPERATOR)* variable END_STMT;
+locationmapping: variable ARROW_OPERATOR (((variable COMMA_SEPERATOR)* variable) | KEYWOORD_END) END_STMT;
 playersetup: KEYWORD_PLAYER CURLY_LEFT (assign)+ CURLY_RIGHT;
 
 
@@ -112,6 +112,7 @@ KEYWORD_PLAYER     : 'player';
 KEYWORD_LOCATIONARRAY: 'LocationArray';
 KEYWORD_LOCATIONS  : 'Locations';
 KEYWORD_CHOICE     : 'choice';
+KEYWOORD_END       : 'END';
 COMMA_SEPERATOR    : ',';
 BOOL_CMP_OPERATOR  : ('==' | 'is' | '!=' | 'is not');
 CMP_OPERATOR       : ('greater than' | 'lesser than' |'<' | '>' | '<=' | '>=');
