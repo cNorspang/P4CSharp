@@ -7,7 +7,7 @@ setup{
         Aalborg_station -> KU, Gaden;
         Gaden -> Aalborg_station, Hvidovre;
         Hvidovre -> Hvidovre;
-    };
+    } player = {bool dunnis = true;}
 }
 
 bool hejsa = true;

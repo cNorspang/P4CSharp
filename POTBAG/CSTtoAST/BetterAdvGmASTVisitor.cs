@@ -418,18 +418,22 @@ namespace POTBAG.CSTtoAST
             variableNode node = new variableNode();
             if (node.variableName != null)
                 node.variableName = ctx.VAR_NAME().GetText();
+            else if(ctx.dot_notaion() != null)
+                VisitDot_notaion(ctx.dot_notaion());
             else
-                VisitDot_notaion(ctx);
-
+            {
+                throw new BennoException("Variable not variableName or dotnotation");
+            }
+            
             return node;
         }
 
         public override ProgNode VisitDot_notaion([NotNull] BetterAdvGmParser.Dot_notaionContext ctx)
         {
-            DotNotaionNode node = new DotNotaionNode();
-            if (node.variableName != null)
-                node.variableName = ctx.
-            
+            //Tilgå hvad der står efter "player.", altså, hvis
+            //der står player.health, så blir node.variableName = health;
+            DotNotaionNode node = new DotNotaionNode {variableName = ctx.VAR_NAME().GetText()};
+
             return node;
         }
 

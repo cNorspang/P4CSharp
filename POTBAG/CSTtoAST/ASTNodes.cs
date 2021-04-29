@@ -162,7 +162,8 @@ namespace POTBAG.CSTtoAST
         public string variableName { get; set; }
     }
 
-    public class DotNotaionNode : variableNode { }
+    public class DotNotaionNode : variableNode
+    { }
 
     public class stringNode : ProgNode
     {
