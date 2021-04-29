@@ -82,7 +82,6 @@ namespace POTBAG.CSTtoAST
         public bool value { get; set; }
     }
 
-
     public class TravelStatementNode : StatementNode
     {
         public variableNode Destination { get; set; }
@@ -121,6 +120,12 @@ namespace POTBAG.CSTtoAST
         public stringNode Right { get; set; }
     }
 
+    public class BoolAssignNode : AssignNode 
+    {
+        public ProgNode Left { get; set; }
+        public BoolNode Right { get; set; }
+    }
+
     public class InputAssignNode : AssignNode
     {
         public ProgNode Left;
@@ -147,6 +152,8 @@ namespace POTBAG.CSTtoAST
     public class IntDeclarationNode : DeclarationNode { }
 
     public class stringDeclarationNode : DeclarationNode { }
+
+    public class BoolDeclarationNode : DeclarationNode { }
 
     public class LocationDeclarationNode : DeclarationNode { }
 

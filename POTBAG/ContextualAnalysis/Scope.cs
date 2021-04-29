@@ -36,8 +36,10 @@ namespace POTBAG.ContextualAnalysis
             }
             catch (Exception e)
             {
-                throw new DuplicateVariableError(name);
+                POTBAGErrorListener.Report(new DuplicateVariableError(name));
             }
+            
+            return null;
         }
 
         /*
@@ -57,13 +59,14 @@ namespace POTBAG.ContextualAnalysis
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
-                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) throw new UsedWithoutValueException(symbol.GetName());
-                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { throw new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString()); }
+                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) POTBAGErrorListener.Report(new UsedWithoutValueException(symbol.GetName()));
+                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { POTBAGErrorListener.Report(new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString())); }
                 return symbol;
             }
             if (enclosingScope != null) return enclosingScope.Resolve(name, type, needsToBeAssigned);
 
-            throw new VariableNotDeclaredException(name); // not found
+            POTBAGErrorListener.Report(new VariableNotDeclaredException(name)); // not found
+            return null;
         }
 
         public Symbol GetLocation()
@@ -75,7 +78,8 @@ namespace POTBAG.ContextualAnalysis
             }
             if (enclosingScope != null) return enclosingScope.GetLocation();
 
-            throw new TravelOutsideLocationException();
+            POTBAGErrorListener.Report(new TravelOutsideLocationException());
+            return null;
         }
 
         /* Where to look next for symbols */
@@ -87,7 +91,7 @@ namespace POTBAG.ContextualAnalysis
         public override string ToString()
         {
             string keys = "";
-            foreach (var entry in symbolMap)
+            foreach (KeyValuePair<string, Symbol> entry in symbolMap)
             {
                 keys += entry.Value.ToString() + " : ";
             }

@@ -15,21 +15,20 @@ setup{
     }
 }
 
-
-
+bool hejsa = true;
 int hej;
-hej = 1;
-int a = 1 + hej;
+int yeet;
+int a = 1 + hej + yeet;
 Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
 
 Location Silkeborg = {
     string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
 
-    if (nextLocation is "Bibliotek"){
+    if (nextLocation is "Bibliotek" AND hejsa){
         Travel Bibliotek;
     }
     else if (nextLocation is "Lokale"){
-        Travel Lokale;
+        Travel hej;
     }
     else {
         string TryAgain = userInput "That location doesn't exit, try again [Bibliotek, Lokale]";
@@ -62,6 +61,7 @@ Location Bibliotek = {
 };
 
 Location Lokale = {
+    hejsa = true;
     Text "You are now at Lokale, which is a dead end, so you travel back to your previous location.";
     Travel Silkeborg;
 };
@@ -71,7 +71,7 @@ Location KU = {
 
     Text nextLocation;
     choice {
-        "Bibliotek" { Travel Bibliotek;};
+        "Bibliotek" { Travel Bibliotek; hejsa = false;};
 
         "Aalborg Station" {Travel Aalborg_station;};
     };

@@ -281,6 +281,16 @@ public interface IBetterAdvGmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.bool_assign"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBool_assign([NotNull] BetterAdvGmParser.Bool_assignContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.bool_assign"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBool_assign([NotNull] BetterAdvGmParser.Bool_assignContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.int_declaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -310,6 +320,16 @@ public interface IBetterAdvGmListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitLocation_declaration([NotNull] BetterAdvGmParser.Location_declarationContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.bool_declaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBool_declaration([NotNull] BetterAdvGmParser.Bool_declarationContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.bool_declaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBool_declaration([NotNull] BetterAdvGmParser.Bool_declarationContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.predicate"/>.
 	/// </summary>

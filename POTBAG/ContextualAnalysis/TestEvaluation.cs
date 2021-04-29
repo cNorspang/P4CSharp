@@ -367,5 +367,15 @@ namespace POTBAG.ContextualAnalysis
         {
             throw new  BennoException();
         }
+
+        public override int Visit(BoolAssignNode node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int Visit(BoolDeclarationNode node)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

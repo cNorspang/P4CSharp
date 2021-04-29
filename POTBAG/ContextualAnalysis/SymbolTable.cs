@@ -97,7 +97,7 @@ namespace POTBAG.ContextualAnalysis
             }
             catch (ArgumentException)
             {
-                throw new LocationSetupErrorException($"Duplicate mapping of location \"{node.Source.variableName}\"");
+                POTBAGErrorListener.Report(new LocationSetupErrorException($"Duplicate mapping of location \"{node.Source.variableName}\""));
             }
 
 
@@ -113,7 +113,7 @@ namespace POTBAG.ContextualAnalysis
 
             if (!locations.ContainsKey(node.Destination.variableName) && currentScope.Resolve(node.Destination.variableName).GetName() != null)
             {
-                throw new TypeErrorException("Location", node.Destination.GetType().ToString());
+                POTBAGErrorListener.Report(new TypeErrorException("Location", node.Destination.GetType().ToString()));
             }
             
             Symbol sym = currentScope.GetLocation();
@@ -122,7 +122,7 @@ namespace POTBAG.ContextualAnalysis
             bool i = false;
             i = gotoList.Exists(i => i.variableName == node.Destination.variableName);
 
-            if (!i) { throw new IllegalTravelException($"Illegal Travel: Cannot go from {sym.GetName()} to {node.Destination.variableName}"); }
+            if (!i) { POTBAGErrorListener.Report(new IllegalTravelException($"Illegal Travel: Cannot go from {sym.GetName()} to {node.Destination.variableName}")); }
 
         }
 
@@ -165,7 +165,7 @@ namespace POTBAG.ContextualAnalysis
                         Ccwl("End point registered: " + key);
                     }
                     else if (key == col.variableName)
-                        throw new InvalidTravelArrangementException($"Travel arrangement not valid: {key} cannot goto {col.variableName} and not be an End point.");
+                        POTBAGErrorListener.Report(new InvalidTravelArrangementException($"Travel arrangement not valid: {key} cannot goto {col.variableName} and not be an End point."));
                 }
             }
 
@@ -173,7 +173,7 @@ namespace POTBAG.ContextualAnalysis
             keys.Sort();
 
             if (!canEnd) 
-                throw new InvalidTravelArrangementException($"Travel arrangement not valid: An End point is required.");
+                POTBAGErrorListener.Report(new InvalidTravelArrangementException($"Travel arrangement not valid: An End point is required."));
             
             if (!declaredLocations.SequenceEqual(keys))
             {
@@ -184,17 +184,19 @@ namespace POTBAG.ContextualAnalysis
                 IEnumerable<string> declaredNotMapped = DeclaredNotMapped.ToList();
                 if (declaredNotMapped.Count() != 0 && mappedNotDeclared.Count() != 0)
                 {
-                    throw new InvalidTravelArrangementException($"The Following Locations are mapped, but not declared [{string.Join(',', mappedNotDeclared.ToList())}]\n" +
-                                                                $"The Following Locations are declared, but not mapped [{string.Join(',',declaredNotMapped.ToList())}]");
+                    POTBAGErrorListener.Report(new InvalidTravelArrangementException($"The Following Locations are mapped, but not declared [{string.Join(',', mappedNotDeclared.ToList())}]\n" +
+                                                                $"The Following Locations are declared, but not mapped [{string.Join(',',declaredNotMapped.ToList())}]"));
                 } 
                 if (declaredNotMapped.Count() != 0)
                 {
-                    throw new InvalidTravelArrangementException($"The Following Locations are declared, but not mapped [{string.Join(',',declaredNotMapped.ToList())}]");
+                    POTBAGErrorListener.Report( new InvalidTravelArrangementException($"The Following Locations are declared, but not mapped " +
+                        $"[{string.Join(',',declaredNotMapped.ToList())}]"));
                 }
 
                 if (mappedNotDeclared.Count() != 0)
                 {
-                    throw new InvalidTravelArrangementException($"The Following Locations are mapped, but not declared [{string.Join(',', mappedNotDeclared.ToList())}]");
+                    POTBAGErrorListener.Report(new InvalidTravelArrangementException(
+                        $"The Following Locations are mapped, but not declared [{string.Join(',', mappedNotDeclared.ToList())}]"));
                 }
 
                 if (declaredLocations.Count() != declaredLocations.Distinct().Count())
@@ -204,14 +206,14 @@ namespace POTBAG.ContextualAnalysis
                     foreach (string i in declaredLocations)
                     {
                         if (temp.Contains(i))
-                            throw new InvalidTravelArrangementException($"Duplicate declarations of location: \"{i}\"");
+                            POTBAGErrorListener.Report(new InvalidTravelArrangementException($"Duplicate declarations of location: \"{i}\""));
                         
                         temp.Add(i);
                     }
                 }
 
-                throw new InvalidTravelArrangementException(
-                    $"Travel arrangement not valid: Declared Locations and Mapped Locations are not equal 1=1.[{declaredLocations.Count} != {keys.Count}]");
+                POTBAGErrorListener.Report(new InvalidTravelArrangementException(
+                    $"Travel arrangement not valid: Declared Locations and Mapped Locations are not equal 1=1.[{declaredLocations.Count} != {keys.Count}]"));
             }
         }
 

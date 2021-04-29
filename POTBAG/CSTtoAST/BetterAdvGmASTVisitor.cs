@@ -119,7 +119,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.COMPOUND_OPERATOR() != null)
                 node.Operator = "COMPOUND_OPERATOR";
             else
-                throw new InvalidOperationException();
+                POTBAGErrorListener.Report( new InvalidOperationException());
 
             node.Left = Visit(ctx.GetChild(0));          
             Ccwl("    Left Child Int_assign: "+node.Left + "\n     Operator child Int_assign: "+node.Operator);
@@ -160,7 +160,26 @@ namespace POTBAG.CSTtoAST
             Ccwl("    Child Varname of string_Declaration: " + node.VarName);
             return node;
         }
-        
+        public override ProgNode VisitBool_assign([NotNull] BetterAdvGmParser.Bool_assignContext ctx)
+        {
+            Ccwl("bool_assign");
+            BoolAssignNode node = new BoolAssignNode();
+            node.Left = Visit(ctx.GetChild(0));
+            Ccwl("    Left child of bool_assign: " + node.Left);
+
+            node.Right = (BoolNode)Visit(ctx.GetChild(2));
+            Ccwl("    Right child of bool_assign: " + node.Right);
+            return node;
+        }
+
+        public override ProgNode VisitBool_declaration([NotNull] BetterAdvGmParser.Bool_declarationContext ctx)
+        {
+            Ccwl("bool_declaration");
+            BoolDeclarationNode node = new BoolDeclarationNode();
+            node.VarName = (variableNode)Visit(ctx.variable());
+            return node;
+        }
+
         public override ProgNode VisitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext ctx)
         {
             Ccwl("location_assign");
@@ -204,7 +223,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.variable() != null) { op = "VAR"; }
             else if (ctx.PAREN_LEFT() != null) { op = "ISO"; }
 
-            ExpressionNode node;
+            ExpressionNode node = null;
 
             switch (op)
             {
@@ -256,13 +275,10 @@ namespace POTBAG.CSTtoAST
                     node = nodeISO;
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    POTBAGErrorListener.Report(new InvalidOperationException());
                     break;
             }
-
             return node;
-
-
         }
 
         public override ProgNode VisitChoice_statement([NotNull] BetterAdvGmParser.Choice_statementContext ctx)
