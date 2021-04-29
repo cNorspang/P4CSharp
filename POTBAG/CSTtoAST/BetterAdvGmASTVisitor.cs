@@ -76,7 +76,6 @@ namespace POTBAG.CSTtoAST
             PlayerSetupNode node = new PlayerSetupNode();
             ctx.assign().ToList().ForEach(i => node.assignNodes.Add((AssignNode)Visit(i)));
 
-
             return node;
         }
 
