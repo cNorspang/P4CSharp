@@ -17,10 +17,12 @@ namespace POTBAG.Exceptions
             CcwlError("======= ERROR =======");
             if (ErrorQueue.Count != 0)
             {
-                foreach (string Error in ErrorQueue)
+                foreach (string error in ErrorQueue)
                 {
-                    CcwlError(Error);
+                    CcwlError(error);
                 }
+
+                Environment.Exit(conTroller ? 420 : 80085);
             }
         }
         
