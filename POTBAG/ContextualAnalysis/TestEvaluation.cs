@@ -62,6 +62,11 @@ namespace POTBAG.ContextualAnalysis
             return 0;
         }
 
+        public override int Visit(PlayerSetupNode node)
+        {
+            throw new NotImplementedException();
+        }
+
         public override int Visit(StatementNode node)
         {
             switch (node)
@@ -361,6 +366,16 @@ namespace POTBAG.ContextualAnalysis
         public override int Visit(WhileStatementNode node)
         {
             throw new  BennoException();
+        }
+
+        public override int Visit(BoolAssignNode node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int Visit(BoolDeclarationNode node)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(SetupNode node);
         public abstract T Visit(LocationsSetupNode node);
         public abstract T Visit(LocationMappingNode node);
+        public abstract T Visit(PlayerSetupNode node);
         public abstract T Visit(StatementNode node);
         public abstract T Visit(TextStatementNode node);
         public abstract T Visit(InputStatementNode node);
@@ -26,12 +27,14 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(AssignNode node);
         public abstract T Visit(IntAssignNode node);
         public abstract T Visit(stringAssignNode node);
+        public abstract T Visit(BoolAssignNode node);
         public abstract T Visit(InputAssignNode node);
         public abstract T Visit(variableNode node);
         public abstract T Visit(LocationAssignNode node);
         public abstract T Visit(DeclarationNode node);
         public abstract T Visit(IntDeclarationNode node);
         public abstract T Visit(stringDeclarationNode node);
+        public abstract T Visit(BoolDeclarationNode node);
         public abstract T Visit(stringNode node);
         public abstract T Visit(LocationDeclarationNode node);
         public abstract T Visit(ExpressionNode node);

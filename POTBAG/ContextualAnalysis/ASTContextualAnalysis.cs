@@ -36,7 +36,8 @@ namespace POTBAG.ContextualAnalysis
                         break;
                     default:
                         Console.WriteLine($"### ERROR List<ProgNode> (inBlock) => {string.Join(',', node)}");
-                        throw new inBlockErrorException();
+                        POTBAGErrorListener.Report(new inBlockErrorException());
+                        break;
                 }
             }
             return true;
@@ -79,6 +80,7 @@ namespace POTBAG.ContextualAnalysis
         {
             st.PushScope();
             Visit(node.Locations);
+            Visit(node.PlayerNode);
             st.PopScope();
 
             return true;
@@ -94,7 +96,7 @@ namespace POTBAG.ContextualAnalysis
             }
             catch (Exception e)
             {
-                throw new LocationSetupErrorException(e.Message);
+                POTBAGErrorListener.Report( new LocationSetupErrorException(e.Message));
             }
             
             return true;
@@ -103,6 +105,12 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(LocationMappingNode node)
         {
             st.DefineNewTravelSource(node);
+            return true;
+        }
+
+        public override object Visit(PlayerSetupNode node)
+        {
+            node.assignNodes.ForEach(i => Visit(i));
             return true;
         }
 
@@ -242,7 +250,8 @@ namespace POTBAG.ContextualAnalysis
                     switch (node.Right)
                     {
                         case stringNode strNode:
-                            if (symbol.GetSymbolType() != typeof(string)) throw new TypeErrorException(typeof(string).ToString(), symbol.GetSymbolType().ToString());
+                            if (symbol.GetSymbolType() != typeof(string)) POTBAGErrorListener.Report( 
+                                new TypeErrorException(typeof(string).ToString(), symbol.GetSymbolType().ToString()));
                             Visit(strNode);
                             break;
                         case variableNode varNode:
@@ -251,11 +260,13 @@ namespace POTBAG.ContextualAnalysis
                             Visit(varNode);
                             break;
                         case ExpressionNode exprNode:
-                            if (symbol.GetSymbolType() != typeof(int)) throw new TypeErrorException(typeof(int).ToString(), symbol.GetSymbolType().ToString());
+                            if (symbol.GetSymbolType() != typeof(int)) POTBAGErrorListener.Report(
+                                new TypeErrorException(typeof(int).ToString(), symbol.GetSymbolType().ToString()));
                             Visit(exprNode);
                             break;
                         case BoolNode boolNode:
-                            if (symbol.GetSymbolType() != typeof(bool)) throw new TypeErrorException(typeof(bool).ToString(), symbol.GetSymbolType().ToString());
+                            if (symbol.GetSymbolType() != typeof(bool)) POTBAGErrorListener.Report(
+                                new TypeErrorException(typeof(bool).ToString(), symbol.GetSymbolType().ToString()));
                             Visit(boolNode);
                             break;
                         default:
@@ -300,7 +311,7 @@ namespace POTBAG.ContextualAnalysis
                     break;
                 default:
                     Console.WriteLine("#### ERROR predicateNode => " + node.Left.GetType());
-                    throw new NotImplementedException();
+                    throw new BennoException();
             }
             return true;
         }
@@ -358,6 +369,9 @@ namespace POTBAG.ContextualAnalysis
                 case LocationAssignNode locationAssignNode:
                     symbol = (Symbol)Visit(locationAssignNode);
                     break;
+                case BoolAssignNode boolAssignNode:
+                    symbol = (Symbol)Visit(boolAssignNode);
+                    break;
             }
 
             symbol.SetContentStatus(Symbol.AssignedStatus.full);
@@ -412,7 +426,29 @@ namespace POTBAG.ContextualAnalysis
             //can only be one string_obj node so just a visit
             Visit(node.Right);
             return symbol;
-        } 
+        }
+
+        public override object Visit(BoolAssignNode node)
+        {
+            Symbol symbol = new Symbol(null, null);
+
+            switch (node.Left)
+            {
+                case variableNode varNode:
+                    Visit(varNode);
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(bool), false);
+                    break;
+                case BoolDeclarationNode boolDclNode:
+                    symbol = (Symbol)Visit(boolDclNode);
+                    break;
+                default:
+                    throw new BennoException($"### ERROR boolAssignNode => {node.GetType().Name}");
+            }
+            Visit(node.Right);
+            return symbol;
+        }
+
+      
 
         public override object Visit(InputAssignNode node)
         {
@@ -482,6 +518,9 @@ namespace POTBAG.ContextualAnalysis
                 case LocationDeclarationNode locationDeclarationNode:
                     symbol = (Symbol)Visit(locationDeclarationNode);
                     break;
+                case BoolDeclarationNode boolDeclarationNode:
+                    symbol = (Symbol)Visit(boolDeclarationNode);
+                    break;
                 default:
                     throw new BennoException($"### ERROR DeclarationNode => {node.GetType().Name}");
             }
@@ -497,6 +536,12 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(stringDeclarationNode node)
         {
             Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(string));
+            return symbol;
+        }
+
+        public override object Visit(BoolDeclarationNode node)
+        {
+            Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(bool));
             return symbol;
         }
 
@@ -576,5 +621,7 @@ namespace POTBAG.ContextualAnalysis
         {
             return true;
         }
+
+       
     }
 }

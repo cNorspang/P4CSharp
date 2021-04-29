@@ -9,13 +9,14 @@ namespace POTBAG.CSTtoAST
 
     public class BufferNode : ProgNode
     {
-        public SetupNode SetUpNode { get; set; } = new SetupNode(); 
+        public SetupNode SetUpNode { get; set; } = new SetupNode();
         public List<ProgNode> inBlock = new List<ProgNode>();
     } 
     
     public class SetupNode : ProgNode
     {
         public LocationsSetupNode Locations { get; set; }
+        public PlayerSetupNode PlayerNode { get; set; } = new PlayerSetupNode();
     }
 
     public class LocationsSetupNode : ProgNode
@@ -27,7 +28,11 @@ namespace POTBAG.CSTtoAST
     {
         public variableNode Source { get; set; }
         public List<variableNode> Destinations { get; set; } = new List<variableNode>();
+    }
 
+    public class PlayerSetupNode : AssignNode
+    {
+        public List<AssignNode> assignNodes { get; set; } = new List<AssignNode>();
     }
 
     //Statement Nodes
@@ -77,7 +82,6 @@ namespace POTBAG.CSTtoAST
         public bool value { get; set; }
     }
 
-
     public class TravelStatementNode : StatementNode
     {
         public variableNode Destination { get; set; }
@@ -116,6 +120,12 @@ namespace POTBAG.CSTtoAST
         public stringNode Right { get; set; }
     }
 
+    public class BoolAssignNode : AssignNode 
+    {
+        public ProgNode Left { get; set; }
+        public BoolNode Right { get; set; }
+    }
+
     public class InputAssignNode : AssignNode
     {
         public ProgNode Left;
@@ -142,6 +152,8 @@ namespace POTBAG.CSTtoAST
     public class IntDeclarationNode : DeclarationNode { }
 
     public class stringDeclarationNode : DeclarationNode { }
+
+    public class BoolDeclarationNode : DeclarationNode { }
 
     public class LocationDeclarationNode : DeclarationNode { }
 
