@@ -236,9 +236,9 @@ public interface IBetterAdvGmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.dotnotaion"/>.
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.dot_notaion"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitDotnotaion([NotNull] BetterAdvGmParser.DotnotaionContext context);
+	Result VisitDot_notaion([NotNull] BetterAdvGmParser.Dot_notaionContext context);
 }

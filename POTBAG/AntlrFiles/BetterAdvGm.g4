@@ -79,10 +79,10 @@ predicate: (variable BOOL_CMP_OPERATOR string_obj
          | variable
          | bool_obj;
 
-variable: VAR_NAME | dotnotaion;
+variable: VAR_NAME | dot_notaion;
 string_obj: STRING;
 bool_obj: BOOL;
-dotnotaion: KEYWORD_PLAYER DOT VAR_NAME;
+dot_notaion: KEYWORD_PLAYER DOT VAR_NAME;
 
 //Lexer Rules
 fragment LETTERS   : [a-zA-Z];

@@ -443,17 +443,17 @@ public partial class BetterAdvGmBaseListener : IBetterAdvGmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.dotnotaion"/>.
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.dot_notaion"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterDotnotaion([NotNull] BetterAdvGmParser.DotnotaionContext context) { }
+	public virtual void EnterDot_notaion([NotNull] BetterAdvGmParser.Dot_notaionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.dotnotaion"/>.
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.dot_notaion"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitDotnotaion([NotNull] BetterAdvGmParser.DotnotaionContext context) { }
+	public virtual void ExitDot_notaion([NotNull] BetterAdvGmParser.Dot_notaionContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

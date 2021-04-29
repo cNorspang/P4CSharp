@@ -416,7 +416,20 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitVariable([NotNull] BetterAdvGmParser.VariableContext ctx)
         {
             variableNode node = new variableNode();
-            node.variableName = ctx.VAR_NAME().GetText();
+            if (node.variableName != null)
+                node.variableName = ctx.VAR_NAME().GetText();
+            else
+                VisitDot_notaion(ctx);
+
+            return node;
+        }
+
+        public override ProgNode VisitDot_notaion([NotNull] BetterAdvGmParser.Dot_notaionContext ctx)
+        {
+            DotNotaionNode node = new DotNotaionNode();
+            if (node.variableName != null)
+                node.variableName = ctx.
+            
             return node;
         }
 

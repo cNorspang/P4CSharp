@@ -56,7 +56,7 @@ public partial class BetterAdvGmParser : Parser {
 		RULE_location_assign = 24, RULE_bool_assign = 25, RULE_int_declaration = 26, 
 		RULE_string_declaration = 27, RULE_location_declaration = 28, RULE_bool_declaration = 29, 
 		RULE_predicate = 30, RULE_variable = 31, RULE_string_obj = 32, RULE_bool_obj = 33, 
-		RULE_dotnotaion = 34;
+		RULE_dot_notaion = 34;
 	public static readonly string[] ruleNames = {
 		"prog", "buffernode", "setup", "locationsetup", "locationmapping", "playersetup", 
 		"inBlock", "expression", "statement", "assign", "declaration", "text_statement", 
@@ -65,7 +65,7 @@ public partial class BetterAdvGmParser : Parser {
 		"while_statement", "int_assign", "string_assign", "input_assign", "location_assign", 
 		"bool_assign", "int_declaration", "string_declaration", "location_declaration", 
 		"bool_declaration", "predicate", "variable", "string_obj", "bool_obj", 
-		"dotnotaion"
+		"dot_notaion"
 	};
 
 	private static readonly string[] _LiteralNames = {
@@ -2626,8 +2626,8 @@ public partial class BetterAdvGmParser : Parser {
 
 	public partial class VariableContext : ParserRuleContext {
 		public ITerminalNode VAR_NAME() { return GetToken(BetterAdvGmParser.VAR_NAME, 0); }
-		public DotnotaionContext dotnotaion() {
-			return GetRuleContext<DotnotaionContext>(0);
+		public Dot_notaionContext dot_notaion() {
+			return GetRuleContext<Dot_notaionContext>(0);
 		}
 		public VariableContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -2666,7 +2666,7 @@ public partial class BetterAdvGmParser : Parser {
 			case KEYWORD_PLAYER:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 430; dotnotaion();
+				State = 430; dot_notaion();
 				}
 				break;
 			default:
@@ -2770,34 +2770,34 @@ public partial class BetterAdvGmParser : Parser {
 		return _localctx;
 	}
 
-	public partial class DotnotaionContext : ParserRuleContext {
+	public partial class Dot_notaionContext : ParserRuleContext {
 		public ITerminalNode KEYWORD_PLAYER() { return GetToken(BetterAdvGmParser.KEYWORD_PLAYER, 0); }
 		public ITerminalNode DOT() { return GetToken(BetterAdvGmParser.DOT, 0); }
 		public ITerminalNode VAR_NAME() { return GetToken(BetterAdvGmParser.VAR_NAME, 0); }
-		public DotnotaionContext(ParserRuleContext parent, int invokingState)
+		public Dot_notaionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_dotnotaion; } }
+		public override int RuleIndex { get { return RULE_dot_notaion; } }
 		public override void EnterRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
-			if (typedListener != null) typedListener.EnterDotnotaion(this);
+			if (typedListener != null) typedListener.EnterDot_notaion(this);
 		}
 		public override void ExitRule(IParseTreeListener listener) {
 			IBetterAdvGmListener typedListener = listener as IBetterAdvGmListener;
-			if (typedListener != null) typedListener.ExitDotnotaion(this);
+			if (typedListener != null) typedListener.ExitDot_notaion(this);
 		}
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IBetterAdvGmVisitor<TResult> typedVisitor = visitor as IBetterAdvGmVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitDotnotaion(this);
+			if (typedVisitor != null) return typedVisitor.VisitDot_notaion(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public DotnotaionContext dotnotaion() {
-		DotnotaionContext _localctx = new DotnotaionContext(Context, State);
-		EnterRule(_localctx, 68, RULE_dotnotaion);
+	public Dot_notaionContext dot_notaion() {
+		Dot_notaionContext _localctx = new Dot_notaionContext(Context, State);
+		EnterRule(_localctx, 68, RULE_dot_notaion);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{

@@ -374,7 +374,7 @@ public partial class BetterAdvGmBaseVisitor<Result> : AbstractParseTreeVisitor<R
 	/// <return>The visitor result.</return>
 	public virtual Result VisitBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.dotnotaion"/>.
+	/// Visit a parse tree produced by <see cref="BetterAdvGmParser.dot_notaion"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -382,5 +382,5 @@ public partial class BetterAdvGmBaseVisitor<Result> : AbstractParseTreeVisitor<R
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitDotnotaion([NotNull] BetterAdvGmParser.DotnotaionContext context) { return VisitChildren(context); }
+	public virtual Result VisitDot_notaion([NotNull] BetterAdvGmParser.Dot_notaionContext context) { return VisitChildren(context); }
 }

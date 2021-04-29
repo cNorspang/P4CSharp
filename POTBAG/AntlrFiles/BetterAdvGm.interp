@@ -125,7 +125,7 @@ predicate
 variable
 string_obj
 bool_obj
-dotnotaion
+dot_notaion
 
 
 atn:

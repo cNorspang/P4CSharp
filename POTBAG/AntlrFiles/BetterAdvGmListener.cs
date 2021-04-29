@@ -371,13 +371,13 @@ public interface IBetterAdvGmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitBool_obj([NotNull] BetterAdvGmParser.Bool_objContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.dotnotaion"/>.
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.dot_notaion"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterDotnotaion([NotNull] BetterAdvGmParser.DotnotaionContext context);
+	void EnterDot_notaion([NotNull] BetterAdvGmParser.Dot_notaionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.dotnotaion"/>.
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.dot_notaion"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitDotnotaion([NotNull] BetterAdvGmParser.DotnotaionContext context);
+	void ExitDot_notaion([NotNull] BetterAdvGmParser.Dot_notaionContext context);
 }
