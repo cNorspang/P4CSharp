@@ -21,8 +21,8 @@ namespace POTBAG
             BetterAdvGmParser parser = new BetterAdvGmParser(tokenStream);
             SymbolTable symbolTable = new SymbolTable();
 
-            
-            POTBAGErrorListener errorListener = new POTBAGErrorListener(debug);
+
+            POTBAGErrorListener.conTroller = false;
             DebugPrinter.isDebug = debug;
             //set start node
             try
@@ -33,7 +33,7 @@ namespace POTBAG
                 ProgNode ast = new BetterAdvGmASTVisitor().VisitProg(cst);
 
                 var contextualAnalysis = new ASTContextualAnalysis(symbolTable).Visit(ast);
-
+                POTBAGErrorListener.ErrorCheck();
 
                 FileHandler.write("#include <stdio.h>\nint main(int argc, char const *argv[]){");
 
@@ -62,7 +62,7 @@ namespace POTBAG
                     case UsedWithoutValueException _:
                     case NotImplementedException _: //sry
                     case Exception _:
-                        errorListener.Report((dynamic)e);
+                        POTBAGErrorListener.Report((dynamic)e);
                         break;
                 }
             }

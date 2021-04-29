@@ -11,8 +11,8 @@ setup{
 }
 
 int hej;
-hej = 1;
-int a = 1 + hej;
+int yeet;
+int a = 1 + hej + yeet;
 Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
 
 Location Silkeborg = {
@@ -22,7 +22,7 @@ Location Silkeborg = {
         Travel Bibliotek;
     }
     else if (nextLocation is "Lokale"){
-        Travel Lokale;
+        Travel hej;
     }
     else {
         string TryAgain = userInput "That location doesn't exit, try again [Bibliotek, Lokale]";
