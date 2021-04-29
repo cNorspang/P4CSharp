@@ -341,6 +341,16 @@ public interface IBetterAdvGmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitPredicate([NotNull] BetterAdvGmParser.PredicateContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.random"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRandom([NotNull] BetterAdvGmParser.RandomContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.random"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRandom([NotNull] BetterAdvGmParser.RandomContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.variable"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
