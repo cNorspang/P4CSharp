@@ -109,7 +109,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.COMPOUND_OPERATOR() != null)
                 node.Operator = "COMPOUND_OPERATOR";
             else
-                throw new InvalidOperationException();
+                POTBAGErrorListener.Report( new InvalidOperationException());
 
             node.Left = Visit(ctx.GetChild(0));          
             Ccwl("    Left Child Int_assign: "+node.Left + "\n     Operator child Int_assign: "+node.Operator);
@@ -213,7 +213,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.variable() != null) { op = "VAR"; }
             else if (ctx.PAREN_LEFT() != null) { op = "ISO"; }
 
-            ExpressionNode node;
+            ExpressionNode node = null;
 
             switch (op)
             {
@@ -265,13 +265,10 @@ namespace POTBAG.CSTtoAST
                     node = nodeISO;
                     break;
                 default:
-                    throw new InvalidOperationException();
+                    POTBAGErrorListener.Report(new InvalidOperationException());
                     break;
             }
-
             return node;
-
-
         }
 
         public override ProgNode VisitChoice_statement([NotNull] BetterAdvGmParser.Choice_statementContext ctx)

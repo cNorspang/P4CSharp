@@ -1,62 +1,72 @@
 using System;
+using System.Collections.Generic;
 using Antlr4.Runtime;
 using POTBAG.ContextualAnalysis;
 using static POTBAG.DebugPrinter;
 
 namespace POTBAG.Exceptions
 {
-    public class POTBAGErrorListener
+    public static class POTBAGErrorListener
     {
-        private bool conTroller = true;
-        SymbolTable table = new SymbolTable();
-
-        public POTBAGErrorListener(bool debug)
-        {
-            conTroller = debug;
-        } 
-
-        public void Report(Exception e)
+        public static bool conTroller = true;
+        static SymbolTable table = new SymbolTable();
+        static Queue<string> ErrorQueue = new Queue<string>();
+        
+        public static void ErrorCheck()
         {
             CcwlError("======= ERROR =======");
+            if (ErrorQueue.Count != 0)
+            {
+                foreach (string error in ErrorQueue)
+                {
+                    CcwlError(error);
+                }
+
+                Environment.Exit(conTroller ? 420 : 80085);
+            }
+        }
+        
+        public static void Report(Exception e)
+        {
             if (conTroller)
             {
                 switch (e)
                 {
                     case LocationSetupErrorException ex:
-                        CcwlError(ex.Message);
+                        ErrorQueue.Enqueue(ex.Message);
                         break;
                     case InvalidOperationException _ :
-                        CcwlError("Er du dum eller hva?");
+                        ErrorQueue.Enqueue("Er du dum eller hva?");
                         break;
                     case TravelOutsideLocationException ex:
-                        CcwlError("Svar mig lige, hvordan fuck jeg skal tjekke om jeg kan komme et sted hen, hvis jeg ikke allerede er et sted??");
+                        ErrorQueue.Enqueue("Svar mig lige, hvordan fuck jeg skal tjekke om jeg kan komme et sted hen, hvis jeg ikke allerede er et sted??");
                         break;
                     case TypeErrorException ex:
-                        CcwlError($"jaa, det var så en: \"{ex.expected}\" ikk: \"{ex.actual}\",vel??");
+                        ErrorQueue.Enqueue($"Hallooo, jeg skal bruge: \"{ex.expected}\" ikk: \"{ex.actual}\",vel??");
                         break;
                     case IllegalTravelException ex:
-                        CcwlError($"{ex.Message}");
+                        ErrorQueue.Enqueue($"{ex.Message}");
                         break;
                     case VariableNotDeclaredException ex:
-                        CcwlError($"Ehh, undskyld mig, men hvad fuck er \"{ex.Name}\"?????");
+                        ErrorQueue.Enqueue($"Ehh, undskyld mig, men hvad fuck er \"{ex.Name}\"?????");
                         break;
                     case DuplicateVariableError ex:
-                        CcwlError($"Nu siger du der er to variabler der hedder \"{ex.Message}\", hvilken en skal jeg bruge, nosse??");
+                        ErrorQueue.Enqueue($"Nu siger du der er to variabler der hedder \"{ex.Message}\", hvilken en skal jeg bruge, nosse??");
                         break;
                     case InvalidTravelArrangementException ex:
-                        CcwlError($"{ex.Message}");
+                        ErrorQueue.Enqueue($"{ex.Message}");
                         break;
                     case UsedWithoutValueException ex:
-                        CcwlError($"Bruh... Jeg skal bruge vaerdien af \"{ex.Name}\" men du har ikke fucking givet mig en.... ");
+                        ErrorQueue.Enqueue($"Bruh... Jeg skal bruge vaerdien af \"{ex.Name}\" men du har ikke fucking givet mig en.... ");
                         break;
                     case BennoException ex: //sry norspang
-                        CcwlError($"BENNO EXCEPTION BITCHES::!: {e.Message}");
+                        ErrorQueue.Enqueue($"BENNO EXCEPTION BITCHES::!: {e.Message}");
                         break;
                     case NotImplementedException ex: //sry norspang
-                        CcwlError($"{e.Message}");
+                        ErrorQueue.Enqueue($"{e.Message}");
                         break;
                     default:
-                        CcwlError($"Hey, du fucker med vores grundvand! Fuck dig Karsten: {e}");
+                        ErrorQueue.Enqueue($"Hey, du fucker med vores grundvand! Fuck dig Karsten: {e}");
                         break;
                 }
             }
@@ -66,40 +76,40 @@ namespace POTBAG.Exceptions
                 switch (e)
                 {
                     case LocationSetupErrorException ex:
-                        CcwlError(ex.Message);
+                        ErrorQueue.Enqueue(ex.Message);
                         break;
                     case InvalidOperationException _:
-                        CcwlError("Wrong Operator");
+                        ErrorQueue.Enqueue("Wrong Operator");
                         break;
                     case TravelOutsideLocationException ex:
-                        CcwlError("Cannot Travel from global scope, all Travel statements must be from within a location");
+                        ErrorQueue.Enqueue("Cannot Travel from global scope, all Travel statements must be from within a location");
                         break;
                     case TypeErrorException ex:
-                        CcwlError($"Type Error - Expected Type: {ex.expected} | Got Type: {ex.actual}");
+                        ErrorQueue.Enqueue($"Type Error - Expected Type: {ex.expected} | Got Type: {ex.actual}");
                         break;
                     case IllegalTravelException ex:
-                        CcwlError($"{ex.Message}");
+                        ErrorQueue.Enqueue($"{ex.Message}");
                         break;
                     case VariableNotDeclaredException ex:
-                        CcwlError($"The variable \"{ex.Name}\" is used, but never delared");
+                        ErrorQueue.Enqueue($"The variable \"{ex.Name}\" is used, but never delared");
                         break;
                     case DuplicateVariableError ex:
-                        CcwlError($"Duplicate declaration of variable \"{ex.Message}\"");
+                        ErrorQueue.Enqueue($"Duplicate declaration of variable \"{ex.Message}\"");
                         break;
                     case InvalidTravelArrangementException ex:
-                        CcwlError($"{ex.Message}");
+                        ErrorQueue.Enqueue($"{ex.Message}");
                         break;
                     case UsedWithoutValueException ex:
-                        CcwlError($"The variable \"{ex.Name}\" has been used, but it holds no value");
+                        ErrorQueue.Enqueue($"The variable \"{ex.Name}\" has been used, but it holds no value");
                         break;
                     case BennoException ex: //sry norspang
-                        CcwlError($"BENNO EXCEPTION BITCHES::!: {e.Message}");
+                        ErrorQueue.Enqueue($"BENNO EXCEPTION BITCHES::!: {e.Message}");
                         break;
                     case NotImplementedException ex: //sry norspang
-                        CcwlError($"{e.Message}");
+                        ErrorQueue.Enqueue($"{e.Message}");
                         break;
                     default:
-                        CcwlError($"Hey, du fucker med vores grundvand! Fuck dig Karsten: {e}");
+                        ErrorQueue.Enqueue($"Hey, du fucker med vores grundvand! Fuck dig Karsten: {e}");
                         break;
                 }
             }
