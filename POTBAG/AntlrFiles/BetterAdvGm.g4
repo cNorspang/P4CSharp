@@ -32,8 +32,8 @@ expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
 
 
 statement: text_statement | input_statement | if_chain_statement | travel_statement | choice_statement | while_statement;
-assign: int_assign | string_assign | input_assign | location_assign;
-declaration: int_declaration END_STMT | string_declaration END_STMT| location_declaration END_STMT;
+assign: int_assign | string_assign | bool_assign | input_assign | location_assign;
+declaration: int_declaration END_STMT | string_declaration END_STMT | bool_declaration END_STMT | location_declaration END_STMT;
 
 //Statement Rules
 text_statement: KEYWORD_TEXT ((string_obj|variable) PLUS_OPERATOR)* (string_obj | variable) END_STMT;
@@ -57,12 +57,13 @@ string_assign: (variable ASSIGN_OPERATOR string_obj END_STMT | string_declaratio
 input_assign: (variable ASSIGN_OPERATOR input_statement | string_declaration ASSIGN_OPERATOR input_statement);
 location_assign: (variable ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT END_STMT
                | location_declaration ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT END_STMT);
+bool_assign: (variable ASSIGN_OPERATOR bool_obj END_STMT | bool_declaration ASSIGN_OPERATOR bool_obj END_STMT); 
 
 //Declaration Rules
 int_declaration: KEYWORD_INT variable;
 string_declaration: KEYWORD_STRING variable;
 location_declaration: KEYWORD_LOCATION variable;
-
+bool_declaration: KEYWORD_BOOL variable;
 //Special Rules
 predicate: (variable BOOL_CMP_OPERATOR string_obj
          | string_obj BOOL_CMP_OPERATOR variable
@@ -79,6 +80,7 @@ predicate: (variable BOOL_CMP_OPERATOR string_obj
 variable: VAR_NAME;
 string_obj: STRING;
 bool_obj: BOOL;
+
 //Lexer Rules
 fragment LETTERS   : [a-zA-Z];
 WHITESPACE         : (' ' | '\t' | '\n' | '\r')+ -> skip;
@@ -94,6 +96,7 @@ PAREN_LEFT         : '(';
 PAREN_RIGHT        : ')';
 SQUARE_LEFT        : '[';
 SQUARE_RIGHT       : ']';
+KEYWORD_BOOL       : 'bool';
 KEYWORD_INPUT      : 'userInput';
 KEYWORD_INT        : 'int';
 KEYWORD_IF         : 'if';
