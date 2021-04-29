@@ -38,10 +38,9 @@ namespace POTBAG.CSTtoAST
         {
             Ccwl("setup");
             SetupNode node = new SetupNode();
-
             node.Locations = (LocationsSetupNode)Visit(ctx.locationsetup());
-            
-            
+            node.PlayerNode = (PlayerSetupNode)Visit(ctx.playersetup());
+
             return node;
         }
 
@@ -70,7 +69,18 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        
+        public override ProgNode VisitPlayersetup([NotNull] BetterAdvGmParser.PlayersetupContext ctx)
+        {
+            Ccwl("PlayerSetup");
+
+            PlayerSetupNode node = new PlayerSetupNode();
+            ctx.assign().ToList().ForEach(i => node.assignNodes.Add((AssignNode)Visit(i)));
+
+
+            return node;
+        }
+
+
         public override ProgNode VisitText_statement(BetterAdvGmParser.Text_statementContext ctx) {
             Ccwl("TextStatement");
             TextStatementNode node = new TextStatementNode();
@@ -319,6 +329,7 @@ namespace POTBAG.CSTtoAST
             
             node.predicate = (predicateNode)VisitPredicate(ctx.predicate());
             ctx.inBlock().ToList().ForEach(i => node.body.Add(Visit(i)));
+
             return node;
         }
 

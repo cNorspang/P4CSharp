@@ -81,6 +81,16 @@ public interface IBetterAdvGmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitLocationmapping([NotNull] BetterAdvGmParser.LocationmappingContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.playersetup"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPlayersetup([NotNull] BetterAdvGmParser.PlayersetupContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="BetterAdvGmParser.playersetup"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPlayersetup([NotNull] BetterAdvGmParser.PlayersetupContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="BetterAdvGmParser.inBlock"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
