@@ -43,6 +43,7 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(MultiplicationNode node);
         public abstract T Visit(DivisionNode node);
         public abstract T Visit(NumberNode node);
+        public abstract T Visit(RandomExpressionNode node);
 
         public T Visit(ProgNode node)
         {
