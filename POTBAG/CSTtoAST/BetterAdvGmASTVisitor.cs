@@ -65,7 +65,7 @@ namespace POTBAG.CSTtoAST
             node.Destinations.RemoveAt(0);
 
             Ccwl("    Source: " + node.Source);
-            Ccwl("    Child:  " + String.Join(',', node.Destinations));
+            Ccwl("    Child:  " + string.Join(',', node.Destinations));
             return node;
         }
 
@@ -416,10 +416,11 @@ namespace POTBAG.CSTtoAST
         public override ProgNode VisitVariable([NotNull] BetterAdvGmParser.VariableContext ctx)
         {
             variableNode node = new variableNode();
-            if (node.variableName != null)
+            if (ctx.VAR_NAME() != null)
                 node.variableName = ctx.VAR_NAME().GetText();
+            //TODO: Igen, jeg har brug for en voksen
             else if(ctx.dot_notaion() != null)
-                VisitDot_notaion(ctx.dot_notaion());
+                node.variableName = ((DotNotaionNode)VisitDot_notaion(ctx.dot_notaion())).variableName;
             else
             {
                 throw new BennoException("Variable not variableName or dotnotation");

@@ -7,14 +7,17 @@ setup{
         Aalborg_station -> KU, Gaden;
         Gaden -> Aalborg_station, Hvidovre;
         Hvidovre -> Hvidovre;
-    } player = {bool dunnis = true;}
+    } 
+    player = 
+    {
+	string name = "dunnis";
+        int health = 420;
+    }
 }
 
 bool hejsa = true;
-int hej;
-int yeet;
-int a = 1 + hej + yeet;
-Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
+int a = 1;
+Text "Hello " + player.name + "! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
 
 Location Silkeborg = {
     string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
@@ -23,7 +26,7 @@ Location Silkeborg = {
         Travel Bibliotek;
     }
     else if (nextLocation is "Lokale"){
-        Travel hej;
+        Travel Lokale;
     }
     else {
         string TryAgain = userInput "That location doesn't exit, try again [Bibliotek, Lokale]";

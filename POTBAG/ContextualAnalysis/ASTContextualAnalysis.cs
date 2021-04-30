@@ -471,6 +471,13 @@ namespace POTBAG.ContextualAnalysis
             return symbol;
         }
 
+        
+        //TODO: Jeg har brug for en voksens hjælp
+        public override object Visit(DotNotaionNode node)
+        {
+            return true;
+        }
+
         public override object Visit(variableNode node)
         {
             //it's a variable..

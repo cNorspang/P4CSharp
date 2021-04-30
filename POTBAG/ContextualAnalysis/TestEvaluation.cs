@@ -41,6 +41,11 @@ namespace POTBAG.ContextualAnalysis
             return 0;
         }
 
+        public override int Visit(DotNotaionNode node)
+        {
+            throw new NotImplementedException();
+        }
+
         public override int Visit(SetupNode node)
         {
             FileHandler.write($"char* SetupNode{counter++};\n");
