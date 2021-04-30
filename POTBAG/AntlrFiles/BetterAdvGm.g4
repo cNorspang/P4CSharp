@@ -129,3 +129,4 @@ OR_OPERATOR        : ('||'| 'or' | 'OR');
 BOOL               : ('true' | 'false');
 NUM                : [0-9]+;
 VAR_NAME           : (LETTERS | '_')+;
+COMMENT           : '//';
