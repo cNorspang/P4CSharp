@@ -127,17 +127,21 @@ namespace POTBAG.ContextualAnalysis
             if (!i) { POTBAGErrorListener.Report(new IllegalTravelException($"Illegal Travel: Cannot go from {sym.GetName()} to {node.Destination.variableName}")); }
         }
 
-        public bool ResolvePlayerVariable(DotNotaionNode node)
+        public Symbol ResolvePlayerVariable(string name, Type type, bool needsToBeAssigned)
         {
-            Scope playerScope = GetScope(3);
-            if (!playerScope.symbolMap.ContainsKey(node.variableName))
+            Console.WriteLine("PLAYER VAR::: "+name);
+            Symbol symbol;
+            Scope playerScope = allScopes[1];
+            if (playerScope.symbolMap.ContainsKey(name))
             {
-                POTBAGErrorListener.Report(new VariableNotDeclaredException(node.variableName));
+                symbol = playerScope.symbolMap[name];
+                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) POTBAGErrorListener.Report(new UsedWithoutValueException(symbol.GetName()));
+                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { POTBAGErrorListener.Report(new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString())); }
+                return symbol;
             }
-            
-            
+            POTBAGErrorListener.Report(new VariableNotDeclaredException(name));
 
-            return true;
+            return null;
         }
 
         /* This method validates:

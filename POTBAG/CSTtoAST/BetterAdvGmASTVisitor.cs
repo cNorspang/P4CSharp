@@ -415,12 +415,15 @@ namespace POTBAG.CSTtoAST
 
         public override ProgNode VisitVariable([NotNull] BetterAdvGmParser.VariableContext ctx)
         {
-            variableNode node = new variableNode();
-            if (ctx.VAR_NAME() != null)
-                node.variableName = ctx.VAR_NAME().GetText();
-            //TODO: Igen, jeg har brug for en voksen
-            else if(ctx.dot_notaion() != null)
-                node.variableName = ((DotNotaionNode)VisitDot_notaion(ctx.dot_notaion())).variableName;
+            variableNode node;
+            if (ctx.dot_notaion() == null) {
+                variableNode nodeVAR = new variableNode();
+                nodeVAR.variableName = ctx.VAR_NAME().GetText();
+                node = nodeVAR;
+            }
+            else if (ctx.dot_notaion() != null) {
+                node = (variableNode)Visit(ctx.dot_notaion());
+            }
             else
             {
                 throw new BennoException("Variable not variableName or dotnotation");

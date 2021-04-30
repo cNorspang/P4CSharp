@@ -8,10 +8,11 @@ setup{
         Gaden -> Aalborg_station, Hvidovre;
         Hvidovre -> Hvidovre;
     } 
-    player = 
-    {
-	string name = "dunnis";
+    player = {
+	    string name = "dunnis";
         int health = 420;
+        bool isGay = true;
+        string nonono = userInput "nonono str";
     }
 }
 
@@ -22,7 +23,7 @@ Text "Hello " + player.name + "! Welcome to the labyrinth game. Your goal is to 
 Location Silkeborg = {
     string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
 
-    if (nextLocation is "Bibliotek" AND hejsa){
+    if (nextLocation is "Bibliotek" AND player.isGay){
         Travel Bibliotek;
     }
     else if (nextLocation is "Lokale"){
@@ -51,7 +52,6 @@ Location Bibliotek = {
         string TryAgain = userInput "That location doesn't exit, try again [Silkeborg, KU]";
     };
 
-    Text nextLocation;
     choice {
         "Silkeborg" {Travel Silkeborg;};
         "KU" { Travel KU; };
