@@ -90,7 +90,7 @@ namespace POTBAG.CSTtoAST
                 node.Text.Add(Visit(ctx.GetChild(i)));
                 Ccwl(ctx.GetChild(i).GetText());   
             }
-            Ccwl("    Child: " + String.Join(',', node.Text));
+            Ccwl("    Child: " + string.Join(',', node.Text));
             return node;
         }
         
@@ -105,7 +105,7 @@ namespace POTBAG.CSTtoAST
                 //breaks...
                 node.Text.Add(Visit(ctx.GetChild(i)));
             }
-            Ccwl("    Child: " + String.Join(',', node.Text));
+            Ccwl("    Child: " + string.Join(',', node.Text));
             return node;
         }
 

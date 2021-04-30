@@ -15,6 +15,7 @@ namespace POTBAG.ContextualAnalysis
         public ScopeType type;
         public Scope enclosingScope;
         public IDictionary<string, Symbol> symbolMap = new Dictionary<string, Symbol>();
+        public event EventHandler<string> DotNotationResolved;
 
         public Scope(ScopeType Type, int GenId, Scope EnclosingScope)
         {
@@ -52,9 +53,19 @@ namespace POTBAG.ContextualAnalysis
             return Resolve(name, typeof(TypeAccessException), false);
         }
 
+        public void NotifyDotNotationResolver(string name)
+        {
+            DotNotationResolved?.Invoke(this, name);
+        }
+        
         public Symbol Resolve(string name, Type type, bool needsToBeAssigned)
         {
             Symbol symbol;
+
+            if (type == typeof(DotNotaionNode))
+            {
+                NotifyDotNotationResolver(name);
+            }
 
             if (symbolMap.ContainsKey(name))
             {

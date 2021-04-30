@@ -153,6 +153,10 @@ namespace POTBAG.ContextualAnalysis
             {
                 switch (item)
                 {
+                    case DotNotaionNode dotNode:
+                        Visit(dotNode);
+                        st.ResolvePlayerVariable(dotNode);
+                        break;
                     case variableNode varNode:
                         Visit(varNode);
                         //Validate variable
@@ -183,6 +187,10 @@ namespace POTBAG.ContextualAnalysis
             {
                 switch (item)
                 {
+                    case DotNotaionNode dotNode:
+                        Visit(dotNode);
+                        st.ResolvePlayerVariable(dotNode);
+                        break;
                     case variableNode varNode:
                         Visit(varNode);
                         //Validate variable
@@ -237,6 +245,10 @@ namespace POTBAG.ContextualAnalysis
         {
             switch (node.Left)
             {
+                case DotNotaionNode dotNode:
+                    Visit(dotNode);
+                    st.ResolvePlayerVariable(dotNode);
+                    break;
                 case variableNode NodeNode:
                     Visit(NodeNode);
 
@@ -384,6 +396,10 @@ namespace POTBAG.ContextualAnalysis
             Symbol symbol = new Symbol(null, null);
             switch (node.Left)
             {
+                case DotNotaionNode dotNode:
+                    st.ResolvePlayerVariable(dotNode);
+                    symbol = (Symbol)Visit(dotNode);
+                    break;
                 case variableNode varNode:
                     Visit(varNode);
                     symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(int), false);
