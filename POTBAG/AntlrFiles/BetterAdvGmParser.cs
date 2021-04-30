@@ -44,7 +44,8 @@ public partial class BetterAdvGmParser : Parser {
 		KEYWORD_LOCATIONARRAY=25, KEYWORD_LOCATIONS=26, KEYWORD_CHOICE=27, COMMA_SEPERATOR=28, 
 		DOT=29, BOOL_CMP_OPERATOR=30, CMP_OPERATOR=31, ASSIGN_OPERATOR=32, COMPOUND_OPERATOR=33, 
 		TIMES_OPERATOR=34, DIVISION_OPERATOR=35, PLUS_OPERATOR=36, MINUS_OPERATOR=37, 
-		ARROW_OPERATOR=38, AND_OPERATOR=39, OR_OPERATOR=40, BOOL=41, NUM=42, VAR_NAME=43;
+		ARROW_OPERATOR=38, AND_OPERATOR=39, OR_OPERATOR=40, BOOL=41, NUM=42, VAR_NAME=43, 
+		COMMENT=44;
 	public const int
 		RULE_prog = 0, RULE_buffernode = 1, RULE_setup = 2, RULE_locationsetup = 3, 
 		RULE_locationmapping = 4, RULE_playersetup = 5, RULE_inBlock = 6, RULE_expression = 7, 
@@ -73,7 +74,8 @@ public partial class BetterAdvGmParser : Parser {
 		"'{'", "'}'", "'('", "')'", "'['", "']'", "'bool'", "'userInput'", "'int'", 
 		"'if'", "'else'", "'else if'", "'while'", "'for'", "'Location'", "'setup'", 
 		"'player'", "'LocationArray'", "'Locations'", "'choice'", "','", "'.'", 
-		null, null, "'='", "'+='", "'*'", "'/'", "'+'", "'-'", "'->'"
+		null, null, "'='", "'+='", "'*'", "'/'", "'+'", "'-'", "'->'", null, null, 
+		null, null, null, "'//'"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, "WHITESPACE", "KEYWORD_TEXT", "KEYWORD_STRING", "END_STMT", "STRING", 
@@ -84,7 +86,8 @@ public partial class BetterAdvGmParser : Parser {
 		"KEYWORD_LOCATIONARRAY", "KEYWORD_LOCATIONS", "KEYWORD_CHOICE", "COMMA_SEPERATOR", 
 		"DOT", "BOOL_CMP_OPERATOR", "CMP_OPERATOR", "ASSIGN_OPERATOR", "COMPOUND_OPERATOR", 
 		"TIMES_OPERATOR", "DIVISION_OPERATOR", "PLUS_OPERATOR", "MINUS_OPERATOR", 
-		"ARROW_OPERATOR", "AND_OPERATOR", "OR_OPERATOR", "BOOL", "NUM", "VAR_NAME"
+		"ARROW_OPERATOR", "AND_OPERATOR", "OR_OPERATOR", "BOOL", "NUM", "VAR_NAME", 
+		"COMMENT"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -2840,7 +2843,7 @@ public partial class BetterAdvGmParser : Parser {
 
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x3', '-', '\x1BC', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
+		'\x5964', '\x3', '.', '\x1BC', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
 		'\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', '\x5', '\x4', 
 		'\x6', '\t', '\x6', '\x4', '\a', '\t', '\a', '\x4', '\b', '\t', '\b', 
 		'\x4', '\t', '\t', '\t', '\x4', '\n', '\t', '\n', '\x4', '\v', '\t', '\v', 
