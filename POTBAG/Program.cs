@@ -5,6 +5,8 @@ using POTBAG.CSTtoAST;
 using System;
 using POTBAG.Exceptions;
 using static POTBAG.DebugPrinter;
+using POTBAG.CodeGen;
+using System.Collections.Generic;
 
 namespace POTBAG
 {
@@ -13,7 +15,7 @@ namespace POTBAG
         static void Main(string[] args)
         {
             const bool debug = true; 
-            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTest.txt");
+            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageCodeGenTest.txt");
 
             ICharStream input = CharStreams.fromString(stream);
             ITokenSource lexer = new BetterAdvGmLexer(input);
@@ -22,7 +24,7 @@ namespace POTBAG
             SymbolTable symbolTable = new SymbolTable();
 
 
-            POTBAGErrorListener.conTroller = false;
+            POTBAGErrorListener.conTroller = debug;
             DebugPrinter.isDebug = debug;
             //set start node
             try
@@ -35,16 +37,12 @@ namespace POTBAG
                 var contextualAnalysis = new ASTContextualAnalysis(symbolTable).Visit(ast);
                 POTBAGErrorListener.ErrorCheck();
 
-                FileHandler.write("#include <stdio.h>\nint main(int argc, char const *argv[]){");
+                ASTCodeGen codeGenerator = new ASTCodeGen();
+                codeGenerator.Visit(ast);
+                List<string> code = codeGenerator.GetResult();
 
-                //var Test = new TestEvaluation().Visit(ast);
-                FileHandler.write("return 0;}");
-                //var tree = Trees.ToStringTree(cst, parser);
-                //Console.WriteLine(tree);
-
-                //Console.WriteLine("### FILE WRITE ###");
-                //FileHandler.WriteToFile();
-                //FileHandler.PrintCCodeDebug();
+                FileHandler.PrintCCodeDebug(code);
+                FileHandler.WriteToFile(code);
             }
             catch (Exception e)
             {

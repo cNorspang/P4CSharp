@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using static POTBAG.DebugPrinter;
 
 namespace POTBAG.CSTtoAST
 {
@@ -17,13 +18,15 @@ namespace POTBAG.CSTtoAST
             return fileAsString;
         }
 
-        public static void WriteToFile()
+        public static void WriteToFile(List<string> code)
         {
+            Console.WriteLine("Writing to file...");
+
             try
             {
                 File.CreateText("..\\..\\..\\..\\" + "a.c").Dispose();
 
-                File.WriteAllLines("..\\..\\..\\..\\" + "a.c", list);
+                File.WriteAllLines("..\\..\\..\\..\\" + "a.c", code);
 
                 Console.WriteLine("Successfully wrote to the file. ");
             }
@@ -34,17 +37,20 @@ namespace POTBAG.CSTtoAST
             }
         }
 
-        public static void write(string data)
-        {
-            list.Add(data);
-        }
-
         //for debugging
-        public static void PrintCCodeDebug()
+        public static void PrintCCodeDebug(List<string> code)
         {
-            foreach (string str in list)
+            #region CBanner
+            Ccwl("   ______          __        ______                           __            ");
+            Ccwl("  / ____/___  ____/ /__     / ____/__  ____  ___  _________ _/ /_____  _____");
+            Ccwl(" / /   / __ \\/ __  / _ \\   / / __/ _ \\/ __ \\/ _ \\/ ___/ __ `/ __/ __ \\/ ___/");
+            Ccwl("/ /___/ /_/ / /_/ /  __/  / /_/ /  __/ / / /  __/ /  / /_/ / /_/ /_/ / /    ");
+            Ccwl("\\____/\\____/\\__,_/\\___/   \\____/\\___/_/ /_/\\___/_/   \\__,_/\\__/\\____/_/     \n");
+            #endregion
+
+            foreach (string str in code)
             {
-                Console.WriteLine(str);
+                Ccwl(str);
             }
         }
     }

@@ -1,0 +1,14 @@
+setup{
+    Locations = {       
+        Hvidovre -> Hvidovre;
+    }
+    player {
+    
+	int aaa = 1;
+    }
+}
+
+Location Hvidovre = {
+    int bbb = 2;
+    Text "Congratulations, you managed to get to Hvidovre!";
+};
