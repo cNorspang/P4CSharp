@@ -5,10 +5,11 @@ setup{
     player {
     
 	int aaa = 1;
+    int yup = 12200;
     }
 }
 
 Location Hvidovre = {
-    int bbb = 2;
+    int bbb = 2 * (240 + 23);
     Text "Congratulations, you managed to get to Hvidovre!";
 };

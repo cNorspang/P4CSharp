@@ -103,17 +103,17 @@ namespace POTBAG.CodeGen
 
             foreach (var item in node.assignNodes)
             {
-                string[] temp = Visit(item).Split('=');
+                string[] temp = Visit(item).Trim().Split('=');
                 intoStruct.Add(temp[0] + ';');
                 outOfStruct.Add(temp[0].Split(' ')[1] + " =" + temp[1]);
             }
             //node.assignNodes.ForEach(i => Visit(i));
             
             code.Add("\nstruct GENERATED_PLAYER_STRUCT { ");
-            intoStruct.ForEach(i => code.Add("    "+i));
-            code.Add("};\nstruct GENERATED_PLAYER_STRUCT "+structName+";");
+            intoStruct.ForEach(i => code.Add(i));
+            code.Add("};\nstruct GENERATED_PLAYER_STRUCT "+structName+";\n");
 
-            outOfStruct.ForEach(i => initPlayerStruct += "    " + structName + "." + i);
+            outOfStruct.ForEach(i => initPlayerStruct += "\n    " + structName + "." + i);
 
             return initPlayerStruct;
         }
@@ -360,24 +360,24 @@ namespace POTBAG.CodeGen
             switch (node.Left)
             {
                 case variableNode varNode:
-                    left = (string)Visit(varNode);
+                    left = Visit(varNode);
                     break;
                 case IntDeclarationNode intDclNode:
-                    left = (string)Visit(intDclNode);
+                    left = Visit(intDclNode);
                     break;
             }
 
             switch (node.Right)
             {
                 case ExpressionNode exprNode:
-                    right = (string)Visit(exprNode);
+                    right = Visit(exprNode);
                     break;
                 case InputStatementNode inputNode:
-                    right = (string)Visit(inputNode);
+                    right = Visit(inputNode);
                     break;
             }
 
-            return left + " = " + right + ";";
+            return "    " + left + " = " + right + ";";
         }
 
         public override string Visit(stringAssignNode node)
@@ -440,17 +440,20 @@ namespace POTBAG.CodeGen
 
         public override string Visit(LocationAssignNode node)
         {
+            string locationStr = "";
             switch (node.Left)
             {
                 case variableNode varNode:
-                    Visit(varNode);
+                    locationStr += Visit(varNode);
                     break;
                 case LocationDeclarationNode locationDclNode:
-                    Visit(locationDclNode);
+                    locationStr += Visit(locationDclNode);
                     break;
             }
-
+            locationStr += "{";
+            code.Add(locationStr);
             Visit(node.Right);
+            code.Add("}");
             return "";
         }
 
@@ -460,22 +463,22 @@ namespace POTBAG.CodeGen
             switch (node)
             {
                 case IntDeclarationNode intdeclarationNode:
-                    addToCode = (string)Visit(intdeclarationNode);
+                    addToCode = Visit(intdeclarationNode);
                     break;
                 case stringDeclarationNode stringDeclarationNode:
-                    addToCode = (string)Visit(stringDeclarationNode);
+                    addToCode = Visit(stringDeclarationNode);
                     break;
                 case LocationDeclarationNode locationDeclarationNode:
-                    addToCode = (string)Visit(locationDeclarationNode);
+                    addToCode = Visit(locationDeclarationNode);
                     break;
                 case BoolDeclarationNode boolDeclarationNode:
-                    addToCode = (string)Visit(boolDeclarationNode);
+                    addToCode = Visit(boolDeclarationNode);
                     break;
                 default:
                     throw new BennoException($"### ERROR DeclarationNode => {node.GetType().Name}");
             }
-            code.Add(addToCode + ";");
-            return "";       
+            
+            return addToCode + ";";       
         }
 
         public override string Visit(IntDeclarationNode node)
@@ -500,7 +503,7 @@ namespace POTBAG.CodeGen
 
         public override string Visit(LocationDeclarationNode node)
         {
-            return "";
+            return "void " + node.VarName.variableName + "()";
         }
 
         public override string Visit(ExpressionNode node)
