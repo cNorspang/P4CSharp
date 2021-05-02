@@ -530,18 +530,21 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(IntDeclarationNode node)
         {
             Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(int));
+            node.VarName.scopeId = symbol.GenId();
             return symbol;
         }
 
         public override object Visit(stringDeclarationNode node)
         {
             Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(string));
+            node.VarName.scopeId = symbol.GenId();
             return symbol;
         }
 
         public override object Visit(BoolDeclarationNode node)
         {
             Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(bool));
+            node.VarName.scopeId = symbol.GenId();
             return symbol;
         }
 
@@ -553,6 +556,7 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(LocationDeclarationNode node)
         {
             Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(LocationDeclarationNode));
+            node.VarName.scopeId = symbol.GenId();
             return symbol;
         }
 

@@ -60,7 +60,7 @@ namespace POTBAG.ContextualAnalysis
 
         public Scope GetScope(int genId)
         {
-            foreach (Scope scope in scopeStack)
+            foreach (Scope scope in allScopes)
             {
                 if (scope.genId == genId) return scope;
             }

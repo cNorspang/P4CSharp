@@ -37,7 +37,7 @@ namespace POTBAG
                 var contextualAnalysis = new ASTContextualAnalysis(symbolTable).Visit(ast);
                 POTBAGErrorListener.ErrorCheck();
 
-                ASTCodeGen codeGenerator = new ASTCodeGen();
+                ASTCodeGen codeGenerator = new ASTCodeGen(symbolTable);
                 codeGenerator.Visit(ast);
                 List<string> code = codeGenerator.GetResult();
 

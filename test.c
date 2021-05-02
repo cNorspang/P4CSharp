@@ -7,7 +7,8 @@ struct GENERATED_PLAYER_STRUCT {
 struct GENERATED_PLAYER_STRUCT xCarier;
 
 void locationOne(){
-    printf("\nlocation One");
+    printf("%s","\nlocation One");
+    getchar();
 }
 
 int main(void){

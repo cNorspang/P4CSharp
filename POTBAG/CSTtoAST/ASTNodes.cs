@@ -160,6 +160,8 @@ namespace POTBAG.CSTtoAST
     public class variableNode : ProgNode
     {
         public string variableName { get; set; }
+        public int scopeId { get; set; }
+
     }
 
     public class stringNode : ProgNode

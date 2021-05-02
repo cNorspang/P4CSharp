@@ -1,4 +1,5 @@
-﻿using POTBAG.CSTtoAST;
+﻿using POTBAG.ContextualAnalysis;
+using POTBAG.CSTtoAST;
 using POTBAG.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,12 @@ namespace POTBAG.CodeGen
 {
     public class ASTCodeGen : ASTVistor<string>
     {
-        protected List<string> code = new List<string>(); 
-        public ASTCodeGen()
+        protected List<string> code = new List<string>();
+        private SymbolTable st;
+
+        public ASTCodeGen(SymbolTable symbolTable)
         {
+            st = symbolTable;
             Init();
         }
 
@@ -67,30 +71,27 @@ namespace POTBAG.CodeGen
             
             code.Add("int main(int argc, char const *argv[]){\n"+ "    time_t t;\n    srand((unsigned)time(&t));\n" + structInit + "\n    return 0;\n}");
             
-                
-
-            //maybe add main to place it in the buttom.
-            //("#include <stdio.h>\nint main(int argc, char const *argv[]){");
-            //("return 0;}");
-
             return "";
         }
 
         public override string Visit(SetupNode node)
         {
-            Visit(node.Locations);
+            //Visit(node.Locations);
             return Visit(node.PlayerNode);
 
         }
 
         public override string Visit(LocationsSetupNode node)
         {
+            //obsolete
+
             node.Children.ForEach(n => Visit(n));
             return "";
         }
 
         public override string Visit(LocationMappingNode node)
         {
+            //obsolete
             return "";
         }
 
@@ -123,28 +124,28 @@ namespace POTBAG.CodeGen
             switch (node)
             {
                 case TextStatementNode statementNode:
-                    Visit(statementNode);
+                    return Visit(statementNode);
                     break;
                 case WhileStatementNode statementNode:
-                    Visit(statementNode);
+                    return Visit(statementNode);
                     break;
                 case InputStatementNode statementNode:
-                    Visit(statementNode);
+                    return Visit(statementNode);
                     break;
                 case IfStatementNode statementNode:
-                    Visit(statementNode);
+                    return Visit(statementNode);
                     break;
                 case IfChainStatementNode statementNode:
-                    Visit(statementNode);
+                    return Visit(statementNode);
                     break;
                 case TravelStatementNode statementNode:
-                    Visit(statementNode);
+                    return Visit(statementNode);
                     break;
                 case ChoiceStatementNode statementNode:
-                    Visit(statementNode);
+                    return Visit(statementNode);
                     break;
                 case OptionStatementNode statementNode:
-                    Visit(statementNode);
+                    return Visit(statementNode);
                     break;
             }
 
@@ -153,21 +154,29 @@ namespace POTBAG.CodeGen
 
         public override string Visit(TextStatementNode node)
         {
+            string codeStr = "    printf(";
+            string typeToPrint = "";
+            string linesToPrint = "";
             foreach (ProgNode item in node.Text)
             {
                 switch (item)
                 {
                     case variableNode varNode:
-                        Visit(varNode);
+                        linesToPrint += Visit(varNode)+',';
+                        Type type = st.GetScope(varNode.scopeId).Resolve(varNode.variableName).GetSymbolType();
+                        if (type == typeof(string)) typeToPrint += "%s";
+                        else if (type == typeof(int)) typeToPrint += "%d";
+                        else throw new BennoException("code gen textStmt => idk how we got here");
                         break;
                     case stringNode strNode:
-                        Visit(strNode);
+                        codeStr += Visit(strNode);
                         break;
                     default:
                         throw new BennoException($"### ERROR TextStatementNode => {node.GetType().Name}");
                 }
             }
-            return "";
+            
+            return codeStr + "); \n    dfflush(stdin); getchar(); ";
         }
 
         public override string Visit(InputStatementNode node)
@@ -498,7 +507,7 @@ namespace POTBAG.CodeGen
 
         public override string Visit(stringNode node)
         {
-            return "";
+            return node.strVal;
         }
 
         public override string Visit(LocationDeclarationNode node)
