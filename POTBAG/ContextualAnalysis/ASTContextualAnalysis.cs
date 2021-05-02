@@ -537,6 +537,7 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(stringDeclarationNode node)
         {
             Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(string));
+            //TODO this does not work in all 4
             node.VarName.scopeId = symbol.GenId();
             return symbol;
         }

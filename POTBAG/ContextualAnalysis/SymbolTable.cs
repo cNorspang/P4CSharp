@@ -89,7 +89,16 @@ namespace POTBAG.ContextualAnalysis
             return sb.ToString();
         }
 
-         public bool DefineNewTravelSource(LocationMappingNode node)
+        public string GetStartLocation()
+        {
+            foreach (var item in locations)
+            {
+                return item.Value[0].variableName;
+            }
+            return "";
+        }
+
+        public bool DefineNewTravelSource(LocationMappingNode node)
         {
             try
             {

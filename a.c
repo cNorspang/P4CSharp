@@ -11,10 +11,10 @@ int yup ;
 struct GENERATED_PLAYER_STRUCT PLAYER_STRUCT;
 
 void Hvidovre(){
-
+char name[255] = "P. I. Smith";
     int bbb = 2*240+23;
-    printf("Congratulations, "name" you managed to get to Hvidovre!"); 
-    dfflush(stdin); getchar(); 
+    printf("%s%s%s", "Congratulations, ", name, " you managed to get to Hvidovre!"); 
+    getchar(); 
 }
 
 int main(int argc, char const *argv[]){
@@ -23,5 +23,6 @@ int main(int argc, char const *argv[]){
 
     PLAYER_STRUCT.aaa = 1;
     PLAYER_STRUCT.yup = 12200;
+    Hvidovre();
     return 0;
 }

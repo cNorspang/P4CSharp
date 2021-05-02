@@ -68,8 +68,15 @@ namespace POTBAG.CodeGen
         {
             string structInit = Visit(node.SetUpNode);
             Visit(node.inBlock);
-            
-            code.Add("int main(int argc, char const *argv[]){\n"+ "    time_t t;\n    srand((unsigned)time(&t));\n" + structInit + "\n    return 0;\n}");
+
+            var temp = st.GetStartLocation();
+
+            code.Add("int main(int argc, char const *argv[]){" +
+                "\n    time_t t;" +
+                "\n    srand((unsigned)time(&t));" +
+                "\n" + structInit +
+                "\n    " + st.GetStartLocation() + "();" +
+                "\n    return 0;\n}");
             
             return "";
         }
@@ -155,28 +162,29 @@ namespace POTBAG.CodeGen
         public override string Visit(TextStatementNode node)
         {
             string codeStr = "    printf(";
-            string typeToPrint = "";
+            string typeToPrint = "\"";
             string linesToPrint = "";
             foreach (ProgNode item in node.Text)
             {
                 switch (item)
                 {
                     case variableNode varNode:
-                        linesToPrint += Visit(varNode)+',';
-                        Type type = st.GetScope(varNode.scopeId).Resolve(varNode.variableName).GetSymbolType();
-                        if (type == typeof(string)) typeToPrint += "%s";
-                        else if (type == typeof(int)) typeToPrint += "%d";
-                        else throw new BennoException("code gen textStmt => idk how we got here");
+                        linesToPrint += ", " + Visit(varNode);
+                        //Type type = st.GetScope(varNode.scopeId).Resolve(varNode.variableName).GetSymbolType();
+                        /*if (type == typeof(string))*/ typeToPrint += "%s";
+                        //else if (type == typeof(int)) typeToPrint += "%d";
+                        //else throw new BennoException("code gen textStmt => idk how we got here");
                         break;
                     case stringNode strNode:
-                        codeStr += Visit(strNode);
+                        linesToPrint += ", " + Visit(strNode);
+                        typeToPrint += "%s";
                         break;
                     default:
                         throw new BennoException($"### ERROR TextStatementNode => {node.GetType().Name}");
                 }
             }
             
-            return codeStr + "); \n    dfflush(stdin); getchar(); ";
+            return codeStr + typeToPrint + "\"" + linesToPrint + "); \n    getchar(); ";
         }
 
         public override string Visit(InputStatementNode node)
@@ -391,20 +399,21 @@ namespace POTBAG.CodeGen
 
         public override string Visit(stringAssignNode node)
         {
+            string strAssignStr = "";
             switch (node.Left)
             {
                 case variableNode varNode:
-                    Visit(varNode);
+                    strAssignStr += Visit(varNode) + " = ";
                     break;
                 case stringDeclarationNode stringDclNode:
-                    Visit(stringDclNode);
+                    strAssignStr += Visit(stringDclNode) + " = ";
                     break;
                 default:
                     throw new BennoException($"### ERROR stringAssignNode => {node.GetType().Name}");
             }
             //can only be one string_obj node so just a visit
-            Visit(node.Right);
-            return "";
+            strAssignStr += Visit(node.Right);
+            return strAssignStr + ';';
         }
 
         public override string Visit(BoolAssignNode node)
@@ -497,7 +506,7 @@ namespace POTBAG.CodeGen
 
         public override string Visit(stringDeclarationNode node)
         {
-            return "";
+            return "char " + node.VarName.variableName + "[255]";
         }
 
         public override string Visit(BoolDeclarationNode node)
