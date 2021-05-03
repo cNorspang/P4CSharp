@@ -8,9 +8,9 @@ using static POTBAG.DebugPrinter;
 
 namespace POTBAG.CSTtoAST
 {
-    public class BetterAdvGmASTVisitor : BetterAdvGmBaseVisitor<ProgNode>
+    public class BetterAdvGmASTVisitor : SWAEBaseVisitor<ProgNode>
     {
-        public override ProgNode VisitProg([NotNull] BetterAdvGmParser.ProgContext ctx)
+        public override ProgNode VisitProg([NotNull] SWAEParser.ProgContext ctx)
         {
             
             Ccwl("prog");
@@ -18,7 +18,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitBuffernode(BetterAdvGmParser.BuffernodeContext ctx)
+        public override ProgNode VisitBuffernode(SWAEParser.BuffernodeContext ctx)
         {
             Ccwl("Buffer_node");
             BufferNode node = new BufferNode {SetUpNode = (SetupNode) Visit(ctx.setup())};
@@ -27,14 +27,14 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitDeclaration([NotNull] BetterAdvGmParser.DeclarationContext ctx)
+        public override ProgNode VisitDeclaration([NotNull] SWAEParser.DeclarationContext ctx)
         {
             //this is important. everything breaks if this is touched.
             return Visit(ctx.GetChild(0));
         }
 
 
-        public override ProgNode VisitSetup(BetterAdvGmParser.SetupContext ctx) 
+        public override ProgNode VisitSetup(SWAEParser.SetupContext ctx) 
         {
             Ccwl("setup");
             SetupNode node = new SetupNode();
@@ -44,7 +44,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitLocationsetup(BetterAdvGmParser.LocationsetupContext ctx) {
+        public override ProgNode VisitLocationsetup(SWAEParser.LocationsetupContext ctx) {
             Ccwl("LocationSetup");
             LocationsSetupNode node = new LocationsSetupNode();
 
@@ -54,7 +54,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
         
-        public override ProgNode VisitLocationmapping(BetterAdvGmParser.LocationmappingContext ctx) {
+        public override ProgNode VisitLocationmapping(SWAEParser.LocationmappingContext ctx) {
             Ccwl("LocationMapping");
 
             LocationMappingNode node = new LocationMappingNode();
@@ -65,23 +65,23 @@ namespace POTBAG.CSTtoAST
             node.Destinations.RemoveAt(0);
 
             Ccwl("    Source: " + node.Source);
-            Ccwl("    Child:  " + String.Join(',', node.Destinations));
+            Ccwl("    Child:  " + string.Join(',', node.Destinations));
             return node;
         }
 
-        public override ProgNode VisitPlayersetup([NotNull] BetterAdvGmParser.PlayersetupContext ctx)
+
+        public override ProgNode VisitPlayersetup([NotNull] SWAEParser.PlayersetupContext ctx)
         {
             Ccwl("PlayerSetup");
 
             PlayerSetupNode node = new PlayerSetupNode();
             ctx.assign().ToList().ForEach(i => node.assignNodes.Add((AssignNode)Visit(i)));
 
-
             return node;
         }
 
 
-        public override ProgNode VisitText_statement(BetterAdvGmParser.Text_statementContext ctx) {
+        public override ProgNode VisitText_statement(SWAEParser.Text_statementContext ctx) {
             Ccwl("TextStatement");
             TextStatementNode node = new TextStatementNode();
             
@@ -91,11 +91,11 @@ namespace POTBAG.CSTtoAST
                 node.Text.Add(Visit(ctx.GetChild(i)));
                 Ccwl(ctx.GetChild(i).GetText());   
             }
-            Ccwl("    Child: " + String.Join(',', node.Text));
+            Ccwl("    Child: " + string.Join(',', node.Text));
             return node;
         }
         
-        public override ProgNode VisitInput_statement(BetterAdvGmParser.Input_statementContext ctx) {
+        public override ProgNode VisitInput_statement(SWAEParser.Input_statementContext ctx) {
             Ccwl("InputStatement");
             InputStatementNode node = new InputStatementNode();
 
@@ -106,11 +106,11 @@ namespace POTBAG.CSTtoAST
                 //breaks...
                 node.Text.Add(Visit(ctx.GetChild(i)));
             }
-            Ccwl("    Child: " + String.Join(',', node.Text));
+            Ccwl("    Child: " + string.Join(',', node.Text));
             return node;
         }
 
-        public override ProgNode VisitInt_assign(BetterAdvGmParser.Int_assignContext ctx) {
+        public override ProgNode VisitInt_assign(SWAEParser.Int_assignContext ctx) {
             Ccwl("Int_assign");
             IntAssignNode node = new IntAssignNode();
 
@@ -119,7 +119,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.COMPOUND_OPERATOR() != null)
                 node.Operator = "COMPOUND_OPERATOR";
             else
-                POTBAGErrorListener.Report( new InvalidOperationException());
+                POTBAGErrorListener.Report( new InvalidOperationException(), this);
 
             node.Left = Visit(ctx.GetChild(0));          
             Ccwl("    Left Child Int_assign: "+node.Left + "\n     Operator child Int_assign: "+node.Operator);
@@ -129,7 +129,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitInt_declaration(BetterAdvGmParser.Int_declarationContext ctx) {
+        public override ProgNode VisitInt_declaration(SWAEParser.Int_declarationContext ctx) {
             Ccwl("int_declaraion");
             
             IntDeclarationNode node = new IntDeclarationNode {VarName = (variableNode)Visit(ctx.variable())};
@@ -139,7 +139,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
        
-        public override ProgNode VisitString_assign(BetterAdvGmParser.String_assignContext ctx) {
+        public override ProgNode VisitString_assign(SWAEParser.String_assignContext ctx) {
             Ccwl("string_assign");
             //if check på left vari || string_dec
             stringAssignNode node = new stringAssignNode();
@@ -153,14 +153,14 @@ namespace POTBAG.CSTtoAST
 
         }
 
-        public override ProgNode VisitString_declaration(BetterAdvGmParser.String_declarationContext ctx) {
+        public override ProgNode VisitString_declaration(SWAEParser.String_declarationContext ctx) {
             Ccwl("string_declaration");
             stringDeclarationNode node = new stringDeclarationNode();
             node.VarName = (variableNode)Visit(ctx.variable());
             Ccwl("    Child Varname of string_Declaration: " + node.VarName);
             return node;
         }
-        public override ProgNode VisitBool_assign([NotNull] BetterAdvGmParser.Bool_assignContext ctx)
+        public override ProgNode VisitBool_assign([NotNull] SWAEParser.Bool_assignContext ctx)
         {
             Ccwl("bool_assign");
             BoolAssignNode node = new BoolAssignNode();
@@ -172,7 +172,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitBool_declaration([NotNull] BetterAdvGmParser.Bool_declarationContext ctx)
+        public override ProgNode VisitBool_declaration([NotNull] SWAEParser.Bool_declarationContext ctx)
         {
             Ccwl("bool_declaration");
             BoolDeclarationNode node = new BoolDeclarationNode();
@@ -180,7 +180,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext ctx)
+        public override ProgNode VisitLocation_assign([NotNull] SWAEParser.Location_assignContext ctx)
         {
             Ccwl("location_assign");
             LocationAssignNode node = new LocationAssignNode();
@@ -193,7 +193,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitLocation_declaration([NotNull] BetterAdvGmParser.Location_declarationContext ctx)
+        public override ProgNode VisitLocation_declaration([NotNull] SWAEParser.Location_declarationContext ctx)
         {
             Ccwl("location_declaration");
             LocationDeclarationNode node = new LocationDeclarationNode();
@@ -202,7 +202,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitTravel_statement([NotNull] BetterAdvGmParser.Travel_statementContext ctx)
+        public override ProgNode VisitTravel_statement([NotNull] SWAEParser.Travel_statementContext ctx)
         {
             Ccwl("travel_statement");
             TravelStatementNode node = new TravelStatementNode();
@@ -211,7 +211,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitExpression(BetterAdvGmParser.ExpressionContext ctx)
+        public override ProgNode VisitExpression(SWAEParser.ExpressionContext ctx)
         {
 
             string op = "";
@@ -222,6 +222,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.NUM() != null) { op = "NUM"; }
             else if (ctx.variable() != null) { op = "VAR"; }
             else if (ctx.PAREN_LEFT() != null) { op = "ISO"; }
+            else if (ctx.random() != null) {op = "RAND"; }
 
             ExpressionNode node = null;
 
@@ -263,10 +264,31 @@ namespace POTBAG.CSTtoAST
                     node = nodeNUM;
                     break;
                 case "VAR":
-                    Ccwl("VAR     " + ctx.variable().GetText());
-                    ExpressionVarNameNode nodeVAR = new ExpressionVarNameNode();
-                    nodeVAR.VarName = ctx.variable().GetText();
-                    node = nodeVAR;
+                    if (ctx.variable().dot_notaion() == null)
+                    {
+                        Ccwl("VAR     " + ctx.variable().GetText());
+                        ExpressionVarNameNode nodeVAR = new ExpressionVarNameNode();
+                        nodeVAR.VarName = ctx.variable().GetText();
+                        node = nodeVAR;
+                    }
+                    else
+                    {
+                        Ccwl("DOTNOTATION     " + ctx.variable().dot_notaion().GetText());
+                        ExpressionDotNameNode nodeDOT = new ExpressionDotNameNode();
+                        nodeDOT.VarName = ctx.variable().dot_notaion().VAR_NAME().GetText();
+                        node = nodeDOT;
+                    }
+
+                    break;
+                case "RAND":
+                    Ccwl("RAND      " + ctx.random());
+                    RandomExpressionNode nodeRND = new RandomExpressionNode();
+                    if (ctx.random().expression() != null)
+                    {
+                        nodeRND.MinValue = (ExpressionNode)Visit(ctx.random().expression(0));
+                        nodeRND.MaxValue = (ExpressionNode)Visit(ctx.random().expression(1));
+                    }
+                    node = nodeRND;
                     break;
                 case "ISO":
                     Ccwl("ISO     " + ctx.expression(0).GetText());
@@ -275,13 +297,14 @@ namespace POTBAG.CSTtoAST
                     node = nodeISO;
                     break;
                 default:
-                    POTBAGErrorListener.Report(new InvalidOperationException());
+                    POTBAGErrorListener.Report(new InvalidOperationException(), this);
                     break;
             }
             return node;
         }
 
-        public override ProgNode VisitChoice_statement([NotNull] BetterAdvGmParser.Choice_statementContext ctx)
+
+        public override ProgNode VisitChoice_statement([NotNull] SWAEParser.Choice_statementContext ctx)
         {
             Ccwl("choice_statement");
             ChoiceStatementNode node = new ChoiceStatementNode();
@@ -294,7 +317,7 @@ namespace POTBAG.CSTtoAST
         }
 
         //stavefejl statEment
-        public override ProgNode VisitOption_statment([NotNull] BetterAdvGmParser.Option_statmentContext ctx)
+        public override ProgNode VisitOption_statment([NotNull] SWAEParser.Option_statmentContext ctx)
         {
             Ccwl("option_statement");
             OptionStatementNode node = new OptionStatementNode();
@@ -309,7 +332,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitIf_chain_statement([NotNull] BetterAdvGmParser.If_chain_statementContext ctx)
+        public override ProgNode VisitIf_chain_statement([NotNull] SWAEParser.If_chain_statementContext ctx)
         {
             Ccwl("if_chain_statement");
             IfChainStatementNode node = new IfChainStatementNode();
@@ -322,7 +345,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitIf_statement(BetterAdvGmParser.If_statementContext ctx)
+        public override ProgNode VisitIf_statement(SWAEParser.If_statementContext ctx)
         {
             Ccwl("if_statement");
             ifNode node = new ifNode();
@@ -333,7 +356,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitElse_if_statement([NotNull] BetterAdvGmParser.Else_if_statementContext ctx)
+        public override ProgNode VisitElse_if_statement([NotNull] SWAEParser.Else_if_statementContext ctx)
         {
             Ccwl("elif_statement");
             ElseIfStatementNode node = new ElseIfStatementNode();
@@ -343,7 +366,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitElse_statement([NotNull] BetterAdvGmParser.Else_statementContext ctx)
+        public override ProgNode VisitElse_statement([NotNull] SWAEParser.Else_statementContext ctx)
         {
             Ccwl("else_statement");
             elseNode node = new elseNode();
@@ -352,7 +375,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitWhile_statement([NotNull] BetterAdvGmParser.While_statementContext ctx)
+        public override ProgNode VisitWhile_statement([NotNull] SWAEParser.While_statementContext ctx)
         {
             Ccwl("while_statement");
             WhileStatementNode node = new WhileStatementNode();
@@ -363,7 +386,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitPredicate(BetterAdvGmParser.PredicateContext ctx)
+        public override ProgNode VisitPredicate(SWAEParser.PredicateContext ctx)
         {
             predicateNode node = new predicateNode();
             Ccwl("predicate");
@@ -414,28 +437,49 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
-        public override ProgNode VisitVariable([NotNull] BetterAdvGmParser.VariableContext ctx)
+        public override ProgNode VisitVariable([NotNull] SWAEParser.VariableContext ctx)
         {
-            variableNode node = new variableNode();
-            node.variableName = ctx.VAR_NAME().GetText();
+            variableNode node;
+            if (ctx.dot_notaion() == null) {
+                variableNode nodeVAR = new variableNode();
+                nodeVAR.variableName = ctx.VAR_NAME().GetText();
+                node = nodeVAR;
+            }
+            else if (ctx.dot_notaion() != null) {
+                node = (variableNode)Visit(ctx.dot_notaion());
+            }
+            else
+            {
+                throw new BennoException("Variable not variableName or dotnotation");
+            }
+            
             return node;
         }
 
-        public override ProgNode VisitString_obj([NotNull] BetterAdvGmParser.String_objContext ctx)
+        public override ProgNode VisitDot_notaion([NotNull] SWAEParser.Dot_notaionContext ctx)
+        {
+            //Tilgå hvad der står efter "player.", altså, hvis
+            //der står player.health, så blir node.variableName = health;
+            DotNotaionNode node = new DotNotaionNode {variableName = ctx.VAR_NAME().GetText()};
+
+            return node;
+        }
+
+        public override ProgNode VisitString_obj([NotNull] SWAEParser.String_objContext ctx)
         {
             stringNode node = new stringNode();
             node.strVal = ctx.STRING().GetText();
             return node;
         }
 
-        public override ProgNode VisitBool_obj([NotNull] BetterAdvGmParser.Bool_objContext ctx)
+        public override ProgNode VisitBool_obj([NotNull] SWAEParser.Bool_objContext ctx)
         {
             BoolNode node = new BoolNode();
             node.value = bool.Parse(ctx.BOOL().GetText());
             return node;
         }
 
-        public override ProgNode VisitInput_assign([NotNull] BetterAdvGmParser.Input_assignContext ctx)
+        public override ProgNode VisitInput_assign([NotNull] SWAEParser.Input_assignContext ctx)
         {
             Ccwl("VisitInput_assign");
             InputAssignNode node = new InputAssignNode();

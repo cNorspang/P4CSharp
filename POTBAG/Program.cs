@@ -18,9 +18,9 @@ namespace POTBAG
             string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageCodeGenTest.txt");
 
             ICharStream input = CharStreams.fromString(stream);
-            ITokenSource lexer = new BetterAdvGmLexer(input);
+            ITokenSource lexer = new SWAELexer(input);
             ITokenStream tokenStream = new CommonTokenStream(lexer);
-            BetterAdvGmParser parser = new BetterAdvGmParser(tokenStream);
+            SWAEParser parser = new SWAEParser(tokenStream);
             SymbolTable symbolTable = new SymbolTable();
 
 
@@ -29,7 +29,7 @@ namespace POTBAG
             //set start node
             try
             {
-                BetterAdvGmParser.ProgContext cst = parser.prog();
+                SWAEParser.ProgContext cst = parser.prog();
                 if (parser.NumberOfSyntaxErrors != 0) { Environment.Exit(1); }
 
                 ProgNode ast = new BetterAdvGmASTVisitor().VisitProg(cst);
@@ -44,6 +44,7 @@ namespace POTBAG
                 FileHandler.PrintCCodeDebug(code);
                 FileHandler.WriteToFile(code);
             }
+            //IMPORTANT TODO: Der er blevet ændret, husk når merge
             catch (Exception e)
             {
                 switch (e)
@@ -55,19 +56,20 @@ namespace POTBAG
                     case InvalidOperationException _:
                     case DuplicateVariableError _:    
                     case TypeErrorException _:
-                    case BennoException _:
                     case VariableNotDeclaredException _:
                     case UsedWithoutValueException _:
                     case NotImplementedException _: //sry
-                    case Exception _:
-                        POTBAGErrorListener.Report((dynamic)e);
+                        POTBAGErrorListener.Report((dynamic)e, null);
                         break;
+                    case BennoException _:
+                    case Exception _:
+                        throw;
                 }
             }
             finally
             {
                 Ccwipe();
-                Environment.Exit(52);
+                Environment.Exit(debug ? 112 : 0);
             }
 
             //Console.WriteLine(tree);

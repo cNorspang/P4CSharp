@@ -1,28 +1,35 @@
 setup{
     Locations = {
         Silkeborg -> Bibliotek, Lokale;
+	CombatInSilkeborg -> Silkeborg;
         Bibliotek -> Silkeborg, KU;
         Lokale -> Silkeborg;
         KU -> Bibliotek, Aalborg_station;
         Aalborg_station -> KU, Gaden;
         Gaden -> Aalborg_station, Hvidovre;
         Hvidovre -> Hvidovre;
-    }
-    player {
-	int aaa = 1;
+    } 
+    player = {
+	string name = "dunnis";
+        int health = 420;
+        bool isGay = true;
+        string nonono = userInput "nonono str";
     }
 }
 
 bool hejsa = true;
-int hej = 1;
-int yeet = 1;
+int hej = rollNr(1, 10);
+int yeet = 0;
 int a = 1 + hej + yeet;
+int chance = rollNr(0,50);
 Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
 
 Location Silkeborg = {
     string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
 
-    if (nextLocation is "Bibliotek" AND hejsa){
+    player.health = player.health + 1;  
+
+    if (nextLocation is "Bibliotek" AND player.isGay){
         Travel Bibliotek;
     }
     else if (nextLocation is "Lokale"){
@@ -35,7 +42,40 @@ Location Silkeborg = {
     choice {
         "Bibliotek" {Travel Bibliotek;};
         "Lokale" { Travel Lokale; };
+        "See health" { Text player.name + " has HP left"; };
     };
+};
+
+Location CombatInSilkeborg = {
+  int enemy_health = 420;
+  bool flag = true;
+  while(flag){
+        Text player.name + " has HP left";
+        choice {
+            "Attack with Staff" { enemy_health = enemy_health - 5;};
+            "Drink Health Potion" { player.health = player.health + 15; };
+        };
+
+        if (enemy_health >= 20) {
+            Travel Silkeborg;
+        };
+
+        int enemychoice = rollNr(0,5);
+        
+        if (enemychoice == 1){
+            int enemyDamage = rollNr(0,5);
+            Text "The Enemy attacks you with his greatclub for damage";
+            player.health = 32;
+        } else if (enemychoice == 2) {
+            int enemyHeals = rollNr(1,2);
+            Text "The enemy heals for health";
+            enemy_health = enemy_health + enemyHeals;
+        };
+        
+        if (player.health <= 0) {
+          Travel Silkeborg;
+        };
+  }
 };
 
 Location Bibliotek = {
@@ -51,7 +91,6 @@ Location Bibliotek = {
         string TryAgain = userInput "That location doesn't exit, try again [Silkeborg, KU]";
     };
 
-    Text nextLocation;
     choice {
         "Silkeborg" {Travel Silkeborg;};
         "KU" { Travel KU; };

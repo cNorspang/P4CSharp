@@ -15,15 +15,3 @@ struct GENERATED_PLAYER_STRUCT {
 struct GENERATED_PLAYER_STRUCT xCarier;
 
 void locationOne(){
-    printText("%s","\nlocation One");
-    getchar();
-}
-
-
-
-int main(void){
-    xCarier.x = 10;
-    printf("%d", xCarier.x);
-    locationOne();
-    return 0;
-}
