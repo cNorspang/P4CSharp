@@ -52,6 +52,7 @@ namespace POTBAG.ContextualAnalysis
             return Resolve(name, typeof(TypeAccessException), false);
         }
 
+        
         public Symbol Resolve(string name, Type type, bool needsToBeAssigned)
         {
             Symbol symbol;

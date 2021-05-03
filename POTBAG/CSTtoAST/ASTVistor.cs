@@ -30,6 +30,7 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(BoolAssignNode node);
         public abstract T Visit(InputAssignNode node);
         public abstract T Visit(variableNode node);
+        public abstract T Visit(DotNotaionNode node); 
         public abstract T Visit(LocationAssignNode node);
         public abstract T Visit(DeclarationNode node);
         public abstract T Visit(IntDeclarationNode node);
@@ -43,6 +44,7 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(MultiplicationNode node);
         public abstract T Visit(DivisionNode node);
         public abstract T Visit(NumberNode node);
+        public abstract T Visit(RandomExpressionNode node);
 
         public T Visit(ProgNode node)
         {

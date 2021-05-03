@@ -9,7 +9,7 @@ setup: KEYWORD_SETUP CURLY_LEFT locationsetup playersetup CURLY_RIGHT;
 //locationsetup: KEYWORD_LOCATIONARRAY SQUARE_LEFT (variable COMMA_SEPERATOR)* variable SQUARE_RIGHT END_STMT;
 locationsetup: KEYWORD_LOCATIONS ASSIGN_OPERATOR CURLY_LEFT (locationmapping)+ CURLY_RIGHT;
 locationmapping: variable ARROW_OPERATOR (variable COMMA_SEPERATOR)* variable END_STMT;
-playersetup: KEYWORD_PLAYER CURLY_LEFT (assign)+ CURLY_RIGHT;
+playersetup: KEYWORD_PLAYER ASSIGN_OPERATOR CURLY_LEFT (assign)+ CURLY_RIGHT;
 
 
 //Base Rules
@@ -30,6 +30,7 @@ expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
           | expression (PLUS_OPERATOR|MINUS_OPERATOR) expression
           | PAREN_LEFT expression PAREN_RIGHT
           | variable
+          | random
           | NUM;
 
 
@@ -79,9 +80,12 @@ predicate: (variable BOOL_CMP_OPERATOR string_obj
          | variable
          | bool_obj;
 
-variable: VAR_NAME;
+random: KEYWORD_RANDOM PAREN_LEFT (expression COMMA_SEPERATOR expression)? PAREN_RIGHT;
+
+variable: VAR_NAME | dot_notaion;
 string_obj: STRING;
 bool_obj: BOOL;
+dot_notaion: KEYWORD_PLAYER DOT VAR_NAME;
 
 //Lexer Rules
 fragment LETTERS   : [a-zA-Z];
@@ -112,7 +116,9 @@ KEYWORD_PLAYER     : 'player';
 KEYWORD_LOCATIONARRAY: 'LocationArray';
 KEYWORD_LOCATIONS  : 'Locations';
 KEYWORD_CHOICE     : 'choice';
+KEYWORD_RANDOM     : 'rollNr';
 COMMA_SEPERATOR    : ',';
+DOT                : '.';
 BOOL_CMP_OPERATOR  : ('==' | 'is' | '!=' | 'is not');
 CMP_OPERATOR       : ('greater than' | 'lesser than' |'<' | '>' | '<=' | '>=');
 ASSIGN_OPERATOR    : '=';
@@ -127,3 +133,4 @@ OR_OPERATOR        : ('||'| 'or' | 'OR');
 BOOL               : ('true' | 'false');
 NUM                : [0-9]+;
 VAR_NAME           : (LETTERS | '_')+;
+COMMENT           : '//';

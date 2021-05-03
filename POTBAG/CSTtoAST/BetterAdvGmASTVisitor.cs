@@ -65,9 +65,10 @@ namespace POTBAG.CSTtoAST
             node.Destinations.RemoveAt(0);
 
             Ccwl("    Source: " + node.Source);
-            Ccwl("    Child:  " + String.Join(',', node.Destinations));
+            Ccwl("    Child:  " + string.Join(',', node.Destinations));
             return node;
         }
+
 
         public override ProgNode VisitPlayersetup([NotNull] BetterAdvGmParser.PlayersetupContext ctx)
         {
@@ -75,7 +76,6 @@ namespace POTBAG.CSTtoAST
 
             PlayerSetupNode node = new PlayerSetupNode();
             ctx.assign().ToList().ForEach(i => node.assignNodes.Add((AssignNode)Visit(i)));
-
 
             return node;
         }
@@ -91,7 +91,7 @@ namespace POTBAG.CSTtoAST
                 node.Text.Add(Visit(ctx.GetChild(i)));
                 Ccwl(ctx.GetChild(i).GetText());   
             }
-            Ccwl("    Child: " + String.Join(',', node.Text));
+            Ccwl("    Child: " + string.Join(',', node.Text));
             return node;
         }
         
@@ -106,7 +106,7 @@ namespace POTBAG.CSTtoAST
                 //breaks...
                 node.Text.Add(Visit(ctx.GetChild(i)));
             }
-            Ccwl("    Child: " + String.Join(',', node.Text));
+            Ccwl("    Child: " + string.Join(',', node.Text));
             return node;
         }
 
@@ -222,6 +222,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.NUM() != null) { op = "NUM"; }
             else if (ctx.variable() != null) { op = "VAR"; }
             else if (ctx.PAREN_LEFT() != null) { op = "ISO"; }
+            else if (ctx.random() != null) {op = "RAND"; }
 
             ExpressionNode node = null;
 
@@ -268,6 +269,16 @@ namespace POTBAG.CSTtoAST
                     nodeVAR.VarName = ctx.variable().GetText();
                     node = nodeVAR;
                     break;
+                case "RAND":
+                    Ccwl("RAND      " + ctx.random());
+                    RandomExpressionNode nodeRND = new RandomExpressionNode();
+                    if (ctx.expression() != null)
+                    {
+                        nodeRND.MinValue = (ExpressionNode)Visit(ctx.expression(0));
+                        nodeRND.MaxValue = (ExpressionNode)Visit(ctx.expression(1));
+                    }
+                    node = nodeRND;
+                    break;
                 case "ISO":
                     Ccwl("ISO     " + ctx.expression(0).GetText());
                     ExpressionSoloNode nodeISO = new ExpressionSoloNode();
@@ -280,6 +291,7 @@ namespace POTBAG.CSTtoAST
             }
             return node;
         }
+
 
         public override ProgNode VisitChoice_statement([NotNull] BetterAdvGmParser.Choice_statementContext ctx)
         {
@@ -416,8 +428,29 @@ namespace POTBAG.CSTtoAST
 
         public override ProgNode VisitVariable([NotNull] BetterAdvGmParser.VariableContext ctx)
         {
-            variableNode node = new variableNode();
-            node.variableName = ctx.VAR_NAME().GetText();
+            variableNode node;
+            if (ctx.dot_notaion() == null) {
+                variableNode nodeVAR = new variableNode();
+                nodeVAR.variableName = ctx.VAR_NAME().GetText();
+                node = nodeVAR;
+            }
+            else if (ctx.dot_notaion() != null) {
+                node = (variableNode)Visit(ctx.dot_notaion());
+            }
+            else
+            {
+                throw new BennoException("Variable not variableName or dotnotation");
+            }
+            
+            return node;
+        }
+
+        public override ProgNode VisitDot_notaion([NotNull] BetterAdvGmParser.Dot_notaionContext ctx)
+        {
+            //Tilgå hvad der står efter "player.", altså, hvis
+            //der står player.health, så blir node.variableName = health;
+            DotNotaionNode node = new DotNotaionNode {variableName = ctx.VAR_NAME().GetText()};
+
             return node;
         }
 
