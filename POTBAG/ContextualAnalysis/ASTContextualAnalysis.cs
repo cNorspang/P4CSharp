@@ -36,7 +36,7 @@ namespace POTBAG.ContextualAnalysis
                         break;
                     default:
                         Console.WriteLine($"### ERROR List<ProgNode> (inBlock) => {string.Join(',', node)}");
-                        POTBAGErrorListener.Report(new inBlockErrorException());
+                        POTBAGErrorListener.Report(new inBlockErrorException(), this);
                         break;
                 }
             }
@@ -96,7 +96,7 @@ namespace POTBAG.ContextualAnalysis
             }
             catch (Exception e)
             {
-                POTBAGErrorListener.Report( new LocationSetupErrorException(e.Message));
+                POTBAGErrorListener.Report( new LocationSetupErrorException(e.Message), this);
             }
             
             return true;
@@ -155,6 +155,7 @@ namespace POTBAG.ContextualAnalysis
                 {
                     case DotNotaionNode dotNode:
                         Visit(dotNode);
+                        //TODO: Fejlen sker her - Vi skal få TypeOf et eller andet sted fra
                         st.ResolvePlayerVariable(dotNode.variableName, typeof(string), true);
                         break;
                     case variableNode varNode:
@@ -252,13 +253,14 @@ namespace POTBAG.ContextualAnalysis
                         st.ResolvePlayerVariable(dotNode.variableName, typeof(bool), true);
                         break;
                     }
-                    Symbol symbolDOT = st.CurrentScope().Resolve(dotNode.variableName);
+                    //Symbol symbolDOT = st.CurrentScope().Resolve(dotNode.variableName);
+                    Symbol symbolDOT = st.ResolvePlayerVariable(dotNode.variableName, typeof(TypeAccessException), true);
 
                     switch (node.Right)
                     {
                         case stringNode strNode:
                             if (symbolDOT.GetSymbolType() != typeof(string)) POTBAGErrorListener.Report(
-                                new TypeErrorException(typeof(string).ToString(), symbolDOT.GetSymbolType().ToString()));
+                                new TypeErrorException(typeof(string).ToString(), symbolDOT.GetSymbolType().ToString()), this);
                             Visit(strNode);
                             break;
                         case DotNotaionNode dotNodeR:
@@ -272,12 +274,12 @@ namespace POTBAG.ContextualAnalysis
                             break;
                         case ExpressionNode exprNode:
                             if (symbolDOT.GetSymbolType() != typeof(int)) POTBAGErrorListener.Report(
-                                new TypeErrorException(typeof(int).ToString(), symbolDOT.GetSymbolType().ToString()));
+                                new TypeErrorException(typeof(int).ToString(), symbolDOT.GetSymbolType().ToString()), this);
                             Visit(exprNode);
                             break;
                         case BoolNode boolNode:
                             if (symbolDOT.GetSymbolType() != typeof(bool)) POTBAGErrorListener.Report(
-                                new TypeErrorException(typeof(bool).ToString(), symbolDOT.GetSymbolType().ToString()));
+                                new TypeErrorException(typeof(bool).ToString(), symbolDOT.GetSymbolType().ToString()), this);
                             Visit(boolNode);
                             break;
                         default:
@@ -299,7 +301,7 @@ namespace POTBAG.ContextualAnalysis
                     {
                         case stringNode strNode:
                             if (symbol.GetSymbolType() != typeof(string)) POTBAGErrorListener.Report( 
-                                new TypeErrorException(typeof(string).ToString(), symbol.GetSymbolType().ToString()));
+                                new TypeErrorException(typeof(string).ToString(), symbol.GetSymbolType().ToString()), this);
                             Visit(strNode);
                             break;
                         case DotNotaionNode dotNode:
@@ -313,12 +315,12 @@ namespace POTBAG.ContextualAnalysis
                             break;
                         case ExpressionNode exprNode:
                             if (symbol.GetSymbolType() != typeof(int)) POTBAGErrorListener.Report(
-                                new TypeErrorException(typeof(int).ToString(), symbol.GetSymbolType().ToString()));
+                                new TypeErrorException(typeof(int).ToString(), symbol.GetSymbolType().ToString()), this);
                             Visit(exprNode);
                             break;
                         case BoolNode boolNode:
                             if (symbol.GetSymbolType() != typeof(bool)) POTBAGErrorListener.Report(
-                                new TypeErrorException(typeof(bool).ToString(), symbol.GetSymbolType().ToString()));
+                                new TypeErrorException(typeof(bool).ToString(), symbol.GetSymbolType().ToString()), this);
                             Visit(boolNode);
                             break;
                         default:
@@ -441,7 +443,7 @@ namespace POTBAG.ContextualAnalysis
             switch (node.Left)
             {
                 case DotNotaionNode dotNode:
-                    symbol = st.ResolvePlayerVariable(dotNode.variableName, typeof(string), false);
+                    symbol = st.ResolvePlayerVariable(dotNode.variableName, typeof(int), false);
                     Visit(dotNode);
                     break;
                 case variableNode varNode:
@@ -657,6 +659,9 @@ namespace POTBAG.ContextualAnalysis
                 case ExpressionVarNameNode nodeVAR:
                     //validate the variable.
                     Symbol symbol = st.CurrentScope().Resolve(nodeVAR.VarName, typeof(int), true);
+                    break;
+                case ExpressionDotNameNode nodeDOT:
+                    st.ResolvePlayerVariable(nodeDOT.VarName, typeof(int), true);
                     break;
                 case ExpressionSoloNode nodeISO:
                     Visit(nodeISO.expr);

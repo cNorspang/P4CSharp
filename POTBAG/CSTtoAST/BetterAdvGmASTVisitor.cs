@@ -119,7 +119,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.COMPOUND_OPERATOR() != null)
                 node.Operator = "COMPOUND_OPERATOR";
             else
-                POTBAGErrorListener.Report( new InvalidOperationException());
+                POTBAGErrorListener.Report( new InvalidOperationException(), this);
 
             node.Left = Visit(ctx.GetChild(0));          
             Ccwl("    Left Child Int_assign: "+node.Left + "\n     Operator child Int_assign: "+node.Operator);
@@ -264,10 +264,21 @@ namespace POTBAG.CSTtoAST
                     node = nodeNUM;
                     break;
                 case "VAR":
-                    Ccwl("VAR     " + ctx.variable().GetText());
-                    ExpressionVarNameNode nodeVAR = new ExpressionVarNameNode();
-                    nodeVAR.VarName = ctx.variable().GetText();
-                    node = nodeVAR;
+                    if (ctx.variable().dot_notaion() == null)
+                    {
+                        Ccwl("VAR     " + ctx.variable().GetText());
+                        ExpressionVarNameNode nodeVAR = new ExpressionVarNameNode();
+                        nodeVAR.VarName = ctx.variable().GetText();
+                        node = nodeVAR;
+                    }
+                    else
+                    {
+                        Ccwl("DOTNOTATION     " + ctx.variable().dot_notaion().GetText());
+                        ExpressionDotNameNode nodeDOT = new ExpressionDotNameNode();
+                        nodeDOT.VarName = ctx.variable().dot_notaion().VAR_NAME().GetText();
+                        node = nodeDOT;
+                    }
+
                     break;
                 case "RAND":
                     Ccwl("RAND      " + ctx.random());
@@ -286,7 +297,7 @@ namespace POTBAG.CSTtoAST
                     node = nodeISO;
                     break;
                 default:
-                    POTBAGErrorListener.Report(new InvalidOperationException());
+                    POTBAGErrorListener.Report(new InvalidOperationException(), this);
                     break;
             }
             return node;

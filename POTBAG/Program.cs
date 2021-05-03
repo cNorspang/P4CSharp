@@ -61,7 +61,7 @@ namespace POTBAG
                     case VariableNotDeclaredException _:
                     case UsedWithoutValueException _:
                     case NotImplementedException _: //sry
-                        POTBAGErrorListener.Report((dynamic)e);
+                        POTBAGErrorListener.Report((dynamic)e, null);
                         break;
                     case BennoException _:
                     case Exception _:
@@ -71,7 +71,7 @@ namespace POTBAG
             finally
             {
                 Ccwipe();
-                Environment.Exit(52);
+                Environment.Exit(debug ? 112 : 0);
             }
 
             //Console.WriteLine(tree);
