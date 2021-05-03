@@ -11,5 +11,8 @@ setup{
 Location Hvidovre = {
     string name = "P. I. Smith";
     int bbb = 2 * (240 + 23);
+    if(bbb < 100){
+        name = "Herp The Derp";
+    };
     Text "Congratulations, " + name + " you managed to get to Hvidovre!";
 };

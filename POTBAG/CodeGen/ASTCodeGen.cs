@@ -30,7 +30,7 @@ namespace POTBAG.CodeGen
             code.Add("#include <stdio.h>");
             code.Add("#include <stdlib.h>");
             code.Add("#include <time.h>");
-            code.Add("\nint RndNum(int to, int from){ return (rand() % (from + 1 - to)) + to;}");
+            code.Add("\nint RndNum(int from, int to){ return (rand() % (to + 1 - from)) + from;}");
         }
 
         public override string Visit(List<ProgNode> node)
@@ -69,13 +69,13 @@ namespace POTBAG.CodeGen
             string structInit = Visit(node.SetUpNode);
             Visit(node.inBlock);
 
-            var temp = st.GetStartLocation();
+            string startLocationFuncCall = st.GetStartLocation();
 
             code.Add("int main(int argc, char const *argv[]){" +
                 "\n    time_t t;" +
                 "\n    srand((unsigned)time(&t));" +
                 "\n" + structInit +
-                "\n    " + st.GetStartLocation() + "();" +
+                "\n    " + startLocationFuncCall + "();" +
                 "\n    return 0;\n}");
             
             return "";
@@ -224,49 +224,60 @@ namespace POTBAG.CodeGen
 
         public override string Visit(ifNode node)
         {
-            Visit(node.predicate);
+            string predicate = Visit(node.predicate);
+            code.Add("    if (" + predicate + ") {");
             Visit(node.body);
+            code.Add("    }");
             return "";
         }
 
         public override string Visit(ElseIfStatementNode node)
         {
-            Visit(node.predicate);
+            string predicate = Visit(node.predicate);
+            code.Add("    else if (" + predicate + ") {");
             Visit(node.body);
+            code.Add("    }");
             return "";
         }
 
         public override string Visit(elseNode node)
         {
+            code.Add("    else {");
             Visit(node.body);
+            code.Add("    }");
             return "";
         }
 
         public override string Visit(predicateNode node)
         {
+            string left = "";
+            string op = "";
+            string right = "";
             switch (node.Left)
             {
                 case variableNode NodeNode:
-                    Visit(NodeNode);
+                    left = Visit(NodeNode);
 
                     if (node.Right == null)
                     {
                         break;
                     }
 
+
+
                     switch (node.Right)
                     {
                         case stringNode strNode:
-                            Visit(strNode);
+                            right = Visit(strNode);
                             break;
                         case variableNode varNode:
-                            Visit(varNode);
+                            right = Visit(varNode);
                             break;
                         case ExpressionNode exprNode:
-                            Visit(exprNode);
+                            right = Visit(exprNode);
                             break;
                         case BoolNode boolNode:
-                            Visit(boolNode);
+                            right = Visit(boolNode);
                             break;
                         default:
                             throw new BennoException("predicate variable right node no wuuurking");
@@ -274,19 +285,19 @@ namespace POTBAG.CodeGen
 
                     break;
                 case stringNode NodeNode:
-                    Visit(NodeNode);
+                    left = Visit(NodeNode);
                     variableNode strVarNode = (variableNode)node.Right;
-                    Visit(strVarNode);
+                    right = Visit(strVarNode);
                     break;
                 case ExpressionNode NodeNode:
-                    Visit(NodeNode);
+                    left = Visit(NodeNode);
                     switch (node.Right)
                     {
                         case variableNode exprVarNode:
-                            Visit(exprVarNode);
+                            right = Visit(exprVarNode);
                             break;
                         case ExpressionNode exprExprNode:
-                            Visit(exprExprNode);
+                            right = Visit(exprExprNode);
                             break;
                         default:
                             throw new BennoException("predicate expr node no wuuurking");
@@ -294,22 +305,22 @@ namespace POTBAG.CodeGen
                     }
                     break;
                 case BoolNode NodeNode:
-                    Visit(NodeNode);
+                    left = Visit(NodeNode);
                     if (node.Right != null)
                     {
                         variableNode boolVarNode = (variableNode)node.Right;
-                        Visit(boolVarNode);
+                        right = Visit(boolVarNode);
                     }
                     break;
                 case predicateNode NodeNode:
-                    Visit(NodeNode);
-                    Visit(node.Right);
+                    left = Visit(NodeNode);
+                    right = Visit(node.Right);
                     break;
                 default:
                     Console.WriteLine("#### ERROR predicateNode => " + node.Left.GetType());
                     throw new BennoException();
             }
-            return "";
+            return left + node.Operator + right;
         }
 
         public override string Visit(BoolNode node)
@@ -399,7 +410,7 @@ namespace POTBAG.CodeGen
 
         public override string Visit(stringAssignNode node)
         {
-            string strAssignStr = "";
+            string strAssignStr = "    ";
             switch (node.Left)
             {
                 case variableNode varNode:
