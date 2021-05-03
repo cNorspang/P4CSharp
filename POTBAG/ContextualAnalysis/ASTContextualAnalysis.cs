@@ -713,8 +713,8 @@ namespace POTBAG.ContextualAnalysis
             }
             else
                 return true;
+
+            return false;
         }
-
-
     }
 }

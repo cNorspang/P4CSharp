@@ -16,9 +16,9 @@ namespace POTBAG
             string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTest.txt");
 
             ICharStream input = CharStreams.fromString(stream);
-            ITokenSource lexer = new BetterAdvGmLexer(input);
+            ITokenSource lexer = new SWAELexer(input);
             ITokenStream tokenStream = new CommonTokenStream(lexer);
-            BetterAdvGmParser parser = new BetterAdvGmParser(tokenStream);
+            SWAEParser parser = new SWAEParser(tokenStream);
             SymbolTable symbolTable = new SymbolTable();
 
 
@@ -27,7 +27,7 @@ namespace POTBAG
             //set start node
             try
             {
-                BetterAdvGmParser.ProgContext cst = parser.prog();
+                SWAEParser.ProgContext cst = parser.prog();
                 if (parser.NumberOfSyntaxErrors != 0) { Environment.Exit(1); }
 
                 ProgNode ast = new BetterAdvGmASTVisitor().VisitProg(cst);

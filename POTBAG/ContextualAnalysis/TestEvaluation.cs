@@ -368,6 +368,11 @@ namespace POTBAG.ContextualAnalysis
             return 0;
         }
 
+        public override int Visit(RandomExpressionNode node)
+        {
+            throw new BennoException();
+        }
+
         public override int Visit(WhileStatementNode node)
         {
             throw new  BennoException();
