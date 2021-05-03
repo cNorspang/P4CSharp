@@ -36,7 +36,7 @@ namespace POTBAG.ContextualAnalysis
             }
             catch (Exception e)
             {
-                POTBAGErrorListener.Report(new DuplicateVariableError(name));
+                POTBAGErrorListener.Report(new DuplicateVariableError(name), this);
             }
             
             return null;
@@ -60,13 +60,13 @@ namespace POTBAG.ContextualAnalysis
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
-                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) POTBAGErrorListener.Report(new UsedWithoutValueException(symbol.GetName()));
-                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { POTBAGErrorListener.Report(new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString())); }
+                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) POTBAGErrorListener.Report(new UsedWithoutValueException(symbol.GetName()),this);
+                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { POTBAGErrorListener.Report(new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString()), this); }
                 return symbol;
             }
             if (enclosingScope != null) return enclosingScope.Resolve(name, type, needsToBeAssigned);
 
-            POTBAGErrorListener.Report(new VariableNotDeclaredException(name)); // not found
+            POTBAGErrorListener.Report(new VariableNotDeclaredException(name), this); // not found
             return null;
         }
 
@@ -79,7 +79,7 @@ namespace POTBAG.ContextualAnalysis
             }
             if (enclosingScope != null) return enclosingScope.GetLocation();
 
-            POTBAGErrorListener.Report(new TravelOutsideLocationException());
+            POTBAGErrorListener.Report(new TravelOutsideLocationException(), this);
             return null;
         }
 

@@ -26,7 +26,7 @@ namespace POTBAG.Exceptions
             }
         }
         
-        public static void Report(Exception e)
+        public static void Report(Exception e, object sender)
         {
             if (conTroller)
             {
