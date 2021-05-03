@@ -712,9 +712,9 @@ namespace POTBAG.ContextualAnalysis
                 Visit(node.MaxValue);
             }
             else
-                return true;
+                return false;
 
-            return false;
+            return true;
         }
     }
 }

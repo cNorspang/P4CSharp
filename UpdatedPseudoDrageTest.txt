@@ -16,7 +16,7 @@ setup{
 }
 
 bool hejsa = true;
-int hej = 0;
+int hej = rollNr(1, 10);
 int yeet = 0;
 int a = 1 + hej + yeet;
 Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";

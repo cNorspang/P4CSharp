@@ -272,10 +272,10 @@ namespace POTBAG.CSTtoAST
                 case "RAND":
                     Ccwl("RAND      " + ctx.random());
                     RandomExpressionNode nodeRND = new RandomExpressionNode();
-                    if (ctx.expression() != null)
+                    if (ctx.random().expression() != null)
                     {
-                        nodeRND.MinValue = (ExpressionNode)Visit(ctx.expression(0));
-                        nodeRND.MaxValue = (ExpressionNode)Visit(ctx.expression(1));
+                        nodeRND.MinValue = (ExpressionNode)Visit(ctx.random().expression(0));
+                        nodeRND.MaxValue = (ExpressionNode)Visit(ctx.random().expression(1));
                     }
                     node = nodeRND;
                     break;

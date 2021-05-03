@@ -129,7 +129,6 @@ namespace POTBAG.ContextualAnalysis
 
         public Symbol ResolvePlayerVariable(string name, Type type, bool needsToBeAssigned)
         {
-            Console.WriteLine("PLAYER VAR::: "+name);
             Symbol symbol;
             Scope playerScope = allScopes[1];
             if (playerScope.symbolMap.ContainsKey(name))
