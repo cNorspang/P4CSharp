@@ -529,7 +529,6 @@ namespace POTBAG.ContextualAnalysis
                     symbol = (Symbol)Visit(boolDeclarationNode);
                     break;
                 case CollectionIntDeclarationNode CollectiondeclarationNode:
-                    Console.WriteLine("im a here in the switch case");
                     symbol = (Symbol)Visit(CollectiondeclarationNode);
                     break;
                 default:
