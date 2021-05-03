@@ -9,6 +9,7 @@ using static POTBAG.DebugPrinter;
 
 namespace POTBAG.ContextualAnalysis
 {
+    public delegate void ResolveDelgate();
 
     public class SymbolTable
     {
@@ -17,6 +18,7 @@ namespace POTBAG.ContextualAnalysis
         protected List<Scope> allScopes;
         protected int genId;
         protected Dictionary<string, List<variableNode>> locations = new Dictionary<string, List<variableNode>>();
+        
 
         public SymbolTable()
         {
@@ -123,7 +125,23 @@ namespace POTBAG.ContextualAnalysis
             i = gotoList.Exists(i => i.variableName == node.Destination.variableName);
 
             if (!i) { POTBAGErrorListener.Report(new IllegalTravelException($"Illegal Travel: Cannot go from {sym.GetName()} to {node.Destination.variableName}")); }
+        }
 
+        public Symbol ResolvePlayerVariable(string name, Type type, bool needsToBeAssigned)
+        {
+            Console.WriteLine("PLAYER VAR::: "+name);
+            Symbol symbol;
+            Scope playerScope = allScopes[1];
+            if (playerScope.symbolMap.ContainsKey(name))
+            {
+                symbol = playerScope.symbolMap[name];
+                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) POTBAGErrorListener.Report(new UsedWithoutValueException(symbol.GetName()));
+                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { POTBAGErrorListener.Report(new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString())); }
+                return symbol;
+            }
+            POTBAGErrorListener.Report(new VariableNotDeclaredException(name));
+
+            return null;
         }
 
         /* This method validates:

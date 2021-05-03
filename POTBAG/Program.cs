@@ -46,6 +46,7 @@ namespace POTBAG
                 //FileHandler.WriteToFile();
                 //FileHandler.PrintCCodeDebug();
             }
+            //IMPORTANT TODO: Der er blevet ændret, husk når merge
             catch (Exception e)
             {
                 switch (e)
@@ -57,13 +58,14 @@ namespace POTBAG
                     case InvalidOperationException _:
                     case DuplicateVariableError _:    
                     case TypeErrorException _:
-                    case BennoException _:
                     case VariableNotDeclaredException _:
                     case UsedWithoutValueException _:
                     case NotImplementedException _: //sry
-                    case Exception _:
                         POTBAGErrorListener.Report((dynamic)e);
                         break;
+                    case BennoException _:
+                    case Exception _:
+                        throw;
                 }
             }
             finally

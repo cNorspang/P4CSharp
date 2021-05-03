@@ -14,9 +14,9 @@ namespace POTBAG.Exceptions
         
         public static void ErrorCheck()
         {
-            CcwlError("======= ERROR =======");
             if (ErrorQueue.Count != 0)
             {
+                CcwlError("======= ERROR =======");
                 foreach (string error in ErrorQueue)
                 {
                     CcwlError(error);
