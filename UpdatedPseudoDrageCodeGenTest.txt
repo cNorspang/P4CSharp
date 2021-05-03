@@ -1,0 +1,19 @@
+setup{
+    Locations = {       
+        Hvidovre -> Hvidovre;
+    }
+    player {
+	int aaa = 1;
+    int yup = 12200;
+    }
+}
+
+Location Hvidovre = {
+    string name = "P. I. Smith";
+    player.aaa = 2;
+    int bbb = 2 * (240 + 23);
+    if(bbb < 100){
+        name = "Herp The Derp";
+    };
+    Text "Congratulations, " + name + " you managed to get to Hvidovre!";
+};

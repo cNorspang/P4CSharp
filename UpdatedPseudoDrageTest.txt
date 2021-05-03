@@ -24,6 +24,8 @@ Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it t
 Location Silkeborg = {
     string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";
 
+    player.health = player.health + 1;  
+
     if (nextLocation is "Bibliotek" AND player.isGay){
         Travel Bibliotek;
     }
