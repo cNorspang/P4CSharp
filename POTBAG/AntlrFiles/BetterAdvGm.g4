@@ -30,6 +30,7 @@ expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
           | expression (PLUS_OPERATOR|MINUS_OPERATOR) expression
           | PAREN_LEFT expression PAREN_RIGHT
           | variable
+          | random
           | NUM;
 
 
@@ -79,6 +80,8 @@ predicate: (variable BOOL_CMP_OPERATOR string_obj
          | variable
          | bool_obj;
 
+random: KEYWORD_RANDOM PAREN_LEFT (expression COMMA_SEPERATOR expression)? PAREN_RIGHT;
+
 variable: VAR_NAME | dot_notaion;
 string_obj: STRING;
 bool_obj: BOOL;
@@ -113,6 +116,7 @@ KEYWORD_PLAYER     : 'player';
 KEYWORD_LOCATIONARRAY: 'LocationArray';
 KEYWORD_LOCATIONS  : 'Locations';
 KEYWORD_CHOICE     : 'choice';
+KEYWORD_RANDOM     : 'rollNr';
 COMMA_SEPERATOR    : ',';
 DOT                : '.';
 BOOL_CMP_OPERATOR  : ('==' | 'is' | '!=' | 'is not');

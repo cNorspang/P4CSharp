@@ -69,6 +69,7 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
+
         public override ProgNode VisitPlayersetup([NotNull] BetterAdvGmParser.PlayersetupContext ctx)
         {
             Ccwl("PlayerSetup");
@@ -221,6 +222,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.NUM() != null) { op = "NUM"; }
             else if (ctx.variable() != null) { op = "VAR"; }
             else if (ctx.PAREN_LEFT() != null) { op = "ISO"; }
+            else if (ctx.random() != null) {op = "RAND"; }
 
             ExpressionNode node = null;
 
@@ -267,6 +269,16 @@ namespace POTBAG.CSTtoAST
                     nodeVAR.VarName = ctx.variable().GetText();
                     node = nodeVAR;
                     break;
+                case "RAND":
+                    Ccwl("RAND      " + ctx.random());
+                    RandomExpressionNode nodeRND = new RandomExpressionNode();
+                    if (ctx.expression() != null)
+                    {
+                        nodeRND.MinValue = (ExpressionNode)Visit(ctx.expression(0));
+                        nodeRND.MaxValue = (ExpressionNode)Visit(ctx.expression(1));
+                    }
+                    node = nodeRND;
+                    break;
                 case "ISO":
                     Ccwl("ISO     " + ctx.expression(0).GetText());
                     ExpressionSoloNode nodeISO = new ExpressionSoloNode();
@@ -279,6 +291,7 @@ namespace POTBAG.CSTtoAST
             }
             return node;
         }
+
 
         public override ProgNode VisitChoice_statement([NotNull] BetterAdvGmParser.Choice_statementContext ctx)
         {

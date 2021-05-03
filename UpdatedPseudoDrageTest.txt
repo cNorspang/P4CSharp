@@ -7,8 +7,7 @@ setup{
         Aalborg_station -> KU, Gaden;
         Gaden -> Aalborg_station, Hvidovre;
         Hvidovre -> Hvidovre;
-    } 
-    player = {
+    } player = {
 	    string name = "dunnis";
         int health = 420;
         bool isGay = true;
@@ -17,8 +16,10 @@ setup{
 }
 
 bool hejsa = true;
-int a = 1;
-Text "Hello " + player.name + "! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
+int hej = 0;
+int yeet = 0;
+int a = 1 + hej + yeet;
+Text "Hello adventurer! Welcome to the labyrinth game. Your goal is to make it to Hvidovre";
 
 Location Silkeborg = {
     string nextLocation = userInput "You start in Silkeborg, where would you like to go next? [Bibliotek, Lokale]";

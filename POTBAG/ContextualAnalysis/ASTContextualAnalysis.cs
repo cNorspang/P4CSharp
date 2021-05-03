@@ -661,6 +661,9 @@ namespace POTBAG.ContextualAnalysis
                 case ExpressionSoloNode nodeISO:
                     Visit(nodeISO.expr);
                     break;
+                case RandomExpressionNode nodeRND:
+                    Visit(nodeRND);
+                    break;
                 default:
                     throw new BennoException($"### ERROR ExpressionNode => {node.GetType().Name}");
             }
@@ -701,6 +704,17 @@ namespace POTBAG.ContextualAnalysis
             return true;
         }
 
-       
+        public override object Visit(RandomExpressionNode node)
+        {
+            if(node.MinValue != null)
+            {
+                Visit(node.MinValue);
+                Visit(node.MaxValue);
+            }
+            else
+                return true;
+        }
+
+
     }
 }
