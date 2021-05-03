@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Antlr4.Runtime;
-using POTBAG.ContextualAnalysis;
-using static POTBAG.DebugPrinter;
+using SWAE.ContextualAnalysis;
+using static SWAE.DebugPrinter;
 
-namespace POTBAG.Exceptions
+namespace SWAE.Exceptions
 {
-    public static class POTBAGErrorListener
+    public static class SWAEErrorListener
     {
         public static bool conTroller = true;
         static SymbolTable table = new SymbolTable();

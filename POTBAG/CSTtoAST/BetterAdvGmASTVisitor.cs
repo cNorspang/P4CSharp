@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
-using POTBAG.Exceptions;
-using static POTBAG.DebugPrinter;
+using SWAE.Exceptions;
+using static SWAE.DebugPrinter;
 
-namespace POTBAG.CSTtoAST
+namespace SWAE.CSTtoAST
 {
     public class BetterAdvGmASTVisitor : SWAEBaseVisitor<ProgNode>
     {
@@ -119,7 +119,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.COMPOUND_OPERATOR() != null)
                 node.Operator = "COMPOUND_OPERATOR";
             else
-                POTBAGErrorListener.Report( new InvalidOperationException(), this);
+                SWAEErrorListener.Report( new InvalidOperationException(), this);
 
             node.Left = Visit(ctx.GetChild(0));          
             Ccwl("    Left Child Int_assign: "+node.Left + "\n     Operator child Int_assign: "+node.Operator);
@@ -222,7 +222,7 @@ namespace POTBAG.CSTtoAST
             else if (ctx.NUM() != null) { op = "NUM"; }
             else if (ctx.variable() != null) { op = "VAR"; }
             else if (ctx.PAREN_LEFT() != null) { op = "ISO"; }
-            else if (ctx.random() != null) {op = "RAND"; }
+            else if (ctx.random() != null) {op = "RNG"; }
 
             ExpressionNode node = null;
 
@@ -273,22 +273,22 @@ namespace POTBAG.CSTtoAST
                     }
                     else
                     {
-                        Ccwl("DOTNOTATION     " + ctx.variable().dot_notaion().GetText());
+                        Ccwl("DOTVAR     " + ctx.variable().dot_notaion().GetText());
                         ExpressionDotNameNode nodeDOT = new ExpressionDotNameNode();
                         nodeDOT.VarName = ctx.variable().dot_notaion().VAR_NAME().GetText();
                         node = nodeDOT;
                     }
 
                     break;
-                case "RAND":
-                    Ccwl("RAND      " + ctx.random());
-                    RandomExpressionNode nodeRND = new RandomExpressionNode();
+                case "RNG":
+                    Ccwl("RNG      " + ctx.random());
+                    RandomExpressionNode nodeRNG = new RandomExpressionNode();
                     if (ctx.random().expression() != null)
                     {
-                        nodeRND.MinValue = (ExpressionNode)Visit(ctx.random().expression(0));
-                        nodeRND.MaxValue = (ExpressionNode)Visit(ctx.random().expression(1));
+                        nodeRNG.MinValue = (ExpressionNode)Visit(ctx.random().expression(0));
+                        nodeRNG.MaxValue = (ExpressionNode)Visit(ctx.random().expression(1));
                     }
-                    node = nodeRND;
+                    node = nodeRNG;
                     break;
                 case "ISO":
                     Ccwl("ISO     " + ctx.expression(0).GetText());
@@ -297,7 +297,7 @@ namespace POTBAG.CSTtoAST
                     node = nodeISO;
                     break;
                 default:
-                    POTBAGErrorListener.Report(new InvalidOperationException(), this);
+                    SWAEErrorListener.Report(new InvalidOperationException(), this);
                     break;
             }
             return node;
@@ -460,7 +460,7 @@ namespace POTBAG.CSTtoAST
         {
             //Tilgå hvad der står efter "player.", altså, hvis
             //der står player.health, så blir node.variableName = health;
-            DotNotaionNode node = new DotNotaionNode {variableName = ctx.VAR_NAME().GetText()};
+            DotNotationNode node = new DotNotationNode {variableName = ctx.VAR_NAME().GetText()};
 
             return node;
         }

@@ -1,14 +1,14 @@
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
-using POTBAG.ContextualAnalysis;
-using POTBAG.CSTtoAST;
+using SWAE.ContextualAnalysis;
+using SWAE.CSTtoAST;
 using System;
-using POTBAG.Exceptions;
-using static POTBAG.DebugPrinter;
-using POTBAG.CodeGen;
+using SWAE.Exceptions;
+using static SWAE.DebugPrinter;
+using SWAE.CodeGen;
 using System.Collections.Generic;
 
-namespace POTBAG
+namespace SWAE
 {
     class Program
     {
@@ -24,7 +24,7 @@ namespace POTBAG
             SymbolTable symbolTable = new SymbolTable();
 
 
-            POTBAGErrorListener.conTroller = debug;
+            SWAEErrorListener.conTroller = debug;
             DebugPrinter.isDebug = debug;
             //set start node
             try
@@ -35,7 +35,7 @@ namespace POTBAG
                 ProgNode ast = new BetterAdvGmASTVisitor().VisitProg(cst);
 
                 var contextualAnalysis = new ASTContextualAnalysis(symbolTable).Visit(ast);
-                POTBAGErrorListener.ErrorCheck();
+                SWAEErrorListener.ErrorCheck();
 
                 ASTCodeGen codeGenerator = new ASTCodeGen(symbolTable);
                 codeGenerator.Visit(ast);
@@ -59,7 +59,7 @@ namespace POTBAG
                     case VariableNotDeclaredException _:
                     case UsedWithoutValueException _:
                     case NotImplementedException _: //sry
-                        POTBAGErrorListener.Report((dynamic)e, null);
+                        SWAEErrorListener.Report((dynamic)e, null);
                         break;
                     case BennoException _:
                     case Exception _:

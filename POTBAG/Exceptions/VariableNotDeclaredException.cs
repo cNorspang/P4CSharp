@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace POTBAG.Exceptions
+namespace SWAE.Exceptions
 {
     [Serializable]
     public class VariableNotDeclaredException : Exception

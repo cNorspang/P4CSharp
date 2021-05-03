@@ -1,11 +1,11 @@
-﻿using POTBAG.CSTtoAST;
-using POTBAG.Exceptions;
+﻿using SWAE.CSTtoAST;
+using SWAE.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static POTBAG.DebugPrinter;
+using static SWAE.DebugPrinter;
 
-namespace POTBAG.ContextualAnalysis
+namespace SWAE.ContextualAnalysis
 {
     public class ASTContextualAnalysis : ASTVistor<object>
     {
@@ -36,7 +36,7 @@ namespace POTBAG.ContextualAnalysis
                         break;
                     default:
                         Console.WriteLine($"### ERROR List<ProgNode> (inBlock) => {string.Join(',', node)}");
-                        POTBAGErrorListener.Report(new inBlockErrorException(), this);
+                        SWAEErrorListener.Report(new inBlockErrorException(), this);
                         break;
                 }
             }
@@ -96,7 +96,7 @@ namespace POTBAG.ContextualAnalysis
             }
             catch (Exception e)
             {
-                POTBAGErrorListener.Report( new LocationSetupErrorException(e.Message), this);
+                SWAEErrorListener.Report( new LocationSetupErrorException(e.Message), this);
             }
             
             return true;
@@ -110,7 +110,15 @@ namespace POTBAG.ContextualAnalysis
 
         public override object Visit(PlayerSetupNode node)
         {
-            node.assignNodes.ForEach(i => Visit(i));
+            node.assignNodes.ForEach(i => Console.WriteLine("##################  " + i.GetType()));
+            foreach (var asgNode in node.assignNodes)
+            {
+                if (asgNode.GetType() == typeof(LocationAssignNode))
+                    SWAEErrorListener.Report(new NotImplementedException("Locations cannot be declared inside player setup."), this);
+                else
+                    Visit(asgNode);
+            }
+           
             return true;
         }
 
@@ -153,15 +161,18 @@ namespace POTBAG.ContextualAnalysis
             {
                 switch (item)
                 {
-                    case DotNotaionNode dotNode:
+                    case DotNotationNode dotNode:
                         Visit(dotNode);
                         //TODO: Fejlen sker her - Vi skal få TypeOf et eller andet sted fra
-                        st.ResolvePlayerVariable(dotNode.variableName, typeof(string), true);
+                        Type type = st.ResolvePlayerVariable(dotNode.variableName, true).GetSymbolType();
+                        if (type != typeof(string) && type != typeof(int))
+                            st.CurrentScope().Resolve(dotNode.variableName, typeof(string), true);
                         break;
                     case variableNode varNode:
                         Visit(varNode);
-                        //Validate variable
-                        st.CurrentScope().Resolve(varNode.variableName, typeof(string), true);
+                        Type typee = st.CurrentScope().Resolve(varNode.variableName, true).GetSymbolType();
+                        if (typee != typeof(string) && typee != typeof(int))
+                            st.CurrentScope().Resolve(varNode.variableName, typeof(string), true);
                         break;
                     case stringNode strNode:
                         Visit(strNode);
@@ -188,7 +199,7 @@ namespace POTBAG.ContextualAnalysis
             {
                 switch (item)
                 {
-                    case DotNotaionNode dotNode:
+                    case DotNotationNode dotNode:
                         Visit(dotNode);
                         st.ResolvePlayerVariable(dotNode.variableName, typeof(string), false);
                         break;
@@ -246,7 +257,7 @@ namespace POTBAG.ContextualAnalysis
         {
             switch (node.Left)
             {
-                case DotNotaionNode dotNode:
+                case DotNotationNode dotNode:
                     Visit(dotNode);
                     if (node.Right == null)
                     {
@@ -259,11 +270,11 @@ namespace POTBAG.ContextualAnalysis
                     switch (node.Right)
                     {
                         case stringNode strNode:
-                            if (symbolDOT.GetSymbolType() != typeof(string)) POTBAGErrorListener.Report(
+                            if (symbolDOT.GetSymbolType() != typeof(string)) SWAEErrorListener.Report(
                                 new TypeErrorException(typeof(string).ToString(), symbolDOT.GetSymbolType().ToString()), this);
                             Visit(strNode);
                             break;
-                        case DotNotaionNode dotNodeR:
+                        case DotNotationNode dotNodeR:
                             st.ResolvePlayerVariable(dotNodeR.variableName, symbolDOT.GetSymbolType(), true);
                             Visit(dotNodeR);
                             break;
@@ -273,12 +284,12 @@ namespace POTBAG.ContextualAnalysis
                             Visit(varNode);
                             break;
                         case ExpressionNode exprNode:
-                            if (symbolDOT.GetSymbolType() != typeof(int)) POTBAGErrorListener.Report(
+                            if (symbolDOT.GetSymbolType() != typeof(int)) SWAEErrorListener.Report(
                                 new TypeErrorException(typeof(int).ToString(), symbolDOT.GetSymbolType().ToString()), this);
                             Visit(exprNode);
                             break;
                         case BoolNode boolNode:
-                            if (symbolDOT.GetSymbolType() != typeof(bool)) POTBAGErrorListener.Report(
+                            if (symbolDOT.GetSymbolType() != typeof(bool)) SWAEErrorListener.Report(
                                 new TypeErrorException(typeof(bool).ToString(), symbolDOT.GetSymbolType().ToString()), this);
                             Visit(boolNode);
                             break;
@@ -300,11 +311,11 @@ namespace POTBAG.ContextualAnalysis
                     switch (node.Right)
                     {
                         case stringNode strNode:
-                            if (symbol.GetSymbolType() != typeof(string)) POTBAGErrorListener.Report( 
+                            if (symbol.GetSymbolType() != typeof(string)) SWAEErrorListener.Report( 
                                 new TypeErrorException(typeof(string).ToString(), symbol.GetSymbolType().ToString()), this);
                             Visit(strNode);
                             break;
-                        case DotNotaionNode dotNode:
+                        case DotNotationNode dotNode:
                             st.ResolvePlayerVariable(dotNode.variableName, symbol.GetSymbolType(), true);
                             Visit(dotNode);
                             break;
@@ -314,12 +325,12 @@ namespace POTBAG.ContextualAnalysis
                             Visit(varNode);
                             break;
                         case ExpressionNode exprNode:
-                            if (symbol.GetSymbolType() != typeof(int)) POTBAGErrorListener.Report(
+                            if (symbol.GetSymbolType() != typeof(int)) SWAEErrorListener.Report(
                                 new TypeErrorException(typeof(int).ToString(), symbol.GetSymbolType().ToString()), this);
                             Visit(exprNode);
                             break;
                         case BoolNode boolNode:
-                            if (symbol.GetSymbolType() != typeof(bool)) POTBAGErrorListener.Report(
+                            if (symbol.GetSymbolType() != typeof(bool)) SWAEErrorListener.Report(
                                 new TypeErrorException(typeof(bool).ToString(), symbol.GetSymbolType().ToString()), this);
                             Visit(boolNode);
                             break;
@@ -391,7 +402,7 @@ namespace POTBAG.ContextualAnalysis
         {
             switch (node.Left)
             {
-                case DotNotaionNode dotNode:
+                case DotNotationNode dotNode:
                     Visit(dotNode);
                     st.ResolvePlayerVariable(dotNode.variableName, typeof(string), true);
                     break;
@@ -442,7 +453,7 @@ namespace POTBAG.ContextualAnalysis
             Symbol symbol = new Symbol(null, null);
             switch (node.Left)
             {
-                case DotNotaionNode dotNode:
+                case DotNotationNode dotNode:
                     symbol = st.ResolvePlayerVariable(dotNode.variableName, typeof(int), false);
                     Visit(dotNode);
                     break;
@@ -475,7 +486,7 @@ namespace POTBAG.ContextualAnalysis
 
             switch (node.Left)
             {
-                case DotNotaionNode dotNode:
+                case DotNotationNode dotNode:
                     Visit(dotNode);
                     symbol = st.ResolvePlayerVariable(dotNode.variableName, typeof(string), false);
                     break;
@@ -500,7 +511,7 @@ namespace POTBAG.ContextualAnalysis
 
             switch (node.Left)
             {
-                case DotNotaionNode dotNode:
+                case DotNotationNode dotNode:
                     Visit(dotNode);
                     symbol = st.ResolvePlayerVariable(dotNode.variableName, typeof(bool), false);
                     break;
@@ -526,7 +537,7 @@ namespace POTBAG.ContextualAnalysis
 
             switch (node.Left)
             {
-                case DotNotaionNode dotNode:
+                case DotNotationNode dotNode:
                     Visit(dotNode);
                     symbol = st.ResolvePlayerVariable(dotNode.variableName, typeof(string), false);
                     break;
@@ -547,7 +558,7 @@ namespace POTBAG.ContextualAnalysis
 
         
         //TODO: Jeg har brug for en voksens hjælp
-        public override object Visit(DotNotaionNode node)
+        public override object Visit(DotNotationNode node)
         {
             return true;
         }
@@ -570,6 +581,10 @@ namespace POTBAG.ContextualAnalysis
 
             switch (node.Left)
             {
+                case DotNotationNode dotNode:
+                    Visit(dotNode);
+                    symbol = st.ResolvePlayerVariable(dotNode.variableName, typeof(LocationDeclarationNode), false);
+                    break;
                 case variableNode varNode:
                     Visit(varNode);
                     symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(LocationDeclarationNode), false);
@@ -611,7 +626,6 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(IntDeclarationNode node)
         {
             Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(int));
-            node.VarName.scopeId = symbol.GenId();
             return symbol;
         }
 
@@ -619,14 +633,12 @@ namespace POTBAG.ContextualAnalysis
         {
             Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(string));
             //TODO this does not work in all 4
-            node.VarName.scopeId = symbol.GenId();
             return symbol;
         }
 
         public override object Visit(BoolDeclarationNode node)
         {
             Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(bool));
-            node.VarName.scopeId = symbol.GenId();
             return symbol;
         }
 
@@ -638,7 +650,6 @@ namespace POTBAG.ContextualAnalysis
         public override object Visit(LocationDeclarationNode node)
         {
             Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(LocationDeclarationNode));
-            node.VarName.scopeId = symbol.GenId();
             return symbol;
         }
 

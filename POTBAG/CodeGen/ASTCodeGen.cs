@@ -1,13 +1,13 @@
-﻿using POTBAG.ContextualAnalysis;
-using POTBAG.CSTtoAST;
-using POTBAG.Exceptions;
+﻿using SWAE.ContextualAnalysis;
+using SWAE.CSTtoAST;
+using SWAE.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static POTBAG.DebugPrinter;
+using static SWAE.DebugPrinter;
 
 
-namespace POTBAG.CodeGen
+namespace SWAE.CodeGen
 {
     public class ASTCodeGen : ASTVistor<string>
     {
@@ -29,8 +29,9 @@ namespace POTBAG.CodeGen
         {
             code.Add("#include <stdio.h>");
             code.Add("#include <stdlib.h>");
+            code.Add("#include <string.h>");
             code.Add("#include <time.h>");
-            code.Add("\nint RndNum(int from, int to){ return (rand() % (to + 1 - from)) + from;}");
+            code.Add("\nint Random_Int_Num(int from, int to){ return (rand() % (to + 1 - from)) + from;}");
         }
 
         public override string Visit(List<ProgNode> node)
@@ -54,7 +55,7 @@ namespace POTBAG.CodeGen
                         break;
                     default:
                         Console.WriteLine($"### ERROR List<ProgNode> (inBlock) => {string.Join(',', node)}");
-                        POTBAGErrorListener.Report(new inBlockErrorException());
+                        SWAEErrorListener.Report(new inBlockErrorException(), this);
                         break;
                 }
                 code.Add(addToCode);
@@ -132,28 +133,20 @@ namespace POTBAG.CodeGen
             {
                 case TextStatementNode statementNode:
                     return Visit(statementNode);
-                    break;
                 case WhileStatementNode statementNode:
                     return Visit(statementNode);
-                    break;
                 case InputStatementNode statementNode:
                     return Visit(statementNode);
-                    break;
                 case IfStatementNode statementNode:
                     return Visit(statementNode);
-                    break;
                 case IfChainStatementNode statementNode:
                     return Visit(statementNode);
-                    break;
                 case TravelStatementNode statementNode:
                     return Visit(statementNode);
-                    break;
                 case ChoiceStatementNode statementNode:
                     return Visit(statementNode);
-                    break;
                 case OptionStatementNode statementNode:
                     return Visit(statementNode);
-                    break;
             }
 
             return "";
@@ -168,12 +161,19 @@ namespace POTBAG.CodeGen
             {
                 switch (item)
                 {
+                    case DotNotationNode dotNode:
+                        linesToPrint += ", " + Visit(dotNode);
+                        Type type = st.GetSymbolByName(dotNode.variableName).GetSymbolType();
+                        if (type == typeof(string)) typeToPrint += "%s";
+                        else if (type == typeof(int)) typeToPrint += "%d";
+                        else throw new BennoException("code gen textStmt => idk how we got here");
+                        break;
                     case variableNode varNode:
                         linesToPrint += ", " + Visit(varNode);
-                        //Type type = st.GetScope(varNode.scopeId).Resolve(varNode.variableName).GetSymbolType();
-                        /*if (type == typeof(string))*/ typeToPrint += "%s";
-                        //else if (type == typeof(int)) typeToPrint += "%d";
-                        //else throw new BennoException("code gen textStmt => idk how we got here");
+                        Type typee = st.GetSymbolByName(varNode.variableName).GetSymbolType();
+                        if (typee == typeof(string)) typeToPrint += "%s";
+                        else if (typee == typeof(int)) typeToPrint += "%d";
+                        else throw new BennoException("code gen textStmt => idk how we got here");
                         break;
                     case stringNode strNode:
                         linesToPrint += ", " + Visit(strNode);
@@ -193,6 +193,9 @@ namespace POTBAG.CodeGen
             {
                 switch (item)
                 {
+                    case DotNotationNode dotNode:
+                        Visit(dotNode);
+                        break;
                     case variableNode varNode:
                         Visit(varNode);
                         break;
@@ -255,6 +258,35 @@ namespace POTBAG.CodeGen
             string right = "";
             switch (node.Left)
             {
+                case DotNotationNode dotNode:
+                    left = Visit(dotNode);
+                    if (node.Right == null)
+                    {
+                        break;
+                    }
+
+                    switch (node.Right)
+                    {
+                        case stringNode strNode:
+                            right = Visit(strNode);
+                            break;
+                        case DotNotationNode dotNodeR:
+                            right = Visit(dotNodeR);
+                            break;
+                        case variableNode varNode:
+                            right = Visit(varNode);
+                            break;
+                        case ExpressionNode exprNode:
+                            right = Visit(exprNode);
+                            break;
+                        case BoolNode boolNode:
+                            right = Visit(boolNode);
+                            break;
+                        default:
+                            throw new BennoException("predicate variable right node no wuuurking");
+                    }
+
+                    break;
                 case variableNode NodeNode:
                     left = Visit(NodeNode);
 
@@ -269,6 +301,9 @@ namespace POTBAG.CodeGen
                     {
                         case stringNode strNode:
                             right = Visit(strNode);
+                            break;
+                        case DotNotationNode dotNode:
+                            right = Visit(dotNode);
                             break;
                         case variableNode varNode:
                             right = Visit(varNode);
@@ -320,7 +355,22 @@ namespace POTBAG.CodeGen
                     Console.WriteLine("#### ERROR predicateNode => " + node.Left.GetType());
                     throw new BennoException();
             }
-            return left + node.Operator + right;
+
+
+            op = node.Operator switch
+            {
+                "GREATER_THAN" => " > ",
+                "GREATER_THAN_EQUAL" => " >= ",
+                "LESS_THAN" => " < ",
+                "LESS_THAN_EQUAL" => "<=",
+                "EQUALS" => " == ",
+                "NOT_EQUALS" => " != ",
+                "AND" => " && ",
+                "OR" => " || ",
+                _ => op
+            };
+
+            return left + op + right;
         }
 
         public override string Visit(BoolNode node)
@@ -343,6 +393,9 @@ namespace POTBAG.CodeGen
         {
             switch (node.Left)
             {
+                case DotNotationNode dotNode:
+                    Visit(dotNode);
+                    break;
                 case variableNode varNode:
                     Visit(varNode);
                     break;
@@ -387,6 +440,9 @@ namespace POTBAG.CodeGen
 
             switch (node.Left)
             {
+                case DotNotationNode dotNode:
+                    left = Visit(dotNode);
+                    break;
                 case variableNode varNode:
                     left = Visit(varNode);
                     break;
@@ -413,9 +469,10 @@ namespace POTBAG.CodeGen
             string strAssignStr = "    ";
             switch (node.Left)
             {
+                case DotNotationNode dotNode:
+                    return "    strcpy(" + Visit(dotNode) + ", " + Visit(node.Right) + ");";
                 case variableNode varNode:
-                    strAssignStr += Visit(varNode) + " = ";
-                    break;
+                    return "    strcpy(" + Visit(varNode) + ", " + Visit(node.Right) + ");";
                 case stringDeclarationNode stringDclNode:
                     strAssignStr += Visit(stringDclNode) + " = ";
                     break;
@@ -431,6 +488,9 @@ namespace POTBAG.CodeGen
         {
             switch (node.Left)
             {
+                case DotNotationNode dotNode:
+                    Visit(dotNode);
+                    break;
                 case variableNode varNode:
                     Visit(varNode);
                     break;
@@ -448,6 +508,9 @@ namespace POTBAG.CodeGen
         {
             switch (node.Left)
             {
+                case DotNotationNode dotNode:
+                    Visit(dotNode);
+                    break;
                 case variableNode varNode:
                     Visit(varNode);
                     break;
@@ -472,6 +535,9 @@ namespace POTBAG.CodeGen
             string locationStr = "";
             switch (node.Left)
             {
+                case DotNotationNode dotNode:
+                    locationStr += Visit(dotNode);
+                    break;
                 case variableNode varNode:
                     locationStr += Visit(varNode);
                     break;
@@ -517,12 +583,12 @@ namespace POTBAG.CodeGen
 
         public override string Visit(stringDeclarationNode node)
         {
-            return "char " + node.VarName.variableName + "[255]";
+            return "char " + node.VarName.variableName + "[256]";
         }
 
         public override string Visit(BoolDeclarationNode node)
         {
-            return "";
+            return "bool " + node.VarName.variableName;
         }
 
         public override string Visit(stringNode node)
@@ -541,25 +607,22 @@ namespace POTBAG.CodeGen
             {
                 case AdditionNode nodeADD:
                     return Visit(nodeADD);
-                    break;
                 case DivisionNode nodeDIV:
                     return Visit(nodeDIV);
-                    break;
                 case MultiplicationNode nodeMUL:
                     return Visit(nodeMUL);
-                    break;
                 case SubtractionNode nodeSUB:
                     return Visit(nodeSUB);
-                    break;
                 case NumberNode nodeNUM:
                     return Visit(nodeNUM);
-                    break;
                 case ExpressionVarNameNode nodeVAR:
                     return nodeVAR.VarName;
-                    break;
+                case ExpressionDotNameNode nodeDOT:
+                    return nodeDOT.VarName;
                 case ExpressionSoloNode nodeISO:
                     return Visit(nodeISO.expr);
-                    break;
+                case RandomExpressionNode nodeRND:
+                    return Visit(nodeRND);
                 default:
                     throw new BennoException($"### ERROR ExpressionNode => {node.GetType().Name}");
             }
@@ -589,6 +652,16 @@ namespace POTBAG.CodeGen
         public override string Visit(NumberNode node)
         {
             return node.Value.ToString();
+        }
+
+        public override string Visit(DotNotationNode node)
+        {
+            return "PLAYER_STRUCT." + node.variableName;
+        }
+
+        public override string Visit(RandomExpressionNode node)
+        {
+            return "Random_Int_Num(" + Visit(node.MinValue) + ", "  + Visit(node.MaxValue) + ")";
         }
     }
 }

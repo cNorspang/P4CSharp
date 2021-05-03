@@ -1,13 +1,13 @@
-﻿using POTBAG.CSTtoAST;
+﻿using SWAE.CSTtoAST;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using POTBAG.Exceptions;
-using static POTBAG.DebugPrinter;
+using SWAE.Exceptions;
+using static SWAE.DebugPrinter;
 
 
-namespace POTBAG.ContextualAnalysis
+namespace SWAE.ContextualAnalysis
 {
     public delegate void ResolveDelgate();
 
@@ -69,6 +69,16 @@ namespace POTBAG.ContextualAnalysis
             return null;
         }
 
+        public Symbol GetSymbolByName(string variableName)
+        {
+            foreach (Scope scope in allScopes)
+            {
+                if (scope.symbolMap.ContainsKey(variableName)) 
+                    return scope.symbolMap[variableName];
+            }
+            return null;
+        }
+
         private int NextGenId()
         {
             genId++;
@@ -108,7 +118,7 @@ namespace POTBAG.ContextualAnalysis
             }
             catch (ArgumentException)
             {
-                POTBAGErrorListener.Report(new LocationSetupErrorException($"Duplicate mapping of location \"{node.Source.variableName}\""), this);
+                SWAEErrorListener.Report(new LocationSetupErrorException($"Duplicate mapping of location \"{node.Source.variableName}\""), this);
             }
 
 
@@ -124,7 +134,7 @@ namespace POTBAG.ContextualAnalysis
 
             if (!locations.ContainsKey(node.Destination.variableName) && currentScope.Resolve(node.Destination.variableName).GetName() != null)
             {
-                POTBAGErrorListener.Report(new TypeErrorException("Location", node.Destination.GetType().ToString()), this);
+                SWAEErrorListener.Report(new TypeErrorException("Location", node.Destination.GetType().ToString()), this);
             }
             
             Symbol sym = currentScope.GetLocation();
@@ -133,7 +143,12 @@ namespace POTBAG.ContextualAnalysis
             bool i = false;
             i = gotoList.Exists(i => i.variableName == node.Destination.variableName);
 
-            if (!i) { POTBAGErrorListener.Report(new IllegalTravelException($"Illegal Travel: Cannot go from {sym.GetName()} to {node.Destination.variableName}"), this); }
+            if (!i) { SWAEErrorListener.Report(new IllegalTravelException($"Illegal Travel: Cannot go from {sym.GetName()} to {node.Destination.variableName}"), this); }
+        }
+
+        public Symbol ResolvePlayerVariable(string name, bool needsToBeAssigned)
+        {
+            return ResolvePlayerVariable(name, typeof(TypeAccessException), needsToBeAssigned);
         }
 
         public Symbol ResolvePlayerVariable(string name, Type type, bool needsToBeAssigned)
@@ -143,11 +158,11 @@ namespace POTBAG.ContextualAnalysis
             if (playerScope.symbolMap.ContainsKey(name))
             {
                 symbol = playerScope.symbolMap[name];
-                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) POTBAGErrorListener.Report(new UsedWithoutValueException(symbol.GetName()), this);
-                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { POTBAGErrorListener.Report(new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString()), this); }
+                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) SWAEErrorListener.Report(new UsedWithoutValueException(symbol.GetName()), this);
+                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { SWAEErrorListener.Report(new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString()), this); }
                 return symbol;
             }
-            POTBAGErrorListener.Report(new VariableNotDeclaredException(name), this);
+            SWAEErrorListener.Report(new VariableNotDeclaredException(name), this);
 
             return null;
         }
@@ -191,7 +206,7 @@ namespace POTBAG.ContextualAnalysis
                         Ccwl("End point registered: " + key);
                     }
                     else if (key == col.variableName)
-                        POTBAGErrorListener.Report(new InvalidTravelArrangementException($"Travel arrangement not valid: {key} cannot goto {col.variableName} and not be an End point."), this);
+                        SWAEErrorListener.Report(new InvalidTravelArrangementException($"Travel arrangement not valid: {key} cannot goto {col.variableName} and not be an End point."), this);
                 }
             }
 
@@ -199,7 +214,7 @@ namespace POTBAG.ContextualAnalysis
             keys.Sort();
 
             if (!canEnd) 
-                POTBAGErrorListener.Report(new InvalidTravelArrangementException($"Travel arrangement not valid: An End point is required."), this);
+                SWAEErrorListener.Report(new InvalidTravelArrangementException($"Travel arrangement not valid: An End point is required."), this);
             
             if (!declaredLocations.SequenceEqual(keys))
             {
@@ -210,18 +225,18 @@ namespace POTBAG.ContextualAnalysis
                 IEnumerable<string> declaredNotMapped = DeclaredNotMapped.ToList();
                 if (declaredNotMapped.Count() != 0 && mappedNotDeclared.Count() != 0)
                 {
-                    POTBAGErrorListener.Report(new InvalidTravelArrangementException($"The Following Locations are mapped, but not declared [{string.Join(',', mappedNotDeclared.ToList())}]\n" +
+                    SWAEErrorListener.Report(new InvalidTravelArrangementException($"The Following Locations are mapped, but not declared [{string.Join(',', mappedNotDeclared.ToList())}]\n" +
                                                                 $"The Following Locations are declared, but not mapped [{string.Join(',',declaredNotMapped.ToList())}]"), this);
                 } 
                 if (declaredNotMapped.Count() != 0)
                 {
-                    POTBAGErrorListener.Report( new InvalidTravelArrangementException($"The Following Locations are declared, but not mapped " +
+                    SWAEErrorListener.Report( new InvalidTravelArrangementException($"The Following Locations are declared, but not mapped " +
                         $"[{string.Join(',',declaredNotMapped.ToList())}]"), this);
                 }
 
                 if (mappedNotDeclared.Count() != 0)
                 {
-                    POTBAGErrorListener.Report(new InvalidTravelArrangementException(
+                    SWAEErrorListener.Report(new InvalidTravelArrangementException(
                         $"The Following Locations are mapped, but not declared [{string.Join(',', mappedNotDeclared.ToList())}]"), this);
                 }
 
@@ -232,16 +247,17 @@ namespace POTBAG.ContextualAnalysis
                     foreach (string i in declaredLocations)
                     {
                         if (temp.Contains(i))
-                            POTBAGErrorListener.Report(new InvalidTravelArrangementException($"Duplicate declarations of location: \"{i}\""), this);
+                            SWAEErrorListener.Report(new InvalidTravelArrangementException($"Duplicate declarations of location: \"{i}\""), this);
                         
                         temp.Add(i);
                     }
                 }
 
-                POTBAGErrorListener.Report(new InvalidTravelArrangementException(
+                SWAEErrorListener.Report(new InvalidTravelArrangementException(
                     $"Travel arrangement not valid: Declared Locations and Mapped Locations are not equal 1=1.[{declaredLocations.Count} != {keys.Count}]"), this);
             }
         }
+
 
     }
 

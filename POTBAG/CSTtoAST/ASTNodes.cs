@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Antlr4.Runtime.Tree;
 
-namespace POTBAG.CSTtoAST
+namespace SWAE.CSTtoAST
 {
     //Setup Node, consisting of all locations, and where they go
     public abstract class ProgNode { }
@@ -160,11 +160,10 @@ namespace POTBAG.CSTtoAST
     public class variableNode : ProgNode
     {
         public string variableName { get; set; }
-        public int scopeId { get; set; }
 
     }
 
-    public class DotNotaionNode : variableNode { }
+    public class DotNotationNode : variableNode { }
 
     public class stringNode : ProgNode
     {

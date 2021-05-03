@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using static POTBAG.DebugPrinter;
+using static SWAE.DebugPrinter;
 
-namespace POTBAG.CSTtoAST
+namespace SWAE.CSTtoAST
 {
     public static class FileHandler
     {
