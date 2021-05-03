@@ -1,4 +1,4 @@
-grammar BetterAdvGm;
+grammar SWAE;
 //Main Rule
 prog: buffernode EOF;
 
