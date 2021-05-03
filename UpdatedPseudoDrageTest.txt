@@ -7,9 +7,10 @@ setup{
         Aalborg_station -> KU, Gaden;
         Gaden -> Aalborg_station, Hvidovre;
         Hvidovre -> Hvidovre;
-    };
+    } player{int a = 12;  int[190012] Gold = [12,12,1, 11121, 21212, 12, 1, 21, 121212, 12, 1, 2];}
 }
-
+int[1221] Cool;
+Cool = [12,12];
 bool hejsa = true;
 int hej;
 int yeet;

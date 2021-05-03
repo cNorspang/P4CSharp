@@ -126,6 +126,21 @@ namespace POTBAG.CSTtoAST
         public BoolNode Right { get; set; }
     }
 
+    public class CollectionIntAssignNode : AssignNode
+    {
+        //declaration and variable
+        public ProgNode Left { get; set; }
+        // all the numbers declared inside
+        public List<NumberNode> Right = new List<NumberNode>();
+
+    }
+    public class CollectionStringAssignNode : AssignNode
+    {
+        public ProgNode Left { get; set; }
+        // all the numbers declared inside
+        public List<stringNode> Right = new List<stringNode>();
+    }
+
     public class InputAssignNode : AssignNode
     {
         public ProgNode Left;
@@ -156,6 +171,12 @@ namespace POTBAG.CSTtoAST
     public class BoolDeclarationNode : DeclarationNode { }
 
     public class LocationDeclarationNode : DeclarationNode { }
+
+    public class CollectionIntDeclarationNode : DeclarationNode
+    {
+        public NumberNode Max_Collection_Number { get; set; }
+    }
+    public class CollectionStringDeclarationNode : DeclarationNode { }
 
     public class variableNode : ProgNode
     {

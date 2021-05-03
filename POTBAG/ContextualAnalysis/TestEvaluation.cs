@@ -377,5 +377,25 @@ namespace POTBAG.ContextualAnalysis
         {
             throw new NotImplementedException();
         }
+
+        public override int Visit(CollectionIntAssignNode node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int Visit(CollectionStringAssignNode node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int Visit(CollectionIntDeclarationNode node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int Visit(CollectionStringDeclarationNode node)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

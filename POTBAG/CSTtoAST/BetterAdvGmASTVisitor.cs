@@ -179,6 +179,27 @@ namespace POTBAG.CSTtoAST
             node.VarName = (variableNode)Visit(ctx.variable());
             return node;
         }
+        public override ProgNode VisitCollection_int_assign([NotNull] BetterAdvGmParser.Collection_int_assignContext ctx)
+        {
+            Ccwl("Collection_int_assign");
+            CollectionIntAssignNode node = new CollectionIntAssignNode();
+            node.Left = Visit(ctx.GetChild(0));
+            Ccwl("Left child of Collection_int_assign " + node.Left);
+            
+            return node;
+        }
+        public override ProgNode VisitCollection_int_declaration([NotNull] BetterAdvGmParser.Collection_int_declarationContext ctx)
+        {
+            Ccwl("Collection_int_Declaration");
+            CollectionIntDeclarationNode node = new CollectionIntDeclarationNode();
+            // TODO Doesnt work... fix for life NORDSPANG or BENNO kan ikke få node.Max_Collection_Number
+            node.Max_Collection_Number = (NumberNode)Visit(ctx.NUM());
+            if (node.Max_Collection_Number == null) { Console.WriteLine("Fuck my dude... it is empty"); }
+            //Console.WriteLine(node.Max_Collection_Number);
+            node.VarName = (variableNode)Visit(ctx.variable());
+            Ccwl("child of Collection_declaration " + node.VarName);
+            return node;
+        }
 
         public override ProgNode VisitLocation_assign([NotNull] BetterAdvGmParser.Location_assignContext ctx)
         {

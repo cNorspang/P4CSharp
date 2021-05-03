@@ -372,6 +372,9 @@ namespace POTBAG.ContextualAnalysis
                 case BoolAssignNode boolAssignNode:
                     symbol = (Symbol)Visit(boolAssignNode);
                     break;
+                case CollectionIntAssignNode collectionIntAssignNode:
+                    symbol = (Symbol)Visit(collectionIntAssignNode);
+                    break;
             }
 
             symbol.SetContentStatus(Symbol.AssignedStatus.full);
@@ -448,6 +451,10 @@ namespace POTBAG.ContextualAnalysis
             return symbol;
         }
 
+        public override object Visit(CollectionStringAssignNode node)
+        {
+            throw new NotImplementedException();
+        }
       
 
         public override object Visit(InputAssignNode node)
@@ -520,6 +527,10 @@ namespace POTBAG.ContextualAnalysis
                     break;
                 case BoolDeclarationNode boolDeclarationNode:
                     symbol = (Symbol)Visit(boolDeclarationNode);
+                    break;
+                case CollectionIntDeclarationNode CollectiondeclarationNode:
+                    Console.WriteLine("im a here in the switch case");
+                    symbol = (Symbol)Visit(CollectiondeclarationNode);
                     break;
                 default:
                     throw new BennoException($"### ERROR DeclarationNode => {node.GetType().Name}");
@@ -622,6 +633,40 @@ namespace POTBAG.ContextualAnalysis
             return true;
         }
 
-       
+
+        public override object Visit(CollectionIntAssignNode node)
+        {
+            Symbol symbol = new Symbol(null, null);
+
+            switch (node.Left)
+            {
+                case variableNode variableNode:
+                    Visit(variableNode);
+                    break;
+                case CollectionIntDeclarationNode declarationNode:
+                    Visit(declarationNode);
+                    break;
+                default:
+                    throw new BennoException($"### ERROR ExpressionNode => {node.GetType().Name}");
+                    
+            }
+
+            //CollectionIntDeclarationNode collectionIntDeclarationNode;
+            //collectionIntDeclarationNode = node.Left;
+
+            //symbol = (Symbol)Visit(collectionIntDeclarationNode);
+            return symbol;
+        }
+        public override object Visit(CollectionIntDeclarationNode node)
+        {
+            Symbol symbol = st.CurrentScope().Define(node.VarName.variableName, typeof(string));
+            
+            return symbol;
+        }
+
+        public override object Visit(CollectionStringDeclarationNode node)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

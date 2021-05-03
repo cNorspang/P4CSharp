@@ -34,8 +34,9 @@ expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
 
 
 statement: text_statement | input_statement | if_chain_statement | travel_statement | choice_statement | while_statement;
-assign: int_assign | string_assign | bool_assign | input_assign | location_assign;
-declaration: int_declaration END_STMT | string_declaration END_STMT | bool_declaration END_STMT | location_declaration END_STMT;
+assign: int_assign | string_assign | bool_assign | input_assign | location_assign | collection_int_assign | collection_string_assign;
+declaration: int_declaration END_STMT | string_declaration END_STMT | bool_declaration END_STMT | location_declaration END_STMT
+             | collection_string_declaration END_STMT | collection_int_declaration END_STMT;
 
 //Statement Rules
 text_statement: KEYWORD_TEXT ((string_obj|variable) PLUS_OPERATOR)* (string_obj | variable) END_STMT;
@@ -59,13 +60,17 @@ string_assign: (variable ASSIGN_OPERATOR string_obj END_STMT | string_declaratio
 input_assign: (variable ASSIGN_OPERATOR input_statement | string_declaration ASSIGN_OPERATOR input_statement);
 location_assign: (variable ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT END_STMT
                | location_declaration ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT END_STMT);
-bool_assign: (variable ASSIGN_OPERATOR bool_obj END_STMT | bool_declaration ASSIGN_OPERATOR bool_obj END_STMT); 
-
+bool_assign: (variable ASSIGN_OPERATOR bool_obj END_STMT | bool_declaration ASSIGN_OPERATOR bool_obj END_STMT);
+collection_int_assign: (collection_int_declaration ASSIGN_OPERATOR SQUARE_LEFT (NUM COMMA_SEPERATOR?)* SQUARE_RIGHT END_STMT
+                        | variable ASSIGN_OPERATOR SQUARE_LEFT (NUM COMMA_SEPERATOR?)* SQUARE_RIGHT END_STMT);
+collection_string_assign: (collection_string_declaration ASSIGN_OPERATOR SQUARE_LEFT (string_obj COMMA_SEPERATOR?)* SQUARE_RIGHT END_STMT);
 //Declaration Rules
 int_declaration: KEYWORD_INT variable;
 string_declaration: KEYWORD_STRING variable;
 location_declaration: KEYWORD_LOCATION variable;
 bool_declaration: KEYWORD_BOOL variable;
+collection_int_declaration: KEYWORD_INT SQUARE_LEFT NUM SQUARE_RIGHT variable;
+collection_string_declaration: KEYWORD_STRING SQUARE_LEFT NUM SQUARE_RIGHT variable;
 //Special Rules
 predicate: (variable BOOL_CMP_OPERATOR string_obj
          | string_obj BOOL_CMP_OPERATOR variable
@@ -87,7 +92,7 @@ bool_obj: BOOL;
 fragment LETTERS   : [a-zA-Z];
 WHITESPACE         : (' ' | '\t' | '\n' | '\r')+ -> skip;
 KEYWORD_TEXT       : 'Text ';
-KEYWORD_STRING     : 'string ';
+KEYWORD_STRING     : 'string';
 END_STMT           : ';';
 STRING             : '"' ~('"')* '"';
 TRAVEL_KEYWORD     : 'Travel ';
