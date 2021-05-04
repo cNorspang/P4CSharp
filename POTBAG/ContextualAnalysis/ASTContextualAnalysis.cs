@@ -426,6 +426,9 @@ namespace SWAE.ContextualAnalysis
             Symbol symbol = new Symbol(null, null);
             switch (node)
             {
+                case AnonymousAssignNode AnoAssignNode:
+                    symbol = (Symbol)Visit(AnoAssignNode);
+                    break;
                 case IntAssignNode intAssignNode:
                     symbol = (Symbol)Visit(intAssignNode);
                     break;
@@ -440,12 +443,42 @@ namespace SWAE.ContextualAnalysis
                     break;
                 case BoolAssignNode boolAssignNode:
                     symbol = (Symbol)Visit(boolAssignNode);
-                    break;
+                    break;                
             }
 
             if(symbol != null) symbol.SetContentStatus(Symbol.AssignedStatus.full);
 
             return true;
+        }
+
+        public override object Visit(AnonymousAssignNode node)
+        {
+            Symbol symbol = new Symbol(null, null);
+            switch (node.Left)
+            {
+                case DotNotationNode dotNode:
+                    symbol = st.ResolvePlayerVariable(dotNode.variableName, false);
+                    Visit(dotNode);
+                    break;
+                case variableNode varNode:
+                    Visit(varNode);
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, false);
+                    break;
+            }
+
+            switch (node.Right)
+            {
+                case DotNotationNode dotNode:
+                    st.ResolvePlayerVariable(dotNode.variableName, symbol.GetSymbolType(), true);
+                    Visit(dotNode);
+                    break;
+                case variableNode varNode:
+                    Visit(varNode);
+                    st.CurrentScope().Resolve(varNode.variableName, symbol.GetSymbolType(), true);
+                    break;
+            }
+
+            return symbol;
         }
 
         public override object Visit(IntAssignNode node)
@@ -500,8 +533,24 @@ namespace SWAE.ContextualAnalysis
                 default:
                     throw new BennoException($"### ERROR stringAssignNode => {node.GetType().Name}");
             }
-            //can only be one string_obj node so just a visit
-            Visit(node.Right);
+
+            switch (node.Right)
+            {
+                case DotNotationNode dotNode:
+                    Visit(dotNode);
+                    st.ResolvePlayerVariable(dotNode.variableName, typeof(string), true);
+                    break;
+                case variableNode varNode:
+                    Visit(varNode);
+                    st.CurrentScope().Resolve(varNode.variableName, typeof(string), true);
+                    break;
+                case stringNode stringDclNode:
+                    Visit(stringDclNode);
+                    break;
+                default:
+                    throw new BennoException($"### ERROR stringAssignNode => {node.GetType().Name}");
+            }
+
             return symbol;
         }
 

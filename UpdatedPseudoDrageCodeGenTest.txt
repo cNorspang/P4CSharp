@@ -13,15 +13,15 @@ setup{
 
 
 Location Hvidovre = {
-    string namem = "P. I. Smith";
+    string name = "P. I. Smith";
     int bbb = 0;
     bbb += 101;
-    if(bbb > 100){
+    if(bbb < 100){
         player.name = "Herp the Derp";
         
     }
     else{
-    	player.aaa = bbb;
+    	player.name = name;
     }
     Text "Congratulations, " + player.name + " you managed to get to Hvidovre! " + ", " + player.aaa;
     choice {

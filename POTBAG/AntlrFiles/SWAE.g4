@@ -35,7 +35,7 @@ expression: expression (TIMES_OPERATOR|DIVISION_OPERATOR) expression
 
 
 statement: text_statement | input_statement | if_chain_statement | travel_statement | choice_statement | while_statement;
-assign: int_assign | string_assign | bool_assign | input_assign | location_assign;
+assign: anonymous_assign | int_assign | string_assign | bool_assign | input_assign | location_assign;
 declaration: int_declaration END_STMT | string_declaration END_STMT | bool_declaration END_STMT | location_declaration END_STMT;
 
 //Statement Rules
@@ -52,11 +52,12 @@ while_statement: KEYWORD_WHILE PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlo
 
 //Assign Rules
 //TODO: Compund assign rules
+anonymous_assign: variable ASSIGN_OPERATOR variable END_STMT;
 int_assign: (variable (ASSIGN_OPERATOR | COMPOUND_OPERATOR) expression END_STMT
             | int_declaration ASSIGN_OPERATOR expression END_STMT
             | int_declaration ASSIGN_OPERATOR input_statement
             );
-string_assign: (variable ASSIGN_OPERATOR (string_obj | variable) END_STMT | string_declaration ASSIGN_OPERATOR (string_obj | variable) END_STMT);
+string_assign: (variable ASSIGN_OPERATOR string_obj END_STMT | string_declaration ASSIGN_OPERATOR string_obj END_STMT);
 input_assign: (variable ASSIGN_OPERATOR input_statement | string_declaration ASSIGN_OPERATOR input_statement);
 location_assign: (variable ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT
                | location_declaration ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT);

@@ -110,20 +110,22 @@ namespace SWAE.CSTtoAST
             return node;
         }
 
+        public override ProgNode VisitAnonymous_assign([NotNull] SWAEParser.Anonymous_assignContext ctx)
+        {
+            AnonymousAssignNode node = new AnonymousAssignNode();
+            node.Left = (variableNode)Visit(ctx.GetChild(0));
+            node.Right = (variableNode)Visit(ctx.GetChild(2));
+            return node;
+        }
+
         public override ProgNode VisitInt_assign(SWAEParser.Int_assignContext ctx) {
             Ccwl("Int_assign");
             IntAssignNode node = new IntAssignNode();
 
             if (ctx.ASSIGN_OPERATOR() != null)
-                node.Operator = "ASSIGN_OPERATOR";
+                node.Operator = "=";
             else if (ctx.COMPOUND_OPERATOR() != null)
-                node.Operator = "ADD_COMPOUND_OPERATOR";
-            //TODO ctx....SUB_COM..
-            else if (ctx.COMPOUND_OPERATOR() != null)
-                node.Operator = "SUB_COMPOUND_OPERATOR";
-            //TODO ctx....MUL_COM..
-            else if (ctx.COMPOUND_OPERATOR() != null)
-                node.Operator = "MUL_COMPOUND_OPERATOR";
+                node.Operator = ctx.COMPOUND_OPERATOR().GetText();
             else
                 SWAEErrorListener.Report(new InvalidOperationException(), this);
 
@@ -140,20 +142,18 @@ namespace SWAE.CSTtoAST
             
             IntDeclarationNode node = new IntDeclarationNode {VarName = (variableNode)Visit(ctx.variable())};
             Ccwl("    Child Varname of Int_declaration: " + node.VarName);
-            //Ccw("yikes: "+node.getVarName());
 
             return node;
         }
        
         public override ProgNode VisitString_assign(SWAEParser.String_assignContext ctx) {
             Ccwl("string_assign");
-            //if check på left vari || string_dec
             stringAssignNode node = new stringAssignNode();
 
             node.Left = Visit(ctx.GetChild(0));
             Ccwl("    Left child of assign: " + node.Left);
 
-            node.Right = (stringNode)Visit(ctx.GetChild(2));
+            node.Right = Visit(ctx.GetChild(2));
             Ccwl("    Right child of assign: " + node.Right);
             return node;
 

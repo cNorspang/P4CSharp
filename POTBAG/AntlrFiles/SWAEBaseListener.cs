@@ -287,6 +287,18 @@ public partial class SWAEBaseListener : ISWAEListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitWhile_statement([NotNull] SWAEParser.While_statementContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="SWAEParser.anonymous_assign"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAnonymous_assign([NotNull] SWAEParser.Anonymous_assignContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SWAEParser.anonymous_assign"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAnonymous_assign([NotNull] SWAEParser.Anonymous_assignContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="SWAEParser.int_assign"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

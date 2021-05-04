@@ -244,6 +244,7 @@ namespace SWAE.CodeGen
             return codeStr + typeToPrint + "\"" + linesToPrint + ");\n    COMPILER_TOOL_WAIT_FOR_INPUT();";
         }
 
+        //TODO
         public override string Visit(InputStatementNode node)
         {
             foreach (ProgNode item in node.Text)
@@ -268,8 +269,9 @@ namespace SWAE.CodeGen
 
         public override string Visit(WhileStatementNode node)
         {
-            Visit(node.predicate);
+            code.Add("\n  while(" + Visit(node.predicate) + ") {");            
             Visit(node.body);
+            code.Add("\n  }");
             return "";
         }
 
@@ -483,6 +485,8 @@ namespace SWAE.CodeGen
         {
             switch (node)
             {
+                case AnonymousAssignNode AnoAssignNode:
+                    return Visit(AnoAssignNode);
                 case IntAssignNode intAssignNode:
                     return Visit(intAssignNode);
                 case stringAssignNode stringAssignNode:
@@ -495,6 +499,40 @@ namespace SWAE.CodeGen
                     return Visit(boolAssignNode);
             }
             return "";
+        }
+
+        public override string Visit(AnonymousAssignNode node)
+        {
+            //TODO typeof(Exception).. feels bad maybe change.
+            Type leftType = typeof(Exception);
+            string leftName = "";
+            string rightName = "";
+
+            switch (node.Left)
+            {
+                case DotNotationNode dotNode:
+                    leftType = st.GetSymbolByName(dotNode.variableName).GetSymbolType();
+                    leftName = Visit(dotNode);
+                    break;
+                case variableNode varNode:
+                    leftType = st.GetSymbolByName(varNode.variableName).GetSymbolType();
+                    leftName = Visit(varNode);
+                    break;
+            }
+            switch (node.Right)
+            {
+                case DotNotationNode dotNode:
+                    rightName = Visit(dotNode);
+                    break;
+                case variableNode varNode:
+                    rightName = Visit(varNode);
+                    break;
+            }
+
+            if (leftType == typeof(string))
+                return "    strcpy(" + leftName + ", " + rightName + ");";
+            else
+                return "    " + leftName + " = " + rightName + ";";
         }
 
         public override string Visit(IntAssignNode node)
@@ -516,14 +554,7 @@ namespace SWAE.CodeGen
                     break;
             }
 
-            op = node.Operator switch
-            {
-                "ASSIGN_OPERATOR" => " = ",
-                "ADD_COMPOUND_OPERATOR" => " += ",
-                "SUB_COMPOUND_OPERATOR" => " -= ",
-                "MUL_COMPOUND_OPERATOR" => " *= ",
-                _ => op
-            };
+            op = node.Operator;
 
             switch (node.Right)
             {
@@ -553,7 +584,6 @@ namespace SWAE.CodeGen
                 default:
                     throw new BennoException($"### ERROR stringAssignNode => {node.GetType().Name}");
             }
-            //can only be one string_obj node so just a visit
             strAssignStr += Visit(node.Right);
             return strAssignStr + ';';
         }
@@ -743,5 +773,7 @@ namespace SWAE.CodeGen
         {
             return "Random_Int_Num(" + Visit(node.MinValue) + ", "  + Visit(node.MaxValue) + ")";
         }
+
+        
     }
 }

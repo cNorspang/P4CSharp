@@ -104,6 +104,11 @@ namespace SWAE.CSTtoAST
     //AssignNodes
     public abstract class AssignNode : ProgNode { }
 
+    public class AnonymousAssignNode : AssignNode
+    {
+        public variableNode Left { get; set; }
+        public variableNode Right { get; set; }
+    }
 
     public class IntAssignNode : AssignNode
     {
@@ -117,7 +122,7 @@ namespace SWAE.CSTtoAST
     public class stringAssignNode : AssignNode
     {
         public ProgNode Left { get; set; }
-        public stringNode Right { get; set; }
+        public ProgNode Right { get; set; }
     }
 
     public class BoolAssignNode : AssignNode 

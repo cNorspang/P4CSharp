@@ -30,27 +30,27 @@ void COMPILER_TOOL_WAIT_FOR_INPUT(){ printf("\n"); char c = getch();}
 
 struct GENERATED_PLAYER_STRUCT { 
 char name[256] ;
-int aaa ;
-int yup ;
+int aaa;
+int yup;
 bool hasSword ;
 };
 struct GENERATED_PLAYER_STRUCT PLAYER_STRUCT;
 
 void COMPILER_PLAYER_STRUCT_INIT(){
     strcpy(PLAYER_STRUCT.name, "Herp");
-    PLAYER_STRUCT.aaa = 67;
-    PLAYER_STRUCT.yup = 12200;
+    PLAYER_STRUCT.aaa =67;
+    PLAYER_STRUCT.yup =12200;
     PLAYER_STRUCT.hasSword = false;}
 
 void DEFINED_LOCATION_Hvidovre(){
-    char namem[256] = "P. I. Smith";
-    int bbb = 0;
-    bbb += 101;
-  if (bbb > 100) {
+    char name[256] = "P. I. Smith";
+    int bbb=0;
+    bbb+=101;
+  if (bbb < 100) {
     strcpy(PLAYER_STRUCT.name, "Herp the Derp");
   }
   else {
-    PLAYER_STRUCT.aaa = bbb;
+    strcpy(PLAYER_STRUCT.name, name);
   }
 
 
@@ -62,10 +62,10 @@ void DEFINED_LOCATION_Hvidovre(){
     int USER_CHOICE_INPUT = COMPILER_TOOL_GET_INPUT(4);
 
   if (USER_CHOICE_INPUT == 1){
-    PLAYER_STRUCT.aaa = 1;
+    PLAYER_STRUCT.aaa=1;
   }
   else if (USER_CHOICE_INPUT == 2){
-    PLAYER_STRUCT.aaa = Random_Int_Num(2, 100);
+    PLAYER_STRUCT.aaa=Random_Int_Num(2, 100);
   }
   else if (USER_CHOICE_INPUT == 3){
 

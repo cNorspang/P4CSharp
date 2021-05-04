@@ -25,6 +25,7 @@ namespace SWAE.CSTtoAST
         public abstract T Visit(ChoiceStatementNode node);
         public abstract T Visit(OptionStatementNode node);
         public abstract T Visit(AssignNode node);
+        public abstract T Visit(AnonymousAssignNode node);
         public abstract T Visit(IntAssignNode node);
         public abstract T Visit(stringAssignNode node);
         public abstract T Visit(BoolAssignNode node);
