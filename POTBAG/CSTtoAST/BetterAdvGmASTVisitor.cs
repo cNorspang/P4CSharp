@@ -117,9 +117,15 @@ namespace SWAE.CSTtoAST
             if (ctx.ASSIGN_OPERATOR() != null)
                 node.Operator = "ASSIGN_OPERATOR";
             else if (ctx.COMPOUND_OPERATOR() != null)
-                node.Operator = "COMPOUND_OPERATOR";
+                node.Operator = "ADD_COMPOUND_OPERATOR";
+            //TODO ctx....SUB_COM..
+            else if (ctx.COMPOUND_OPERATOR() != null)
+                node.Operator = "SUB_COMPOUND_OPERATOR";
+            //TODO ctx....MUL_COM..
+            else if (ctx.COMPOUND_OPERATOR() != null)
+                node.Operator = "MUL_COMPOUND_OPERATOR";
             else
-                SWAEErrorListener.Report( new InvalidOperationException(), this);
+                SWAEErrorListener.Report(new InvalidOperationException(), this);
 
             node.Left = Visit(ctx.GetChild(0));          
             Ccwl("    Left Child Int_assign: "+node.Left + "\n     Operator child Int_assign: "+node.Operator);

@@ -41,13 +41,13 @@ declaration: int_declaration END_STMT | string_declaration END_STMT | bool_decla
 //Statement Rules
 text_statement: KEYWORD_TEXT ((string_obj|variable) PLUS_OPERATOR)* (string_obj | variable) END_STMT;
 input_statement: KEYWORD_INPUT ((string_obj|variable) PLUS_OPERATOR)* (string_obj | variable) END_STMT;
-if_chain_statement: if_statement else_if_statement* else_statement? END_STMT;
+if_chain_statement: if_statement else_if_statement* else_statement?;
 if_statement: KEYWORD_IF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT;
 else_if_statement: KEYWORD_ELSEIF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT;
 else_statement: KEYWORD_ELSE CURLY_LEFT inBlock+ CURLY_RIGHT;
 travel_statement: TRAVEL_KEYWORD variable END_STMT;
-choice_statement: KEYWORD_CHOICE CURLY_LEFT (option_statment)+ CURLY_RIGHT END_STMT;
-option_statment: (variable |string_obj) CURLY_LEFT inBlock+ CURLY_RIGHT END_STMT;
+choice_statement: KEYWORD_CHOICE CURLY_LEFT (option_statment)+ CURLY_RIGHT;
+option_statment: (variable |string_obj) CURLY_LEFT inBlock+ CURLY_RIGHT;
 while_statement: KEYWORD_WHILE PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT;
 
 //Assign Rules
@@ -56,10 +56,10 @@ int_assign: (variable (ASSIGN_OPERATOR | COMPOUND_OPERATOR) expression END_STMT
             | int_declaration ASSIGN_OPERATOR expression END_STMT
             | int_declaration ASSIGN_OPERATOR input_statement
             );
-string_assign: (variable ASSIGN_OPERATOR string_obj END_STMT | string_declaration ASSIGN_OPERATOR string_obj END_STMT);
+string_assign: (variable ASSIGN_OPERATOR (string_obj | variable) END_STMT | string_declaration ASSIGN_OPERATOR (string_obj | variable) END_STMT);
 input_assign: (variable ASSIGN_OPERATOR input_statement | string_declaration ASSIGN_OPERATOR input_statement);
-location_assign: (variable ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT END_STMT
-               | location_declaration ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT END_STMT);
+location_assign: (variable ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT
+               | location_declaration ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT);
 bool_assign: (variable ASSIGN_OPERATOR bool_obj END_STMT | bool_declaration ASSIGN_OPERATOR bool_obj END_STMT); 
 
 //Declaration Rules
@@ -122,7 +122,7 @@ DOT                : '.';
 BOOL_CMP_OPERATOR  : ('==' | 'is' | '!=' | 'is not');
 CMP_OPERATOR       : ('greater than' | 'lesser than' |'<' | '>' | '<=' | '>=');
 ASSIGN_OPERATOR    : '=';
-COMPOUND_OPERATOR  : '+=';
+COMPOUND_OPERATOR  : ('+=' | '-=' | '*=' | '/=');
 TIMES_OPERATOR     : '*';
 DIVISION_OPERATOR  : '/';
 PLUS_OPERATOR      : '+';

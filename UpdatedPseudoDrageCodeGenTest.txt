@@ -4,23 +4,39 @@ setup{
     }
     player = {
 	string name = "Herp";
-	int aaa = 1;
+	int aaa = 67;
     	int yup = 12200;
+	bool hasSword = false;
 
     }
 }
 
+
 Location Hvidovre = {
-    string name = "P. I. Smith";
-    player.aaa = rollNr(25, 60);
-    int bbb = 2 * (240 + 23);
+    string namem = "P. I. Smith";
+    int bbb = 0;
+    bbb += 101;
     if(bbb > 100){
         player.name = "Herp the Derp";
-    };
-    Text "Congratulations, " + name + " you managed to get to Hvidovre! " + player.name + ", " + player.aaa;
+        
+    }
+    else{
+    	player.aaa = bbb;
+    }
+    Text "Congratulations, " + player.name + " you managed to get to Hvidovre! " + ", " + player.aaa;
     choice {
-        "Set health to 1" {int player.aaa = 1;};
-        "Reroll Health" { player.aaa = rollNr(2, 100); };
-        "See health" { Text player.name + " has " + player.aaa + " HP left"; };
-    };
-};
+        "Set health to 1" {player.aaa = 1;}
+        "Reroll Health" { player.aaa = rollNr(2, 100); }
+        "See health" { Text player.name + " has " + player.aaa + " HP left"; }
+	"Get Sword" {
+		if(player.hasSword == false){
+			player.hasSword = true;
+			Text "Sword gained yay";
+		}
+		else{
+			player.hasSword = false;
+			Text "Aaaand its gone...";
+		}
+	}
+    }
+}

@@ -34,6 +34,7 @@ namespace SWAE.CodeGen
             code.Add("#include <string.h>");
             code.Add("#include <time.h>");
             code.Add("#include <ctype.h>");
+            code.Add("#include <stdbool.h>");
 
             code.Add("#ifdef _WIN32 \n#include <conio.h> " +
                     "\n#else// do Unix-specific stuff \n#include <termios.h> \n#include <unistd.h>" +
@@ -106,7 +107,7 @@ namespace SWAE.CodeGen
 
         public override string Visit(BufferNode node)
         {
-            string structInit = Visit(node.SetUpNode);
+            Visit(node.SetUpNode);
             Visit(node.inBlock);
 
             string startLocationFuncCall = st.GetStartLocation();
@@ -114,8 +115,8 @@ namespace SWAE.CodeGen
             code.Add("int main(int argc, char const *argv[]){" +
                 "\n    time_t t;" +
                 "\n    srand((unsigned)time(&t));" +
-                "\n" + structInit +
-                "\n    " + startLocationFuncCall + "();" +
+                "\n    COMPILER_PLAYER_STRUCT_INIT();" +
+                "\n    DEFINED_LOCATION_" + startLocationFuncCall + "();" +
                 "\n    return 0;\n}");
             
             return "";
@@ -162,6 +163,8 @@ namespace SWAE.CodeGen
             intoStruct.ForEach(i => code.Add(i));
             code.Add("};\nstruct GENERATED_PLAYER_STRUCT "+structName+";\n");
 
+            initPlayerStruct += ("void COMPILER_PLAYER_STRUCT_INIT(){");
+
             //outOfStruct.ForEach(i => initPlayerStruct += "\n    " + structName + "." + i);
             foreach (var item in outOfStruct)
             {
@@ -170,13 +173,15 @@ namespace SWAE.CodeGen
                 if (item.Contains('\"')) { 
                     string varName = varNameAndValue[0].Split('[')[0];
                     string fvalue = varNameAndValue[1].Replace(";", string.Empty).Trim();
-                    initPlayerStruct += "\n    strcpy(" + structName + "." + varName + ", " + fvalue + ");";
+                    initPlayerStruct += ("\n    strcpy(" + structName + "." + varName + ", " + fvalue + ");");
                 }
                 else
-                    initPlayerStruct += "\n    " + structName + "." + item;
+                    initPlayerStruct += ("\n    " + structName + "." + item);
             }
+            initPlayerStruct += "}\n";
+            code.Add(initPlayerStruct);
 
-            return initPlayerStruct;
+            return "";
         }
 
         public override string Visit(StatementNode node)
@@ -427,12 +432,12 @@ namespace SWAE.CodeGen
 
         public override string Visit(BoolNode node)
         {
-            return "";
+            return node.value ? "true" : "false";
         }
 
         public override string Visit(TravelStatementNode node)
         {
-            return "";
+            return "\n" + node.Destination.variableName + "();";
         }
 
         public override string Visit(ChoiceStatementNode node)
@@ -447,33 +452,28 @@ namespace SWAE.CodeGen
             }
             addToCode += "\"); ";
             addToCode += $"\n    int USER_CHOICE_INPUT = COMPILER_TOOL_GET_INPUT({id});";
-            id = 1;
+            id = 0;
+
+            code.Add(addToCode);
 
             foreach (var item in node.Options)
             {
-                //TODO
+                if (id == 0)
+                    code.Add($"\n  if (USER_CHOICE_INPUT == {++id}){{");
+                else
+                    code.Add($"  else if (USER_CHOICE_INPUT == {++id}){{");
+
+                Visit(item.Right);
+
+                code.Add("  }");
             }
 
-            return addToCode;
+            return "";
         }
 
         public override string Visit(OptionStatementNode node)
         {
-            
-            switch (node.Left)
-            {
-                case DotNotationNode dotNode:
-                    Visit(dotNode);
-                    break;
-                case variableNode varNode:
-                    Visit(varNode);
-                    break;
-                case stringNode strDclNode:
-                    Visit(strDclNode);
-                    break;
-                default:
-                    throw new BennoException($"### ERROR OptionStatementNode Left => {node.Left.GetType().Name}");
-            }
+            //this is done, it is handled in choice
             node.Right.ForEach(i => Visit(i));
 
             return "";
@@ -500,6 +500,7 @@ namespace SWAE.CodeGen
         public override string Visit(IntAssignNode node)
         {
             string left = "";
+            string op = "";
             string right = "";
 
             switch (node.Left)
@@ -515,6 +516,15 @@ namespace SWAE.CodeGen
                     break;
             }
 
+            op = node.Operator switch
+            {
+                "ASSIGN_OPERATOR" => " = ",
+                "ADD_COMPOUND_OPERATOR" => " += ",
+                "SUB_COMPOUND_OPERATOR" => " -= ",
+                "MUL_COMPOUND_OPERATOR" => " *= ",
+                _ => op
+            };
+
             switch (node.Right)
             {
                 case ExpressionNode exprNode:
@@ -525,7 +535,7 @@ namespace SWAE.CodeGen
                     break;
             }
 
-            return "    " + left + " = " + right + ";";
+            return "    " + left + op + right + ";";
         }
 
         public override string Visit(stringAssignNode node)
@@ -550,22 +560,24 @@ namespace SWAE.CodeGen
 
         public override string Visit(BoolAssignNode node)
         {
+            string left = "";
+            string right = Visit(node.Right);
+
             switch (node.Left)
             {
                 case DotNotationNode dotNode:
-                    Visit(dotNode);
+                    left = Visit(dotNode);
                     break;
                 case variableNode varNode:
-                    Visit(varNode);
+                    left = Visit(varNode);
                     break;
                 case BoolDeclarationNode boolDclNode:
-                    Visit(boolDclNode);
+                    left = Visit(boolDclNode);
                     break;
                 default:
                     throw new BennoException($"### ERROR boolAssignNode => {node.GetType().Name}");
             }
-            Visit(node.Right);
-            return "";
+            return "    " + left + " = " + right + ";";
         }
 
         public override string Visit(InputAssignNode node)
@@ -597,22 +609,26 @@ namespace SWAE.CodeGen
         public override string Visit(LocationAssignNode node)
         {
             string locationStr = "";
+            string locationName = "";
             switch (node.Left)
             {
                 case DotNotationNode dotNode:
                     locationStr += Visit(dotNode);
+                    locationName = locationStr + "()";
                     break;
                 case variableNode varNode:
                     locationStr += Visit(varNode);
+                    locationName = locationStr + "()";
                     break;
                 case LocationDeclarationNode locationDclNode:
                     locationStr += Visit(locationDclNode);
+                    locationName = locationStr.Split(' ')[1];
                     break;
             }
             locationStr += "{";
             code.Add(locationStr);
             Visit(node.Right);
-            code.Add("}");
+            code.Add(locationName+";\n}");
             return "";
         }
 
@@ -662,7 +678,7 @@ namespace SWAE.CodeGen
 
         public override string Visit(LocationDeclarationNode node)
         {
-            return "void " + node.VarName.variableName + "()";
+            return "void DEFINED_LOCATION_" + node.VarName.variableName + "()";
         }
 
         public override string Visit(ExpressionNode node)
