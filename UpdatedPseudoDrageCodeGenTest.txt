@@ -1,42 +1,59 @@
 setup{
     Locations = {
+        Start -> Lokale, Hvidovre;
+        Lokale -> Slottet, TheFuckeNing;
+        TheFuckeNing -> Lokale;
+        Slottet -> Lokale, Hvidovre;
         Hvidovre -> Hvidovre;
     }
     player = {
 	string name = "Herp";
-	int aaa = 67;
-    	int yup = 12200;
+	int health = 67;
+    int joints = 0;
 	bool hasSword = false;
-
     }
 }
 
+Location Start = {
+    Text "Hello there traveler! How was the journey? My name is Aslan.\n\n so... wanna get high?"; 
+    choice {
+        "fuck. yeah. (+1 joint)" {player.joints += 1;}
+        "nah" { Text "..aight cool. Goodnight then.\n\n If you need a bed try Hvidovre"; Travel Hvidovre; }	    
+    }
+    Text "Cool! let's go to the bar over there. Looks like they are smoking inside.";
+    Travel Lokale;
+}
+
+Location Lokale = {
+    Text "STOP";
+}
+
+Location TheFuckeNing = {
+    Text "STOP";
+
+}
+
+Location Slottet = {
+    Text "STOP";
+
+}
 
 Location Hvidovre = {
-    string name = "P. I. Smith";
-    int bbb = 0;
-    bbb += 101;
-    if(bbb < 100){
-        player.name = "Herp the Derp";
-        
-    }
-    else{
-    	player.name = name;
-    }
-    Text "Congratulations, " + player.name + " you managed to get to Hvidovre! " + ", " + player.aaa;
+    
+    Text "Congratulations, " + player.name + " you managed to get to Hvidovre!";
     choice {
-        "Set health to 1" {player.aaa = 1;}
-        "Reroll Health" { player.aaa = rollNr(2, 100); }
-        "See health" { Text player.name + " has " + player.aaa + " HP left"; }
-	"Get Sword" {
-		if(player.hasSword == false){
-			player.hasSword = true;
-			Text "Sword gained yay";
-		}
-		else{
-			player.hasSword = false;
-			Text "Aaaand its gone...";
-		}
-	}
+        "Set health to 1" {player.health = 1;}
+        "Reroll Health" { player.health = rollNr(2, 100); }
+        "See health" { Text player.name + " has " + player.health + " HP left"; }
+	    "Get Sword" {
+		    if(player.hasSword == false){
+			    player.hasSword = true;
+			    Text "Sword gained yay";
+		    }
+		    else{
+			    player.hasSword = false;
+			    Text "Aaaand its gone...";
+		    }
+	    }
     }
 }

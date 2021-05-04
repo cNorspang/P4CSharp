@@ -105,7 +105,7 @@ namespace SWAE.ContextualAnalysis
         {
             foreach (var item in locations)
             {
-                return item.Value[0].variableName;
+                return item.Key;
             }
             return "";
         }

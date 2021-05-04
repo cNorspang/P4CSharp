@@ -439,7 +439,7 @@ namespace SWAE.CodeGen
 
         public override string Visit(TravelStatementNode node)
         {
-            return "\n" + node.Destination.variableName + "();";
+            return "\nDEFINED_LOCATION_" + node.Destination.variableName + "();";
         }
 
         public override string Visit(ChoiceStatementNode node)
