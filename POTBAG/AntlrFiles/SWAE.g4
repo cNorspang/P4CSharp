@@ -47,7 +47,7 @@ else_if_statement: KEYWORD_ELSEIF PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT in
 else_statement: KEYWORD_ELSE CURLY_LEFT inBlock+ CURLY_RIGHT;
 travel_statement: TRAVEL_KEYWORD variable END_STMT;
 choice_statement: KEYWORD_CHOICE CURLY_LEFT (option_statment)+ CURLY_RIGHT;
-option_statment: (variable |string_obj) CURLY_LEFT inBlock+ CURLY_RIGHT;
+option_statment: (PAREN_LEFT predicate PAREN_RIGHT)? (variable |string_obj) CURLY_LEFT inBlock+ CURLY_RIGHT;
 while_statement: KEYWORD_WHILE PAREN_LEFT predicate PAREN_RIGHT CURLY_LEFT inBlock+ CURLY_RIGHT;
 
 //Assign Rules
@@ -81,7 +81,7 @@ predicate: (variable BOOL_CMP_OPERATOR string_obj
          | variable
          | bool_obj;
 
-random: KEYWORD_RANDOM PAREN_LEFT (expression COMMA_SEPERATOR expression)? PAREN_RIGHT;
+random: KEYWORD_RANDOM PAREN_LEFT expression COMMA_SEPERATOR expression PAREN_RIGHT;
 
 variable: VAR_NAME | dot_notaion;
 string_obj: STRING;
@@ -117,7 +117,7 @@ KEYWORD_PLAYER     : 'player';
 KEYWORD_LOCATIONARRAY: 'LocationArray';
 KEYWORD_LOCATIONS  : 'Locations';
 KEYWORD_CHOICE     : 'choice';
-KEYWORD_RANDOM     : 'rollNr';
+KEYWORD_RANDOM     : 'Roll';
 COMMA_SEPERATOR    : ',';
 DOT                : '.';
 BOOL_CMP_OPERATOR  : ('==' | 'is' | '!=' | 'is not');

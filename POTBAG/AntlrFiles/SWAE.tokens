@@ -68,7 +68,7 @@ COMMENT=45
 'LocationArray'=25
 'Locations'=26
 'choice'=27
-'rollNr'=28
+'Roll'=28
 ','=29
 '.'=30
 '='=33
