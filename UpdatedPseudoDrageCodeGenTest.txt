@@ -8,7 +8,7 @@ setup{
     }
     player = {
 	string name = "Herp";
-	int health = 67;
+	int health = 30;
     int joints = 0;
 	bool hasSword = false;
     }
@@ -25,6 +25,7 @@ Location Start = {
 }
 
 Location Lokale = {
+    Travel Slottet;
     Text "STOP";
 }
 
@@ -34,8 +35,41 @@ Location TheFuckeNing = {
 }
 
 Location Slottet = {
-    Text "STOP";
+    int enemy_health = 42;
+    bool flag = true;
 
+    while(flag){
+        Text "Your HP: " + player.health + "(jays:"+player.joints+")   Troll HP: " + enemy_health;
+        int roll = Roll(3,8);
+        choice {
+            "Attack with Staff" { enemy_health -= roll; Text "You attack for "+roll+" damage.";}
+            (player.joints > 0)"Smoke Health Potion" { player.health += 15; player.joints -= 1; Text "420 baby! 15 Health healed";}
+        }
+  
+        if (enemy_health <= 0) {
+            Text "A GLORIUS WIN for you! The Troll had 6 jays in his stash, score!";
+            player.joints += 6;
+            Travel Hvidovre;
+        }
+  
+        int enemychoice = Roll(1,2);
+          
+        if (enemychoice == 1){
+            int enemyDamage = Roll(1,5);
+            Text "The Enemy attacks you with his greatclub for "+enemyDamage+" damage!";
+            player.health -= enemyDamage;
+        } else if (enemychoice == 2) {
+            int enemyHeals = Roll(1,2);
+            Text "The enemy heals for " + enemyHeals + " health";
+            enemy_health += enemyHeals;
+        }
+          
+        if (player.health <= 0) {
+            Text "you dead boi";
+            player.health = 1; 
+            Travel Lokale;
+        }
+    }
 }
 
 Location Hvidovre = {
@@ -43,7 +77,7 @@ Location Hvidovre = {
     Text "Congratulations, " + player.name + " you managed to get to Hvidovre!";
     choice {
         "Set health to 1" {player.health = 1;}
-        "Reroll Health" { player.health = rollNr(2, 100); }
+        "Reroll Health" { player.health = Roll(2, 100); }
         "See health" { Text player.name + " has " + player.health + " HP left"; }
 	    "Get Sword" {
 		    if(player.hasSword == false){

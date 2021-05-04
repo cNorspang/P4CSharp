@@ -95,7 +95,7 @@ namespace SWAE.CSTtoAST
 
     public class OptionStatementNode : StatementNode
     {
-       
+        public predicateNode predicate { get; set; }
         public ProgNode Left { get; set; } //var_name or string
         public List<ProgNode> Right = new List<ProgNode>();
 

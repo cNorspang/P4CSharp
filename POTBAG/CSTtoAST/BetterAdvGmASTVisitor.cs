@@ -317,7 +317,7 @@ namespace SWAE.CSTtoAST
 
             ctx.option_statment().ToList().ForEach(i => node.Options.Add((OptionStatementNode)Visit(i)));
 
-            node.Options.ForEach(i => Ccwl("    Child option of choice_statement: " + i.Left + " + codeblock (Option_statement)"));
+            node.Options.ForEach(i => Ccwl("    Child option of choice_statement: " + i + " + codeblock (Option_statement + ifchainstmt)"));
 
             return node;
         }
@@ -328,12 +328,20 @@ namespace SWAE.CSTtoAST
             Ccwl("option_statement");
             OptionStatementNode node = new OptionStatementNode();
 
+            if(ctx.predicate() == null) { 
             node.Left = Visit(ctx.GetChild(0));
+            }
+            else
+            {
+                node.predicate = (predicateNode)Visit(ctx.predicate());
+                node.Left = Visit(ctx.GetChild(3));
+                Ccwl("    Child predicate of option_statement: " + node.predicate);              
+            }
+
             Ccwl("    Child Left of option_statement: " + node.Left);
 
             ctx.inBlock().ToList().ForEach(i => node.Right.Add(Visit(i)));
             node.Right.ForEach(i => Ccwl($"LIST ENTRY: {i}"));
-            //node.RightStatement.ForEach(i => Ccw("    Child stmt of option_statement: " + i.GetText()));
 
             return node;
         }

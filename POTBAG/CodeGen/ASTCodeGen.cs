@@ -124,14 +124,13 @@ namespace SWAE.CodeGen
 
         public override string Visit(SetupNode node)
         {
-            //Visit(node.Locations);
+            Visit(node.Locations);
             return Visit(node.PlayerNode);
 
         }
 
         public override string Visit(LocationsSetupNode node)
         {
-            //obsolete
 
             node.Children.ForEach(n => Visit(n));
             return "";
@@ -139,7 +138,7 @@ namespace SWAE.CodeGen
 
         public override string Visit(LocationMappingNode node)
         {
-            //obsolete
+            code.Add("void DEFINED_LOCATION_" + node.Source.variableName+"();");
             return "";
         }
 
@@ -445,29 +444,35 @@ namespace SWAE.CodeGen
         public override string Visit(ChoiceStatementNode node)
         {
             //node.Options.ForEach(i => Visit(i));
-            string addToCode = "\n    printf(\"";
             int id = 0;
 
             foreach (var item in node.Options)
             {
-                addToCode += "\\n" + $"{++id}. " + Visit(item.Left).Replace("\"", string.Empty);
+                if(item.predicate != null)
+                    code.Add("\n  if ("+Visit(item.predicate)+") printf(\"\\n" + $"{++id}. " + Visit(item.Left).Replace("\"", string.Empty) + "\"); ");
+                else
+                {
+                    code.Add("\n    printf(\"\\n" + $"{++id}. " + Visit(item.Left).Replace("\"", string.Empty) + "\"); ");
+                }
+                
             }
-            addToCode += "\"); ";
-            addToCode += $"\n    int USER_CHOICE_INPUT = COMPILER_TOOL_GET_INPUT({id});";
+            code.Add($"\n    int USER_CHOICE_INPUT = COMPILER_TOOL_GET_INPUT({id});");
             id = 0;
 
-            code.Add(addToCode);
 
             foreach (var item in node.Options)
             {
-                if (id == 0)
-                    code.Add($"\n  if (USER_CHOICE_INPUT == {++id}){{");
-                else
-                    code.Add($"  else if (USER_CHOICE_INPUT == {++id}){{");
+                if (item.predicate != null)
+                    code.Add($"\n if ({Visit(item.predicate)}){{");
+                    
+                code.Add($"\n  if (USER_CHOICE_INPUT == {++id}){{");
 
                 Visit(item.Right);
 
                 code.Add("  }");
+
+                if (item.predicate != null)
+                    code.Add("\n }");
             }
 
             return "";

@@ -400,6 +400,9 @@ namespace SWAE.ContextualAnalysis
 
         public override object Visit(OptionStatementNode node)
         {
+            if(node.predicate != null)
+                Visit(node.predicate);
+
             switch (node.Left)
             {
                 case DotNotationNode dotNode:

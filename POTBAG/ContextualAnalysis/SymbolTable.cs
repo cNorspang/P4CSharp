@@ -132,11 +132,11 @@ namespace SWAE.ContextualAnalysis
         public void ResolveTravel(TravelStatementNode node, Scope currentScope)
         {
 
-            if (!locations.ContainsKey(node.Destination.variableName) && currentScope.Resolve(node.Destination.variableName).GetName() != null)
+            if (!locations.ContainsKey(node.Destination.variableName))
             {
                 SWAEErrorListener.Report(new TypeErrorException("Location", node.Destination.GetType().ToString()), this);
             }
-            
+
             Symbol sym = currentScope.GetLocation();
             List<variableNode> gotoList = locations[sym.GetName()];
 
