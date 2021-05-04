@@ -27,11 +27,50 @@ namespace SWAE.CodeGen
         
         private void Init()
         {
+            //Adds helper funcs and libs
+            #region C_Funcs
             code.Add("#include <stdio.h>");
             code.Add("#include <stdlib.h>");
             code.Add("#include <string.h>");
             code.Add("#include <time.h>");
+            code.Add("#include <ctype.h>");
+
+            code.Add("#ifdef _WIN32 \n#include <conio.h> " +
+                    "\n#else// do Unix-specific stuff \n#include <termios.h> \n#include <unistd.h>" +
+                    "\n    int getch (void){ int ch; struct termios oldt, newt; tcgetattr(STDIN_FILENO, &oldt); newt = oldt; newt.c_lflag &= ~(ICANON|ECHO);" +
+                    "\n        tcsetattr(STDIN_FILENO, TCSANOW, &newt); ch = getchar(); tcsetattr(STDIN_FILENO, TCSANOW, &oldt); return ch;}\n#endif");
+
+            // Clear screen func
+            code.Add("\n#define clrscr() printf(\"\\e[1;1H\\e[2J\")");
+
+            //Random func
             code.Add("\nint Random_Int_Num(int from, int to){ return (rand() % (to + 1 - from)) + from;}");
+
+            //top banner
+            code.Add("\nvoid COMPILER_TOOL_PRINT_TUI(){" +
+                    "\n    clrscr();" +
+                    "\n    printf(\"##| SWAE TEST |##################################################################\\n\");" + 
+                    "\n    printf(\"#################################################################################\\n\\n\");}");
+
+            // Get user input from 
+            code.Add("\nint COMPILER_TOOL_GET_INPUT(int max){"+
+                    "\n    char pwd; "+
+                    "int num; "+
+                    "int m = max; " +
+                    "printf(\"\\n\");" +
+                    "\n    while (1) {" +
+                        "pwd = getch(); "+
+                        "if (isdigit(pwd)) {"+
+                            "num = (int)pwd - 48;  /* b/c ASCII: nums start at 48.*/"+
+                            "if (num <= max && num > 0) "+
+                                "return num;} "+
+                        "pwd = '\\0';}}");
+
+            code.Add("\nvoid COMPILER_TOOL_WAIT_FOR_INPUT(){ printf(\"\\n\"); char c = getch();}");
+
+
+            #endregion
+
         }
 
         public override string Visit(List<ProgNode> node)
@@ -154,7 +193,7 @@ namespace SWAE.CodeGen
 
         public override string Visit(TextStatementNode node)
         {
-            string codeStr = "    printf(";
+            string codeStr = "\n    COMPILER_TOOL_PRINT_TUI();\n    printf(";
             string typeToPrint = "\"";
             string linesToPrint = "";
             foreach (ProgNode item in node.Text)
@@ -183,8 +222,8 @@ namespace SWAE.CodeGen
                         throw new BennoException($"### ERROR TextStatementNode => {node.GetType().Name}");
                 }
             }
-            
-            return codeStr + typeToPrint + "\"" + linesToPrint + "); \n    getchar(); ";
+
+            return codeStr + typeToPrint + "\"" + linesToPrint + ");\n    COMPILER_TOOL_WAIT_FOR_INPUT();";
         }
 
         public override string Visit(InputStatementNode node)

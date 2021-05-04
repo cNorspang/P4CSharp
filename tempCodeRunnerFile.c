@@ -1,2 +1,1 @@
-
-    char input;
+clrscr();
