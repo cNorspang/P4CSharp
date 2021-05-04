@@ -28,6 +28,7 @@ int COMPILER_TOOL_GET_INPUT(int max){
 void COMPILER_TOOL_WAIT_FOR_INPUT(){ printf("\n"); char c = getch();}
 
 struct GENERATED_PLAYER_STRUCT { 
+char name[256] ;
 int aaa ;
 int yup ;
 };
@@ -35,22 +36,26 @@ struct GENERATED_PLAYER_STRUCT PLAYER_STRUCT;
 
 void Hvidovre(){
     char name[256] = "P. I. Smith";
-    PLAYER_STRUCT.aaa = Random_Int_Num(5, 6);
+    PLAYER_STRUCT.aaa = Random_Int_Num(25, 60);
     int bbb = 2*240+23;
-    if (bbb > 100) {
-    strcpy(name, "Herp The Derp");
-    }
+  if (bbb > 100) {
+    strcpy(PLAYER_STRUCT.name, "Herp the Derp");
+  }
 
 
     COMPILER_TOOL_PRINT_TUI();
-    printf("%s%s%s%d%s%d", "Congratulations, ", name, " you managed to get to Hvidovre! ", bbb, ", ", PLAYER_STRUCT.aaa);
+    printf("%s%s%s%s%s%d", "Congratulations, ", name, " you managed to get to Hvidovre! ", PLAYER_STRUCT.name, ", ", PLAYER_STRUCT.aaa);
     COMPILER_TOOL_WAIT_FOR_INPUT();
+
+    printf("\n1. Set health to 1\n2. Reroll Health\n3. See health"); 
+    int USER_CHOICE_INPUT = COMPILER_TOOL_GET_INPUT(3);
 }
 
 int main(int argc, char const *argv[]){
     time_t t;
     srand((unsigned)time(&t));
 
+    strcpy(PLAYER_STRUCT.name, "Herp");
     PLAYER_STRUCT.aaa = 1;
     PLAYER_STRUCT.yup = 12200;
     Hvidovre();

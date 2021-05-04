@@ -3,18 +3,24 @@ setup{
         Hvidovre -> Hvidovre;
     }
     player = {
+	string name = "Herp";
 	int aaa = 1;
-    int yup = 12200;
+    	int yup = 12200;
 
     }
 }
 
 Location Hvidovre = {
     string name = "P. I. Smith";
-    player.aaa = rollNr(5, 6);
+    player.aaa = rollNr(25, 60);
     int bbb = 2 * (240 + 23);
     if(bbb > 100){
-        name = "Herp The Derp";
+        player.name = "Herp the Derp";
     };
-    Text "Congratulations, " + name + " you managed to get to Hvidovre! " + bbb + ", " + player.aaa;
+    Text "Congratulations, " + name + " you managed to get to Hvidovre! " + player.name + ", " + player.aaa;
+    choice {
+        "Set health to 1" {int player.aaa = 1;};
+        "Reroll Health" { player.aaa = rollNr(2, 100); };
+        "See health" { Text player.name + " has " + player.aaa + " HP left"; };
+    };
 };

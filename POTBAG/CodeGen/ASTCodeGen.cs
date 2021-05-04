@@ -142,6 +142,7 @@ namespace SWAE.CodeGen
             return "";
         }
 
+        // Warning: Cursed code
         public override string Visit(PlayerSetupNode node)
         {
             List<string> intoStruct = new List<string>();
@@ -161,7 +162,19 @@ namespace SWAE.CodeGen
             intoStruct.ForEach(i => code.Add(i));
             code.Add("};\nstruct GENERATED_PLAYER_STRUCT "+structName+";\n");
 
-            outOfStruct.ForEach(i => initPlayerStruct += "\n    " + structName + "." + i);
+            //outOfStruct.ForEach(i => initPlayerStruct += "\n    " + structName + "." + i);
+            foreach (var item in outOfStruct)
+            {
+                string[] varNameAndValue = item.Split('=');
+
+                if (item.Contains('\"')) { 
+                    string varName = varNameAndValue[0].Split('[')[0];
+                    string fvalue = varNameAndValue[1].Replace(";", string.Empty).Trim();
+                    initPlayerStruct += "\n    strcpy(" + structName + "." + varName + ", " + fvalue + ");";
+                }
+                else
+                    initPlayerStruct += "\n    " + structName + "." + item;
+            }
 
             return initPlayerStruct;
         }
@@ -267,26 +280,26 @@ namespace SWAE.CodeGen
         public override string Visit(ifNode node)
         {
             string predicate = Visit(node.predicate);
-            code.Add("    if (" + predicate + ") {");
+            code.Add("  if (" + predicate + ") {");
             Visit(node.body);
-            code.Add("    }");
+            code.Add("  }");
             return "";
         }
 
         public override string Visit(ElseIfStatementNode node)
         {
             string predicate = Visit(node.predicate);
-            code.Add("    else if (" + predicate + ") {");
+            code.Add("  else if (" + predicate + ") {");
             Visit(node.body);
-            code.Add("    }");
+            code.Add("  }");
             return "";
         }
 
         public override string Visit(elseNode node)
         {
-            code.Add("    else {");
+            code.Add("  else {");
             Visit(node.body);
-            code.Add("    }");
+            code.Add("  }");
             return "";
         }
 
@@ -424,12 +437,29 @@ namespace SWAE.CodeGen
 
         public override string Visit(ChoiceStatementNode node)
         {
-            node.Options.ForEach(i => Visit(i));
-            return "";
+            //node.Options.ForEach(i => Visit(i));
+            string addToCode = "\n    printf(\"";
+            int id = 0;
+
+            foreach (var item in node.Options)
+            {
+                addToCode += "\\n" + $"{++id}. " + Visit(item.Left).Replace("\"", string.Empty);
+            }
+            addToCode += "\"); ";
+            addToCode += $"\n    int USER_CHOICE_INPUT = COMPILER_TOOL_GET_INPUT({id});";
+            id = 1;
+
+            foreach (var item in node.Options)
+            {
+                //TODO
+            }
+
+            return addToCode;
         }
 
         public override string Visit(OptionStatementNode node)
         {
+            
             switch (node.Left)
             {
                 case DotNotationNode dotNode:
@@ -455,19 +485,14 @@ namespace SWAE.CodeGen
             {
                 case IntAssignNode intAssignNode:
                     return Visit(intAssignNode);
-                    break;
                 case stringAssignNode stringAssignNode:
                     return Visit(stringAssignNode);
-                    break;
                 case InputAssignNode inputAssignNode:
                     return Visit(inputAssignNode);
-                    break;
                 case LocationAssignNode locationAssignNode:
                     return Visit(locationAssignNode);
-                    break;
                 case BoolAssignNode boolAssignNode:
                     return Visit(boolAssignNode);
-                    break;
             }
             return "";
         }

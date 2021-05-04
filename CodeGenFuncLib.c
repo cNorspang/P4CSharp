@@ -80,10 +80,10 @@ void locationOne(){
     
     COMPILER_TOOL_PRINT_TUI();
     printf("This is a test!");
-    int USER_INPUT = COMPILER_TOOL_GET_INPUT(4);
+    int USER_CHOICE_INPUT = COMPILER_TOOL_GET_INPUT(4);
 
     COMPILER_TOOL_PRINT_TUI();    
-    printf("%s%d", "entered: ", USER_INPUT);
+    printf("%s%d", "entered: ", USER_CHOICE_INPUT);
     COMPILER_TOOL_WAIT_FOR_INPUT();
 };
 
