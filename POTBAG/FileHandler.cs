@@ -18,15 +18,15 @@ namespace SWAE.CSTtoAST
             return fileAsString;
         }
 
-        public static void WriteToFile(List<string> code)
+        public static void WriteToFile(List<string> code, string fileName)
         {
             Console.WriteLine("Writing to file...");
 
             try
             {
-                File.CreateText("..\\..\\..\\..\\" + "a.c").Dispose();
+                File.CreateText("..\\..\\..\\..\\" + fileName + ".c").Dispose();
 
-                File.WriteAllLines("..\\..\\..\\..\\" + "a.c", code);
+                File.WriteAllLines("..\\..\\..\\..\\" + fileName + ".c", code);
 
                 Console.WriteLine("Successfully wrote to the file. ");
             }

@@ -14,8 +14,9 @@ namespace SWAE
     {
         static void Main(string[] args)
         {
+            string fileName = "UpdatedPseudoDrageCodeGenTest";
             const bool debug = true; 
-            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageCodeGenTest.txt");
+            string stream = FileHandler.readFromInputStream(fileName+".txt");
 
             ICharStream input = CharStreams.fromString(stream);
             ITokenSource lexer = new SWAELexer(input);
@@ -42,7 +43,7 @@ namespace SWAE
                 List<string> code = codeGenerator.GetResult();
 
                 FileHandler.PrintCCodeDebug(code);
-                FileHandler.WriteToFile(code);
+                FileHandler.WriteToFile(code, fileName);
             }
             //IMPORTANT TODO: Der er blevet ændret, husk når merge
             catch (Exception e)

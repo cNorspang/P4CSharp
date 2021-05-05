@@ -4,6 +4,7 @@ using SWAE.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using static SWAE.DebugPrinter;
 
 
@@ -72,6 +73,12 @@ namespace SWAE.CodeGen
 
             #endregion
 
+        }
+
+        private string GetUniqueId()
+        {
+            string id = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(1, 8);
+            return Regex.Replace(id, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
         }
 
         public override string Visit(List<ProgNode> node)
@@ -445,6 +452,7 @@ namespace SWAE.CodeGen
         {
             //node.Options.ForEach(i => Visit(i));
             int id = 0;
+            string stmtId = GetUniqueId();
 
             foreach (var item in node.Options)
             {
@@ -456,7 +464,7 @@ namespace SWAE.CodeGen
                 }
                 
             }
-            code.Add($"\n    int USER_CHOICE_INPUT = COMPILER_TOOL_GET_INPUT({id});");
+            code.Add($"\n    int USER_CHOICE_INPUT_{stmtId} = COMPILER_TOOL_GET_INPUT({id});");
             id = 0;
 
 
@@ -465,14 +473,14 @@ namespace SWAE.CodeGen
                 if (item.predicate != null)
                     code.Add($"\n if ({Visit(item.predicate)}){{");
                     
-                code.Add($"\n  if (USER_CHOICE_INPUT == {++id}){{");
+                code.Add($"\n  if (USER_CHOICE_INPUT_{stmtId} == {++id}){{");
 
                 Visit(item.Right);
 
                 code.Add("  }");
 
                 if (item.predicate != null)
-                    code.Add("\n }");
+                    code.Add($"\n }} else if (USER_CHOICE_INPUT_{stmtId} == " + id+ $") {{ USER_CHOICE_INPUT_{stmtId} = " + (id+1)+"; } ");
             }
 
             return "";
@@ -733,7 +741,7 @@ namespace SWAE.CodeGen
                 case ExpressionVarNameNode nodeVAR:
                     return nodeVAR.VarName;
                 case ExpressionDotNameNode nodeDOT:
-                    return nodeDOT.VarName;
+                    return "PLAYER_STRUCT."+nodeDOT.VarName;
                 case ExpressionSoloNode nodeISO:
                     return Visit(nodeISO.expr);
                 case RandomExpressionNode nodeRND:
@@ -767,7 +775,7 @@ namespace SWAE.CodeGen
         public override string Visit(NumberNode node)
         {
             return node.Value.ToString();
-        }
+        }      
 
         public override string Visit(DotNotationNode node)
         {
