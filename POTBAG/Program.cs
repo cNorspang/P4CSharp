@@ -14,7 +14,8 @@ namespace SWAE
     {
         static void Main(string[] args)
         {
-            string fileName = "UpdatedPseudoDrageCodeGenTest";
+            //string fileName = "UpdatedPseudoDrageCodeGenTest";
+            string fileName = "SWAEBetaTest";
             const bool debug = true; 
             string stream = FileHandler.readFromInputStream(fileName+".txt");
 
@@ -42,7 +43,7 @@ namespace SWAE
                 codeGenerator.Visit(ast);
                 List<string> code = codeGenerator.GetResult();
 
-                FileHandler.PrintCCodeDebug(code);
+                //FileHandler.PrintCCodeDebug(code);
                 FileHandler.WriteToFile(code, fileName);
             }
             //IMPORTANT TODO: Der er blevet ændret, husk når merge

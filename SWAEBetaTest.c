@@ -31,6 +31,7 @@ void DEFINED_LOCATION_Start();
 void DEFINED_LOCATION_Lokale();
 void DEFINED_LOCATION_TheFuckeNing();
 void DEFINED_LOCATION_Slottet();
+void DEFINED_LOCATION_DragonFight();
 void DEFINED_LOCATION_Hvidovre();
 void DEFINED_LOCATION_END_POINT();
 
@@ -41,6 +42,14 @@ int joints;
 bool hasSword ;
 bool gotDealer ;
 int trollLevel;
+bool regular_sword ;
+int regular_sword_damage;
+bool THE_GREAT_SWORD_OF_THE_OLD_ONE ;
+int THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE;
+bool GreatSwordReady ;
+bool Boost_of_internal_power_for_one_attack ;
+int The_dragon_of_smaguron_health;
+int The_dragon_of_smaguron_damage;
 };
 struct GENERATED_PLAYER_STRUCT PLAYER_STRUCT;
 
@@ -50,7 +59,15 @@ void COMPILER_PLAYER_STRUCT_INIT(){
     PLAYER_STRUCT.joints =0;
     PLAYER_STRUCT.hasSword = false;
     PLAYER_STRUCT.gotDealer = false;
-    PLAYER_STRUCT.trollLevel =0;}
+    PLAYER_STRUCT.trollLevel =0;
+    PLAYER_STRUCT.regular_sword = false;
+    PLAYER_STRUCT.regular_sword_damage =10;
+    PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE = false;
+    PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE =50;
+    PLAYER_STRUCT.GreatSwordReady = false;
+    PLAYER_STRUCT.Boost_of_internal_power_for_one_attack = false;
+    PLAYER_STRUCT.The_dragon_of_smaguron_health =1000;
+    PLAYER_STRUCT.The_dragon_of_smaguron_damage =10;}
 
 void DEFINED_LOCATION_Start(){
 
@@ -66,13 +83,13 @@ void DEFINED_LOCATION_Start(){
 
     printf("\n2. nah"); 
 
-    int USER_CHOICE_INPUT_aOlFkPBy = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_Cf24G9mD = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_aOlFkPBy == 1){
+  if (USER_CHOICE_INPUT_Cf24G9mD == 1){
     PLAYER_STRUCT.joints+=1;
   }
 
-  if (USER_CHOICE_INPUT_aOlFkPBy == 2){
+  if (USER_CHOICE_INPUT_Cf24G9mD == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "..aight cool. Goodnight then.\n\n If you need a bed try Hvidovre");
@@ -104,16 +121,16 @@ void DEFINED_LOCATION_Lokale(){
 
     printf("\n4. See what the noise in the back is."); 
 
-    int USER_CHOICE_INPUT_qxLKlFZ = COMPILER_TOOL_GET_INPUT(4);
+    int USER_CHOICE_INPUT_TUSDEvz9 = COMPILER_TOOL_GET_INPUT(4);
 
-  if (USER_CHOICE_INPUT_qxLKlFZ == 1){
+  if (USER_CHOICE_INPUT_TUSDEvz9 == 1){
 
 DEFINED_LOCATION_TheFuckeNing();
   }
 
  if (PLAYER_STRUCT.gotDealer == false){
 
-  if (USER_CHOICE_INPUT_qxLKlFZ == 2){
+  if (USER_CHOICE_INPUT_TUSDEvz9 == 2){
     PLAYER_STRUCT.gotDealer = true;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -121,11 +138,11 @@ DEFINED_LOCATION_TheFuckeNing();
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
- } else if (USER_CHOICE_INPUT_qxLKlFZ == 2) { USER_CHOICE_INPUT_qxLKlFZ = 3; } 
+ } else if (USER_CHOICE_INPUT_TUSDEvz9 == 2) { USER_CHOICE_INPUT_TUSDEvz9 = 3; } 
 
  if (PLAYER_STRUCT.gotDealer){
 
-  if (USER_CHOICE_INPUT_qxLKlFZ == 3){
+  if (USER_CHOICE_INPUT_TUSDEvz9 == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "The Hippie sees you.\n ~ yo, the deal is blood for ju\n you in?");
@@ -135,9 +152,9 @@ DEFINED_LOCATION_TheFuckeNing();
 
     printf("\n2. nah im good"); 
 
-    int USER_CHOICE_INPUT_LpCVM2D4 = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_OuDs43tU = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_LpCVM2D4 == 1){
+  if (USER_CHOICE_INPUT_OuDs43tU == 1){
     PLAYER_STRUCT.health-=5;
     PLAYER_STRUCT.joints+=1;
 
@@ -146,7 +163,7 @@ DEFINED_LOCATION_TheFuckeNing();
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_LpCVM2D4 == 2){
+  if (USER_CHOICE_INPUT_OuDs43tU == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "Cool. you ");
@@ -155,9 +172,9 @@ DEFINED_LOCATION_TheFuckeNing();
 
   }
 
- } else if (USER_CHOICE_INPUT_qxLKlFZ == 3) { USER_CHOICE_INPUT_qxLKlFZ = 4; } 
+ } else if (USER_CHOICE_INPUT_TUSDEvz9 == 3) { USER_CHOICE_INPUT_TUSDEvz9 = 4; } 
 
-  if (USER_CHOICE_INPUT_qxLKlFZ == 4){
+  if (USER_CHOICE_INPUT_TUSDEvz9 == 4){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "Welp its a troll.");
@@ -180,9 +197,9 @@ void DEFINED_LOCATION_TheFuckeNing(){
 
     printf("\n2. uhm.. what?"); 
 
-    int USER_CHOICE_INPUT_kMwzerim = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_0hcH7eC = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_kMwzerim == 1){
+  if (USER_CHOICE_INPUT_0hcH7eC == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "She drags you in..");
@@ -202,9 +219,9 @@ void DEFINED_LOCATION_TheFuckeNing(){
 
     printf("\n4. Nap"); 
 
-    int USER_CHOICE_INPUT_S8EYGCBW = COMPILER_TOOL_GET_INPUT(4);
+    int USER_CHOICE_INPUT_nlatAyXO = COMPILER_TOOL_GET_INPUT(4);
 
-  if (USER_CHOICE_INPUT_S8EYGCBW == 1){
+  if (USER_CHOICE_INPUT_nlatAyXO == 1){
     i+=1;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -212,7 +229,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_S8EYGCBW == 2){
+  if (USER_CHOICE_INPUT_nlatAyXO == 2){
     i+=1;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -220,7 +237,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_S8EYGCBW == 3){
+  if (USER_CHOICE_INPUT_nlatAyXO == 3){
     i+=1;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -228,7 +245,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_S8EYGCBW == 4){
+  if (USER_CHOICE_INPUT_nlatAyXO == 4){
     i+=1;
     PLAYER_STRUCT.health+=1;
 
@@ -247,7 +264,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     PLAYER_STRUCT.hasSword = true;
   }
 
-  if (USER_CHOICE_INPUT_kMwzerim == 2){
+  if (USER_CHOICE_INPUT_0hcH7eC == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", " ~ Not a man of the night, I see. \nShe turn around..");
@@ -277,9 +294,9 @@ void DEFINED_LOCATION_Slottet(){
 
   if (PLAYER_STRUCT.hasSword) printf("\n3. Swing your Sword!"); 
 
-    int USER_CHOICE_INPUT_8tMojAe = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_z47Ws38c = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_8tMojAe == 1){
+  if (USER_CHOICE_INPUT_z47Ws38c == 1){
     enemy_health-=roll;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -289,7 +306,7 @@ void DEFINED_LOCATION_Slottet(){
 
  if (PLAYER_STRUCT.joints > 0){
 
-  if (USER_CHOICE_INPUT_8tMojAe == 2){
+  if (USER_CHOICE_INPUT_z47Ws38c == 2){
     PLAYER_STRUCT.health+=15;
     PLAYER_STRUCT.joints-=1;
 
@@ -298,11 +315,11 @@ void DEFINED_LOCATION_Slottet(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
- } else if (USER_CHOICE_INPUT_8tMojAe == 2) { USER_CHOICE_INPUT_8tMojAe = 3; } 
+ } else if (USER_CHOICE_INPUT_z47Ws38c == 2) { USER_CHOICE_INPUT_z47Ws38c = 3; } 
 
  if (PLAYER_STRUCT.hasSword){
 
-  if (USER_CHOICE_INPUT_8tMojAe == 3){
+  if (USER_CHOICE_INPUT_z47Ws38c == 3){
     enemy_health-=lroll;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -310,7 +327,7 @@ void DEFINED_LOCATION_Slottet(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
- } else if (USER_CHOICE_INPUT_8tMojAe == 3) { USER_CHOICE_INPUT_8tMojAe = 4; } 
+ } else if (USER_CHOICE_INPUT_z47Ws38c == 3) { USER_CHOICE_INPUT_z47Ws38c = 4; } 
 
   if (enemy_health<=0) {
 
@@ -360,6 +377,252 @@ DEFINED_LOCATION_Lokale();
 DEFINED_LOCATION_Slottet();
 }
 
+void DEFINED_LOCATION_DragonFight(){
+    int dragonLevel=0;
+    bool flag = true;
+
+  while(flag) {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d%s%d", "Your HP: ", PLAYER_STRUCT.health, "   Dragon HP: ", PLAYER_STRUCT.The_dragon_of_smaguron_health);
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    int roll=0;
+
+    printf("\n1. Leave ->"); 
+
+    printf("\n2. Bonk with stick!"); 
+
+  if (PLAYER_STRUCT.regular_sword) printf("\n3. Swing your Sword!"); 
+
+  if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == false) printf("\n4. Ready the Great Old Sword."); 
+
+  if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == true) printf("\n5. Attack with the Great old Sword!"); 
+
+    int USER_CHOICE_INPUT_BtpdDjS4 = COMPILER_TOOL_GET_INPUT(5);
+
+  if (USER_CHOICE_INPUT_BtpdDjS4 == 1){
+
+DEFINED_LOCATION_Hvidovre();
+  }
+
+  if (USER_CHOICE_INPUT_BtpdDjS4 == 2){
+    roll=Random_Int_Num(3, 8);
+    PLAYER_STRUCT.The_dragon_of_smaguron_health-=roll;
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d%s", "You Bonk the *Dragon* for ", roll, " damage.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.GreatSwordReady = false;
+  }
+
+ if (PLAYER_STRUCT.regular_sword){
+
+  if (USER_CHOICE_INPUT_BtpdDjS4 == 3){
+    roll=Random_Int_Num(PLAYER_STRUCT.regular_sword_damage-3, PLAYER_STRUCT.regular_sword_damage+3);
+    PLAYER_STRUCT.The_dragon_of_smaguron_health-=roll;
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d%s", "You Swing your Sword for ", roll, " damage.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.GreatSwordReady = false;
+  }
+
+ } else if (USER_CHOICE_INPUT_BtpdDjS4 == 3) { USER_CHOICE_INPUT_BtpdDjS4 = 4; } 
+
+ if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == false){
+
+  if (USER_CHOICE_INPUT_BtpdDjS4 == 4){
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%s", "When hand comes to hilt, question comes to heart, from soul is given heaven's answer\n via either divine balancing scale or sword.", "For there is either hope, or there is not,\n and one way or another, suffering must end.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.GreatSwordReady = true;
+  }
+
+ } else if (USER_CHOICE_INPUT_BtpdDjS4 == 4) { USER_CHOICE_INPUT_BtpdDjS4 = 5; } 
+
+ if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == true){
+
+  if (USER_CHOICE_INPUT_BtpdDjS4 == 5){
+    roll=Random_Int_Num(PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE-13, PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE+13);
+    PLAYER_STRUCT.The_dragon_of_smaguron_health-=roll;
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%s%d%s", "You wield the Sword with might!\nand it slices through the dragon like a hot knife through butter.\n\n", "You attack for ", roll, " damage.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.GreatSwordReady = false;
+  }
+
+ } else if (USER_CHOICE_INPUT_BtpdDjS4 == 5) { USER_CHOICE_INPUT_BtpdDjS4 = 6; } 
+
+  if (PLAYER_STRUCT.The_dragon_of_smaguron_health<=0) {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "The deed is done.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "A GLORIUS WIN for you!");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+DEFINED_LOCATION_Hvidovre();
+  }
+
+  if (PLAYER_STRUCT.The_dragon_of_smaguron_health < 200 && Random_Int_Num(1, 3) == 3) {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "The Dragon gets angry, it is fighing for its life.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+    printf("\n1. Go for the Execute."); 
+
+    printf("\n2. Not yet"); 
+
+    int USER_CHOICE_INPUT_Sz9FnGRT = COMPILER_TOOL_GET_INPUT(2);
+
+  if (USER_CHOICE_INPUT_Sz9FnGRT == 1){
+  if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE) {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "You rush towards the dragon\n\nIt fears you.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "You Slice your Great Old Sword through the dragons skull.\nIt screams.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.The_dragon_of_smaguron_health=0;
+  }
+  else if (Random_Int_Num(1, 4) == 4) {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "You rush towards the dragon\n\nIt gets ready.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "By a true miracle you piece the dragons scales.\n\nYou got it good.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.The_dragon_of_smaguron_health=0;
+  }
+  else {
+    roll=Random_Int_Num(PLAYER_STRUCT.The_dragon_of_smaguron_damage, PLAYER_STRUCT.The_dragon_of_smaguron_damage+15+dragonLevel);
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "You rush towards the beast!");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d%s", "You hit it but the scales stopped your weapon.\n\nIt spits fire at you for ", roll, " damage.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.health-=roll;
+  }
+
+  }
+
+  if (USER_CHOICE_INPUT_Sz9FnGRT == 2){
+    PLAYER_STRUCT.The_dragon_of_smaguron_health-=1;
+  }
+
+  }
+  else if (Random_Int_Num(1, 5) == 5) {
+    roll=Random_Int_Num(PLAYER_STRUCT.regular_sword_damage+5, PLAYER_STRUCT.regular_sword_damage+10);
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "The Dragon turns its back. you see your chance\n\nDo you take it?");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+    printf("\n1. Run and jump onto the back of the dragon!"); 
+
+    printf("\n2. Catch your breath instead"); 
+
+    int USER_CHOICE_INPUT_XPVAjOqe = COMPILER_TOOL_GET_INPUT(2);
+
+  if (USER_CHOICE_INPUT_XPVAjOqe == 1){
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d%s", "You slice open a fresh wound and deal ", roll, " damage");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.The_dragon_of_smaguron_health-=roll;
+  }
+
+  if (USER_CHOICE_INPUT_XPVAjOqe == 2){
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "You catch your breath and feel the second wind.\n\nJust in time for the dragon again facing you");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.The_dragon_of_smaguron_health-=1;
+  }
+
+  }
+
+  if (PLAYER_STRUCT.The_dragon_of_smaguron_health<=0) {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "The deed is done.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "A GLORIUS WIN for you!");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+DEFINED_LOCATION_Hvidovre();
+  }
+
+    int enemychoice=Random_Int_Num(1, 3);
+int enemyRoll;
+  if (enemychoice == 1) {
+    enemyRoll=Random_Int_Num(PLAYER_STRUCT.The_dragon_of_smaguron_damage-10, PLAYER_STRUCT.The_dragon_of_smaguron_damage+10);
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d%s", "The Dragon bites you for ", enemyRoll, " damage!");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.health-=enemyRoll;
+  }
+  else if (enemychoice == 2) {
+    enemyRoll=Random_Int_Num(PLAYER_STRUCT.The_dragon_of_smaguron_damage-PLAYER_STRUCT.The_dragon_of_smaguron_damage*2, 8+PLAYER_STRUCT.The_dragon_of_smaguron_damage*2)+dragonLevel*3;
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d%s", "The Dragon recites an ancient melody\nIts lifeforce has changed by ", enemyRoll, " health");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.The_dragon_of_smaguron_health+=enemyRoll;
+  }
+  else if (enemychoice == 3) {
+    enemyRoll=Random_Int_Num(PLAYER_STRUCT.The_dragon_of_smaguron_damage, PLAYER_STRUCT.The_dragon_of_smaguron_damage+5)+dragonLevel*2;
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d%s", "The Dragon spits fire in a cone\n\nYou are hit for ", enemyRoll, " damage");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.health-=enemyRoll;
+  }
+
+  if (PLAYER_STRUCT.health<=0) {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "you dead boi");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+    PLAYER_STRUCT.health=1;
+
+DEFINED_LOCATION_Hvidovre();
+  }
+
+  if (PLAYER_STRUCT.The_dragon_of_smaguron_health<=0) {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "The deed is done.");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "A GLORIUS WIN for you!");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+DEFINED_LOCATION_Hvidovre();
+  }
+
+
+  }
+
+DEFINED_LOCATION_DragonFight();
+}
+
 void DEFINED_LOCATION_Hvidovre(){
 
     COMPILER_TOOL_PRINT_TUI();
@@ -382,17 +645,19 @@ void DEFINED_LOCATION_Hvidovre(){
 
     printf("\n8. Goto Lokale"); 
 
-    int USER_CHOICE_INPUT_P21UzTST = COMPILER_TOOL_GET_INPUT(8);
+    printf("\n9. dragonfight Menu"); 
 
-  if (USER_CHOICE_INPUT_P21UzTST == 1){
+    int USER_CHOICE_INPUT_6gbtrMcT = COMPILER_TOOL_GET_INPUT(9);
+
+  if (USER_CHOICE_INPUT_6gbtrMcT == 1){
     PLAYER_STRUCT.health=1;
   }
 
-  if (USER_CHOICE_INPUT_P21UzTST == 2){
+  if (USER_CHOICE_INPUT_6gbtrMcT == 2){
     PLAYER_STRUCT.health=Random_Int_Num(2, 100);
   }
 
-  if (USER_CHOICE_INPUT_P21UzTST == 3){
+  if (USER_CHOICE_INPUT_6gbtrMcT == 3){
   if (PLAYER_STRUCT.hasSword == false) {
     PLAYER_STRUCT.hasSword = true;
 
@@ -410,25 +675,84 @@ void DEFINED_LOCATION_Hvidovre(){
 
   }
 
-  if (USER_CHOICE_INPUT_P21UzTST == 4){
+  if (USER_CHOICE_INPUT_6gbtrMcT == 4){
     PLAYER_STRUCT.trollLevel+=1;
   }
 
-  if (USER_CHOICE_INPUT_P21UzTST == 5){
+  if (USER_CHOICE_INPUT_6gbtrMcT == 5){
     PLAYER_STRUCT.trollLevel-=1;
   }
 
-  if (USER_CHOICE_INPUT_P21UzTST == 6){
+  if (USER_CHOICE_INPUT_6gbtrMcT == 6){
     PLAYER_STRUCT.joints+=1;
   }
 
-  if (USER_CHOICE_INPUT_P21UzTST == 7){
+  if (USER_CHOICE_INPUT_6gbtrMcT == 7){
     PLAYER_STRUCT.joints-=1;
   }
 
-  if (USER_CHOICE_INPUT_P21UzTST == 8){
+  if (USER_CHOICE_INPUT_6gbtrMcT == 8){
 
 DEFINED_LOCATION_Lokale();
+  }
+
+  if (USER_CHOICE_INPUT_6gbtrMcT == 9){
+
+    printf("\n1. <- back"); 
+
+    printf("\n2. Toggle regular sword"); 
+
+    printf("\n3. Toggle Great Sword"); 
+
+    printf("\n4. Goto DragonFight"); 
+
+    int USER_CHOICE_INPUT_bYtSxhdC = COMPILER_TOOL_GET_INPUT(4);
+
+  if (USER_CHOICE_INPUT_bYtSxhdC == 1){
+    int i=0;
+  }
+
+  if (USER_CHOICE_INPUT_bYtSxhdC == 2){
+  if (PLAYER_STRUCT.regular_sword == false) {
+    PLAYER_STRUCT.regular_sword = true;
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "Regular Sword gained yay");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+  }
+  else {
+    PLAYER_STRUCT.regular_sword = false;
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "Aaaand its gone...");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+  }
+
+  }
+
+  if (USER_CHOICE_INPUT_bYtSxhdC == 3){
+  if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE == false) {
+    PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE = true;
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "Great Sword gained yay");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+  }
+  else {
+    PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE = false;
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s", "Aaaand its gone...");
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+  }
+
+  }
+
+  if (USER_CHOICE_INPUT_bYtSxhdC == 4){
+
+DEFINED_LOCATION_DragonFight();
+  }
+
   }
 
 DEFINED_LOCATION_Hvidovre();

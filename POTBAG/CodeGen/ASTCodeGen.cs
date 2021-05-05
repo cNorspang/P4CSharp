@@ -49,10 +49,12 @@ namespace SWAE.CodeGen
             code.Add("\nint Random_Int_Num(int from, int to){ return (rand() % (to + 1 - from)) + from;}");
 
             //top banner
-            code.Add("\nvoid COMPILER_TOOL_PRINT_TUI(){" +
+            string Tui =("\nvoid COMPILER_TOOL_PRINT_TUI(){" +
                     "\n    clrscr();" +
                     "\n    printf(\"##| SWAE TEST |##################################################################\\n\");" + 
                     "\n    printf(\"#################################################################################\\n\\n\");}");
+            code.Add(Tui);
+            Console.WriteLine(Tui);
 
             // Get user input from 
             code.Add("\nint COMPILER_TOOL_GET_INPUT(int max){"+
@@ -246,6 +248,12 @@ namespace SWAE.CodeGen
                         throw new BennoException($"### ERROR TextStatementNode => {node.GetType().Name}");
                 }
             }
+
+            //linesToPrint = linesToPrint.Replace("\t", "");
+            //linesToPrint = linesToPrint.Replace("\\n", "\\n");
+            //linesToPrint = linesToPrint.Replace("\n", "\"\"");
+            
+
 
             return codeStr + typeToPrint + "\"" + linesToPrint + ");\n    COMPILER_TOOL_WAIT_FOR_INPUT();";
         }

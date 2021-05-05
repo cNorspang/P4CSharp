@@ -22,7 +22,9 @@ namespace SWAE.CSTtoAST
         {
             Ccwl("Buffer_node");
             BufferNode node = new BufferNode {SetUpNode = (SetupNode) Visit(ctx.setup())};
-            ctx.inBlock().ToList().ForEach(i => node.inBlock.Add(Visit(i)));
+            //ctx.inBlock().ToList().ForEach(i => node.inBlock.Add(Visit(i)));
+
+            ctx.location_assign().ToList().ForEach(i => node.inBlock.Add(Visit(i)));
 
             return node;
         }

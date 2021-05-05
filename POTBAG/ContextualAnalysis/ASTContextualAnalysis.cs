@@ -166,7 +166,7 @@ namespace SWAE.ContextualAnalysis
                         //TODO: Fejlen sker her - Vi skal få TypeOf et eller andet sted fra
                         Type type = st.ResolvePlayerVariable(dotNode.variableName, true).GetSymbolType();
                         if (type != typeof(string) && type != typeof(int))
-                            st.CurrentScope().Resolve(dotNode.variableName, typeof(string), true);
+                            st.ResolvePlayerVariable(dotNode.variableName, typeof(string), true);
                         break;
                     case variableNode varNode:
                         Visit(varNode);

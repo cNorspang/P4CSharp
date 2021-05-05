@@ -2,7 +2,7 @@ grammar SWAE;
 //Main Rule
 prog: buffernode EOF;
 
-buffernode: setup inBlock*;
+buffernode: setup location_assign*;
 
 //Setup Rules
 setup: KEYWORD_SETUP CURLY_LEFT locationsetup playersetup CURLY_RIGHT;
@@ -91,6 +91,7 @@ dot_notaion: KEYWORD_PLAYER DOT VAR_NAME;
 //Lexer Rules
 fragment LETTERS   : [a-zA-Z];
 WHITESPACE         : (' ' | '\t' | '\n' | '\r')+ -> skip;
+COMMENT            : '/*' .*? '*/' -> skip;
 KEYWORD_TEXT       : 'Text ';
 KEYWORD_STRING     : 'string ';
 END_STMT           : ';';
@@ -134,4 +135,4 @@ OR_OPERATOR        : ('||'| 'or' | 'OR');
 BOOL               : ('true' | 'false');
 NUM                : [0-9]+;
 VAR_NAME           : (LETTERS | '_')+;
-COMMENT           : '//';
+
