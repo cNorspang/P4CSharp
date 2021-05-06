@@ -48,6 +48,15 @@ void COMPILER_TOOL_PRINT_CHOICE(int id, char option[256]){
     printf("%d%s", id, option);
 }
 
+
+char* COMPILER_TOOL_GET_STRING_INPUT(char * buf){
+    char name[50];
+    fgets(name, 50, stdin);
+    strncpy(buf, name, 50);
+    return name;
+}
+
+
 //added
 int COMPILER_TOOL_GET_INPUT(int max){
     char pwd;
@@ -85,6 +94,16 @@ void locationOne(){
     COMPILER_TOOL_PRINT_TUI();    
     printf("%s%d", "entered: ", USER_CHOICE_INPUT);
     COMPILER_TOOL_WAIT_FOR_INPUT();
+
+    COMPILER_TOOL_PRINT_TUI();    
+    printf("enter your name");
+    printf("\n\n/> ");
+    char USER_STRING_INPUT[51];
+    memset(USER_STRING_INPUT, 0, 51);
+    COMPILER_TOOL_GET_STRING_INPUT(USER_STRING_INPUT);
+
+
+    printf("%s", USER_STRING_INPUT);
 };
 
 int main(void){

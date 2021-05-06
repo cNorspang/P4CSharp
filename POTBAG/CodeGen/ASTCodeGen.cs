@@ -72,6 +72,13 @@ namespace SWAE.CodeGen
 
             code.Add("\nvoid COMPILER_TOOL_WAIT_FOR_INPUT(){ printf(\"\\n\"); char c = getch();}");
 
+            code.Add("\nchar* COMPILER_TOOL_GET_STRING_INPUT(char * buf){"+
+                    "\n    char name[50];"+
+                    "\n    fgets(name, 50, stdin);" +
+                    "\n    strncpy(buf, name, 50); " +
+                    "\n    return name; " +
+                    "\n}\n");
+
 
             #endregion
 
@@ -261,24 +268,37 @@ namespace SWAE.CodeGen
         //TODO
         public override string Visit(InputStatementNode node)
         {
+            string codeStr = "\n    printf(";
+            string typeToPrint = "\"";
+            string linesToPrint = "";
             foreach (ProgNode item in node.Text)
             {
                 switch (item)
                 {
                     case DotNotationNode dotNode:
-                        Visit(dotNode);
+                        linesToPrint += ", " + Visit(dotNode);
+                        Type type = st.GetSymbolByName(dotNode.variableName).GetSymbolType();
+                        if (type == typeof(string)) typeToPrint += "%s";
+                        else if (type == typeof(int)) typeToPrint += "%d";
+                        else throw new BennoException("code gen textStmt => idk how we got here");
                         break;
                     case variableNode varNode:
-                        Visit(varNode);
+                        linesToPrint += ", " + Visit(varNode);
+                        Type typee = st.GetSymbolByName(varNode.variableName).GetSymbolType();
+                        if (typee == typeof(string)) typeToPrint += "%s";
+                        else if (typee == typeof(int)) typeToPrint += "%d";
+                        else throw new BennoException("code gen textStmt => idk how we got here");
                         break;
                     case stringNode strNode:
-                        Visit(strNode);
+                        linesToPrint += ", " + Visit(strNode);
+                        typeToPrint += "%s";
                         break;
                     default:
-                        throw new BennoException($"### ERROR InputStatementNode => {node.GetType().Name}");
+                        throw new BennoException($"### ERROR TextStatementNode => {node.GetType().Name}");
                 }
             }
-            return "";
+
+            return codeStr + typeToPrint + "\"" + linesToPrint + ");";
         }
 
         public override string Visit(WhileStatementNode node)
@@ -633,22 +653,31 @@ namespace SWAE.CodeGen
 
         public override string Visit(InputAssignNode node)
         {
+            string left = "";
             switch (node.Left)
             {
                 case DotNotationNode dotNode:
-                    Visit(dotNode);
+                    //check if int or string
+                    left = Visit(dotNode);
                     break;
                 case variableNode varNode:
-                    Visit(varNode);
+                    //check if int or string
+                    left = Visit(varNode);
                     break;
                 case stringDeclarationNode strDclNode:
-                    Visit(strDclNode);
+                    left = Visit(strDclNode);
+                    code.Add("\n    " + left + ";");
+                    left = left.Split(" ")[1];
                     break;
                 default:
                     throw new BennoException($"### ERROR InputAssignNode => {node.Left.GetType().Name}");
             }
-            //can only be one string_obj node so just a visit
+
             Visit(node.Right);
+
+            code.Add("\n printf(\"\\n\\n /> \");" +
+             $"\n    memset({left}, 0, 51);" +
+             $"\n    COMPILER_TOOL_GET_STRING_INPUT({left});");
             return "";
         }
 

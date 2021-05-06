@@ -257,8 +257,7 @@ Location Hvidovre = {
 			    Text "Aaaand its gone...";
 		    }
 	    }
-        "level up troll" {player.trollLevel += 1;}
-        "level down troll" {player.trollLevel -= 1;}
+        "change name" {player.name = userInput "Type new name..";}
         "get jay" {player.joints += 1;}
         "lose jay" {player.joints -= 1;}
         "Goto Lokale" {Travel Lokale;}
