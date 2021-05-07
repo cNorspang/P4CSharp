@@ -9,10 +9,12 @@ setup{
         Shop -> Street;
         Old_Castle -> Forrest, Bed_Room, Dining_Room, Basement;
 	Bed_Room -> Behind_the_bed, Old_castle;
-	Basement-> Basement;
+	Basement-> DeathEnd;
 	Dining_Room-> Old_castle;
 	House -> Basement, Field;
-	FightTheDragon -> FightTheDragon;
+	FightTheDragon -> DeathEnd, TheEnd;
+	TheEnd -> TheEnd;
+	DeathEnd -> DeathEnd;
 	} 
 player = {
 	string name = "Geralt of Revia";
@@ -28,7 +30,7 @@ player = {
 	bool regular_sword = true;
 
 	int THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE = 1;
-	bool THE_GREAT_SWORD_OF_THE_OLD_ONE = true;
+	bool THE_GREAT_SWORD_OF_THE_OLD_ONE = false;
 
 	bool Boost_of_internal_power_for_one_attack = true;
 	bool VisitedBar = false;
@@ -36,6 +38,7 @@ player = {
 	bool VisitedShop = false;
 	bool VisitedGarden = false;
 	bool VisitedForrest = false;
+	bool VisitedField = false;
 	bool right_answer = false;
 	int The_dragon_of_smaguron_health = 1000;
 	int The_dragon_of_smaguron_damage = 1;
@@ -275,11 +278,93 @@ Location Forrest = {
 	
 
 }
+Location Field = {
+	Text "There is so beautiful here";
+	Text "sometimes i wonder what is the purpose of life is when I look over this field... hmm";
+	Text "Well this is a good place to take a nap before moving on";
+	Text "But then again I am a busy " + player.name + " so... what to do hmmm...";
+	bool bad = false;
+	choice{
+		"A tired person" {
+			Text "ZZZzzzZZZzzz .... ZZZzzzZZZzzz";
+			Text "VOICE IN HEAD: You will never find the dragon in this area... the life of yours, is no longer in your hands";
+			Text "VOICE IN HEAD: Do you believe in faith... believe in quality of life in all lifeforms..?";
+			choice{
+				"Yes i do... maybe my purpose is not to kill but to love"{Text "VOICE IN HEAD: :-)"; player.Health_point = 100;}
+				"No.. life is meaningless, no matter the form or age... all shall die by my hand"{Text "VOICE IN HEAD: :-/"; player.regular_sword = false; bad = true;}
+			}
+			Text "AHH!...... hmmm, the dreams keeps getting worse, hopefully i didnt do anything stupid like saying No in a dream...";
+			if(bad is true){
+				Text "That would make me lose something on me of value... like a potion or my swor-.....";
+				Text "where is my sword... hmmm";
+				Text "hmmmm....."; 
+				Text "Well... i hope i find something else to fight with... or else im a bad " + player.name;
+			}else{
+				Text "good thing i said Yes then... I still have all my belongings.. hmmm";
+				Text "I love this game";
+			}
+			Text "well lets get going... where to hmmm...";
+			choice{
+				"There is a house... maybe there is something useful inside there hmmm.."{Text "To the house"; Travel House;}
+				"The street is still visible from here... maybe I am still a chicken... hmm.."{Text "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!"; Travel Street;}
+				"Maybe the forrest can give me something... hmm the old castle there"{Text "back to the forrest... hmm"; Travel Forrest;}
+			}
+		}
+		"A fresh person"{
+			Text "I am good to go and want to move to other places, since the drake is not here or else the writer would have made it appear..";
+			Text "let me see... hmm...";
+			choice{
+				"There is a house... maybe there is something useful inside there hmmm.."{Text "To the house"; Travel House;}
+				"The street is still visible from here... maybe I am still a chicken... hmm.."{Text "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!"; Travel Street;}
+				"Maybe the forrest can give me something... hmm the old castle there"{Text "back to the forrest... hmm"; Travel Forrest;}
+			}
+		}
+	}
+}
 
-Location Field = {int a = 1;}
+Location House = {
+	Text "The house is an old house... might be cursed... hmm";
+	Text "I feel the urge for not going down in the basement... but there could also be some good booty down there... hmm";
+	Text "what should i do..."; 
+	choice{
+		"hmm... I am " + player.name + "... I am not afraid for going down in the basement"{
+			Text "DARK VOICE: 'are you sure that is what you want?'";
+			choice{
+				"YES BRING IT ON!!!!! ARHHH"{Text "DARK VOICE: SO BE IT..."; Travel Basement;}
+				"NO DONT BRING IT ON IHHHH"{Text "DARK VOICE: good choice... NOW LEAVE!!!!!!!!!"; Text "uhhh im running!"; Travel Field;}
+			}
+		 }
+		 "hmm there is nothing in this house, and that basement is not worth it... i want to live to fight the dragon..."{Travel Field;}
+	}
+}
+
+
+Location Basement = {
+	Text "*****REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*****";
+	Text "*INTERNAL DARKNESS*";
+	Text "Do have any regrets... should i have killed the BARTENDER... would I have ever met the dragon... does soya taste good on eggs...";
+	Text "this is the e-";
+	Travel DeathEnd;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 Location Old_Castle = {int a = 1;}
 Location Bed_Room = {int a = 1;}
-Location Basement = {int a = 1;}
 Location Dining_Room = {int a = 1;}
-Location House = {int a = 1;}
 Location FightTheDragon = {int a = 1;}
+Location DeathEnd = {
+	Text "GOD (yes.... he is existing): You died... hmm";
+	Travel DeathEnd;
+}
+Location TheEnd = {int a = 1;}
