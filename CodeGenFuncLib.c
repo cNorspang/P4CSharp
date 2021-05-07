@@ -52,6 +52,7 @@ void COMPILER_TOOL_PRINT_CHOICE(int id, char option[256]){
 char* COMPILER_TOOL_GET_STRING_INPUT(char * buf){
     char name[50];
     fgets(name, 50, stdin);
+    name[strcspn(name, "\r\n")] = 0; 
     strncpy(buf, name, 50);
     return name;
 }

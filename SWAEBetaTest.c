@@ -31,6 +31,7 @@ void COMPILER_TOOL_WAIT_FOR_INPUT(){ printf("\n"); char c = getch();}
 char* COMPILER_TOOL_GET_STRING_INPUT(char * buf){
     char name[50];
     fgets(name, 50, stdin);
+    name[strcspn(name, "\r\n")] = 0;
     strncpy(buf, name, 50); 
     return name; 
 }
@@ -91,13 +92,13 @@ void DEFINED_LOCATION_Start(){
 
     printf("\n2. nah"); 
 
-    int USER_CHOICE_INPUT_82Cq3UeR = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_YHP6EzY = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_82Cq3UeR == 1){
+  if (USER_CHOICE_INPUT_YHP6EzY == 1){
     PLAYER_STRUCT.joints+=1;
   }
 
-  if (USER_CHOICE_INPUT_82Cq3UeR == 2){
+  if (USER_CHOICE_INPUT_YHP6EzY == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "..aight cool. Goodnight then.\n\n If you need a bed try Hvidovre");
@@ -129,16 +130,16 @@ void DEFINED_LOCATION_Lokale(){
 
     printf("\n4. See what the noise in the back is."); 
 
-    int USER_CHOICE_INPUT_HMByEr02 = COMPILER_TOOL_GET_INPUT(4);
+    int USER_CHOICE_INPUT_B0vJRmQB = COMPILER_TOOL_GET_INPUT(4);
 
-  if (USER_CHOICE_INPUT_HMByEr02 == 1){
+  if (USER_CHOICE_INPUT_B0vJRmQB == 1){
 
 DEFINED_LOCATION_TheFuckeNing();
   }
 
  if (PLAYER_STRUCT.gotDealer == false){
 
-  if (USER_CHOICE_INPUT_HMByEr02 == 2){
+  if (USER_CHOICE_INPUT_B0vJRmQB == 2){
     PLAYER_STRUCT.gotDealer = true;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -146,11 +147,11 @@ DEFINED_LOCATION_TheFuckeNing();
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
- } else if (USER_CHOICE_INPUT_HMByEr02 == 2) { USER_CHOICE_INPUT_HMByEr02 = 3; } 
+ } else if (USER_CHOICE_INPUT_B0vJRmQB == 2) { USER_CHOICE_INPUT_B0vJRmQB = 3; } 
 
  if (PLAYER_STRUCT.gotDealer){
 
-  if (USER_CHOICE_INPUT_HMByEr02 == 3){
+  if (USER_CHOICE_INPUT_B0vJRmQB == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "The Hippie sees you.\n ~ yo, the deal is blood for ju\n you in?");
@@ -160,9 +161,9 @@ DEFINED_LOCATION_TheFuckeNing();
 
     printf("\n2. nah im good"); 
 
-    int USER_CHOICE_INPUT_FHNh8Udu = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_ArS1jPJX = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_FHNh8Udu == 1){
+  if (USER_CHOICE_INPUT_ArS1jPJX == 1){
     PLAYER_STRUCT.health-=5;
     PLAYER_STRUCT.joints+=1;
 
@@ -171,7 +172,7 @@ DEFINED_LOCATION_TheFuckeNing();
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_FHNh8Udu == 2){
+  if (USER_CHOICE_INPUT_ArS1jPJX == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "Cool. you ");
@@ -180,9 +181,9 @@ DEFINED_LOCATION_TheFuckeNing();
 
   }
 
- } else if (USER_CHOICE_INPUT_HMByEr02 == 3) { USER_CHOICE_INPUT_HMByEr02 = 4; } 
+ } else if (USER_CHOICE_INPUT_B0vJRmQB == 3) { USER_CHOICE_INPUT_B0vJRmQB = 4; } 
 
-  if (USER_CHOICE_INPUT_HMByEr02 == 4){
+  if (USER_CHOICE_INPUT_B0vJRmQB == 4){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "Welp its a troll.");
@@ -205,9 +206,9 @@ void DEFINED_LOCATION_TheFuckeNing(){
 
     printf("\n2. uhm.. what?"); 
 
-    int USER_CHOICE_INPUT_KZG3mECq = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_QJ8vaDE4 = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_KZG3mECq == 1){
+  if (USER_CHOICE_INPUT_QJ8vaDE4 == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "She drags you in..");
@@ -227,9 +228,9 @@ void DEFINED_LOCATION_TheFuckeNing(){
 
     printf("\n4. Nap"); 
 
-    int USER_CHOICE_INPUT_uFc1Jn1i = COMPILER_TOOL_GET_INPUT(4);
+    int USER_CHOICE_INPUT_WUBC4xD7 = COMPILER_TOOL_GET_INPUT(4);
 
-  if (USER_CHOICE_INPUT_uFc1Jn1i == 1){
+  if (USER_CHOICE_INPUT_WUBC4xD7 == 1){
     i+=1;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -237,7 +238,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_uFc1Jn1i == 2){
+  if (USER_CHOICE_INPUT_WUBC4xD7 == 2){
     i+=1;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -245,7 +246,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_uFc1Jn1i == 3){
+  if (USER_CHOICE_INPUT_WUBC4xD7 == 3){
     i+=1;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -253,7 +254,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_uFc1Jn1i == 4){
+  if (USER_CHOICE_INPUT_WUBC4xD7 == 4){
     i+=1;
     PLAYER_STRUCT.health+=1;
 
@@ -272,7 +273,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     PLAYER_STRUCT.hasSword = true;
   }
 
-  if (USER_CHOICE_INPUT_KZG3mECq == 2){
+  if (USER_CHOICE_INPUT_QJ8vaDE4 == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", " ~ Not a man of the night, I see. \nShe turn around..");
@@ -302,9 +303,9 @@ void DEFINED_LOCATION_Slottet(){
 
   if (PLAYER_STRUCT.hasSword) printf("\n3. Swing your Sword!"); 
 
-    int USER_CHOICE_INPUT_ntHB92HN = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_VKBt2rRn = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_ntHB92HN == 1){
+  if (USER_CHOICE_INPUT_VKBt2rRn == 1){
     enemy_health-=roll;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -314,7 +315,7 @@ void DEFINED_LOCATION_Slottet(){
 
  if (PLAYER_STRUCT.joints > 0){
 
-  if (USER_CHOICE_INPUT_ntHB92HN == 2){
+  if (USER_CHOICE_INPUT_VKBt2rRn == 2){
     PLAYER_STRUCT.health+=15;
     PLAYER_STRUCT.joints-=1;
 
@@ -323,11 +324,11 @@ void DEFINED_LOCATION_Slottet(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
- } else if (USER_CHOICE_INPUT_ntHB92HN == 2) { USER_CHOICE_INPUT_ntHB92HN = 3; } 
+ } else if (USER_CHOICE_INPUT_VKBt2rRn == 2) { USER_CHOICE_INPUT_VKBt2rRn = 3; } 
 
  if (PLAYER_STRUCT.hasSword){
 
-  if (USER_CHOICE_INPUT_ntHB92HN == 3){
+  if (USER_CHOICE_INPUT_VKBt2rRn == 3){
     enemy_health-=lroll;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -335,7 +336,7 @@ void DEFINED_LOCATION_Slottet(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
- } else if (USER_CHOICE_INPUT_ntHB92HN == 3) { USER_CHOICE_INPUT_ntHB92HN = 4; } 
+ } else if (USER_CHOICE_INPUT_VKBt2rRn == 3) { USER_CHOICE_INPUT_VKBt2rRn = 4; } 
 
   if (enemy_health<=0) {
 
@@ -406,14 +407,14 @@ void DEFINED_LOCATION_DragonFight(){
 
   if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == true) printf("\n5. Attack with the Great old Sword!"); 
 
-    int USER_CHOICE_INPUT_TRGJUNrM = COMPILER_TOOL_GET_INPUT(5);
+    int USER_CHOICE_INPUT_e2RQgTNz = COMPILER_TOOL_GET_INPUT(5);
 
-  if (USER_CHOICE_INPUT_TRGJUNrM == 1){
+  if (USER_CHOICE_INPUT_e2RQgTNz == 1){
 
 DEFINED_LOCATION_Hvidovre();
   }
 
-  if (USER_CHOICE_INPUT_TRGJUNrM == 2){
+  if (USER_CHOICE_INPUT_e2RQgTNz == 2){
     roll=Random_Int_Num(3, 8);
     PLAYER_STRUCT.The_dragon_of_smaguron_health-=roll;
 
@@ -425,7 +426,7 @@ DEFINED_LOCATION_Hvidovre();
 
  if (PLAYER_STRUCT.regular_sword){
 
-  if (USER_CHOICE_INPUT_TRGJUNrM == 3){
+  if (USER_CHOICE_INPUT_e2RQgTNz == 3){
     roll=Random_Int_Num(PLAYER_STRUCT.regular_sword_damage-3, PLAYER_STRUCT.regular_sword_damage+3);
     PLAYER_STRUCT.The_dragon_of_smaguron_health-=roll;
 
@@ -435,11 +436,11 @@ DEFINED_LOCATION_Hvidovre();
     PLAYER_STRUCT.GreatSwordReady = false;
   }
 
- } else if (USER_CHOICE_INPUT_TRGJUNrM == 3) { USER_CHOICE_INPUT_TRGJUNrM = 4; } 
+ } else if (USER_CHOICE_INPUT_e2RQgTNz == 3) { USER_CHOICE_INPUT_e2RQgTNz = 4; } 
 
  if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == false){
 
-  if (USER_CHOICE_INPUT_TRGJUNrM == 4){
+  if (USER_CHOICE_INPUT_e2RQgTNz == 4){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s%s", "When hand comes to hilt, question comes to heart, from soul is given heaven's answer\n via either divine balancing scale or sword.", "For there is either hope, or there is not,\n and one way or another, suffering must end.");
@@ -447,11 +448,11 @@ DEFINED_LOCATION_Hvidovre();
     PLAYER_STRUCT.GreatSwordReady = true;
   }
 
- } else if (USER_CHOICE_INPUT_TRGJUNrM == 4) { USER_CHOICE_INPUT_TRGJUNrM = 5; } 
+ } else if (USER_CHOICE_INPUT_e2RQgTNz == 4) { USER_CHOICE_INPUT_e2RQgTNz = 5; } 
 
  if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == true){
 
-  if (USER_CHOICE_INPUT_TRGJUNrM == 5){
+  if (USER_CHOICE_INPUT_e2RQgTNz == 5){
     roll=Random_Int_Num(PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE-13, PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE+13);
     PLAYER_STRUCT.The_dragon_of_smaguron_health-=roll;
 
@@ -461,7 +462,7 @@ DEFINED_LOCATION_Hvidovre();
     PLAYER_STRUCT.GreatSwordReady = false;
   }
 
- } else if (USER_CHOICE_INPUT_TRGJUNrM == 5) { USER_CHOICE_INPUT_TRGJUNrM = 6; } 
+ } else if (USER_CHOICE_INPUT_e2RQgTNz == 5) { USER_CHOICE_INPUT_e2RQgTNz = 6; } 
 
   if (PLAYER_STRUCT.The_dragon_of_smaguron_health<=0) {
 
@@ -486,9 +487,9 @@ DEFINED_LOCATION_Hvidovre();
 
     printf("\n2. Not yet"); 
 
-    int USER_CHOICE_INPUT_chf6fOdK = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_BpwVPsM2 = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_chf6fOdK == 1){
+  if (USER_CHOICE_INPUT_BpwVPsM2 == 1){
   if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE) {
 
     COMPILER_TOOL_PRINT_TUI();
@@ -526,7 +527,7 @@ DEFINED_LOCATION_Hvidovre();
 
   }
 
-  if (USER_CHOICE_INPUT_chf6fOdK == 2){
+  if (USER_CHOICE_INPUT_BpwVPsM2 == 2){
     PLAYER_STRUCT.The_dragon_of_smaguron_health-=1;
   }
 
@@ -542,9 +543,9 @@ DEFINED_LOCATION_Hvidovre();
 
     printf("\n2. Catch your breath instead"); 
 
-    int USER_CHOICE_INPUT_bZM5z7wN = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_9W3HM5M = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_bZM5z7wN == 1){
+  if (USER_CHOICE_INPUT_9W3HM5M == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s%d%s", "You slice open a fresh wound and deal ", roll, " damage");
@@ -552,7 +553,7 @@ DEFINED_LOCATION_Hvidovre();
     PLAYER_STRUCT.The_dragon_of_smaguron_health-=roll;
   }
 
-  if (USER_CHOICE_INPUT_bZM5z7wN == 2){
+  if (USER_CHOICE_INPUT_9W3HM5M == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "You catch your breath and feel the second wind.\n\nJust in time for the dragon again facing you");
@@ -653,17 +654,17 @@ void DEFINED_LOCATION_Hvidovre(){
 
     printf("\n8. dragonfight Menu"); 
 
-    int USER_CHOICE_INPUT_wvqvCOe3 = COMPILER_TOOL_GET_INPUT(8);
+    int USER_CHOICE_INPUT_E4hJkx3X = COMPILER_TOOL_GET_INPUT(8);
 
-  if (USER_CHOICE_INPUT_wvqvCOe3 == 1){
+  if (USER_CHOICE_INPUT_E4hJkx3X == 1){
     PLAYER_STRUCT.health=1;
   }
 
-  if (USER_CHOICE_INPUT_wvqvCOe3 == 2){
+  if (USER_CHOICE_INPUT_E4hJkx3X == 2){
     PLAYER_STRUCT.health=Random_Int_Num(2, 100);
   }
 
-  if (USER_CHOICE_INPUT_wvqvCOe3 == 3){
+  if (USER_CHOICE_INPUT_E4hJkx3X == 3){
   if (PLAYER_STRUCT.hasSword == false) {
     PLAYER_STRUCT.hasSword = true;
 
@@ -681,7 +682,9 @@ void DEFINED_LOCATION_Hvidovre(){
 
   }
 
-  if (USER_CHOICE_INPUT_wvqvCOe3 == 4){
+  if (USER_CHOICE_INPUT_E4hJkx3X == 4){
+
+    printf("%s", "Type new name..");
 
  printf("\n\n /> ");
     memset(PLAYER_STRUCT.name, 0, 51);
@@ -689,20 +692,20 @@ void DEFINED_LOCATION_Hvidovre(){
 
   }
 
-  if (USER_CHOICE_INPUT_wvqvCOe3 == 5){
+  if (USER_CHOICE_INPUT_E4hJkx3X == 5){
     PLAYER_STRUCT.joints+=1;
   }
 
-  if (USER_CHOICE_INPUT_wvqvCOe3 == 6){
+  if (USER_CHOICE_INPUT_E4hJkx3X == 6){
     PLAYER_STRUCT.joints-=1;
   }
 
-  if (USER_CHOICE_INPUT_wvqvCOe3 == 7){
+  if (USER_CHOICE_INPUT_E4hJkx3X == 7){
 
 DEFINED_LOCATION_Lokale();
   }
 
-  if (USER_CHOICE_INPUT_wvqvCOe3 == 8){
+  if (USER_CHOICE_INPUT_E4hJkx3X == 8){
 
     printf("\n1. <- back"); 
 
@@ -712,13 +715,13 @@ DEFINED_LOCATION_Lokale();
 
     printf("\n4. Goto DragonFight"); 
 
-    int USER_CHOICE_INPUT_3lOo8rXb = COMPILER_TOOL_GET_INPUT(4);
+    int USER_CHOICE_INPUT_ggblBVrx = COMPILER_TOOL_GET_INPUT(4);
 
-  if (USER_CHOICE_INPUT_3lOo8rXb == 1){
+  if (USER_CHOICE_INPUT_ggblBVrx == 1){
     int i=0;
   }
 
-  if (USER_CHOICE_INPUT_3lOo8rXb == 2){
+  if (USER_CHOICE_INPUT_ggblBVrx == 2){
   if (PLAYER_STRUCT.regular_sword == false) {
     PLAYER_STRUCT.regular_sword = true;
 
@@ -736,7 +739,7 @@ DEFINED_LOCATION_Lokale();
 
   }
 
-  if (USER_CHOICE_INPUT_3lOo8rXb == 3){
+  if (USER_CHOICE_INPUT_ggblBVrx == 3){
   if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE == false) {
     PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE = true;
 
@@ -754,7 +757,7 @@ DEFINED_LOCATION_Lokale();
 
   }
 
-  if (USER_CHOICE_INPUT_3lOo8rXb == 4){
+  if (USER_CHOICE_INPUT_ggblBVrx == 4){
 
 DEFINED_LOCATION_DragonFight();
   }

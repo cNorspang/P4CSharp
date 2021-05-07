@@ -75,6 +75,7 @@ namespace SWAE.CodeGen
             code.Add("\nchar* COMPILER_TOOL_GET_STRING_INPUT(char * buf){"+
                     "\n    char name[50];"+
                     "\n    fgets(name, 50, stdin);" +
+                    "\n    name[strcspn(name, \"\\r\\n\")] = 0;" +
                     "\n    strncpy(buf, name, 50); " +
                     "\n    return name; " +
                     "\n}\n");
@@ -602,7 +603,7 @@ namespace SWAE.CodeGen
                 case ExpressionNode exprNode:
                     right = Visit(exprNode);
                     break;
-                case InputStatementNode inputNode:
+                case InputStatementNode inputNode: //i dont thinkt this does anything
                     right = Visit(inputNode);
                     break;
             }
@@ -673,7 +674,7 @@ namespace SWAE.CodeGen
                     throw new BennoException($"### ERROR InputAssignNode => {node.Left.GetType().Name}");
             }
 
-            Visit(node.Right);
+            code.Add(Visit(node.Right));
 
             code.Add("\n printf(\"\\n\\n /> \");" +
              $"\n    memset({left}, 0, 51);" +

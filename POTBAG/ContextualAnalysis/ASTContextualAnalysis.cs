@@ -163,7 +163,6 @@ namespace SWAE.ContextualAnalysis
                 {
                     case DotNotationNode dotNode:
                         Visit(dotNode);
-                        //TODO: Fejlen sker her - Vi skal få TypeOf et eller andet sted fra
                         Type type = st.ResolvePlayerVariable(dotNode.variableName, true).GetSymbolType();
                         if (type != typeof(string) && type != typeof(int))
                             st.ResolvePlayerVariable(dotNode.variableName, typeof(string), true);
@@ -201,18 +200,21 @@ namespace SWAE.ContextualAnalysis
                 {
                     case DotNotationNode dotNode:
                         Visit(dotNode);
-                        st.ResolvePlayerVariable(dotNode.variableName, typeof(string), false);
+                        Type type = st.ResolvePlayerVariable(dotNode.variableName, true).GetSymbolType();
+                        if (type != typeof(string) && type != typeof(int))
+                            st.ResolvePlayerVariable(dotNode.variableName, typeof(string), true);
                         break;
                     case variableNode varNode:
                         Visit(varNode);
-                        //Validate variable
-                        st.CurrentScope().Resolve(varNode.variableName, typeof(string), false);
+                        Type typee = st.CurrentScope().Resolve(varNode.variableName, true).GetSymbolType();
+                        if (typee != typeof(string) && typee != typeof(int))
+                            st.CurrentScope().Resolve(varNode.variableName, typeof(string), true);
                         break;
                     case stringNode strNode:
                         Visit(strNode);
                         break;
                     default:
-                        throw new BennoException($"### ERROR InputStatementNode => {node.GetType().Name}");
+                        throw new BennoException($"### ERROR TextStatementNode => {node.GetType().Name}");
                 }
             }
             return true;
@@ -609,7 +611,6 @@ namespace SWAE.ContextualAnalysis
         }
 
         
-        //TODO: Jeg har brug for en voksens hjælp
         public override object Visit(DotNotationNode node)
         {
             return true;
