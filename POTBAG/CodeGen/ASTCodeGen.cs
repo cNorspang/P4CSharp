@@ -91,6 +91,35 @@ namespace SWAE.CodeGen
             return Regex.Replace(id, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
         }
 
+        private string FormatTextToPrint(string linesToPrint)
+        {
+            //linesToPrint = linesToPrint.Replace("\t", "");
+            linesToPrint = linesToPrint.Replace("\n", "\\n");
+            //linesToPrint = linesToPrint.Replace("\n", "\"\"");
+
+            linesToPrint = linesToPrint.Replace("\'", "\\\'");
+
+            int len = linesToPrint.ToCharArray().Length;
+            int screenLength = 75; //max screen length
+            int count = 0;
+            bool inString = false;
+            char[] toPrintCharArr = linesToPrint.ToCharArray();
+
+            for (int i = 0; i < len; i++, count++)
+            {
+                if (toPrintCharArr[i] == '\n')
+                    count = 0;
+                else if (inString == true && count > screenLength && toPrintCharArr[i] == ' ')
+                {
+                    linesToPrint = linesToPrint.Insert(i, "\\n");
+                    count = 0;
+                }
+                else if (toPrintCharArr[i] == '\"')
+                    inString = inString ? false : true;
+            }
+            return linesToPrint.Replace("\\n ", "\\n");
+        }
+
         public override string Visit(List<ProgNode> node)
         {
             string addToCode = "";
@@ -257,10 +286,7 @@ namespace SWAE.CodeGen
                 }
             }
 
-            //linesToPrint = linesToPrint.Replace("\t", "");
-            //linesToPrint = linesToPrint.Replace("\\n", "\\n");
-            //linesToPrint = linesToPrint.Replace("\n", "\"\"");
-            
+            linesToPrint = FormatTextToPrint(linesToPrint);
 
 
             return codeStr + typeToPrint + "\"" + linesToPrint + ");\n    COMPILER_TOOL_WAIT_FOR_INPUT();";
@@ -298,6 +324,7 @@ namespace SWAE.CodeGen
                         throw new BennoException($"### ERROR TextStatementNode => {node.GetType().Name}");
                 }
             }
+            linesToPrint = FormatTextToPrint(linesToPrint);
 
             return codeStr + typeToPrint + "\"" + linesToPrint + ");";
         }
@@ -489,7 +516,7 @@ namespace SWAE.CodeGen
                     code.Add("\n  if ("+Visit(item.predicate)+") printf(\"\\n" + $"{++id}. " + Visit(item.Left).Replace("\"", string.Empty) + "\"); ");
                 else
                 {
-                    code.Add("\n    printf(\"\\n" + $"{++id}. " + Visit(item.Left).Replace("\"", string.Empty) + "\"); ");
+                    code.Add("\n    printf(\"\\n" + $"{++id}. " + FormatTextToPrint(Visit(item.Left).Replace("\"", string.Empty)) + "\"); ");
                 }
                 
             }

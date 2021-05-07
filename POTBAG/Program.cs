@@ -15,7 +15,8 @@ namespace SWAE
         static void Main(string[] args)
         {
             //string fileName = "UpdatedPseudoDrageCodeGenTest";
-            string fileName = "SWAEBetaTest";
+            //string fileName = "SWAEBetaTest";
+            string fileName = "THEDRAGONOFSMAGORUN";
             const bool debug = true; 
             string stream = FileHandler.readFromInputStream(fileName+".txt");
 

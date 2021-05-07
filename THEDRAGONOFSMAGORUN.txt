@@ -23,8 +23,13 @@ player = {
 	int potion_amount = 0;
 	int potion_health = 100;
 	int counter = 0;
-	int regualer_sword = 1;
-	int THE_GREAT_SWORD_OF_THE_OLD_ONE = 1;
+
+	int regular_sword_damage = 10;
+	bool regular_sword = true;
+
+	int THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE = 1;
+	bool THE_GREAT_SWORD_OF_THE_OLD_ONE = true;
+
 	bool Boost_of_internal_power_for_one_attack = true;
 	bool VisitedBar = false;
 	bool VisitedCastle = false;
@@ -64,8 +69,8 @@ Location The_local_pub = {
 }
 
 Location Garden = {
+	int money_on_people = Roll(1,15);
 	if( player.VisitedGarden is false){
-		int money_on_people = Roll(1,15);
 		player.VisitedGarden = true;
 		Text "Where.... Where am i???.... fuck i passed out again ";
 		Text "Hmmmm.... I lost some money, but there are other drunk people here, sooo...";
@@ -95,7 +100,7 @@ Location Garden = {
 	}
 		Text "well better get going... the Bar is a good place";
 		Text "fuck i mean hmmmmm... (well better get going... the Bar is a good place)";
-		Travel bar;
+		Travel Bar;
 }
 
 Location Bar = {
@@ -126,13 +131,13 @@ Location Bar = {
 					"hmm... these women you speak of doesn't sound to bad"{Text "congratulations... you played yourself for some virtual punani... now lost 2 gold"; player.Gold -= 2;}
 					"hmm... more beer"{Text "more beer costs more than just 1 gold... remember that..."; player.Gold -= 1; player.Health_point -= 5;}
 					"hmm... tell me about that dragon again..."{
-						Text "BARTENDER: Once upon a time, there was a cold hearted, backstabbing dragon that was
-						so mean and ugly. He loved to travel to the human world and snatch little
-						kids out of their beds while they were sleeping, and he would drop them
-						down his green tortoise throat. Now back in those days all the kids would
-						sit in his stomach and cry, 'Let us out, Let us out!!' Of course he would not
-						let them out, but sometimes a brave little soul would travel the long journey
-						till he plopped out the other end.";
+						Text "BARTENDER: Once upon a time, there was a cold hearted, backstabbing dragon that was"+
+						"so mean and ugly. He loved to travel to the human world and snatch little"+
+						"kids out of their beds while they were sleeping, and he would drop them"+
+						"down his green tortoise throat. Now back in those days all the kids would"+
+						"sit in his stomach and cry, 'Let us out, Let us out!!' Of course he would not"+
+						"let them out, but sometimes a brave little soul would travel the long journey"+
+						"till he plopped out the other end.";
 						Text "what is that?? tell me the real story... hmm";
 						Text "BARTENDER: Now there was a little girl named Susie who had heard about this evil
 						dragon, and wanted to see for herself that he was real. So one night she
@@ -187,8 +192,8 @@ Location Bar = {
 						Text "...";
 						Text "BARTENDER: There is a dragon with a lot of health in the forrest might wanna do some damage to the dragon and saving this town..";
 						Text "BARTENDER: Might wanna shop before killing it i guess...";
-						player.regualer_sword =12;
-						Text "current health, damage and gold... " + player.Health_point + " | " + player.regualer_sword + " | " + player.Gold;
+						player.regular_sword_damage = 12;
+						Text "current health, damage and gold... " + player.Health_point + " | " + player.regular_sword_damage + " | " + player.Gold;
 						Text "I might gonna go to the street, then I decide what i want to do... hmm";
 						player.right_answer = true;
 						Travel Street;
@@ -201,8 +206,8 @@ Location Bar = {
 }
 
 Location Street = {
-	Text " You are now on the street in the town known as HONEYWOOD... (ironic init HA HA :-)";
-	Text " from here you can travel to THE FORREST, THE BAR (again) OR THE SHOP, where would you like to go " + player.name;
+	Text "You are now on the street in the town known as HONEYWOOD... (ironic init HA HA :-)";
+	Text "From here you can travel to THE FORREST, THE BAR (again) OR THE SHOP, where would you like to go " + player.name;
 	choice{
 		"travel to the forrest, i will hmmm..."{Travel Forrest;}
 		"travel to the bar, hmmm... women and beer is still good"{Travel Bar;}
@@ -232,7 +237,7 @@ Location Shop = {
 	choice{
 		"... (buy some potions)"{
 			if(player.Gold >= 10){
-				Text "potions? hmmm"; Text "here"; player.potion_amount +=1; player.Gold -= 10; Text "current gold: " + player.gold + " Im leaving, might come back for more... hmm"; Travel Street;
+				Text "potions? hmmm"; Text "here"; player.potion_amount +=1; player.Gold -= 10; Text "current gold: " + player.Gold + " Im leaving, might come back for more... hmm"; Travel Street;
 			}else{
 				Text " HEHEHE you have no power here...	LEAVE MY SHOP!!!"; Travel Street;
 			}
@@ -240,7 +245,7 @@ Location Shop = {
 		}
 		"... (buy some bandages)"{
 			if(player.Gold >= 3){
-				Text "bandage? hmm"; Text "here"; player.bandage_amount +=1; player.Gold -=3; Text "current gold: " + player.gold + " Im leaving, might come back for more... hmm"; Travel Street;
+				Text "bandage? hmm"; Text "here"; player.bandage_amount +=1; player.Gold -=3; Text "current gold: " + player.Gold + " Im leaving, might come back for more... hmm"; Travel Street;
 			}else{
 				Text " HEHEHE you have no power here...	LEAVE MY SHOP!!!"; Travel Street;
 			}
@@ -264,8 +269,8 @@ Location Forrest = {
 	}
 	choice{
 		"I will go north... to the field"{Travel Field;}
-		"I will search in the old, dark, very very scary castle.. hmmm (nervous hmmm)"{Travel Old_Castle}
-		"hmmm...I am a chicken... I go back to the town..."{ Text "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!" Travel Street};
+		"I will search in the old, dark, very very scary castle.. hmmm (nervous hmmm)"{Travel Old_Castle;}
+		"hmmm...I am a chicken... I go back to the town..."{ Text "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!"; Travel Street;}
 	}
 	
 
@@ -277,3 +282,4 @@ Location Bed_Room = {int a = 1;}
 Location Basement = {int a = 1;}
 Location Dining_Room = {int a = 1;}
 Location House = {int a = 1;}
+Location FightTheDragon = {int a = 1;}
