@@ -134,13 +134,12 @@ Location Bar = {
 					"hmm... these women you speak of doesn't sound to bad"{Text "congratulations... you played yourself for some virtual punani... now lost 2 gold"; player.Gold -= 2;}
 					"hmm... more beer"{Text "more beer costs more than just 1 gold... remember that..."; player.Gold -= 1; player.Health_point -= 5;}
 					"hmm... tell me about that dragon again..."{
-						Text "BARTENDER: Once upon a time, there was a cold hearted, backstabbing dragon that was"+
-						"so mean and ugly. He loved to travel to the human world and snatch little"+
-						"kids out of their beds while they were sleeping, and he would drop them"+
-						"down his green tortoise throat. Now back in those days all the kids would"+
-						"sit in his stomach and cry, 'Let us out, Let us out!!' Of course he would not"+
-						"let them out, but sometimes a brave little soul would travel the long journey"+
-						"till he plopped out the other end.";
+						Text "BARTENDER: Once upon a time, there was a cold hearted, backstabbing dragon that was so mean and ugly. He loved to travel to the human world and snatch little
+						kids out of their beds while they were sleeping, and he would drop them
+						down his green tortoise throat. Now back in those days all the kids would
+						sit in his stomach and cry, 'Let us out, Let us out!!' Of course he would not
+						let them out, but sometimes a brave little soul would travel the long journey
+						till he plopped out the other end.";
 						Text "what is that?? tell me the real story... hmm";
 						Text "BARTENDER: Now there was a little girl named Susie who had heard about this evil
 						dragon, and wanted to see for herself that he was real. So one night she
@@ -227,12 +226,12 @@ Location Street = {
 Location Shop = {
 	if(player.VisitedShop is false){
 		Text "SHOP OWNER:	Hello " + player.name + " what can i get for you?   ";
-	Text "hmmm... hello Emperor... i need something from you";
-	Text "SHOP OWNER:	YEEEEEEES..... that is why you are here?";
-	Text "hmmm....";
-	Text "SHOP OWNER: ....";
-	Text "....";
-	player.VisitedShop = true;
+		Text "hmmm... hello Emperor... i need something from you";
+		Text "SHOP OWNER:	YEEEEEEES..... that is why you are here?";
+		Text "hmmm....";
+		Text "SHOP OWNER: ....";
+		Text "....";
+		player.VisitedShop = true;
 	}
 	else{
 		Text "UNLIMITED ITEMS... what do you want to buy?";
@@ -327,7 +326,7 @@ Location House = {
 	Text "I feel the urge for not going down in the basement... but there could also be some good booty down there... hmm";
 	Text "what should i do..."; 
 	choice{
-		"hmm... I am " + player.name + "... I am not afraid for going down in the basement"{
+		"hmm... I am not afraid for going down in the basement"{
 			Text "DARK VOICE: 'are you sure that is what you want?'";
 			choice{
 				"YES BRING IT ON!!!!! ARHHH"{Text "DARK VOICE: SO BE IT..."; Travel Basement;}

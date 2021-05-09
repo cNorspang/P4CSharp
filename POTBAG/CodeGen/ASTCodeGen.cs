@@ -93,31 +93,38 @@ namespace SWAE.CodeGen
 
         private string FormatTextToPrint(string linesToPrint)
         {
+            const string reduceMultiSpace = @"[ ]{2,}";
+            linesToPrint = Regex.Replace(linesToPrint.Replace("\t", " "), reduceMultiSpace, " ");
             //linesToPrint = linesToPrint.Replace("\t", "");
-            linesToPrint = linesToPrint.Replace("\n", "\\n");
             //linesToPrint = linesToPrint.Replace("\n", "\"\"");
 
             linesToPrint = linesToPrint.Replace("\'", "\\\'");
 
-            int len = linesToPrint.ToCharArray().Length;
-            int screenLength = 75; //max screen length
+            int screenLength = 78; //max screen length
             int count = 0;
             bool inString = false;
             char[] toPrintCharArr = linesToPrint.ToCharArray();
-
+            int len = toPrintCharArr.Length;
+           
             for (int i = 0; i < len; i++, count++)
             {
                 if (toPrintCharArr[i] == '\n')
+                {                        
                     count = 0;
+                }
                 else if (inString == true && count > screenLength && toPrintCharArr[i] == ' ')
                 {
-                    linesToPrint = linesToPrint.Insert(i, "\\n");
+                    linesToPrint = linesToPrint.Insert(i, "\n");
                     count = 0;
                 }
                 else if (toPrintCharArr[i] == '\"')
                     inString = inString ? false : true;
-            }
-            return linesToPrint.Replace("\\n ", "\\n");
+            }            
+
+            linesToPrint = linesToPrint.Replace("\n", "\\n");
+            linesToPrint = linesToPrint.Replace("\\n ", "\\n");
+            
+            return linesToPrint;
         }
 
         public override string Visit(List<ProgNode> node)
