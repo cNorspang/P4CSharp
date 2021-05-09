@@ -1,50 +1,73 @@
 setup{
     Locations = {
+		DebugMenu -> Forrest, Bed_Room, Dining_Room, Street, The_local_pub, Field, Old_Castle, FightTheDragon, House, TheEnd, DeathEnd;
         The_local_pub -> Garden, Street, Bar;
         Garden -> Bar;
-        Bar -> Street, Garden;
+        Bar -> Street, Garden, GamblingTable;
+		GamblingTable -> Bar;
         Street -> Forrest, Shop, Bar;
         Forrest -> Old_Castle, Street, Field, FightTheDragon;
 		Field -> House, Forrest, Street;
         Shop -> Street;
-        Old_Castle -> Forrest, Bed_Room, Dining_Room, Basement;
-	Bed_Room ->Dining_Room, Old_castle;
-	Basement-> DeathEnd;
-	Dining_Room-> Bed_Room, Old_castle;
-	House -> Basement, Field;
-	FightTheDragon -> DeathEnd, TheEnd;
-	TheEnd -> TheEnd;
-	DeathEnd -> DeathEnd;
+        Old_Castle -> Forrest, Bed_Room, Dining_Room, Basement, FightTheDragon;
+		Bed_Room ->Dining_Room, Old_Castle;
+		Basement-> DeathEnd;
+		Dining_Room-> Bed_Room, Old_Castle;
+		House -> Basement, Field;
+		FightTheDragon -> DeathEnd, TheEnd;
+		TheEnd -> TheEnd;
+		DeathEnd -> DeathEnd;
 	} 
-player = {
-	string name = "Geralt of Revia";
-	int Health_point = 100;
-	int Gold = 10;
-	int bandage_amount = 0;
-	int bandage_health = 21;
-	int potion_amount = 0;
-	int potion_health = 100;
-	int counter = 0;
+	player = {
+		string name = "Geralt of Revia";
+		int Health_point = 100;
+		int Gold = 10;
+		int bandage_amount = 0;
+		int bandage_health = 21;
+		int potion_amount = 0;
+		int potion_health = 100;
+		int counter = 0;
 
-	bool regular_sword = false;
-    int regular_sword_damage = 10;
-    bool THE_GREAT_SWORD_OF_THE_OLD_ONE = false;
-    int THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE = 50;
-    bool GreatSwordReady = false;
-    bool Boost_of_internal_power_for_one_attack = false;
-    int The_dragon_of_smaguron_health = 1000;
-    int The_dragon_of_smaguron_damage = 10;
-	bool VisitedBar = false;
-	bool VisitedCastle = false;
-	bool VisitedShop = false;
-	bool VisitedGarden = false;
-	bool VisitedForrest = false;
-	bool VisitedField = false;
-	bool right_answer = false;
-	bool VisitedDining_Room_first = false;
-	bool VisitedDining_Room_Second = false;
+		bool regular_sword = false;
+    	int regular_sword_damage = 10;
+    	bool THE_GREAT_SWORD_OF_THE_OLD_ONE = false;
+    	int THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE = 50;
+    	bool GreatSwordReady = false;
+    	bool Boost_of_internal_power_for_one_attack = false;
+    	int The_dragon_of_smaguron_health = 1000;
+    	int The_dragon_of_smaguron_damage = 10;
+		bool CanLeaveBar = false;
+		bool VisitedBar = false;
+		bool VisitedCastle = false;
+		bool VisitedShop = false;
+		bool VisitedGarden = false;
+		bool VisitedForrest = false;
+		bool VisitedField = false;
+		bool VisitedDining_Room_first = false;
+		bool VisitedDining_Room_Second = false;		
+    }
+}
 
-        }
+Location DebugMenu = {
+	Text "Welcome to the debug menu";
+	choice {
+		"Start game" {Travel The_local_pub;}
+		"Travel" {
+			Text "";
+			choice {
+				"Forrest" {Travel Forrest;}
+				"Street" {Travel Street;}
+				"Field" {Travel Field;}
+				"Old_Castle" {Travel Old_Castle;}
+				"Bed_Room" {Travel Bed_Room;}
+				"FightTheDragon" {Travel FightTheDragon;}
+				"House" {Travel House;}
+				"TheEnd" {Travel TheEnd;}
+				"DeathEnd" {Travel DeathEnd;}				
+			}
+		}
+	}
+
 }
 
 
@@ -116,97 +139,137 @@ Location Bar = {
 
 		choice{
 			"beer... hm" {player.Gold -= 2; Text "comming right up..."; Text "hmm... my health is not so good now"; player.Health_point -= 8;
-								   Text "current health and gold is now " + player.Health_point + " | " + player.Gold;}
-			"water...hm"		  {player.Gold -= 1; Text "okay... the best cure for hangover i guess even you need something like that once in a while"; 
-								   Text "much better... hmm"; player.Health_point -= 2; Text "current health and gold is now " + player.Health_point + " | " + player.Gold;}
-			"nothing... hm"		  {Text "my head hurts... hmm"; player.Health_point -= 5; Text "BARTENDER: Are you sure I cant get you anything?";
-								   choice {"water... hm"{player.Gold -= 1; Text "much better... hmm"; player.Health_point += 3;
-								   			Text "current health and gold is now " + player.Health_point + " | " + player.Gold;} 
-
-								   		  	"beer... hm"{player.Gold -= 2; Text "comming right up..."; Text "hmm... my health is not so good now"; player.Health_point -= 3;
-											 Text "current health and gold is now " + player.Health_point + " | " + player.Gold;}
-								  		  }	
-								  }
+				Text "current health and gold is now " + player.Health_point + " | " + player.Gold;}
+			"water...hm" {player.Gold -= 1; Text "okay... the best cure for hangover i guess even you need something like that once in a while"; 
+				Text "much better... hmm"; player.Health_point -= 2; Text "current health and gold is now " + player.Health_point + " | " + player.Gold;}
+			"nothing... hm" {	
+				Text "my head hurts... hmm"; player.Health_point -= 5; Text "BARTENDER: Are you sure I cant get you anything?";
+				choice {
+					"water... hm"{player.Gold -= 1; Text "much better... hmm"; player.Health_point += 3;
+						Text "current health and gold is now " + player.Health_point + " | " + player.Gold;}
+					"beer... hm"{player.Gold -= 2; Text "comming right up..."; Text "hmm... my health is not so good now"; player.Health_point -= 3;
+						Text "current health and gold is now " + player.Health_point + " | " + player.Gold;}
+				}	
+			}
 		}
 	}
 	if(player.VisitedBar is true){
 		Text "BARTENDER: so what can i get you besides my lovely drinks and women?";
-		while(player.right_answer == false){
-			choice {
-					"hmm... these women you speak of doesn't sound to bad"{Text "congratulations... you played yourself for some virtual punani... now lost 2 gold"; player.Gold -= 2;}
-					"hmm... more beer"{Text "more beer costs more than just 1 gold... remember that..."; player.Gold -= 1; player.Health_point -= 5;}
-					"hmm... tell me about that dragon again..."{
-						Text "BARTENDER: Once upon a time, there was a cold hearted, backstabbing dragon that was so mean and ugly. He loved to travel to the human world and snatch little
-						kids out of their beds while they were sleeping, and he would drop them
-						down his green tortoise throat. Now back in those days all the kids would
-						sit in his stomach and cry, 'Let us out, Let us out!!' Of course he would not
-						let them out, but sometimes a brave little soul would travel the long journey
-						till he plopped out the other end.";
-						Text "what is that?? tell me the real story... hmm";
-						Text "BARTENDER: Now there was a little girl named Susie who had heard about this evil
-						dragon, and wanted to see for herself that he was real. So one night she
-						crawled under her sister's bed waiting for the dragon to pick her up. The
-						dragon came slowly and silently through the city, getting ready to pick up
-						his midnight snack. When Susie saw her she was amazed at how ugly he
-						was, his mouth was dripping with drool ready to pick a kid. He then picked
-						up Susie's sister with Susie hanging on to her back. Right before she was
-						going to be dropped in the pot of doom, she jumped swiftly on to the
-						dragons head. She felt the slimy texture of the dragon’s skin on her cold
-						bare toes, she waited until the dragon was ready to go, and then she
-						clenched his smelly ear as tight as she could so that she wouldn't go flying
-						off his head. Then she experienced something no one else had ever
-						experienced before, she was flying! She felt the cold winter breeze hitting
-						her face as they flew over her city.'There is my house,' she called with her
-						tiny sliver of a voice. She then looked behind her seeing how big the
-						dragon actually was and how small she was. She looked up at the night sky
-						and closed her eyes, drifting into a deep sleep.
-						";
-						Text "stop this nonce my friend... hmm";
-						Text "BARTENDER: Susie woke up to the sound of big feet stomping on a rock. As she peeked
-						her eyes open, afraid of what she was going to see, she saw multiple
-						dragons surrounding the dragon that she was standing on. The dragons
-						were making strange sounds in dragon language, yelling at the dragon that
-						seemed smaller than the rest. Susie looked down at the dragons eyes
-						seeing floods of tears streaming down its face, it was crying. She didn't see
-						why they were doing this, this dragon was huge to her, but small to them.
-						Then she understood, the dragon was lonely. After what felt like hours, the
-						little dragon scooted its way out of the circle moving back to its cave. Then
-						she saw the most ugly thing she had ever seen: trash, rubbish, mud
-						everywhere, and anything you could think of that was disgusting. She 
-						smelled in the stench and she thought she was going to throw up. As they
-						walked back to his cave Susie could feel the dragon moping around. She
-						felt so bad for him, eating all the little children so his sorrows would go
-						away. Then she called out as loud as she could in to the dragon’s ear:";
-						Text "HMMMMMMMMM (starting to get angry)";
-						Text "BARTENDER: 'Mr. Dragon, I think I might know how to help you.' As soon as the
-						dragon heard this, his yellow eyes peered up at Susie having the sense of
-						sorrow and anger all at once. As soon as his eyes hit hers they had a long
-						stare until the dragon picked her up with his creepy long claws and was
-						about to drop her in to his mouth, but he had missed his chance because
-						Susie had fainted.";
-						Text "BARTENDER: 'I'm so sorry, I'm so sorry!' Was what Susie woke up to.";
-						Text "BARTENDER: 'Please don't die, I'm so sorry!' She looked up and saw the dragon
-						looking over her, sobbing in big floods";
-						Text "BARTENDER: 'I'm all right Mr. Dragon.' Susie said. The dragon stopped sobbing
-						and looked her straight in the eyes. She then saw that this dragon was not
-						mean at all, all he needed was a friend. She looked deep in to him, seeing
-						all the things that had made this happen. She saw the sorr-";
-						Text "listen here my friend... I was talking about the drake with the contract on it... hmm";
-						Text "BARTENDER:ahh... why didn't you just say so my friend";
-						Text "...";
-						Text "BARTENDER: There is a dragon with a lot of health in the forrest might wanna do some damage to the dragon and saving this town..";
-						Text "BARTENDER: Might wanna shop before killing it i guess...";
-						player.regular_sword_damage = 12;
-						Text "current health, damage and gold... " + player.Health_point + " | " + player.regular_sword_damage + " | " + player.Gold;
-						Text "I might gonna go to the street, then I decide what i want to do... hmm";
-						player.right_answer = true;
-						Travel Street;
-					 }
+		choice {
+				"hmm... these women you speak of doesn't sound to bad"{Text "congratulations... you played yourself for some virtual punani... now lost 2 gold"; player.Gold -= 2;}
+				"hmm... more beer"{Text "more beer costs more than just 1 gold... remember that..."; player.Gold -= 1; player.Health_point -= 5;}
+				"hmm... got a poker table?" { Text "In the back."; Travel GamblingTable;}
+				"hmm... tell me about that dragon again..."{
+					Text "BARTENDER: Once upon a time, there was a cold hearted, backstabbing dragon that was so mean and ugly. He loved to travel to the human world and snatch little
+					kids out of their beds while they were sleeping, and he would drop them
+					down his green tortoise throat. Now back in those days all the kids would
+					sit in his stomach and cry, 'Let us out, Let us out!!' Of course he would not
+					let them out, but sometimes a brave little soul would travel the long journey
+					till he plopped out the other end.";
+					Text "what is that?? tell me the real story... hmm";
+					Text "BARTENDER: Now there was a little girl named Susie who had heard about this evil
+					dragon, and wanted to see for herself that he was real. So one night she
+					crawled under her sister's bed waiting for the dragon to pick her up. The
+					dragon came slowly and silently through the city, getting ready to pick up
+					his midnight snack. When Susie saw her she was amazed at how ugly he
+					was, his mouth was dripping with drool ready to pick a kid. He then picked
+					up Susie's sister with Susie hanging on to her back. Right before she was
+					going to be dropped in the pot of doom, she jumped swiftly on to the
+					dragons head. She felt the slimy texture of the dragon’s skin on her cold
+					bare toes, she waited until the dragon was ready to go, and then she
+					clenched his smelly ear as tight as she could so that she wouldn't go flying
+					off his head. Then she experienced something no one else had ever
+					experienced before, she was flying! She felt the cold winter breeze hitting
+					her face as they flew over her city.'There is my house,' she called with her
+					tiny sliver of a voice. She then looked behind her seeing how big the
+					dragon actually was and how small she was. She looked up at the night sky
+					and closed her eyes, drifting into a deep sleep.
+					";
+					Text "stop this nonsense my friend... hmm";
+					Text "BARTENDER: Susie woke up to the sound of big feet stomping on a rock.
+					As she peeked her eyes open, afraid of what she was going to see, she saw 
+					multiple dragons surrounding the dragon that she was standing on. The dragons
+					were making strange sounds in dragon language, yelling at the dragon that
+					seemed smaller than the rest. Susie looked down at the dragons eyes
+					seeing floods of tears streaming down its face, it was crying. She didn't see
+					why they were doing this, this dragon was huge to her, but small to them.
+					Then she understood, the dragon was lonely. After what felt like hours, the
+					little dragon scooted its way out of the circle moving back to its cave. Then
+					she saw the most ugly thing she had ever seen: trash, rubbish, mud
+					everywhere, and anything you could think of that was disgusting. She 
+					smelled in the stench and she thought she was going to throw up. As they
+					walked back to his cave Susie could feel the dragon moping around. She
+					felt so bad for him, eating all the little children so his sorrows would go
+					away. Then she called out as loud as she could in to the dragon’s ear:";
+					Text "HMMMMMMMMM (starting to get angry)";
+					Text "BARTENDER: 'Mr. Dragon, I think I might know how to help you.' As soon as the
+					dragon heard this, his yellow eyes peered up at Susie having the sense of
+					sorrow and anger all at once. As soon as his eyes hit hers they had a long
+					stare until the dragon picked her up with his creepy long claws and was
+					about to drop her in to his mouth, but he had missed his chance because
+					Susie had fainted.";
+					Text "BARTENDER: 'I'm so sorry, I'm so sorry!' Was what Susie woke up to.";
+					Text "BARTENDER: 'Please don't die, I'm so sorry!' She looked up and saw the dragon
+					looking over her, sobbing in big floods";
+					Text "BARTENDER: 'I'm all right Mr. Dragon.' Susie said. The dragon stopped sobbing
+					and looked her straight in the eyes. She then saw that this dragon was not
+					mean at all, all he needed was a friend. She looked deep in to him, seeing
+					all the things that had made this happen. She saw the sorr-";
+					Text "listen here my friend... I was talking about the drake with the contract on it... hmm";
+					Text "BARTENDER:ahh... why didn't you just say so my friend";
+					Text "...";
+					Text "BARTENDER: There is a dragon with a lot of health in the forrest might wanna do some damage to the dragon and saving this town..";
+					Text "BARTENDER: Might wanna shop before killing it i guess...";
+					player.regular_sword_damage = 12;
+					Text "current health: " + player.Health_point + ", damage: " + player.regular_sword_damage +" and gold: " + player.Gold;
+					Text "I might gonna go to the street, then I decide what i want to do... hmm";
+					player.CanLeaveBar = true;
+					Travel Street;
 				}
+				(player.CanLeaveBar) "... (leave)"{ Text "BARTENDER: May Sovngarde be with you!"; Travel Street;} 
 		}
-
 		
 	}
+}
+
+Location GamblingTable = {
+	int playerBet = 0;
+	bool gameRunning = true;
+	int dealerRoll = 0;
+	int playerRoll = 0;
+
+	Text "DEALER: The game is Dice of Sovngarde, dragons are triple.\nCurrent gold: " + player.Gold;
+	choice {
+		"Leave" {Text "You get up and go out into the bar."; Travel Bar;}
+		(player.Gold >= 5) "Bet 5" {playerBet = 5;}
+		(player.Gold >= 10) "Bet 10" {playerBet = 10;}
+		(player.Gold >= 20) "Bet 20" {playerBet = 20;}
+		(player.Gold >= 50) "Bet 50" {playerBet = 50;}		
+	}
+	dealerRoll = Roll(1, 20);
+	playerRoll = Roll(1, 20);
+	Text "The dealer rolls his dice.\nYou roll yours and you get " + playerRoll + ".\n\n";
+	if(playerRoll == 20){
+		Text "HOT DAMN Dragon it is!";
+		player.Gold += (playerBet * 3);
+	}
+	else{
+		choice {
+			"Bet your dice is greater" {
+				if(playerRoll > dealerRoll) {player.Gold += playerBet; }
+				else {player.Gold -= playerBet;}
+			}
+			"Bet your dice is lesser" {
+				if(playerRoll < dealerRoll) {player.Gold += playerBet; }
+				else {player.Gold -= playerBet;}
+			}
+			"Bet your dice is equal" {
+				if(playerRoll == dealerRoll) {player.Gold += playerBet; }
+				else {player.Gold += (playerBet * 13);}
+			}
+		}
+	}
+
 }
 
 Location Street = {
@@ -236,25 +299,24 @@ Location Shop = {
 		player.VisitedShop = true;
 	}
 	else{
-		Text "UNLIMITED ITEMS... what do you want to buy?";
+		Text "UNLIMITED ITEMS... what do you want to buy?\n\nCurrent gold: " + player.Gold + "\nCurrent potions: " + player.potion_amount + "\nCurrent bandages: " + player.bandage_amount;
 	}
 	choice{
+		"... (leave)"{ Text "bye! hmm"; Travel Street;} 
 		"... (buy some potions)"{
 			if(player.Gold >= 10){
-				Text "potions? hmmm"; Text "here"; player.potion_amount +=1; player.Gold -= 10; Text "current gold: " + player.Gold + " Im leaving, might come back for more... hmm"; Travel Street;
+				Text "potions? hmmm"; Text "here"; player.potion_amount +=1; player.Gold -= 10;
 			}else{
 				Text " HEHEHE you have no power here...	LEAVE MY SHOP!!!"; Travel Street;
 			}
-
 		}
 		"... (buy some bandages)"{
 			if(player.Gold >= 3){
-				Text "bandage? hmm"; Text "here"; player.bandage_amount +=1; player.Gold -=3; Text "current gold: " + player.Gold + " Im leaving, might come back for more... hmm"; Travel Street;
+				Text "bandage? hmm"; Text "here"; player.bandage_amount +=1; player.Gold -=3;
 			}else{
 				Text " HEHEHE you have no power here...	LEAVE MY SHOP!!!"; Travel Street;
 			}
-			}
-		"... (buy nothing and leave)"{ Text "bye! hmm"; Travel Street;} 
+		}
 	}
 }
 
@@ -356,7 +418,7 @@ Location Old_Castle = {
 		Text "what does " + player.name + " want to do?";
 		choice{
 			"I want to see my current... EVERYTHING!!!!"{ Text "name: " + player.name + " | " + "health: " + player.Health_point + " | " + "gold: " + player.Gold
-															   + " | " + "amount og bandages (+21 hp)" + player.bandage_amount +  " | " + "potion amount: " 
+															   + " | " + "amount og bandages " + player.bandage_amount +  " (+21 hp) | " + "potion amount: " 
 															   + player.potion_amount + " | " + "normal sword dmg: " + player.regular_sword_damage 
 															   + " (good luck with that sword) ";}
 			"I want to explorer the castle for hopefully more extreme shit than your current sword"{
@@ -437,22 +499,20 @@ Location Bed_Room = {
 Location Dining_Room = {
 	if(player.VisitedDining_Room_first is false){
 		Text "nothing here, go away...";
-		player.VisitedDining_Room = true;
+		player.VisitedDining_Room_first = true;
 		Travel Old_Castle;
 	}
-	else{
-		if(player.VisitedDining_Room_Second is false){
-			Text "okay here is a bandage now go..."; 
-			player.bandage_amount += 1;
-			Travel Old_Castle;
-			player.VisitedDining_Room_Second = true;
-		}else{
-			Text "nice try....................";
-			Travel Old_Castle;
-		}
-		
+	
+	if(player.VisitedDining_Room_Second is false){
+		Text "okay here is a bandage now go..."; 
+		player.bandage_amount += 1;
+		Travel Old_Castle;
+		player.VisitedDining_Room_Second = true;
 	}
-
+	else {
+		Text "nice try....................";
+		Travel Old_Castle;
+	}
 }
 	
 Location FightTheDragon = {   
@@ -460,10 +520,9 @@ Location FightTheDragon = {
     bool flag = true;
 
     while(flag){
-        Text "Your HP: " + player.health + "   Dragon HP: " + player.The_dragon_of_smaguron_health;
+        Text "Your HP: " + player.Health_point + "   Dragon HP: " + player.The_dragon_of_smaguron_health;
         int roll = 0;
         choice {
-            "Leave ->" {Travel Hvidovre;}
             "Bonk with stick!" 
             { 
                 roll = Roll(3, 8); player.The_dragon_of_smaguron_health -= roll; 
@@ -475,6 +534,18 @@ Location FightTheDragon = {
                 roll = Roll(player.regular_sword_damage -3, player.regular_sword_damage +3); 
                 player.The_dragon_of_smaguron_health -= roll; 
                 Text "You Swing your Sword for "+roll+" damage.";
+                player.GreatSwordReady = false;
+            }
+			(player.potion_amount > 0) "Drink potion" 
+            { 
+                player.Health_point += player.potion_health; 
+                Text "You run around the dragon while chugging a potion, it is refreshing.";
+                player.GreatSwordReady = false;
+            }
+			(player.bandage_amount > 0) "Apply bandage" 
+            { 
+                player.Health_point += player.bandage_health; 
+                Text "You hide long enouge to quickly apply bandage to yourself";
                 player.GreatSwordReady = false;
             }
             (player.THE_GREAT_SWORD_OF_THE_OLD_ONE and player.GreatSwordReady == false) "Ready the Great Old Sword." 
@@ -499,7 +570,7 @@ Location FightTheDragon = {
             Travel TheEnd;
         }
 
-        if(player.The_dragon_of_smaguron_health < 200 and Roll(1,3) == 3){
+        if(player.The_dragon_of_smaguron_health < 400 and Roll(1,3) == 3){
             Text "The Dragon gets angry, it is fighing for its life.";
             choice {
                 "Go for the Execute." 
@@ -511,18 +582,17 @@ Location FightTheDragon = {
                     }
                     else if(Roll(1, 4) == 4){
                         Text "You rush towards the dragon\n\nIt gets ready.";
-                        Text "By a true miracle you piece the dragons scales.\n\nYou got it good.";
+                        Text "By a true miracle you pierce the dragons scales.\n\nYou got it good.";
                         player.The_dragon_of_smaguron_health = 0;
                     }
-                    else
-                    { 
+                    else { 
                         roll = Roll(player.The_dragon_of_smaguron_damage, (player.The_dragon_of_smaguron_damage + 15 + dragonLevel));
                         Text "You rush towards the beast!";
                         Text "You hit it but the scales stopped your weapon.\n\nIt spits fire at you for " + roll + " damage.";
-                        player.health -= roll;
+                        player.Health_point -= roll;
                     }
                 }
-                "Not yet" {player.The_dragon_of_smaguron_health -= 1;}
+                "Not yet" {player.Health_point += 4;}
             }
         }
         else if (Roll(1,5) == 5){
@@ -530,7 +600,7 @@ Location FightTheDragon = {
             Text "The Dragon turns its back. you see your chance\n\nDo you take it?";
             choice {
                 "Run and jump onto the back of the dragon!" { Text "You slice open a fresh wound and deal " + roll + " damage"; player.The_dragon_of_smaguron_health -= roll;}
-                "Catch your breath instead" {Text "You catch your breath and feel the second wind.\n\nJust in time for the dragon again facing you"; player.The_dragon_of_smaguron_health -= 1;}
+                "Catch your breath instead" {Text "You catch your breath and feel the second wind.\n\nJust in time for the dragon again facing you"; player.Health_point += Roll(3,8);}
             }
         }
 
@@ -540,26 +610,32 @@ Location FightTheDragon = {
             Travel TheEnd;
         }
   
-        int enemychoice = Roll(1,3);
+        int enemychoice = Roll(1,4);
         int enemyRoll;
           
         if (enemychoice == 1){
             enemyRoll = Roll((player.The_dragon_of_smaguron_damage - 10), (player.The_dragon_of_smaguron_damage + 10));
             Text "The Dragon bites you for "+enemyRoll+" damage!";
-            player.health -= enemyRoll;
+            player.Health_point -= enemyRoll;
         } else if (enemychoice == 2) {
             enemyRoll = Roll((player.The_dragon_of_smaguron_damage - (player.The_dragon_of_smaguron_damage*2)),(8 + player.The_dragon_of_smaguron_damage*2)) + dragonLevel*3;
-            Text "The Dragon recites an ancient melody\nIts lifeforce has changed by " + enemyRoll + " health";
+            Text "The Dragon recites an ancient melody\nIts lifeforce has changed by " + enemyRoll + " health and ";
             player.The_dragon_of_smaguron_health += enemyRoll;
         } else if (enemychoice == 3) {
             enemyRoll = Roll((player.The_dragon_of_smaguron_damage),(player.The_dragon_of_smaguron_damage+5)) + dragonLevel*2;
             Text "The Dragon spits fire in a cone\n\nYou are hit for " + enemyRoll + " damage";
-            player.health -= enemyRoll;
+            player.Health_point -= enemyRoll;
+        }
+		else if (enemychoice == 4){
+            enemyRoll = Roll((player.The_dragon_of_smaguron_damage - 10), (player.The_dragon_of_smaguron_damage + 10));
+            Text "The Dragon flies over and land behind you. It spits fire on the ground, you have to move to get around it. The dragon recites an ancient melody and grow stronger";
+            player.The_dragon_of_smaguron_damage += 4;
+			player.GreatSwordReady = false;
         }
           
-        if (player.health <= 0) {
+        if (player.Health_point <= 0) {
             Text "you dead boi";
-            player.health = 1; 
+            player.Health_point = 1; 
             Travel DeathEnd;
         }
         if (player.The_dragon_of_smaguron_health <= 0) {
@@ -567,11 +643,14 @@ Location FightTheDragon = {
             Text "A GLORIUS WIN for you!";
             Travel TheEnd;
         }
-    }}
+    }
+}
+
 Location DeathEnd = {
 	Text "GOD (yes.... I am real): You died... hmm";
 	Travel DeathEnd;
 }
+
 Location TheEnd = {
 	Text "WOW....  you did it.... i cant belive you actually finished this test game...";
 	Text "you are the hero... the hero who saved the town of honeywood... this can only be celibrated  with the outmost happy reward:";

@@ -114,13 +114,14 @@ namespace SWAE.CodeGen
                 }
                 else if (inString == true && count > screenLength && toPrintCharArr[i] == ' ')
                 {
-                    linesToPrint = linesToPrint.Insert(i, "\n");
+                    //linesToPrint = linesToPrint.Insert(i, "\n");
+                    toPrintCharArr[i] = '\n';
                     count = 0;
                 }
                 else if (toPrintCharArr[i] == '\"')
-                    inString = inString ? false : true;
-            }            
-
+                    inString = !inString;
+            }
+            linesToPrint = new string(toPrintCharArr);
             linesToPrint = linesToPrint.Replace("\n", "\\n");
             linesToPrint = linesToPrint.Replace("\\n ", "\\n");
             

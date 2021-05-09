@@ -54,17 +54,6 @@ namespace SWAE.ContextualAnalysis
             Ccwl($"                                                                         /____/ feat. {Environment.UserName}  \n");
             #endregion
             
-            #region debugSplit
-            /*
-            Ccwl(
-                "\n   ______            __            __              __   ___                __           _     " +
-                "\n  / ____/___  ____  / /____  _  __/ /___  ______ _/ /  /   |  ____  ____ _/ /_  _______(_)____" +
-                "\n / /   / __ \\/ __ \\/ __/ _ \\| |/_/ __/ / / / __ `/ /  / /| | / __ \\/ __ `/ / / / / ___/ / ___/" +
-                "\n/ /___/ /_/ / / / / /_/  __/>  </ /_/ /_/ / /_/ / /  / ___ |/ / / / /_/ / / /_/ (__  ) (__  ) " +
-                "\n\\____/\\____/_/ /_/\\__/\\___/_/|_|\\__/\\__,_/\\__,_/_/  /_/  |_/_/ /_/\\__,_/_/\\__, /____/_/____/  " +
-                "\n                                                                         /____/               \n");
-            */
-            #endregion
             
             Visit(node.SetUpNode);
             Visit(node.inBlock);
@@ -110,7 +99,6 @@ namespace SWAE.ContextualAnalysis
 
         public override object Visit(PlayerSetupNode node)
         {
-            node.assignNodes.ForEach(i => Console.WriteLine("##################  " + i.GetType()));
             foreach (var asgNode in node.assignNodes)
             {
                 if (asgNode.GetType() == typeof(LocationAssignNode))

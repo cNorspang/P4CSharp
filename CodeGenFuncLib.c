@@ -108,6 +108,8 @@ void locationOne(){
 };
 
 int main(void){
+    printf("%d", (8/3));
+    COMPILER_TOOL_WAIT_FOR_INPUT();
     xCarier.x = 10;
     locationOne();
     return 0;
