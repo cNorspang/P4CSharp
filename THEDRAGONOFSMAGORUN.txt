@@ -13,7 +13,8 @@ setup{
 		Bed_Room ->Dining_Room, Old_Castle;
 		Basement-> DeathEnd;
 		Dining_Room-> Bed_Room, Old_Castle;
-		House -> Basement, Field;
+		House -> Basement, Field, WitchFight;
+		WitchFight -> House, DeathEnd;
 		FightTheDragon -> DeathEnd, TheEnd;
 		TheEnd -> TheEnd;
 		DeathEnd -> DeathEnd;
@@ -28,14 +29,15 @@ setup{
 		int potion_health = 100;
 		int counter = 0;
 
-		bool regular_sword = false;
+		int WORLD_LEVEL = 0;
+
+		bool regular_sword = true;
     	int regular_sword_damage = 10;
     	bool THE_GREAT_SWORD_OF_THE_OLD_ONE = false;
     	int THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE = 50;
     	bool GreatSwordReady = false;
-    	bool Boost_of_internal_power_for_one_attack = false;
-    	int The_dragon_of_smaguron_health = 1000;
-    	int The_dragon_of_smaguron_damage = 10;
+    	bool Boost_of_internal_power_for_one_attack = true;
+		int money_on_people_in_Garden = Roll(8,45);
 		bool CanLeaveBar = false;
 		bool VisitedBar = false;
 		bool VisitedCastle = false;
@@ -43,15 +45,27 @@ setup{
 		bool VisitedGarden = false;
 		bool VisitedForrest = false;
 		bool VisitedField = false;
+		bool isBlessedByWitch = false;
+		bool defeated_witch = false;
 		bool VisitedDining_Room_first = false;
 		bool VisitedDining_Room_Second = false;		
     }
 }
 
 Location DebugMenu = {
-	Text "Welcome to the debug menu";
+	Text "Welcome to the menu\n\nWorld level: " + player.WORLD_LEVEL;
 	choice {
 		"Start game" {Travel The_local_pub;}
+		"Change world level" {choice{"up"{player.WORLD_LEVEL += 1;} "down"{player.WORLD_LEVEL -= 1;}}}
+		"Activate God Mode" 
+		{
+			player.Health_point += 10000; 
+			player.regular_sword_damage += 100; 
+			player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE += 150; 
+			player.Gold += 100000;
+			player.THE_GREAT_SWORD_OF_THE_OLD_ONE = true;
+			player.isBlessedByWitch = true;
+		}
 		"Travel" {
 			Text "";
 			choice {
@@ -97,14 +111,13 @@ Location The_local_pub = {
 }
 
 Location Garden = {
-	int money_on_people = Roll(1,15);
 	if( player.VisitedGarden is false){
 		player.VisitedGarden = true;
 		Text "Where.... Where am i???.... fuck i passed out again ";
 		Text "Hmmmm.... I lost some money, but there are other drunk people here, sooo...";
 
 		choice{
-			" Im gonna rub them for money, what they cant spent on alcohol before passing out is weak boi"   {player.Gold += money_on_people;}
+			" Im gonna rub them for money, what they cant spent on alcohol before passing out is weak boi"   {player.Gold += player.money_on_people_in_Garden;}
 			" hmmmm.... (i am not gonna take any money and just leave)" 									 {Travel Bar;}
 		}
 	}
@@ -115,13 +128,23 @@ Location Garden = {
 			{
 				if(player.Gold >= 50 AND player.Boost_of_internal_power_for_one_attack is true) 
 				{
-					Text "ohh... I have to much Gold... i can ditch something for more goal... is that what i want?";
+					Text "ohh... I have too much Gold... i can ditch something for more gold... is that what i want?";
 					choice{ 
 							"yes"    {Text "I need ALL the gold I can get"; player.Boost_of_internal_power_for_one_attack = false;}
 							"no"     {Text "I Have enough gold...";}
 					      }
 				}
-				player.Gold += money_on_people;
+				else if (player.money_on_people_in_Garden > 0)
+				{
+					int roll = Roll(1,18);
+					Text "You stumble around and graps a visitors coin purse, it contains "+roll+" gold.";					
+					player.money_on_people_in_Garden -= roll;				
+					player.Gold += roll;
+				}
+				else
+				{
+					Text "It does not seem like here is anymore coin...";
+				}
 			}
 			"Hmmmmmmm... (im am not gonna take this gold from these people besauce im no better my self)"{Text "No... I am a good person";}
 		}
@@ -157,8 +180,9 @@ Location Bar = {
 		Text "BARTENDER: so what can i get you besides my lovely drinks and women?";
 		choice {
 				"hmm... these women you speak of doesn't sound to bad"{Text "congratulations... you played yourself for some virtual punani... now lost 2 gold"; player.Gold -= 2;}
-				"hmm... more beer"{Text "more beer costs more than just 1 gold... remember that..."; player.Gold -= 1; player.Health_point -= 5;}
-				"hmm... got a poker table?" { Text "In the back."; Travel GamblingTable;}
+				"hmm... more beer"{Text "BARTENDER: more beer costs more than just 1 gold... remember that..."; player.Gold -= 1; player.Health_point -= 5;}
+				"hmm... got a poker table?" { Text "BARTENDER: In the back."; Travel GamblingTable;}
+				"hmm... is there a place relax?" {Text "BARTENDER: Try the Garden."; player.VisitedGarden = true; Travel Garden;}
 				"hmm... tell me about that dragon again..."{
 					Text "BARTENDER: Once upon a time, there was a cold hearted, backstabbing dragon that was so mean and ugly. He loved to travel to the human world and snatch little
 					kids out of their beds while they were sleeping, and he would drop them
@@ -386,7 +410,15 @@ Location Field = {
 }
 
 Location House = {
-	Text "The house is an old house... might be cursed... hmm";
+
+	if(player.defeated_witch == false){
+		Text "You walk into the house and a Hag stands there in her sunday clothes.\nIt is a bit awkward.";
+		Text "She screams and throws lightning at you, but you dodge.";
+		Travel WitchFight;
+	}
+
+	player.money_on_people_in_Garden += Roll(8,15);
+	Text "The house is an old house... might be cursed based on what the old witch did... hmm.. ";
 	Text "I feel the urge for not going down in the basement... but there could also be some good booty down there... hmm";
 	Text "what should i do..."; 
 	choice{
@@ -408,6 +440,164 @@ Location Basement = {
 	Text "Do have any regrets... should i have killed the BARTENDER... would I have ever met the dragon... does soya taste good on eggs...";
 	Text "this is the e-";
 	Travel DeathEnd;
+}
+
+
+Location WitchFight = {
+	int witch_HP = 100 + 10*player.WORLD_LEVEL;
+	int witch_DMG = 5 + 2*player.WORLD_LEVEL;
+	bool isPlayerConfused = false;
+	int coin = witch_DMG*5;
+
+	while(true){
+        Text "Your HP: " + player.Health_point + "   Hag HP: " + witch_HP;
+        int roll = 0;
+		if(isPlayerConfused == false){
+        	choice {
+        	    "Bonk with stick!" 
+        	    { 
+        	        roll = Roll(3, 8); witch_HP -= roll; 
+        	        Text "You whack the hag for "+roll+" damage."; 
+        	        player.GreatSwordReady = false;
+        	    }
+        	    (player.regular_sword) "Swing your Sword!" 
+        	    { 
+        	        roll = Roll(player.regular_sword_damage -3, player.regular_sword_damage +3); 
+        	        witch_HP -= roll; 
+        	        Text "You Swing your Sword for "+roll+" damage.";
+        	        player.GreatSwordReady = false;
+        	    }
+				(player.potion_amount > 0) "Drink potion" 
+        	    { 
+        	        player.Health_point += player.potion_health; 
+        	        Text "You hide behind a chair while chugging a potion, it is refreshing.";
+        	        player.GreatSwordReady = false;
+					player.potion_amount -= 1;
+        	    }
+				(player.bandage_amount > 0) "Apply bandage" 
+        	    { 
+        	        player.Health_point += player.bandage_health; 
+        	        Text "You hide long enough to quickly apply bandage to yourself";
+        	        player.GreatSwordReady = false;
+					player.bandage_amount -= 1;
+        	    }
+        	    (player.THE_GREAT_SWORD_OF_THE_OLD_ONE and player.GreatSwordReady == false) "Ready the Great Old Sword." 
+        	    {
+        	        Text "When hand comes to hilt, question comes to heart, from soul is given heaven's answer via either divine balancing scale or sword."+ 
+        	            "For there is either hope, or there is not, and one way or another, suffering must end.";
+        	        player.GreatSwordReady = true;
+        	    }
+        	    (player.THE_GREAT_SWORD_OF_THE_OLD_ONE and player.GreatSwordReady == true) "Attack with the Great old Sword!" 
+        	    {
+        	        roll = Roll((player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE -13), (player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE +13)); 
+        	        witch_HP -= roll; 
+        	        Text "You wield the Sword with might!\nand it slices through the dragon like a hot knife through butter.\n\n"+
+        	            "You attack for "+ roll +" damage.";
+        	        player.GreatSwordReady = false;
+        	    }
+        	}
+		}
+		isPlayerConfused = false;
+  
+        if (witch_HP <= 0) {
+            Text "The deed is done. The Hag is dead.";
+            Text "A GLORIUS WIN for you!";
+			Text "You find " + coin + " gold and 2 potions.";
+			player.Gold += coin;
+			player.potion_amount += 2;
+			player.defeated_witch = true;
+            Travel House;
+        }
+
+        if(witch_HP < 50 and Roll(1,2) == 1){
+            Text "The hag gets confused and runs around in circles. She is hurting.";
+            choice {
+                "Go for the Execute." 
+                {
+                    if(player.THE_GREAT_SWORD_OF_THE_OLD_ONE){ 
+                        Text "You slice the Hag over into two equal pieces.";
+                        Text "Silence follows.";
+                        witch_HP = 0;
+                    }
+                    else if(Roll(1, 3) == 1){
+                        Text "You attack the Hag\n\nIt gets ready.";
+                        Text "You fumble and by sheer luck, end up bashing the Hag with a frying pan. You got her good.";
+                        witch_HP = 0;
+                    }
+                    else { 
+                        roll = Roll(witch_DMG, (witch_DMG + 6));
+                        Text "You rush towards the Hag!";
+                        Text "She slaps you ass down for " + roll + " damage.";
+                        player.Health_point -= roll;
+                    }
+                }
+                "Not yet" {player.Health_point += 4;}
+            }
+        }
+        else if (Roll(1,3) == 1){
+            roll = Roll((player.regular_sword_damage + 5), (player.regular_sword_damage + 10)); 
+            Text "The Hag calls upon her gods";
+            choice {
+				"Wait and watch." { Text "The Hag grows stronger"; witch_DMG += 3;}
+				(Roll(1,3) == 1) "Stop her. " {Text "You run towards the Hag, and push her over. She propels you away in an instant."; player.Health_point -= 3; }
+				(Roll(1,3) == 1) "Hide and rest for a second." {Text "You hide while the Hag chants"; witch_DMG += 3; player.Health_point += 5;}
+				(Roll(1,4) == 1) "Join her in chanting." {
+					Text "You join the Hag in chanting. You both grow stronger."; 
+					witch_DMG += 3; 
+					player.regular_sword_damage += 3; 
+					player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE += 5;
+				}
+				(Roll(1,15) == 1) "Smack that booty" {Text "The Hag is pleased, and you have been blessed."; player.isBlessedByWitch = true; }
+            }
+        }
+
+        if (witch_HP <= 0) {
+            Text "The deed is done. The Hag is dead.";
+            Text "A GLORIUS WIN for you!";
+			Text "You find " + coin + " gold and 2 potions.";
+			player.Gold += coin;
+			player.potion_amount += 2;
+			player.defeated_witch = true;
+            Travel House;
+        }
+  
+        int enemychoice = Roll(1,5);
+        int enemyRoll;
+          
+        if (enemychoice == 1 or enemychoice == 2){
+            enemyRoll = 1 + Roll((witch_DMG - 5), (witch_DMG + 5));
+            Text "The Hag shoots lighting at you for "+enemyRoll+" damage!";
+            player.Health_point -= enemyRoll;
+        } else if (enemychoice == 3) {
+            enemyRoll = Roll((witch_DMG-3),(witch_DMG+3));
+            Text "The Hag chugs a potion.\nHer wounds heal.";
+            witch_HP += enemyRoll;
+        } else if (enemychoice == 4) {
+            enemyRoll = Roll((witch_DMG+3),(witch_DMG*2));
+            Text "The Hag charges a fireball and throws it at you\n\nYou are hit for " + enemyRoll + " damage";
+            player.Health_point -= enemyRoll;
+        }
+		else if (enemychoice == 5){
+            enemyRoll = Roll((witch_DMG - 10), (witch_DMG + 10));
+            Text "The hag speaks an ancient language. You feel lovely on the inside.";
+			isPlayerConfused = true;
+        }
+        
+        if (player.Health_point <= 0) {
+            Text "you dead boi.. to a hag..";
+            player.Health_point = 1; 
+            Travel DeathEnd;
+        }
+        if (witch_HP <= 0) {
+            Text "The deed is done. The Hag is dead.";
+            Text "A GLORIUS WIN for you!";
+			Text "You find " + coin + " gold and 2 potions.";
+			player.Gold += coin;
+			player.potion_amount += 2;
+			player.defeated_witch = true;
+            Travel House;
+        }
+    }
 }
 
 
@@ -511,29 +701,40 @@ Location Dining_Room = {
 		player.VisitedDining_Room_Second = true;
 	}
 	else {
-		Text "nice try....................";
-		Travel Old_Castle;
+		if(player.isBlessedByWitch){
+			Text "You dont quit do ya?\nLet me enchant your weapons for ya.";
+			player.regular_sword_damage += 10;
+			player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE += 20;
+			player.isBlessedByWitch = false;
+			Travel Old_Castle;
+		} 
+		else{
+			Text "nice try....................";
+			Travel Old_Castle;
+		}
 	}
 }
 	
 Location FightTheDragon = {   
 	int dragonLevel = 0;
     bool flag = true;
+	int The_dragon_of_smaguron_health = 1000 + 150*player.WORLD_LEVEL;
+	int The_dragon_of_smaguron_damage = 10 + 3*player.WORLD_LEVEL;
 
     while(flag){
-        Text "Your HP: " + player.Health_point + "   Dragon HP: " + player.The_dragon_of_smaguron_health;
+        Text "Your HP: " + player.Health_point + "   Dragon HP: " + The_dragon_of_smaguron_health;
         int roll = 0;
         choice {
             "Bonk with stick!" 
             { 
-                roll = Roll(3, 8); player.The_dragon_of_smaguron_health -= roll; 
+                roll = Roll(3, 8); The_dragon_of_smaguron_health -= roll; 
                 Text "You Bonk the *Dragon* for "+roll+" damage."; 
                 player.GreatSwordReady = false;
             }
             (player.regular_sword) "Swing your Sword!" 
             { 
                 roll = Roll(player.regular_sword_damage -3, player.regular_sword_damage +3); 
-                player.The_dragon_of_smaguron_health -= roll; 
+                The_dragon_of_smaguron_health -= roll; 
                 Text "You Swing your Sword for "+roll+" damage.";
                 player.GreatSwordReady = false;
             }
@@ -553,43 +754,43 @@ Location FightTheDragon = {
             }
             (player.THE_GREAT_SWORD_OF_THE_OLD_ONE and player.GreatSwordReady == false) "Ready the Great Old Sword." 
             {
-                Text "When hand comes to hilt, question comes to heart, from soul is given heaven's answer\n via either divine balancing scale or sword."+ 
-                    "For there is either hope, or there is not,\n and one way or another, suffering must end.";
+                Text "When hand comes to hilt, question comes to heart, from soul is given heaven's answer via either divine balancing scale or sword."+ 
+                    "For there is either hope, or there is not, and one way or another, suffering must end.";
                 player.GreatSwordReady = true;
             }
             (player.THE_GREAT_SWORD_OF_THE_OLD_ONE and player.GreatSwordReady == true) "Attack with the Great old Sword!" 
             {
                 roll = Roll((player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE -13), (player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE +13)); 
-                player.The_dragon_of_smaguron_health -= roll; 
+                The_dragon_of_smaguron_health -= roll; 
                 Text "You wield the Sword with might!\nand it slices through the dragon like a hot knife through butter.\n\n"+
                     "You attack for "+ roll +" damage.";
                 player.GreatSwordReady = false;
             }
         }
   
-        if (player.The_dragon_of_smaguron_health <= 0) {
+        if (The_dragon_of_smaguron_health <= 0) {
             Text "The deed is done.";
             Text "A GLORIUS WIN for you!";
             Travel TheEnd;
         }
 
-        if(player.The_dragon_of_smaguron_health < 400 and Roll(1,3) == 3){
+        if(The_dragon_of_smaguron_health < 400 and Roll(1,3) == 3){
             Text "The Dragon gets angry, it is fighing for its life.";
             choice {
                 "Go for the Execute." 
                 {
-                    if(player.THE_GREAT_SWORD_OF_THE_OLD_ONE){ 
+                    if(player.THE_GREAT_SWORD_OF_THE_OLD_ONE and Roll(1,2) == 1){ 
                         Text "You rush towards the dragon\n\nIt fears you.";
                         Text "You Slice your Great Old Sword through the dragons skull.\nIt screams.";
-                        player.The_dragon_of_smaguron_health = 0;
+                        The_dragon_of_smaguron_health = 0;
                     }
                     else if(Roll(1, 4) == 4){
                         Text "You rush towards the dragon\n\nIt gets ready.";
                         Text "By a true miracle you pierce the dragons scales.\n\nYou got it good.";
-                        player.The_dragon_of_smaguron_health = 0;
+                        The_dragon_of_smaguron_health = 0;
                     }
                     else { 
-                        roll = Roll(player.The_dragon_of_smaguron_damage, (player.The_dragon_of_smaguron_damage + 15 + dragonLevel));
+                        roll = Roll(The_dragon_of_smaguron_damage, (The_dragon_of_smaguron_damage + 15 + dragonLevel));
                         Text "You rush towards the beast!";
                         Text "You hit it but the scales stopped your weapon.\n\nIt spits fire at you for " + roll + " damage.";
                         player.Health_point -= roll;
@@ -602,12 +803,27 @@ Location FightTheDragon = {
             roll = Roll((player.regular_sword_damage + 5), (player.regular_sword_damage + 10)); 
             Text "The Dragon turns its back. you see your chance\n\nDo you take it?";
             choice {
-                "Run and jump onto the back of the dragon!" { Text "You slice open a fresh wound and deal " + roll + " damage"; player.The_dragon_of_smaguron_health -= roll;}
+                "Run and jump onto the back of the dragon!" { Text "You slice open a fresh wound and deal " + roll + " damage"; The_dragon_of_smaguron_health -= roll;}
                 "Catch your breath instead" {Text "You catch your breath and feel the second wind.\n\nJust in time for the dragon again facing you"; player.Health_point += Roll(3,8);}
+				"Pray to your god" 
+				{
+					if(player.Boost_of_internal_power_for_one_attack){
+						Text "YOUR GOD LISTENS AND HE SMITES THE CREATURE!";
+						The_dragon_of_smaguron_health -= 300;
+						player.Boost_of_internal_power_for_one_attack = false;
+					}
+					else if(Roll(1, 5) == 1){
+						Text "Your god answers, you feel restored";
+						player.Health_point += Roll(1, 50);
+					}
+					else{
+						Text "nothing happens.. are your god even real?";
+					}
+				}
             }
         }
 
-        if (player.The_dragon_of_smaguron_health <= 0) {
+        if (The_dragon_of_smaguron_health <= 0) {
             Text "The deed is done.";
             Text "A GLORIUS WIN for you!";
             Travel TheEnd;
@@ -617,22 +833,22 @@ Location FightTheDragon = {
         int enemyRoll;
           
         if (enemychoice == 1){
-            enemyRoll = Roll((player.The_dragon_of_smaguron_damage - 10), (player.The_dragon_of_smaguron_damage + 10));
+            enemyRoll = Roll((The_dragon_of_smaguron_damage - 10), (The_dragon_of_smaguron_damage + 10));
             Text "The Dragon bites you for "+enemyRoll+" damage!";
             player.Health_point -= enemyRoll;
         } else if (enemychoice == 2) {
-            enemyRoll = Roll((player.The_dragon_of_smaguron_damage - (player.The_dragon_of_smaguron_damage*2)),(8 + player.The_dragon_of_smaguron_damage*2)) + dragonLevel*3;
-            Text "The Dragon recites an ancient melody\nIts lifeforce has changed by " + enemyRoll + " health and ";
-            player.The_dragon_of_smaguron_health += enemyRoll;
+            enemyRoll = Roll((The_dragon_of_smaguron_damage - (The_dragon_of_smaguron_damage*2)),(8 + The_dragon_of_smaguron_damage*2)) + dragonLevel*3;
+            Text "The Dragon recites an ancient melody\nIts lifeforce has changed by " + enemyRoll + " health ";
+            The_dragon_of_smaguron_health += enemyRoll;
         } else if (enemychoice == 3) {
-            enemyRoll = Roll((player.The_dragon_of_smaguron_damage),(player.The_dragon_of_smaguron_damage+5)) + dragonLevel*2;
+            enemyRoll = Roll((The_dragon_of_smaguron_damage),(The_dragon_of_smaguron_damage+5)) + dragonLevel*2;
             Text "The Dragon spits fire in a cone\n\nYou are hit for " + enemyRoll + " damage";
             player.Health_point -= enemyRoll;
         }
 		else if (enemychoice == 4){
-            enemyRoll = Roll((player.The_dragon_of_smaguron_damage - 10), (player.The_dragon_of_smaguron_damage + 10));
+            enemyRoll = Roll((The_dragon_of_smaguron_damage - 10), (The_dragon_of_smaguron_damage + 10));
             Text "The Dragon flies over and land behind you. It spits fire on the ground, you have to move to get around it. The dragon recites an ancient melody and grow stronger";
-            player.The_dragon_of_smaguron_damage += 4;
+            The_dragon_of_smaguron_damage += 4;
 			player.GreatSwordReady = false;
         }
           
@@ -641,7 +857,7 @@ Location FightTheDragon = {
             player.Health_point = 1; 
             Travel DeathEnd;
         }
-        if (player.The_dragon_of_smaguron_health <= 0) {
+        if (The_dragon_of_smaguron_health <= 0) {
             Text "The deed is done.";
             Text "A GLORIUS WIN for you!";
             Travel TheEnd;
