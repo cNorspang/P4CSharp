@@ -56,6 +56,9 @@ namespace SWAE.CodeGen
             code.Add(Tui);
             Console.WriteLine(Tui);
 
+            //exit func
+            code.Add("void COMPILER_TOOL_EXIT_CHECK(){ printf(\"\\nThank you for playing :)\"); exit(0);}");
+
             // Get user input from 
             code.Add("\nint COMPILER_TOOL_GET_INPUT(int max){"+
                     "\n    char pwd; "+
@@ -64,20 +67,21 @@ namespace SWAE.CodeGen
                     "printf(\"\\n\");" +
                     "\n    while (1) {" +
                         "pwd = getch(); "+
+                        "if(pwd == 27)"+ 
+                            "\n    COMPILER_TOOL_EXIT_CHECK();"+
                         "if (isdigit(pwd)) {"+
                             "num = (int)pwd - 48;  /* b/c ASCII: nums start at 48.*/"+
                             "if (num <= max && num > 0) "+
                                 "return num;} "+
                         "pwd = '\\0';}}");
 
-            code.Add("\nvoid COMPILER_TOOL_WAIT_FOR_INPUT(){ printf(\"\\n\"); char c = getch();}");
+            code.Add("\nvoid COMPILER_TOOL_WAIT_FOR_INPUT(){ printf(\"\\n\"); char c = getch(); if(c == 27)\n   COMPILER_TOOL_EXIT_CHECK();}");
 
             code.Add("\nchar* COMPILER_TOOL_GET_STRING_INPUT(char * buf){"+
                     "\n    char name[50];"+
                     "\n    fgets(name, 50, stdin);" +
                     "\n    name[strcspn(name, \"\\r\\n\")] = 0;" +
                     "\n    strncpy(buf, name, 50); " +
-                    "\n    return name; " +
                     "\n}\n");
 
 

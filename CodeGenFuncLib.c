@@ -43,18 +43,23 @@ void COMPILER_TOOL_PRINT_TUI(){
     printf("#################################################################################\n\n");
 
 }
-
+//obsolete
 void COMPILER_TOOL_PRINT_CHOICE(int id, char option[256]){
     printf("%d%s", id, option);
 }
 
+//added
+void COMPILER_TOOL_EXIT_CHECK(){
+    printf("Thank you for playing :)");
+    exit(0);
+}
 
-char* COMPILER_TOOL_GET_STRING_INPUT(char * buf){
+//added
+void COMPILER_TOOL_GET_STRING_INPUT(char * buf){
     char name[50];
     fgets(name, 50, stdin);
     name[strcspn(name, "\r\n")] = 0; 
     strncpy(buf, name, 50);
-    return name;
 }
 
 
@@ -67,20 +72,26 @@ int COMPILER_TOOL_GET_INPUT(int max){
     printf("\n");
     while(1){
         pwd = getch();  
+        if(pwd == 27) 
+            COMPILER_TOOL_EXIT_CHECK();
         if(isdigit(pwd)){
             num = (int)pwd - 48;  // b/c ASCII: nums start at 48.
             if(num <= max && num > 0)
-                return num;
+                return num;          
         }
         pwd = '\0';      
     }
 }
 
-
+//added
 void COMPILER_TOOL_WAIT_FOR_INPUT(){
     printf("\n");
     char c = getch();
+    if(c == 27) 
+        COMPILER_TOOL_EXIT_CHECK();
 }
+
+
 
 void locationOne(){
     

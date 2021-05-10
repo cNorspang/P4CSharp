@@ -417,10 +417,11 @@ Location Old_Castle = {
 	while(Answer){
 		Text "what does " + player.name + " want to do?";
 		choice{
-			"I want to see my current... EVERYTHING!!!!"{ Text "name: " + player.name + " | " + "health: " + player.Health_point + " | " + "gold: " + player.Gold
-															   + " | " + "amount og bandages " + player.bandage_amount +  " (+21 hp) | " + "potion amount: " 
-															   + player.potion_amount + " | " + "normal sword dmg: " + player.regular_sword_damage 
-															   + " (good luck with that sword) ";}
+			"I want to see my current... EVERYTHING!!!!"{ 
+				Text "name: " + player.name + " | " + "health: " + player.Health_point + " | " + "gold: " + player.Gold
+				+ " | " + "amount og bandages " + player.bandage_amount +  " (+21 hp) | " + "potion amount: " 
+				+ player.potion_amount + " | " + "normal sword dmg: " + player.regular_sword_damage 
+				+ " (good luck with that sword) ";}
 			"I want to explorer the castle for hopefully more extreme shit than your current sword"{
 				Text "noice hmmm.... where do I want to go for further exploring?";
 				while(Answer){
@@ -541,12 +542,14 @@ Location FightTheDragon = {
                 player.Health_point += player.potion_health; 
                 Text "You run around the dragon while chugging a potion, it is refreshing.";
                 player.GreatSwordReady = false;
+				player.potion_amount -= 1;
             }
 			(player.bandage_amount > 0) "Apply bandage" 
             { 
                 player.Health_point += player.bandage_health; 
                 Text "You hide long enouge to quickly apply bandage to yourself";
                 player.GreatSwordReady = false;
+				player.bandage_amount -= 1;
             }
             (player.THE_GREAT_SWORD_OF_THE_OLD_ONE and player.GreatSwordReady == false) "Ready the Great Old Sword." 
             {
