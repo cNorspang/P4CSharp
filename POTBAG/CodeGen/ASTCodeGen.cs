@@ -43,7 +43,8 @@ namespace SWAE.CodeGen
                     "\n        tcsetattr(STDIN_FILENO, TCSANOW, &newt); ch = getchar(); tcsetattr(STDIN_FILENO, TCSANOW, &oldt); return ch;}\n#endif");
 
             // Clear screen func
-            code.Add("\n#define clrscr() printf(\"\\e[1;1H\\e[2J\")");
+            //code.Add("\n#define clrscr() printf(\"\\e[1;1H\\e[2J\")");
+            code.Add("#define clrscr() system(\"@cls||clear\")");
 
             //Random func
             code.Add("\nint Random_Int_Num(int from, int to){ return (rand() % (to + 1 - from)) + from;}");

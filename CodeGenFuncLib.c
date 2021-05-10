@@ -28,7 +28,9 @@
 #endif
 
 //added
-#define clrscr() printf("\e[1;1H\e[2J")
+//#define clrscr() printf("\e[1;1H\e[2J")
+
+#define clrscr() system("@cls||clear")
 
 //added
 struct GENERATED_PLAYER_STRUCT { 
