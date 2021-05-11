@@ -181,7 +181,7 @@ Location Bar = {
 		choice {
 				"hmm... these women you speak of doesn't sound to bad"{Text "congratulations... you played yourself for some virtual punani... now lost 2 gold"; player.Gold -= 2;}
 				"hmm... more beer"{Text "BARTENDER: more beer costs more than just 1 gold... remember that..."; player.Gold -= 1; player.Health_point -= 5;}
-				"hmm... got a poker table?" { Text "BARTENDER: In the back."; Travel GamblingTable;}
+				"hmm... got a Dice table?" { Text "BARTENDER: In the back."; Travel GamblingTable;}
 				"hmm... is there a place relax?" {Text "BARTENDER: Try the Garden."; player.VisitedGarden = true; Travel Garden;}
 				"hmm... tell me about that dragon again..."{
 					Text "BARTENDER: Once upon a time, there was a cold hearted, backstabbing dragon that was so mean and ugly. He loved to travel to the human world and snatch little
@@ -262,7 +262,7 @@ Location GamblingTable = {
 	int dealerRoll = 0;
 	int playerRoll = 0;
 
-	Text "DEALER: The game is Dice of Sovngarde, dragons are triple.\nCurrent gold: " + player.Gold;
+	Text "DEALER: The game is Dice of Sovngarde, dragons are triple and the die is a d20.\nCurrent gold: " + player.Gold;
 	choice {
 		"Leave" {Text "You get up and go out into the bar."; Travel Bar;}
 		(player.Gold >= 5) "Bet 5" {playerBet = 5;}
@@ -288,8 +288,8 @@ Location GamblingTable = {
 				else {player.Gold -= playerBet;}
 			}
 			"Bet your dice is equal" {
-				if(playerRoll == dealerRoll) {player.Gold += playerBet; }
-				else {player.Gold += (playerBet * 13);}
+				if(playerRoll == dealerRoll) {player.Gold += (playerBet * 13);}
+				else {player.Gold -= playerBet;}
 			}
 		}
 	}
