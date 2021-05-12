@@ -14,11 +14,22 @@ namespace SWAE
     {
         static void Main(string[] args)
         {
-            //string fileName = "UpdatedPseudoDrageCodeGenTest";
-            //string fileName = "SWAEBetaTest";
-            string fileName = "THEDRAGONOFSMAGORUN";
-            const bool debug = true; 
-            string stream = FileHandler.readFromInputStream(fileName+".txt");
+            //debugging hell.
+            const bool debug = false;
+
+            string fileName = string.Empty;
+            if (args.Length == 0)
+            {
+                //string fileName = "UpdatedPseudoDrageCodeGenTest";
+                //string fileName = "SWAEBetaTest";
+                fileName = "Errors4Days";
+
+                fileName += ".txt";
+            }
+            else
+                fileName = args[0];
+            
+            string stream = FileHandler.readFromInputStream(fileName);
 
             ICharStream input = CharStreams.fromString(stream);
             ITokenSource lexer = new SWAELexer(input);

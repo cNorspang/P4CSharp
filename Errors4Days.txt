@@ -1,0 +1,30 @@
+setup {
+    Locations = {
+        L_One -> L_Two;
+        L_Two -> L_One, L_Three;
+        L_Three -> L_Three;
+        L_Error -> L_One;
+    }
+    player = {
+        int a = 1;
+    }
+}
+
+Location L_One = {
+    player.a = "haj";
+    b = 1;
+    Travel L_Three;
+    if(true && false){
+        string b = "sdsd";
+        string b = "dsds";
+    }
+}
+
+Location L_Two = {
+    int c;
+    int k = c+1;
+}
+
+Location L_Three = {
+    
+}

@@ -119,6 +119,7 @@ namespace SWAE.ContextualAnalysis
             catch (ArgumentException)
             {
                 SWAEErrorListener.Report(new LocationSetupErrorException($"Duplicate mapping of location \"{node.Source.variableName}\""), this);
+                return false;
             }
 
 

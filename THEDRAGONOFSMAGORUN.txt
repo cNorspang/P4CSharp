@@ -57,6 +57,7 @@ Location DebugMenu = {
 	choice {
 		"Start game" {Travel The_local_pub;}
 		"Change world level" {choice{"up"{player.WORLD_LEVEL += 1;} "down"{player.WORLD_LEVEL -= 1;}}}
+		"Change name" {player.name = userInput "\nWhat is your new name?";}
 		"Activate God Mode" 
 		{
 			player.Health_point += 10000; 
