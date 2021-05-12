@@ -130,12 +130,13 @@ namespace SWAE.ContextualAnalysis
          * Gets the current location and validates the travel with 
          * the allowed destinations.
          */
-        public void ResolveTravel(TravelStatementNode node, Scope currentScope)
+        public bool ResolveTravel(TravelStatementNode node, Scope currentScope)
         {
 
             if (!locations.ContainsKey(node.Destination.variableName))
             {
                 SWAEErrorListener.Report(new TypeErrorException("Location", node.Destination.GetType().ToString()), this);
+                return false;
             }
 
             Symbol sym = currentScope.GetLocation();
@@ -144,7 +145,13 @@ namespace SWAE.ContextualAnalysis
             bool i = false;
             i = gotoList.Exists(i => i.variableName == node.Destination.variableName);
 
-            if (!i) { SWAEErrorListener.Report(new IllegalTravelException($"Illegal Travel: Cannot go from {sym.GetName()} to {node.Destination.variableName}"), this); }
+            if (!i) 
+            { 
+                SWAEErrorListener.Report(new IllegalTravelException($"Illegal Travel: Cannot go from {sym.GetName()} to {node.Destination.variableName}"), this);
+                return false;
+            }
+            
+            return true;
         }
 
         public Symbol ResolvePlayerVariable(string name, bool needsToBeAssigned)

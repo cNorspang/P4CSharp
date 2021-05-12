@@ -15,14 +15,15 @@ namespace SWAE
         static void Main(string[] args)
         {
             //debugging hell.
-            const bool debug = false;
+            const bool debug = true;
 
             string fileName = string.Empty;
             if (args.Length == 0)
             {
-                //string fileName = "UpdatedPseudoDrageCodeGenTest";
+                //fileName = "UpdatedPseudoDrageCodeGenTest";
                 //string fileName = "SWAEBetaTest";
-                fileName = "Errors4Days";
+                //fileName = "Errors4Days";
+                fileName = "THEDRAGONOFSMAGORUN";
 
                 fileName += ".txt";
             }

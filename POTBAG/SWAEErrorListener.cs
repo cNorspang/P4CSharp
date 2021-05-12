@@ -10,7 +10,7 @@ namespace SWAE.Exceptions
     {
         public static bool conTroller = true;
         static SymbolTable table = new SymbolTable();
-        static Queue<string> ErrorQueue = new Queue<string>();
+        public static Queue<string> ErrorQueue = new Queue<string>();
         
         public static void ErrorCheck()
         {

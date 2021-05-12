@@ -12,7 +12,7 @@ namespace SWAE.CodeGen
 {
     public class ASTCodeGen : ASTVistor<string>
     {
-        protected List<string> code = new List<string>();
+        public List<string> code = new List<string>();
         private SymbolTable st;
 
         public ASTCodeGen(SymbolTable symbolTable)
