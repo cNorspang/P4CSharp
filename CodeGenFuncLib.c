@@ -85,6 +85,19 @@ int COMPILER_TOOL_GET_INPUT(int max){
     }
 }
 
+int COMPILER_TOOL_GET_INTERGER_INPUT() {
+    char *p, s[100];
+    int n;
+
+    while (fgets(s, sizeof(s), stdin)) {
+        n = strtol(s, &p, 10);
+        if (p == s || *p != '\n') {
+            printf("Please enter an integer: ");
+        } else break;
+    }
+    return n;
+}
+
 //added
 void COMPILER_TOOL_WAIT_FOR_INPUT(){
     printf("\n");
@@ -97,6 +110,17 @@ void COMPILER_TOOL_WAIT_FOR_INPUT(){
 
 void locationOne(){
     
+    COMPILER_TOOL_PRINT_TUI();
+    printf("enter your age");
+    printf("\n\n/> ");    
+    int USER_USERINPUT_INPUT = COMPILER_TOOL_GET_INTERGER_INPUT();
+     
+
+    COMPILER_TOOL_PRINT_TUI();    
+    printf("%s%d", "number entered: ", USER_USERINPUT_INPUT);
+    COMPILER_TOOL_WAIT_FOR_INPUT();
+
+
     COMPILER_TOOL_PRINT_TUI();    
     printf("sup boi");
     COMPILER_TOOL_WAIT_FOR_INPUT();
@@ -121,8 +145,8 @@ void locationOne(){
 };
 
 int main(void){
-    printf("%d", (8/3));
-    COMPILER_TOOL_WAIT_FOR_INPUT();
+    if("hej" == "hej")
+        printf("%d", (2*-1));
     xCarier.x = 10;
     locationOne();
     return 0;

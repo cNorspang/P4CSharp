@@ -226,11 +226,13 @@ namespace SWAE.CSTtoAST
             if (ctx.PLUS_OPERATOR() != null) { op = "PLUS"; }
             else if (ctx.DIVISION_OPERATOR() != null) { op = "DIVISION"; }
             else if (ctx.TIMES_OPERATOR() != null) { op = "TIMES"; } 
-            else if (ctx.MINUS_OPERATOR() != null) { op = "MINUS"; }
+            else if (ctx.MINUS_OPERATOR() != null && ctx.expression().Length == 2) { op = "MINUS"; }
             else if (ctx.NUM() != null) { op = "NUM"; }
             else if (ctx.variable() != null) { op = "VAR"; }
             else if (ctx.PAREN_LEFT() != null) { op = "ISO"; }
             else if (ctx.random() != null) {op = "RNG"; }
+            else if (ctx.MINUS_OPERATOR() != null) {op = "NEG"; }
+
 
             ExpressionNode node = null;
 
@@ -303,6 +305,12 @@ namespace SWAE.CSTtoAST
                     ExpressionSoloNode nodeISO = new ExpressionSoloNode();
                     nodeISO.expr = (ExpressionNode)Visit(ctx.GetChild(1));
                     node = nodeISO;
+                    break;
+                case "NEG":
+                    Ccwl("NEG     " + ctx.expression(0).GetText());
+                    NegativeNumNode nodeNEG = new NegativeNumNode();
+                    nodeNEG.negativeExpr = (ExpressionNode)Visit(ctx.GetChild(1));
+                    node = nodeNEG;
                     break;
                 default:
                     SWAEErrorListener.Report(new InvalidOperationException(), this);

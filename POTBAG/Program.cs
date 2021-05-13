@@ -17,19 +17,23 @@ namespace SWAE
             //debugging hell.
             const bool debug = false;
 
+            string stream = string.Empty;
             string fileName = string.Empty;
+
             if (args.Length == 0)
             {
-                //string fileName = "UpdatedPseudoDrageCodeGenTest";
-                //string fileName = "SWAEBetaTest";
-                fileName = "Errors4Days";
+                //fileName = "UpdatedPseudoDrageCodeGenTest.txt";
+                //fileName = "SWAEBetaTest.txt";
+                //fileName = "Errors4Days.txt";
+                fileName = "THEDRAGONOFSMAGORUN";
 
-                fileName += ".txt";
+                stream = FileHandler.readFromInputStream(fileName + ".txt");
             }
             else
-                fileName = args[0];
-            
-            string stream = FileHandler.readFromInputStream(fileName);
+            {
+                stream = FileHandler.readFromInputStream(args[0]);
+            }
+
 
             ICharStream input = CharStreams.fromString(stream);
             ITokenSource lexer = new SWAELexer(input);

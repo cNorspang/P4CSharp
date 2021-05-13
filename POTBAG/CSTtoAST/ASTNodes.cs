@@ -11,8 +11,8 @@ namespace SWAE.CSTtoAST
     {
         public SetupNode SetUpNode { get; set; } = new SetupNode();
         public List<ProgNode> inBlock = new List<ProgNode>();
-    } 
-    
+    }
+
     public class SetupNode : ProgNode
     {
         public LocationsSetupNode Locations { get; set; }
@@ -73,7 +73,7 @@ namespace SWAE.CSTtoAST
     public class predicateNode : ProgNode
     {
         public ProgNode Left { get; set; }
-        public ProgNode Right{ get; set; }
+        public ProgNode Right { get; set; }
         public string Operator { get; set; }
     }
 
@@ -125,7 +125,7 @@ namespace SWAE.CSTtoAST
         public ProgNode Right { get; set; }
     }
 
-    public class BoolAssignNode : AssignNode 
+    public class BoolAssignNode : AssignNode
     {
         public ProgNode Left { get; set; }
         public BoolNode Right { get; set; }
@@ -182,12 +182,12 @@ namespace SWAE.CSTtoAST
         public ExpressionNode Right { get; set; }
     }
 
-    public class ExpressionVarNameNode : ExpressionNode 
+    public class ExpressionVarNameNode : ExpressionNode
     {
         public string VarName { get; set; }
     }
-    
-    public class ExpressionDotNameNode : ExpressionNode 
+
+    public class ExpressionDotNameNode : ExpressionNode
     {
         public string VarName { get; set; }
     }
@@ -200,8 +200,8 @@ namespace SWAE.CSTtoAST
 
     public class RandomExpressionNode : ExpressionNode
     {
-        public ExpressionNode MinValue {get; set;}
-        public ExpressionNode MaxValue {get; set;}
+        public ExpressionNode MinValue { get; set; }
+        public ExpressionNode MaxValue { get; set; }
     }
 
     public class AdditionNode : ExpressionNode { }
@@ -215,5 +215,10 @@ namespace SWAE.CSTtoAST
     public class NumberNode : ExpressionNode
     {
         public int Value { get; set; }
+    }
+
+    public class NegativeNumNode : ExpressionNode 
+    {
+        public ExpressionNode negativeExpr { get; set; }
     }
 }

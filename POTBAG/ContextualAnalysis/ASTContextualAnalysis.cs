@@ -581,14 +581,22 @@ namespace SWAE.ContextualAnalysis
             {
                 case DotNotationNode dotNode:
                     Visit(dotNode);
-                    symbol = st.ResolvePlayerVariable(dotNode.variableName, typeof(string), false);
+                    symbol = st.ResolvePlayerVariable(dotNode.variableName, true);
+                    Type type = symbol.GetSymbolType();
+                    if (type != typeof(string) && type != typeof(int))
+                        st.ResolvePlayerVariable(dotNode.variableName, typeof(string), true); 
                     break;
                 case variableNode varNode:
                     Visit(varNode);
-                    symbol = st.CurrentScope().Resolve(varNode.variableName, typeof(string), false);
-                    break;
+                    symbol = st.CurrentScope().Resolve(varNode.variableName, true);
+                    Type typee = symbol.GetSymbolType();
+                    if (typee != typeof(string) && typee != typeof(int))
+                        st.CurrentScope().Resolve(varNode.variableName, typeof(string), true); break;
                 case stringDeclarationNode strDclNode:
                     symbol = (Symbol)Visit(strDclNode);
+                    break;
+                case IntDeclarationNode intDclNode:
+                    symbol = (Symbol)Visit(intDclNode);
                     break;
                 default:
                     throw new BennoException($"### ERROR InputAssignNode => {node.Left.GetType().Name}");
@@ -713,6 +721,9 @@ namespace SWAE.ContextualAnalysis
                 case NumberNode nodeNUM:
                     Visit(nodeNUM);
                     break;
+                case NegativeNumNode nodeNEG:
+                    Visit(nodeNEG.negativeExpr);
+                    break;
                 case ExpressionVarNameNode nodeVAR:
                     //validate the variable.
                     Symbol symbol = st.CurrentScope().Resolve(nodeVAR.VarName, typeof(int), true);
@@ -766,17 +777,19 @@ namespace SWAE.ContextualAnalysis
             return true;
         }
 
-        public override object Visit(RandomExpressionNode node)
+        public override object Visit(NegativeNumNode node)
         {
-            if(node.MinValue != null)
-            {
-                Visit(node.MinValue);
-                Visit(node.MaxValue);
-            }
-            else
-                return false;
-
+            Visit(node.negativeExpr);
             return true;
         }
+
+        public override object Visit(RandomExpressionNode node)
+        {
+            Visit(node.MinValue);
+            Visit(node.MaxValue);
+            return true;
+        }
+
+        
     }
 }

@@ -48,16 +48,20 @@ setup{
 		bool isBlessedByWitch = false;
 		bool defeated_witch = false;
 		bool VisitedDining_Room_first = false;
-		bool VisitedDining_Room_Second = false;		
+		bool VisitedDining_Room_Second = false;
+		
+		int NegativeNumbersTest = 2 * -5 + 2 - -2; 
     }
 }
 
 Location DebugMenu = {
-	Text "Welcome to the menu\n\nWorld level: " + player.WORLD_LEVEL;
+
+	Text "~ Menu ~\n\nName: " + player.name + "\nHP: " + player.Health_point + "\nGold: " + player.Gold + "\nWorld level: " + player.WORLD_LEVEL;
 	choice {
 		"Start game" {Travel The_local_pub;}
-		"Change world level" {choice{"up"{player.WORLD_LEVEL += 1;} "down"{player.WORLD_LEVEL -= 1;}}}
-		"Change name" {player.name = userInput "\nWhat is your new name?";}
+		"Change world level" {player.WORLD_LEVEL = userInput "Choose Wisely...";}
+		"Change name" {player.name = userInput "\nWhat is your new name?"; }
+		"Change gold" {player.Gold = userInput "Type number";}
 		"Activate God Mode" 
 		{
 			player.Health_point += 10000; 
@@ -91,7 +95,7 @@ Location The_local_pub = {
 	Text "PUB OWNER: Hello there... You cannot be in here all day... You have to move soon "
 	+ player.name + ". There is trouble incomming and I dont want my pub to be destroyed..."
 	+ "like last time...";
-	
+
 	choice {
 		"Leave me be, if it is my time to die on this pub so be it..."{
 		Text "PUB OWNER: dammit" + player.name + " You HAVE to move... " +
@@ -269,7 +273,8 @@ Location GamblingTable = {
 		(player.Gold >= 5) "Bet 5" {playerBet = 5;}
 		(player.Gold >= 10) "Bet 10" {playerBet = 10;}
 		(player.Gold >= 20) "Bet 20" {playerBet = 20;}
-		(player.Gold >= 50) "Bet 50" {playerBet = 50;}		
+		(player.Gold >= 50) "Bet 50" {playerBet = 50;}	
+		(player.Gold >= 1000) "Bet 1000" {playerBet = 1000;}	
 	}
 	dealerRoll = Roll(1, 20);
 	playerRoll = Roll(1, 20);

@@ -85,6 +85,15 @@ namespace SWAE.CodeGen
                     "\n    strncpy(buf, name, 50); " +
                     "\n}\n");
 
+            code.Add(   "\nint COMPILER_TOOL_GET_INTERGER_INPUT() {" +
+                        "\n    char * p, s[100];" +
+                        "\n    int n; " +
+                        "\n    while (fgets(s, sizeof(s), stdin)) " +
+                        "\n    {n = strtol(s, &p, 10); " +
+                        "\n    if (p == s || *p != '\\n') {" +
+                        "\n    printf(\"Please enter an integer: \");}" +
+                        "\n    else break;} return n;}");
+
 
             #endregion
 
@@ -105,7 +114,7 @@ namespace SWAE.CodeGen
 
             linesToPrint = linesToPrint.Replace("\'", "\\\'");
 
-            int screenLength = 78; //max screen length
+            int screenLength = 80; //max screen length
             int count = 0;
             bool inString = false;
             char[] toPrintCharArr = linesToPrint.ToCharArray();
@@ -695,30 +704,50 @@ namespace SWAE.CodeGen
         public override string Visit(InputAssignNode node)
         {
             string left = "";
+            Type type = typeof(bool);
             switch (node.Left)
             {
                 case DotNotationNode dotNode:
                     //check if int or string
                     left = Visit(dotNode);
+                    type = st.GetSymbolByName(dotNode.variableName).GetSymbolType();
                     break;
                 case variableNode varNode:
                     //check if int or string
                     left = Visit(varNode);
+                    type = st.GetSymbolByName(varNode.variableName).GetSymbolType();
                     break;
                 case stringDeclarationNode strDclNode:
                     left = Visit(strDclNode);
+                    code.Add("\n    " + left + ";");
+                    left = left.Split(" ")[1];
+                    type = typeof(string);
+                    break;
+                case IntDeclarationNode intDclNode:
+                    left = Visit(intDclNode);
                     code.Add("\n    " + left + ";");
                     left = left.Split(" ")[1];
                     break;
                 default:
                     throw new BennoException($"### ERROR InputAssignNode => {node.Left.GetType().Name}");
             }
-
+            //prints text
             code.Add(Visit(node.Right));
 
-            code.Add("\n printf(\"\\n\\n /> \");" +
-             $"\n    memset({left}, 0, 51);" +
-             $"\n    COMPILER_TOOL_GET_STRING_INPUT({left});");
+            string typeOfData = "YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET";//string.Empty;
+
+            if(type.Equals(typeof(string)))
+            {
+                typeOfData = $"\n    memset({left}, 0, 51);" +
+                             $"\n    COMPILER_TOOL_GET_STRING_INPUT({left});";
+            }
+            else
+            {
+                typeOfData = $"\n    {left} = COMPILER_TOOL_GET_INTERGER_INPUT();";
+            }
+
+
+            code.Add($"    printf(\"\\n\\n /> \");{typeOfData}");
             return "";
         }
 
@@ -824,6 +853,8 @@ namespace SWAE.CodeGen
                     return Visit(nodeISO.expr);
                 case RandomExpressionNode nodeRND:
                     return Visit(nodeRND);
+                case NegativeNumNode nodeNEG:
+                    return Visit(nodeNEG);
                 default:
                     throw new BennoException($"### ERROR ExpressionNode => {node.GetType().Name}");
             }
@@ -853,7 +884,12 @@ namespace SWAE.CodeGen
         public override string Visit(NumberNode node)
         {
             return node.Value.ToString();
-        }      
+        }
+
+        public override string Visit(NegativeNumNode node)
+        {
+            return "(-" + Visit(node.negativeExpr) + ")";
+        }
 
         public override string Visit(DotNotationNode node)
         {
@@ -865,6 +901,5 @@ namespace SWAE.CodeGen
             return "Random_Int_Num(" + Visit(node.MinValue) + ", "  + Visit(node.MaxValue) + ")";
         }
 
-        
     }
 }
