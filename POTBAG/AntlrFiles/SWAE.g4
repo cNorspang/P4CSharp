@@ -26,7 +26,7 @@ expression
 ;
 
 statement  : text_statement | input_statement | if_chain_statement | travel_statement | choice_statement | while_statement;
-assign     : anonymous_assign | int_assign | string_assign | bool_assign | input_assign | location_assign;
+assign     : anonymous_assign | int_assign | string_assign | bool_assign | input_assign;
 declaration: int_declaration END_STMT | string_declaration END_STMT | bool_declaration END_STMT | location_declaration END_STMT;
 
 //Statement Rules
@@ -60,10 +60,7 @@ input_assign
 | int_declaration ASSIGN_OPERATOR input_statement)
 ;
 
-location_assign
-: (variable ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT
-| location_declaration ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT)
-;
+location_assign: location_declaration ASSIGN_OPERATOR CURLY_LEFT inBlock* CURLY_RIGHT;
 
 bool_assign
 : (variable ASSIGN_OPERATOR bool_obj END_STMT

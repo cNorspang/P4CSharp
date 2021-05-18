@@ -734,7 +734,7 @@ namespace SWAE.CodeGen
             //prints text
             code.Add(Visit(node.Right));
 
-            string typeOfData = "YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET";//string.Empty;
+            string typeOfData = string.Empty;
 
             if(type.Equals(typeof(string)))
             {
