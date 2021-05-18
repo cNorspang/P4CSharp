@@ -121,7 +121,6 @@ KEYWORD_FOR        : 'for';
 KEYWORD_LOCATION   : 'Location';
 KEYWORD_SETUP      : 'setup';
 KEYWORD_PLAYER     : 'player';
-KEYWORD_LOCATIONARRAY: 'LocationArray';
 KEYWORD_LOCATIONS  : 'Locations';
 KEYWORD_CHOICE     : 'choice';
 KEYWORD_RANDOM     : 'Roll';
