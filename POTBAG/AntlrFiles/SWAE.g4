@@ -27,7 +27,7 @@ expression
 
 statement  : text_statement | input_statement | if_chain_statement | travel_statement | choice_statement | while_statement;
 assign     : anonymous_assign | int_assign | string_assign | bool_assign | input_assign;
-declaration: int_declaration END_STMT | string_declaration END_STMT | bool_declaration END_STMT | location_declaration END_STMT;
+declaration: int_declaration END_STMT | string_declaration END_STMT | bool_declaration END_STMT;
 
 //Statement Rules
 text_statement    : KEYWORD_TEXT ((string_obj|variable) PLUS_OPERATOR)* (string_obj | variable) END_STMT;
