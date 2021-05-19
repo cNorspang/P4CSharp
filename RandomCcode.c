@@ -8,8 +8,8 @@ void Init(){
    srand((unsigned) time(&t));
 }
 
-int RndNum(int to, int from){
-    return (rand() % (from + 1 - to)) + to;
+int RndNum(int from, int to){
+    return (rand() % (to + 1 - from)) + from;
 }
 
 int main () {

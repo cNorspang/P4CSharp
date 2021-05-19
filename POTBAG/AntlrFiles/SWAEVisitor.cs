@@ -158,6 +158,12 @@ public interface ISWAEVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitWhile_statement([NotNull] SWAEParser.While_statementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SWAEParser.anonymous_assign"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAnonymous_assign([NotNull] SWAEParser.Anonymous_assignContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SWAEParser.int_assign"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

@@ -1,11 +1,11 @@
-﻿using POTBAG.CSTtoAST;
+﻿using SWAE.CSTtoAST;
 using System;
 using System.Collections.Generic;
-using POTBAG.Exceptions;
-using static POTBAG.DebugPrinter;
+using SWAE.Exceptions;
+using static SWAE.DebugPrinter;
 
 
-namespace POTBAG.ContextualAnalysis
+namespace SWAE.ContextualAnalysis
 {
     public class Scope
     {
@@ -36,7 +36,7 @@ namespace POTBAG.ContextualAnalysis
             }
             catch (Exception e)
             {
-                POTBAGErrorListener.Report(new DuplicateVariableError(name), this);
+                SWAEErrorListener.Report(new DuplicateVariableError(name), this);
             }
             
             return null;
@@ -52,7 +52,12 @@ namespace POTBAG.ContextualAnalysis
             return Resolve(name, typeof(TypeAccessException), false);
         }
 
-        
+        public Symbol Resolve(string name, bool needsToBeAssigned)
+        {
+            return Resolve(name, typeof(TypeAccessException), needsToBeAssigned);
+        }
+
+
         public Symbol Resolve(string name, Type type, bool needsToBeAssigned)
         {
             Symbol symbol;
@@ -60,13 +65,13 @@ namespace POTBAG.ContextualAnalysis
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
-                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) POTBAGErrorListener.Report(new UsedWithoutValueException(symbol.GetName()),this);
-                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { POTBAGErrorListener.Report(new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString()), this); }
+                if (needsToBeAssigned && symbol.GetContentStatus() == Symbol.AssignedStatus.empty) SWAEErrorListener.Report(new UsedWithoutValueException(symbol.GetName()),this);
+                if (symbol.GetSymbolType() != type && type != typeof(TypeAccessException)) { SWAEErrorListener.Report(new TypeErrorException(symbol.GetSymbolType().ToString(), type.ToString()), this); }
                 return symbol;
             }
             if (enclosingScope != null) return enclosingScope.Resolve(name, type, needsToBeAssigned);
 
-            POTBAGErrorListener.Report(new VariableNotDeclaredException(name), this); // not found
+            SWAEErrorListener.Report(new VariableNotDeclaredException(name), this); // not found
             return null;
         }
 
@@ -79,7 +84,7 @@ namespace POTBAG.ContextualAnalysis
             }
             if (enclosingScope != null) return enclosingScope.GetLocation();
 
-            POTBAGErrorListener.Report(new TravelOutsideLocationException(), this);
+            SWAEErrorListener.Report(new TravelOutsideLocationException(), this);
             return null;
         }
 

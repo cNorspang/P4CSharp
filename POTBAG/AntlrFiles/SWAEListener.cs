@@ -241,6 +241,16 @@ public interface ISWAEListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitWhile_statement([NotNull] SWAEParser.While_statementContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="SWAEParser.anonymous_assign"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAnonymous_assign([NotNull] SWAEParser.Anonymous_assignContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SWAEParser.anonymous_assign"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAnonymous_assign([NotNull] SWAEParser.Anonymous_assignContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="SWAEParser.int_assign"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

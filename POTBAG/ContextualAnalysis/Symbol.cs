@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace POTBAG.ContextualAnalysis
+namespace SWAE.ContextualAnalysis
 {
     public class Symbol
     {

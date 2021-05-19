@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace POTBAG
+namespace SWAE
 {
     public static class DebugPrinter
     {
@@ -50,9 +50,7 @@ namespace POTBAG
             }
             else
             {
-                int[] NorspangsTheme = { 214, 202, 172, 166, 94, 173 };
-                string mNum = num == 0 ? "0" : $"38;5;{NorspangsTheme[num % 6]}";
-                return $"\u001b[{mNum}m";
+                return "";
             }
         }
 

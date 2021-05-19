@@ -1,19 +1,39 @@
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
-using POTBAG.ContextualAnalysis;
-using POTBAG.CSTtoAST;
+using SWAE.ContextualAnalysis;
+using SWAE.CSTtoAST;
 using System;
-using POTBAG.Exceptions;
-using static POTBAG.DebugPrinter;
+using SWAE.Exceptions;
+using static SWAE.DebugPrinter;
+using SWAE.CodeGen;
+using System.Collections.Generic;
 
-namespace POTBAG
+namespace SWAE
 {
     class Program
     {
         static void Main(string[] args)
         {
-            const bool debug = true; 
-            string stream = FileHandler.readFromInputStream("UpdatedPseudoDrageTest.txt");
+            //debugging hell.
+            const bool debug = false;
+
+            string stream = string.Empty;
+            string fileName = string.Empty;
+
+            if (args.Length == 0)
+            {
+                //fileName = "UpdatedPseudoDrageCodeGenTest.txt";
+                //fileName = "SWAEBetaTest.txt";
+                //fileName = "Errors4Days.txt";
+                fileName = "THEDRAGONOFSMAGORUN";
+
+                stream = FileHandler.readFromInputStream(fileName + ".txt");
+            }
+            else
+            {
+                stream = FileHandler.readFromInputStream(args[0]);
+            }
+
 
             ICharStream input = CharStreams.fromString(stream);
             ITokenSource lexer = new SWAELexer(input);
@@ -22,7 +42,7 @@ namespace POTBAG
             SymbolTable symbolTable = new SymbolTable();
 
 
-            POTBAGErrorListener.conTroller = false;
+            SWAEErrorListener.conTroller = debug;
             DebugPrinter.isDebug = debug;
             //set start node
             try
@@ -33,18 +53,14 @@ namespace POTBAG
                 ProgNode ast = new BetterAdvGmASTVisitor().VisitProg(cst);
 
                 var contextualAnalysis = new ASTContextualAnalysis(symbolTable).Visit(ast);
-                POTBAGErrorListener.ErrorCheck();
+                SWAEErrorListener.ErrorCheck();
 
-                FileHandler.write("#include <stdio.h>\nint main(int argc, char const *argv[]){");
+                ASTCodeGen codeGenerator = new ASTCodeGen(symbolTable);
+                codeGenerator.Visit(ast);
+                List<string> code = codeGenerator.GetResult();
 
-                //var Test = new TestEvaluation().Visit(ast);
-                FileHandler.write("return 0;}");
-                //var tree = Trees.ToStringTree(cst, parser);
-                //Console.WriteLine(tree);
-
-                //Console.WriteLine("### FILE WRITE ###");
-                //FileHandler.WriteToFile();
-                //FileHandler.PrintCCodeDebug();
+                //FileHandler.PrintCCodeDebug(code);
+                FileHandler.WriteToFile(code, fileName);
             }
             //IMPORTANT TODO: Der er blevet ændret, husk når merge
             catch (Exception e)
@@ -61,7 +77,7 @@ namespace POTBAG
                     case VariableNotDeclaredException _:
                     case UsedWithoutValueException _:
                     case NotImplementedException _: //sry
-                        POTBAGErrorListener.Report((dynamic)e, null);
+                        SWAEErrorListener.Report((dynamic)e, null);
                         break;
                     case BennoException _:
                     case Exception _:

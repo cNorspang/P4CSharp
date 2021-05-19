@@ -1,0 +1,894 @@
+setup{
+    Locations = {
+		DebugMenu -> Forrest, Bed_Room, Dining_Room, Street, The_local_pub, Field, Old_Castle, FightTheDragon, House, TheEnd, DeathEnd;
+        The_local_pub -> Garden, Street, Bar;
+        Garden -> Bar;
+        Bar -> Street, Garden, GamblingTable;
+		GamblingTable -> Bar;
+        Street -> Forrest, Shop, Bar;
+        Forrest -> Old_Castle, Street, Field, FightTheDragon;
+		Field -> House, Forrest, Street;
+        Shop -> Street;
+        Old_Castle -> Forrest, Bed_Room, Dining_Room, Basement, FightTheDragon;
+		Bed_Room ->Dining_Room, Old_Castle;
+		Basement-> DeathEnd;
+		Dining_Room-> Bed_Room, Old_Castle;
+		House -> Basement, Field, WitchFight;
+		WitchFight -> House, DeathEnd;
+		FightTheDragon -> DeathEnd, TheEnd;
+		TheEnd -> TheEnd;
+		DeathEnd -> DeathEnd;
+	} 
+	player = {
+		string name = "Geralt of Revia";
+		int Health_point = 100;
+		int Gold = 10;
+		int bandage_amount = 0;
+		int bandage_health = 21;
+		int potion_amount = 0;
+		int potion_health = 100;
+		int counter = 0;
+
+		int WORLD_LEVEL = 0;
+
+		bool regular_sword = true;
+    	int regular_sword_damage = 10;
+    	bool THE_GREAT_SWORD_OF_THE_OLD_ONE = false;
+    	int THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE = 50;
+    	bool GreatSwordReady = false;
+    	bool Boost_of_internal_power_for_one_attack = true;
+		int money_on_people_in_Garden = Roll(8,45);
+		bool CanLeaveBar = false;
+		bool VisitedBar = false;
+		bool VisitedCastle = false;
+		bool VisitedShop = false;
+		bool VisitedGarden = false;
+		bool VisitedForrest = false;
+		bool VisitedField = false;
+		bool isBlessedByWitch = false;
+		bool defeated_witch = false;
+		bool VisitedDining_Room_first = false;
+		bool VisitedDining_Room_Second = false;
+		
+		int NegativeNumbersTest = 2 * -5 + 2 - -2; 
+    }
+}
+
+Location DebugMenu = {
+
+	Text "~ Menu ~\n\nName: " + player.name + "\nHP: " + player.Health_point + "\nGold: " + player.Gold + "\nWorld level: " + player.WORLD_LEVEL;
+	choice {
+		"Start game" {Travel The_local_pub;}
+		"Change world level" {player.WORLD_LEVEL = userInput "Choose Wisely...";}
+		"Change name" {player.name = userInput "\nWhat is your new name?"; }
+		"Change gold" {player.Gold = userInput "Type number";}
+		"Activate God Mode" 
+		{
+			player.Health_point += 10000; 
+			player.regular_sword_damage += 100; 
+			player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE += 150; 
+			player.Gold += 100000;
+			player.THE_GREAT_SWORD_OF_THE_OLD_ONE = true;
+			player.isBlessedByWitch = true;
+		}
+		"Travel" {
+			Text "";
+			choice {
+				"Forrest" {Travel Forrest;}
+				"Street" {Travel Street;}
+				"Field" {Travel Field;}
+				"Old_Castle" {Travel Old_Castle;}
+				"Bed_Room" {Travel Bed_Room;}
+				"FightTheDragon" {Travel FightTheDragon;}
+				"House" {Travel House;}
+				"TheEnd" {Travel TheEnd;}
+				"DeathEnd" {Travel DeathEnd;}				
+			}
+		}
+	}
+
+}
+
+
+Location The_local_pub = {
+
+	Text "PUB OWNER: Hello there... You cannot be in here all day... You have to move soon "
+	+ player.name + ". There is trouble incomming and I dont want my pub to be destroyed..."
+	+ "like last time...";
+
+	choice {
+		"Leave me be, if it is my time to die on this pub so be it..."{
+		Text "PUB OWNER: dammit" + player.name + " You HAVE to move... " +
+		"Either you go on the street or go to the bar for the last beer... THEN move";
+		choice {
+			"HMMMMMMMM.... (rising up for going to the bar)" {Travel Bar;}
+			"HMMMMMMMM.... (rising up for going on the street)" {Travel Street;}}
+        }
+		"AAHHHHH!!!!!!!!!!!!!!... You dont have to yell, mom (drunk noice) BURP..."{
+			Text "'HELPFUL' GUY: So drunk he would not even notice... HEHE"; 
+			player.Gold -= 2;
+			Text "God forsaken... This man is so drunk he cant even tell im his mother or not";
+			Text "Throw him into the garden... then he can move himself from there...";
+			Travel Garden;
+		}
+		"Im sorry my old friend... i will be moving soon, just going to the bar"{Travel Bar;}
+	}
+}
+
+Location Garden = {
+	if( player.VisitedGarden is false){
+		player.VisitedGarden = true;
+		Text "Where.... Where am i???.... fuck i passed out again ";
+		Text "Hmmmm.... I lost some money, but there are other drunk people here, sooo...";
+
+		choice{
+			" Im gonna rub them for money, what they cant spent on alcohol before passing out is weak boi"   {player.Gold += player.money_on_people_in_Garden;}
+			" hmmmm.... (i am not gonna take any money and just leave)" 									 {Travel Bar;}
+		}
+	}
+	if(player.VisitedGarden is true){
+		Text "this garden is still full of drunken people every time.... the money in their pockets are still good... if im a bad person";
+		choice {
+			"i am a bad boi... im taking the Gold" 
+			{
+				if(player.Gold >= 50 AND player.Boost_of_internal_power_for_one_attack is true) 
+				{
+					Text "ohh... I have too much Gold... i can ditch something for more gold... is that what i want?";
+					choice{ 
+							"yes"    {Text "I need ALL the gold I can get"; player.Boost_of_internal_power_for_one_attack = false;}
+							"no"     {Text "I Have enough gold...";}
+					      }
+				}
+				else if (player.money_on_people_in_Garden > 0)
+				{
+					int roll = Roll(1,18);
+					Text "You stumble around and graps a visitors coin purse, it contains "+roll+" gold.";					
+					player.money_on_people_in_Garden -= roll;				
+					player.Gold += roll;
+				}
+				else
+				{
+					Text "It does not seem like here is anymore coin...";
+				}
+			}
+			"Hmmmmmmm... (im am not gonna take this gold from these people besauce im no better my self)"{Text "No... I am a good person";}
+		}
+	}
+		Text "well better get going... the Bar is a good place";
+		Text "fuck i mean hmmmmm... (well better get going... the Bar is a good place)";
+		Travel Bar;
+}
+
+Location Bar = {
+	if(player.VisitedBar == false){
+		player.VisitedBar = true;
+		Text "BARTENDER: Jesus... you look bad " + player.name + " how can someone like you ever be so bad at drinking HA HA HA!!!!";
+		Text "BARTENDER: Well joke aside... What can I get you " + player.name;
+
+		choice{
+			"beer... hm" {player.Gold -= 2; Text "comming right up..."; Text "hmm... my health is not so good now"; player.Health_point -= 8;
+				Text "current health and gold is now " + player.Health_point + " | " + player.Gold;}
+			"water...hm" {player.Gold -= 1; Text "okay... the best cure for hangover i guess even you need something like that once in a while"; 
+				Text "much better... hmm"; player.Health_point -= 2; Text "current health and gold is now " + player.Health_point + " | " + player.Gold;}
+			"nothing... hm" {	
+				Text "my head hurts... hmm"; player.Health_point -= 5; Text "BARTENDER: Are you sure I cant get you anything?";
+				choice {
+					"water... hm"{player.Gold -= 1; Text "much better... hmm"; player.Health_point += 3;
+						Text "current health and gold is now " + player.Health_point + " | " + player.Gold;}
+					"beer... hm"{player.Gold -= 2; Text "comming right up..."; Text "hmm... my health is not so good now"; player.Health_point -= 3;
+						Text "current health and gold is now " + player.Health_point + " | " + player.Gold;}
+				}	
+			}
+		}
+	}
+	if(player.VisitedBar is true){
+		Text "BARTENDER: so what can i get you besides my lovely drinks and women?";
+		choice {
+				"hmm... these women you speak of doesn't sound to bad"{Text "congratulations... you played yourself for some virtual punani... now lost 2 gold"; player.Gold -= 2;}
+				"hmm... more beer"{Text "BARTENDER: more beer costs more than just 1 gold... remember that..."; player.Gold -= 1; player.Health_point -= 5;}
+				"hmm... got a Dice table?" { Text "BARTENDER: In the back."; Travel GamblingTable;}
+				"hmm... is there a place relax?" {Text "BARTENDER: Try the Garden."; player.VisitedGarden = true; Travel Garden;}
+				"hmm... tell me about that dragon again..."{
+					Text "BARTENDER: Once upon a time, there was a cold hearted, backstabbing dragon that was so mean and ugly. He loved to travel to the human world and snatch little
+					kids out of their beds while they were sleeping, and he would drop them
+					down his green tortoise throat. Now back in those days all the kids would
+					sit in his stomach and cry, 'Let us out, Let us out!!' Of course he would not
+					let them out, but sometimes a brave little soul would travel the long journey
+					till he plopped out the other end.";
+					Text "what is that?? tell me the real story... hmm";
+					Text "BARTENDER: Now there was a little girl named Susie who had heard about this evil
+					dragon, and wanted to see for herself that he was real. So one night she
+					crawled under her sister's bed waiting for the dragon to pick her up. The
+					dragon came slowly and silently through the city, getting ready to pick up
+					his midnight snack. When Susie saw her she was amazed at how ugly he
+					was, his mouth was dripping with drool ready to pick a kid. He then picked
+					up Susie's sister with Susie hanging on to her back. Right before she was
+					going to be dropped in the pot of doom, she jumped swiftly on to the
+					dragons head. She felt the slimy texture of the dragon’s skin on her cold
+					bare toes, she waited until the dragon was ready to go, and then she
+					clenched his smelly ear as tight as she could so that she wouldn't go flying
+					off his head. Then she experienced something no one else had ever
+					experienced before, she was flying! She felt the cold winter breeze hitting
+					her face as they flew over her city.'There is my house,' she called with her
+					tiny sliver of a voice. She then looked behind her seeing how big the
+					dragon actually was and how small she was. She looked up at the night sky
+					and closed her eyes, drifting into a deep sleep.
+					";
+					Text "stop this nonsense my friend... hmm";
+					Text "BARTENDER: Susie woke up to the sound of big feet stomping on a rock.
+					As she peeked her eyes open, afraid of what she was going to see, she saw 
+					multiple dragons surrounding the dragon that she was standing on. The dragons
+					were making strange sounds in dragon language, yelling at the dragon that
+					seemed smaller than the rest. Susie looked down at the dragons eyes
+					seeing floods of tears streaming down its face, it was crying. She didn't see
+					why they were doing this, this dragon was huge to her, but small to them.
+					Then she understood, the dragon was lonely. After what felt like hours, the
+					little dragon scooted its way out of the circle moving back to its cave. Then
+					she saw the most ugly thing she had ever seen: trash, rubbish, mud
+					everywhere, and anything you could think of that was disgusting. She 
+					smelled in the stench and she thought she was going to throw up. As they
+					walked back to his cave Susie could feel the dragon moping around. She
+					felt so bad for him, eating all the little children so his sorrows would go
+					away. Then she called out as loud as she could in to the dragon’s ear:";
+					Text "HMMMMMMMMM (starting to get angry)";
+					Text "BARTENDER: 'Mr. Dragon, I think I might know how to help you.' As soon as the
+					dragon heard this, his yellow eyes peered up at Susie having the sense of
+					sorrow and anger all at once. As soon as his eyes hit hers they had a long
+					stare until the dragon picked her up with his creepy long claws and was
+					about to drop her in to his mouth, but he had missed his chance because
+					Susie had fainted.";
+					Text "BARTENDER: 'I'm so sorry, I'm so sorry!' Was what Susie woke up to.";
+					Text "BARTENDER: 'Please don't die, I'm so sorry!' She looked up and saw the dragon
+					looking over her, sobbing in big floods";
+					Text "BARTENDER: 'I'm all right Mr. Dragon.' Susie said. The dragon stopped sobbing
+					and looked her straight in the eyes. She then saw that this dragon was not
+					mean at all, all he needed was a friend. She looked deep in to him, seeing
+					all the things that had made this happen. She saw the sorr-";
+					Text "listen here my friend... I was talking about the drake with the contract on it... hmm";
+					Text "BARTENDER:ahh... why didn't you just say so my friend";
+					Text "...";
+					Text "BARTENDER: There is a dragon with a lot of health in the forrest might wanna do some damage to the dragon and saving this town..";
+					Text "BARTENDER: Might wanna shop before killing it i guess...";
+					player.regular_sword_damage = 12;
+					Text "current health: " + player.Health_point + ", damage: " + player.regular_sword_damage +" and gold: " + player.Gold;
+					Text "I might gonna go to the street, then I decide what i want to do... hmm";
+					player.CanLeaveBar = true;
+					Travel Street;
+				}
+				(player.CanLeaveBar) "... (leave)"{ Text "BARTENDER: May Sovngarde be with you!"; Travel Street;} 
+		}
+		
+	}
+}
+
+Location GamblingTable = {
+	int playerBet = 0;
+	bool gameRunning = true;
+	int dealerRoll = 0;
+	int playerRoll = 0;
+
+	Text "DEALER: The game is Dice of Sovngarde, dragons are triple and the die is a d20.\nCurrent gold: " + player.Gold;
+	choice {
+		"Leave" {Text "You get up and go out into the bar."; Travel Bar;}
+		(player.Gold >= 5) "Bet 5" {playerBet = 5;}
+		(player.Gold >= 10) "Bet 10" {playerBet = 10;}
+		(player.Gold >= 20) "Bet 20" {playerBet = 20;}
+		(player.Gold >= 50) "Bet 50" {playerBet = 50;}	
+		(player.Gold >= 1000) "Bet 1000" {playerBet = 1000;}	
+	}
+	dealerRoll = Roll(1, 20);
+	playerRoll = Roll(1, 20);
+	Text "The dealer rolls his dice.\nYou roll yours and you get " + playerRoll + ".\n\n";
+	if(playerRoll == 20){
+		Text "HOT DAMN Dragon it is!";
+		player.Gold += (playerBet * 3);
+	}
+	else{
+		choice {
+			"Bet your dice is greater" {
+				if(playerRoll > dealerRoll) {player.Gold += playerBet; }
+				else {player.Gold -= playerBet;}
+			}
+			"Bet your dice is lesser" {
+				if(playerRoll < dealerRoll) {player.Gold += playerBet; }
+				else {player.Gold -= playerBet;}
+			}
+			"Bet your dice is equal" {
+				if(playerRoll == dealerRoll) {player.Gold += (playerBet * 13);}
+				else {player.Gold -= playerBet;}
+			}
+		}
+	}
+
+}
+
+Location Street = {
+	Text "You are now on the street in the town known as HONEYWOOD... (ironic init HA HA :-)";
+	Text "From here you can travel to THE FORREST, THE BAR (again) OR THE SHOP, where would you like to go " + player.name;
+	choice{
+		"travel to the forrest, i will hmmm..."{Travel Forrest;}
+		"travel to the bar, hmmm... women and beer is still good"{Travel Bar;}
+		"travel to the Shop, hmm might need some good sjit hmm"{Travel Shop;}
+		"information about the town of honeywood" {
+			if(player.counter is 0){
+				Text "TRUST ME.... YOU DONT WANT TO KNOW... now go to the shop... and dont EVER THINK of asking this again..."; player.counter += 1; Travel Shop;
+			}else{
+				Text "told you not to ask again..."; player.Health_point -= 10; Text "current hp is " + player.Health_point + " not smart....."; Travel Shop;
+			}
+		}
+	}
+}
+Location Shop = {
+	if(player.VisitedShop is false){
+		Text "SHOP OWNER:	Hello " + player.name + " what can i get for you?   ";
+		Text "hmmm... hello Emperor... i need something from you";
+		Text "SHOP OWNER:	YEEEEEEES..... that is why you are here?";
+		Text "hmmm....";
+		Text "SHOP OWNER: ....";
+		Text "....";
+		player.VisitedShop = true;
+	}
+	else{
+		Text "UNLIMITED ITEMS... what do you want to buy?\n\nCurrent gold: " + player.Gold + "\nCurrent potions: " + player.potion_amount + "\nCurrent bandages: " + player.bandage_amount;
+	}
+	choice{
+		"... (leave)"{ Text "bye! hmm"; Travel Street;} 
+		"... (buy some potions)"{
+			if(player.Gold >= 10){
+				Text "potions? hmmm"; Text "here"; player.potion_amount +=1; player.Gold -= 10;
+			}else{
+				Text " HEHEHE you have no power here...	LEAVE MY SHOP!!!"; Travel Street;
+			}
+		}
+		"... (buy some bandages)"{
+			if(player.Gold >= 3){
+				Text "bandage? hmm"; Text "here"; player.bandage_amount +=1; player.Gold -=3;
+			}else{
+				Text " HEHEHE you have no power here...	LEAVE MY SHOP!!!"; Travel Street;
+			}
+		}
+	}
+}
+
+Location Forrest = {
+
+	if(player.VisitedForrest == false){
+		Text "you are now in the forrest, on the way for the clue of where the dragon could be...";
+		Text "you find some gold in the forrest in the direction of the field"; player.Gold += 5; 
+		Text "current status: " + player.Gold + " | " + player.Health_point;
+		Text "There is also an old castle ahead, might also be where the drake are.. hmmm";
+		Text "where to go? hmmm....";
+		player.VisitedForrest = true;
+	}else{
+		Text "There is the field ahead or the old castle... hmmm... the town is behind me also if i need to go back..";
+		Text "where to go? hmmm....";
+	}
+	choice{
+		"I will go north... to the field"{Travel Field;}
+		"I will search in the old, dark, very very scary castle.. hmmm (nervous hmmm)"{Travel Old_Castle;}
+		"hmmm...I am a chicken... I go back to the town..."{ Text "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!"; Travel Street;}
+	}
+	
+
+}
+Location Field = {
+	Text "There is so beautiful here";
+	Text "sometimes i wonder what is the purpose of life is when I look over this field... hmm";
+	Text "Well this is a good place to take a nap before moving on";
+	Text "But then again I am a busy " + player.name + " so... what to do hmmm...";
+	bool bad = false;
+	choice{
+		"A tired person" {
+			Text "ZZZzzzZZZzzz .... ZZZzzzZZZzzz";
+			Text "VOICE IN HEAD: You will never find the dragon in this area... the life of yours, is no longer in your hands";
+			Text "VOICE IN HEAD: Do you believe in faith... believe in quality of life in all lifeforms..?";
+			choice{
+				"Yes i do... maybe my purpose is not to kill but to love"{Text "VOICE IN HEAD: :-)"; player.Health_point = 100;}
+				"No.. life is meaningless, no matter the form or age... all shall die by my hand"{Text "VOICE IN HEAD: :-/"; player.regular_sword = false; bad = true;}
+			}
+			Text "AHH!...... hmmm, the dreams keeps getting worse, hopefully i didnt do anything stupid like saying No in a dream...";
+			if(bad is true){
+				Text "That would make me lose something on me of value... like a potion or my swor-.....";
+				Text "where is my sword... hmmm";
+				Text "hmmmm....."; 
+				Text "Well... i hope i find something else to fight with... or else im a bad " + player.name;
+			}else{
+				Text "good thing i said Yes then... I still have all my belongings.. hmmm";
+				Text "I love this game";
+			}
+			Text "well lets get going... where to hmmm...";
+			choice{
+				"There is a house... maybe there is something useful inside there hmmm.."{Text "To the house"; Travel House;}
+				"The street is still visible from here... maybe I am still a chicken... hmm.."{Text "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!"; Travel Street;}
+				"Maybe the forrest can give me something... hmm the old castle there"{Text "back to the forrest... hmm"; Travel Forrest;}
+			}
+		}
+		"A fresh person"{
+			Text "I am good to go and want to move to other places, since the drake is not here or else the writer would have made it appear..";
+			Text "let me see... hmm...";
+			choice{
+				"There is a house... maybe there is something useful inside there hmmm.."{Text "To the house"; Travel House;}
+				"The street is still visible from here... maybe I am still a chicken... hmm.."{Text "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!"; Travel Street;}
+				"Maybe the forrest can give me something... hmm the old castle there"{Text "back to the forrest... hmm"; Travel Forrest;}
+			}
+		}
+	}
+}
+
+Location House = {
+
+	if(player.defeated_witch == false){
+		Text "You walk into the house and a Hag stands there in her sunday clothes.\nIt is a bit awkward.";
+		Text "She screams and throws lightning at you, but you dodge.";
+		Travel WitchFight;
+	}
+
+	player.money_on_people_in_Garden += Roll(8,15);
+	Text "The house is an old house... might be cursed based on what the old witch did... hmm.. ";
+	Text "I feel the urge for not going down in the basement... but there could also be some good booty down there... hmm";
+	Text "what should i do..."; 
+	choice{
+		"hmm... I am not afraid for going down in the basement"{
+			Text "DARK VOICE: 'are you sure that is what you want?'";
+			choice{
+				"YES BRING IT ON!!!!! ARHHH"{Text "DARK VOICE: SO BE IT..."; Travel Basement;}
+				"NO DONT BRING IT ON IHHHH"{Text "DARK VOICE: good choice... NOW LEAVE!!!!!!!!!"; Text "uhhh im running!"; Travel Field;}
+			}
+		 }
+		 "hmm there is nothing in this house, and that basement is not worth it... i want to live to fight the dragon..."{Travel Field;}
+	}
+}
+
+
+Location Basement = {
+	Text "*****REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*****";
+	Text "*INTERNAL DARKNESS*";
+	Text "Do have any regrets... should i have killed the BARTENDER... would I have ever met the dragon... does soya taste good on eggs...";
+	Text "this is the e-";
+	Travel DeathEnd;
+}
+
+
+Location WitchFight = {
+	int witch_HP = 100 + 10*player.WORLD_LEVEL;
+	int witch_DMG = 5 + 2*player.WORLD_LEVEL;
+	bool isPlayerConfused = false;
+	int coin = witch_DMG*5;
+
+	while(true){
+        Text "Your HP: " + player.Health_point + "   Hag HP: " + witch_HP;
+        int roll = 0;
+		if(isPlayerConfused == false){
+        	choice {
+        	    "Bonk with stick!" 
+        	    { 
+        	        roll = Roll(3, 8); witch_HP -= roll; 
+        	        Text "You whack the hag for "+roll+" damage."; 
+        	        player.GreatSwordReady = false;
+        	    }
+        	    (player.regular_sword) "Swing your Sword!" 
+        	    { 
+        	        roll = Roll(player.regular_sword_damage -3, player.regular_sword_damage +3); 
+        	        witch_HP -= roll; 
+        	        Text "You Swing your Sword for "+roll+" damage.";
+        	        player.GreatSwordReady = false;
+        	    }
+				(player.potion_amount > 0) "Drink potion" 
+        	    { 
+        	        player.Health_point += player.potion_health; 
+        	        Text "You hide behind a chair while chugging a potion, it is refreshing.";
+        	        player.GreatSwordReady = false;
+					player.potion_amount -= 1;
+        	    }
+				(player.bandage_amount > 0) "Apply bandage" 
+        	    { 
+        	        player.Health_point += player.bandage_health; 
+        	        Text "You hide long enough to quickly apply bandage to yourself";
+        	        player.GreatSwordReady = false;
+					player.bandage_amount -= 1;
+        	    }
+        	    (player.THE_GREAT_SWORD_OF_THE_OLD_ONE and player.GreatSwordReady == false) "Ready the Great Old Sword." 
+        	    {
+        	        Text "When hand comes to hilt, question comes to heart, from soul is given heaven's answer via either divine balancing scale or sword."+ 
+        	            "For there is either hope, or there is not, and one way or another, suffering must end.";
+        	        player.GreatSwordReady = true;
+        	    }
+        	    (player.THE_GREAT_SWORD_OF_THE_OLD_ONE and player.GreatSwordReady == true) "Attack with the Great old Sword!" 
+        	    {
+        	        roll = Roll((player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE -13), (player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE +13)); 
+        	        witch_HP -= roll; 
+        	        Text "You wield the Sword with might!\nand it slices through the dragon like a hot knife through butter.\n\n"+
+        	            "You attack for "+ roll +" damage.";
+        	        player.GreatSwordReady = false;
+        	    }
+        	}
+		}
+		isPlayerConfused = false;
+  
+        if (witch_HP <= 0) {
+            Text "The deed is done. The Hag is dead.";
+            Text "A GLORIUS WIN for you!";
+			Text "You find " + coin + " gold and 2 potions.";
+			player.Gold += coin;
+			player.potion_amount += 2;
+			player.defeated_witch = true;
+            Travel House;
+        }
+
+        if(witch_HP < 50 and Roll(1,2) == 1){
+            Text "The hag gets confused and runs around in circles. She is hurting.";
+            choice {
+                "Go for the Execute." 
+                {
+                    if(player.THE_GREAT_SWORD_OF_THE_OLD_ONE){ 
+                        Text "You slice the Hag over into two equal pieces.";
+                        Text "Silence follows.";
+                        witch_HP = 0;
+                    }
+                    else if(Roll(1, 3) == 1){
+                        Text "You attack the Hag\n\nIt gets ready.";
+                        Text "You fumble and by sheer luck, end up bashing the Hag with a frying pan. You got her good.";
+                        witch_HP = 0;
+                    }
+                    else { 
+                        roll = Roll(witch_DMG, (witch_DMG + 6));
+                        Text "You rush towards the Hag!";
+                        Text "She slaps you ass down for " + roll + " damage.";
+                        player.Health_point -= roll;
+                    }
+                }
+                "Not yet" {player.Health_point += 4;}
+            }
+        }
+        else if (Roll(1,3) == 1){
+            roll = Roll((player.regular_sword_damage + 5), (player.regular_sword_damage + 10)); 
+            Text "The Hag calls upon her gods";
+            choice {
+				"Wait and watch." { Text "The Hag grows stronger"; witch_DMG += 3;}
+				(Roll(1,3) == 1) "Stop her. " {Text "You run towards the Hag, and push her over. She propels you away in an instant."; player.Health_point -= 3; }
+				(Roll(1,3) == 1) "Hide and rest for a second." {Text "You hide while the Hag chants"; witch_DMG += 3; player.Health_point += 5;}
+				(Roll(1,4) == 1) "Join her in chanting." {
+					Text "You join the Hag in chanting. You both grow stronger."; 
+					witch_DMG += 3; 
+					player.regular_sword_damage += 3; 
+					player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE += 5;
+				}
+				(Roll(1,15) == 1) "Smack that booty" {Text "The Hag is pleased, and you have been blessed."; player.isBlessedByWitch = true; }
+            }
+        }
+
+        if (witch_HP <= 0) {
+            Text "The deed is done. The Hag is dead.";
+            Text "A GLORIUS WIN for you!";
+			Text "You find " + coin + " gold and 2 potions.";
+			player.Gold += coin;
+			player.potion_amount += 2;
+			player.defeated_witch = true;
+            Travel House;
+        }
+  
+        int enemychoice = Roll(1,5);
+        int enemyRoll;
+          
+        if (enemychoice == 1 or enemychoice == 2){
+            enemyRoll = 1 + Roll((witch_DMG - 5), (witch_DMG + 5));
+            Text "The Hag shoots lighting at you for "+enemyRoll+" damage!";
+            player.Health_point -= enemyRoll;
+        } else if (enemychoice == 3) {
+            enemyRoll = Roll((witch_DMG-3),(witch_DMG+3));
+            Text "The Hag chugs a potion.\nHer wounds heal.";
+            witch_HP += enemyRoll;
+        } else if (enemychoice == 4) {
+            enemyRoll = Roll((witch_DMG+3),(witch_DMG*2));
+            Text "The Hag charges a fireball and throws it at you\n\nYou are hit for " + enemyRoll + " damage";
+            player.Health_point -= enemyRoll;
+        }
+		else if (enemychoice == 5){
+            enemyRoll = Roll((witch_DMG - 10), (witch_DMG + 10));
+            Text "The hag speaks an ancient language. You feel lovely on the inside.";
+			isPlayerConfused = true;
+        }
+        
+        if (player.Health_point <= 0) {
+            Text "you dead boi.. to a hag..";
+            player.Health_point = 1; 
+            Travel DeathEnd;
+        }
+        if (witch_HP <= 0) {
+            Text "The deed is done. The Hag is dead.";
+            Text "A GLORIUS WIN for you!";
+			Text "You find " + coin + " gold and 2 potions.";
+			player.Gold += coin;
+			player.potion_amount += 2;
+			player.defeated_witch = true;
+            Travel House;
+        }
+    }
+}
+
+
+Location Old_Castle = {
+	bool Answer = true;
+	Text "You are now in the old castle...";
+	while(Answer){
+		Text "what does " + player.name + " want to do?";
+		choice{
+			"I want to see my current... EVERYTHING!!!!"{ 
+				Text "name: " + player.name + " | " + "health: " + player.Health_point + " | " + "gold: " + player.Gold
+				+ " | " + "amount og bandages " + player.bandage_amount +  " (+21 hp) | " + "potion amount: " 
+				+ player.potion_amount + " | " + "normal sword dmg: " + player.regular_sword_damage 
+				+ " (good luck with that sword) ";}
+			"I want to explorer the castle for hopefully more extreme shit than your current sword"{
+				Text "noice hmmm.... where do I want to go for further exploring?";
+				while(Answer){
+				choice{
+					"To the old bedroom in this castle... everyting extreme happens in bedrooms..."{Travel Bed_Room;}
+					"Take me to the candyshop"{Text "What are you.... 5???? pick another";}
+					"To the forrest again.. might missed something... like an egg.... because im a chicken if a go back"{Text "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!"; Travel Forrest;}
+					"To the Dining room there is always something in the dining room"{Text " TO THE DINING ROOM *shhhhhhhhhhuuuuuuussssss* (yes you are 5) "; Travel Dining_Room;}
+				}
+			}
+		}
+			"I want RIGHT NOW... hmmm to fight the dragon, which might, might not be on the roof... who knows... it is a dragon after all... hmm"{
+				Text "AM I SURE I WANT TO FIGHT THE DRAGON NOW... WITH MY CURRENT HEALTH...." + player.Health_point + "?";
+				choice{
+					"I AM READY"{
+						Text "are you REALLY REALLY SURE!!!!!!!!!!!!!!!! NO TURNING BACK... LIFE OR DEATH... NOT LIKE THE BASEMENT...";
+						choice{
+							"YEEEES"{ Text "okay say i didnt warn ya.... hmmm"; Travel FightTheDragon;}
+							"no"{Text "thought so...";}
+						}
+					}
+					"not ready"{
+						Text "thought so...";
+					}
+				}
+			}
+		}
+	}
+
+}
+Location Bed_Room = {
+	bool Answer = true;
+	Text "It seems there is chosen the bedroom... full of action happens in the bedroom... hmm";
+	Text "Mostly dust... i mean.. it is old... cant expect much... but there is still some small things inside here...";
+	while(Answer){
+		Text "What to check...";
+		choice{
+			"the closet... hmm"{ Text "there is nothing there... hmm";}
+			"Behind the bed... hmm"{
+				Text " THERE IS SOMETHING HERE";
+				Text "Pretty voice: yeeees, witcher, you found me at last";
+				Text "Pretty voice: I've been waiting for you for a long time now, like ever since the creator created me... that's like 12 hours ago...";
+				Text "Pretty voice: please pick me up from behind the bed... daddy";
+				choice{
+					"I will pick up"{ 
+						Text "hmm.. wao... there was: dead rat, non-magic dust and oh yea... A CRAZY STRONG SWORD FROM THE LEGENDARY OLD ONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1";
+						Text "Pretty voice: i am finally with you my lovly daddy... I will assist you more in the quest against the evil dragon on the roof which is pretty strong";
+						Text "What?? hmm....";
+						Text "Pretty voice: what?";
+						Text "...";
+						player.THE_GREAT_SWORD_OF_THE_OLD_ONE = true;
+						Text "*congrats... you are now in posession of the GREAT SWORD OF THE OLD ONE";
+						while(Answer){
+							choice{
+								"read manual"{
+									Text "Definition of sword
+									1: a weapon (such as a cutlass or rapier) with a long blade for cutting or thrusting that is often used as a symbol of honor or authority
+									2a: an agency or instrument of destruction or combat";
+								}
+								"Travel to the Dining room, might be good shit there"{Travel Dining_Room;}
+								"go back where I came from... hmm, then decide what to do next"{Travel Old_Castle;}
+							}
+						}
+					}
+					"i will not pick up"{Text "your loss dude... hmmm";}
+				}
+			}
+			"behind the window... hmm"{Text "IDIOT... one cannot simply check behind a window...";}
+			"Go to the dining room... hmmm, there is nothing for me here..." {Text "To the dining room hmmmmmmmmmmmmmm (deep hmm)"; Travel Dining_Room;}
+			"go back to where i came from... hmm"{ Travel Old_Castle;}
+		}
+	}
+
+}
+
+Location Dining_Room = {
+	if(player.VisitedDining_Room_first is false){
+		Text "nothing here, go away...";
+		player.VisitedDining_Room_first = true;
+		Travel Old_Castle;
+	}
+	
+	if(player.VisitedDining_Room_Second is false){
+		Text "okay here is a bandage now go..."; 
+		player.bandage_amount += 1;
+		Travel Old_Castle;
+		player.VisitedDining_Room_Second = true;
+	}
+	else {
+		if(player.isBlessedByWitch){
+			Text "You dont quit do ya?\nLet me enchant your weapons for ya.";
+			player.regular_sword_damage += 10;
+			player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE += 20;
+			player.isBlessedByWitch = false;
+			Travel Old_Castle;
+		} 
+		else{
+			Text "nice try....................";
+			Travel Old_Castle;
+		}
+	}
+}
+	
+Location FightTheDragon = {   
+	int dragonLevel = 0;
+    bool flag = true;
+	int The_dragon_of_smaguron_health = 1000 + 150*player.WORLD_LEVEL;
+	int The_dragon_of_smaguron_damage = 10 + 3*player.WORLD_LEVEL;
+
+    while(flag){
+        Text "Your HP: " + player.Health_point + "   Dragon HP: " + The_dragon_of_smaguron_health;
+        int roll = 0;
+        choice {
+            "Bonk with stick!" 
+            { 
+                roll = Roll(3, 8); The_dragon_of_smaguron_health -= roll; 
+                Text "You Bonk the *Dragon* for "+roll+" damage."; 
+                player.GreatSwordReady = false;
+            }
+            (player.regular_sword) "Swing your Sword!" 
+            { 
+                roll = Roll(player.regular_sword_damage -3, player.regular_sword_damage +3); 
+                The_dragon_of_smaguron_health -= roll; 
+                Text "You Swing your Sword for "+roll+" damage.";
+                player.GreatSwordReady = false;
+            }
+			(player.potion_amount > 0) "Drink potion" 
+            { 
+                player.Health_point += player.potion_health; 
+                Text "You run around the dragon while chugging a potion, it is refreshing.";
+                player.GreatSwordReady = false;
+				player.potion_amount -= 1;
+            }
+			(player.bandage_amount > 0) "Apply bandage" 
+            { 
+                player.Health_point += player.bandage_health; 
+                Text "You hide long enouge to quickly apply bandage to yourself";
+                player.GreatSwordReady = false;
+				player.bandage_amount -= 1;
+            }
+            (player.THE_GREAT_SWORD_OF_THE_OLD_ONE and player.GreatSwordReady == false) "Ready the Great Old Sword." 
+            {
+                Text "When hand comes to hilt, question comes to heart, from soul is given heaven's answer via either divine balancing scale or sword."+ 
+                    "For there is either hope, or there is not, and one way or another, suffering must end.";
+                player.GreatSwordReady = true;
+            }
+            (player.THE_GREAT_SWORD_OF_THE_OLD_ONE and player.GreatSwordReady == true) "Attack with the Great old Sword!" 
+            {
+                roll = Roll((player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE -13), (player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE +13)); 
+                The_dragon_of_smaguron_health -= roll; 
+                Text "You wield the Sword with might!\nand it slices through the dragon like a hot knife through butter.\n\n"+
+                    "You attack for "+ roll +" damage.";
+                player.GreatSwordReady = false;
+            }
+        }
+  
+        if (The_dragon_of_smaguron_health <= 0) {
+            Text "The deed is done.";
+            Text "A GLORIUS WIN for you!";
+            Travel TheEnd;
+        }
+
+        if(The_dragon_of_smaguron_health < 400 and Roll(1,3) == 3){
+            Text "The Dragon gets angry, it is fighing for its life.";
+            choice {
+                "Go for the Execute." 
+                {
+                    if(player.THE_GREAT_SWORD_OF_THE_OLD_ONE and Roll(1,2) == 1){ 
+                        Text "You rush towards the dragon\n\nIt fears you.";
+                        Text "You Slice your Great Old Sword through the dragons skull.\nIt screams.";
+                        The_dragon_of_smaguron_health = 0;
+                    }
+                    else if(Roll(1, 4) == 4){
+                        Text "You rush towards the dragon\n\nIt gets ready.";
+                        Text "By a true miracle you pierce the dragons scales.\n\nYou got it good.";
+                        The_dragon_of_smaguron_health = 0;
+                    }
+                    else { 
+                        roll = Roll(The_dragon_of_smaguron_damage, (The_dragon_of_smaguron_damage + 15 + dragonLevel));
+                        Text "You rush towards the beast!";
+                        Text "You hit it but the scales stopped your weapon.\n\nIt spits fire at you for " + roll + " damage.";
+                        player.Health_point -= roll;
+                    }
+                }
+                "Not yet" {player.Health_point += 4;}
+            }
+        }
+        else if (Roll(1,5) == 5){
+            roll = Roll((player.regular_sword_damage + 5), (player.regular_sword_damage + 10)); 
+            Text "The Dragon turns its back. you see your chance\n\nDo you take it?";
+            choice {
+                "Run and jump onto the back of the dragon!" { Text "You slice open a fresh wound and deal " + roll + " damage"; The_dragon_of_smaguron_health -= roll;}
+                "Catch your breath instead" {Text "You catch your breath and feel the second wind.\n\nJust in time for the dragon again facing you"; player.Health_point += Roll(3,8);}
+				"Pray to your god" 
+				{
+					if(player.Boost_of_internal_power_for_one_attack){
+						Text "YOUR GOD LISTENS AND HE SMITES THE CREATURE!";
+						The_dragon_of_smaguron_health -= 300;
+						player.Boost_of_internal_power_for_one_attack = false;
+					}
+					else if(Roll(1, 5) == 1){
+						Text "Your god answers, you feel restored";
+						player.Health_point += Roll(1, 50);
+					}
+					else{
+						Text "nothing happens.. are your god even real?";
+					}
+				}
+            }
+        }
+
+        if (The_dragon_of_smaguron_health <= 0) {
+            Text "The deed is done.";
+            Text "A GLORIUS WIN for you!";
+            Travel TheEnd;
+        }
+  
+        int enemychoice = Roll(1,4);
+        int enemyRoll;
+          
+        if (enemychoice == 1){
+            enemyRoll = Roll((The_dragon_of_smaguron_damage - 10), (The_dragon_of_smaguron_damage + 10));
+            Text "The Dragon bites you for "+enemyRoll+" damage!";
+            player.Health_point -= enemyRoll;
+        } else if (enemychoice == 2) {
+            enemyRoll = Roll((The_dragon_of_smaguron_damage - (The_dragon_of_smaguron_damage*2)),(8 + The_dragon_of_smaguron_damage*2)) + dragonLevel*3;
+            Text "The Dragon recites an ancient melody\nIts lifeforce has changed by " + enemyRoll + " health ";
+            The_dragon_of_smaguron_health += enemyRoll;
+        } else if (enemychoice == 3) {
+            enemyRoll = Roll((The_dragon_of_smaguron_damage),(The_dragon_of_smaguron_damage+5)) + dragonLevel*2;
+            Text "The Dragon spits fire in a cone\n\nYou are hit for " + enemyRoll + " damage";
+            player.Health_point -= enemyRoll;
+        }
+		else if (enemychoice == 4){
+            enemyRoll = Roll((The_dragon_of_smaguron_damage - 10), (The_dragon_of_smaguron_damage + 10));
+            Text "The Dragon flies over and land behind you. It spits fire on the ground, you have to move to get around it. The dragon recites an ancient melody and grow stronger";
+            The_dragon_of_smaguron_damage += 4;
+			player.GreatSwordReady = false;
+        }
+          
+        if (player.Health_point <= 0) {
+            Text "you dead boi";
+            player.Health_point = 1; 
+            Travel DeathEnd;
+        }
+        if (The_dragon_of_smaguron_health <= 0) {
+            Text "The deed is done.";
+            Text "A GLORIUS WIN for you!";
+            Travel TheEnd;
+        }
+    }
+}
+
+Location DeathEnd = {
+	Text "GOD (yes.... I am real): You died... hmm";
+	Travel DeathEnd;
+}
+
+Location TheEnd = {
+	Text "WOW....  you did it.... i cant belive you actually finished this test game...";
+	Text "you are the hero... the hero who saved the town of honeywood... this can only be celibrated  with the outmost happy reward:";
+	Text "The BIGGEST amount of GOLD which is allowed of me to give you, which is 2,147,483,647";
+	Text "wow... im so happy you ended this, hope you had fun at least, or at least felt a bit nostalgic...";
+	Text "before goodbye.. a quick roundup from our sponsor for this game; MONSTER ApS and Aurora Cannabis";
+	Text "off course a BIG applause to the developers of this program and the language in general: ";
+	Text "Kevin Koepke";
+	Text "Casper Nordspang";
+	Text "Buenno";
+	Text "Dunnis";
+	Text "Frede";
+	Text "and last and least, the polish dude";
+	Text "Hope for the best for you, and good win forward.................................................... THE END";
+	Travel TheEnd;
+}

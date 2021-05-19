@@ -1,19 +1,142 @@
 setup{
-    Locations = {       
-        Hvidovre -> Hvidovre;
+    Locations = {
+        Start -> Lokale, Hvidovre;
+        Lokale -> Slottet, TheFuckeNing;
+        TheFuckeNing -> Lokale;
+        Slottet -> Lokale, Hvidovre;
+        Hvidovre -> END_POINT, Lokale, Start, TheFuckeNing, Slottet;
+        END_POINT -> END_POINT;
     }
-    player {
-	int aaa = 1;
-    int yup = 12200;
+    player = {
+	string name = "Herp";
+	int health = 30;
+    int joints = 0;
+	bool hasSword = false;
+    bool gotDealer = false;
+    int trollLevel = 0;
+    }
+}
+
+Location Start = {
+    Text "You just arrived in the city, the night is comming.";
+    Text " ~ Hello there traveler! How was the journey? My name is Aslan.\n A bro-ass hippie in the street looks at you\n\n ~ ...wanna get high?"; 
+    choice {
+        "fuck. yeah. (+1 joint)" {player.joints += 1;}
+        "nah" { Text "..aight cool. Goodnight then.\n\n If you need a bed try Hvidovre"; Travel Hvidovre; }	    
+    }
+    Text "Cool! let's go to the bar over there. Looks like they are smoking inside.";
+    Text "The bar is lively, people are cheering.\n The hippie goes towards the bar while lighting one.\n You see a women of the night standing in a door.";
+    Travel Lokale;
+}
+
+Location Lokale = {
+    choice {
+        "Go to the lady" { Travel TheFuckeNing; }
+        (player.gotDealer == false)"Find the Hippie in the bar" {player.gotDealer = true; Text "You find the Hippie in the bar.\n ~ hey friend, I got some joints when you are ready";}
+        (player.gotDealer) "Smoke with Hippie" 
+        {
+            Text "The Hippie sees you.\n ~ yo, the deal is blood for ju\n you in?";
+            choice {
+                "sure" {player.health -= 5; player.joints += 1; Text "He grabs your arm and bites you!\n ~ Thanks man, here you go\n\nHe hands you a ju";}
+                "nah im good" {Text "Cool. you ";}
+            }
+        }
+        "See what the noise in the back is." {Text "Welp its a troll."; Travel Slottet;}
+    }
+}
+
+Location TheFuckeNing = {
+    int i = 0;
+    Text "A large women stands in the doorway\n ~ Hello there boo\nShe stares at you. ";
+    choice {
+        "ma'lady ;)" 
+        {
+            Text "She drags you in..";
+            Text "Throws herself on the bed";
+            while(i <= 4){
+                choice {
+                    "Spank" {i+= 1; Text "*BOING*";}
+                    "Slap" {i+= 1; Text "*YAP*";}
+                    "Dap" {i+= 1; Text "*DAP*";}
+                    "Nap" {i+=1; player.health += 1; Text "You nap beside the women. You regain 1 Hp";}
+                }
+            }
+            Text "She start peeing and you rush out into the bar..\n\n...On the way out you grab a sword from behind a dresser.";
+            player.hasSword = true;              
+        }
+            "uhm.. what?" { Text " ~ Not a man of the night, I see. \nShe turn around..";}
+        
+    }
+    Travel Lokale;
+
+}
+
+Location Slottet = {
+    int enemy_health = 42 + player.trollLevel * 5;
+    bool flag = true;
+
+    while(flag){
+        Text "Your HP: " + player.health + "(jays:"+player.joints+")   Troll HP: " + enemy_health;
+        int roll = Roll(6,14);
+        int lroll = roll + 6;
+        choice {
+            "Attack with Staff" { enemy_health -= roll; Text "You attack for "+roll+" damage.";}
+            (player.joints > 0)"Smoke Health Potion" { player.health += 15; player.joints -= 1; Text "420 baby! 15 Health healed";}
+            (player.hasSword) "Swing your Sword!" {enemy_health -= lroll; Text "You attack for "+ lroll +" damage.";}
+        }
+  
+        if (enemy_health <= 0) {
+            Text "The troll falls over, it is done.";
+            Text "A GLORIUS WIN for you! The Troll had 6 jays in his stash, score!";
+            player.joints += 6;
+            Travel Hvidovre;
+        }
+  
+        int enemychoice = Roll(1,2);
+          
+        if (enemychoice == 1){
+            int enemyDamage = Roll((8 + player.trollLevel*2), (15 + player.trollLevel*2));
+            Text "The Enemy attacks you with his greatclub for "+enemyDamage+" damage!";
+            player.health -= enemyDamage;
+        } else if (enemychoice == 2) {
+            int enemyHeals = Roll((4 + player.trollLevel*2),(8 + player.trollLevel*2));
+            Text "The enemy heals for " + enemyHeals + " health";
+            enemy_health += enemyHeals;
+        }
+          
+        if (player.health <= 0) {
+            Text "you dead boi";
+            player.health = 1; 
+            Travel Lokale;
+        }
     }
 }
 
 Location Hvidovre = {
-    string name = "P. I. Smith";
-    player.aaa = 2;
-    int bbb = 2 * (240 + 23);
-    if(bbb < 100){
-        name = "Herp The Derp";
-    };
-    Text "Congratulations, " + name + " you managed to get to Hvidovre!";
-};
+    
+    Text "Congratulations, " + player.name + " you managed to get to the debug menu!\nHp: " + player.health + "   Jays: " + player.joints + "   TrollLvl: " + player.trollLevel;
+    choice {
+        "Set health to 1" {player.health = 1;}
+        "Reroll Health" { player.health = Roll(2, 100); }
+	    "Toggle Sword" {
+		    if(player.hasSword == false){
+			    player.hasSword = true;
+			    Text "Sword gained yay";
+		    }
+		    else{
+			    player.hasSword = false;
+			    Text "Aaaand its gone...";
+		    }
+	    }
+        "level up troll" {player.trollLevel += 1;}
+        "level down troll" {player.trollLevel -= 1;}
+        "get jay" {player.joints += 1;}
+        "lose jay" {player.joints -= 1;}
+        "Goto Lokale" {Travel Lokale;}
+    }
+}
+
+Location END_POINT = {
+    Text "END";
+    
+}

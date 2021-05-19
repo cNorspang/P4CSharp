@@ -66,13 +66,13 @@ void DEFINED_LOCATION_Start(){
 
     printf("\n2. nah"); 
 
-    int USER_CHOICE_INPUT_KqabnM0k = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_MwzTapGF = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_KqabnM0k == 1){
+  if (USER_CHOICE_INPUT_MwzTapGF == 1){
     PLAYER_STRUCT.joints+=1;
   }
 
-  if (USER_CHOICE_INPUT_KqabnM0k == 2){
+  if (USER_CHOICE_INPUT_MwzTapGF == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "..aight cool. Goodnight then.\n\n If you need a bed try Hvidovre");
@@ -104,16 +104,16 @@ void DEFINED_LOCATION_Lokale(){
 
     printf("\n4. See what the noise in the back is."); 
 
-    int USER_CHOICE_INPUT_11LUogDk = COMPILER_TOOL_GET_INPUT(4);
+    int USER_CHOICE_INPUT_jQ65w0EN = COMPILER_TOOL_GET_INPUT(4);
 
-  if (USER_CHOICE_INPUT_11LUogDk == 1){
+  if (USER_CHOICE_INPUT_jQ65w0EN == 1){
 
 DEFINED_LOCATION_TheFuckeNing();
   }
 
  if (PLAYER_STRUCT.gotDealer == false){
 
-  if (USER_CHOICE_INPUT_11LUogDk == 2){
+  if (USER_CHOICE_INPUT_jQ65w0EN == 2){
     PLAYER_STRUCT.gotDealer = true;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -121,11 +121,11 @@ DEFINED_LOCATION_TheFuckeNing();
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
- } else if (USER_CHOICE_INPUT_11LUogDk == 2) { USER_CHOICE_INPUT_11LUogDk = 3; } 
+ } else if (USER_CHOICE_INPUT_jQ65w0EN == 2) { USER_CHOICE_INPUT_jQ65w0EN = 3; } 
 
  if (PLAYER_STRUCT.gotDealer){
 
-  if (USER_CHOICE_INPUT_11LUogDk == 3){
+  if (USER_CHOICE_INPUT_jQ65w0EN == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "The Hippie sees you.\n ~ yo, the deal is blood for ju\n you in?");
@@ -135,9 +135,9 @@ DEFINED_LOCATION_TheFuckeNing();
 
     printf("\n2. nah im good"); 
 
-    int USER_CHOICE_INPUT_5HPXvsVY = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_CPRHfG9S = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_5HPXvsVY == 1){
+  if (USER_CHOICE_INPUT_CPRHfG9S == 1){
     PLAYER_STRUCT.health-=5;
     PLAYER_STRUCT.joints+=1;
 
@@ -146,7 +146,7 @@ DEFINED_LOCATION_TheFuckeNing();
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_5HPXvsVY == 2){
+  if (USER_CHOICE_INPUT_CPRHfG9S == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "Cool. you ");
@@ -155,9 +155,9 @@ DEFINED_LOCATION_TheFuckeNing();
 
   }
 
- } else if (USER_CHOICE_INPUT_11LUogDk == 3) { USER_CHOICE_INPUT_11LUogDk = 4; } 
+ } else if (USER_CHOICE_INPUT_jQ65w0EN == 3) { USER_CHOICE_INPUT_jQ65w0EN = 4; } 
 
-  if (USER_CHOICE_INPUT_11LUogDk == 4){
+  if (USER_CHOICE_INPUT_jQ65w0EN == 4){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "Welp its a troll.");
@@ -180,9 +180,9 @@ void DEFINED_LOCATION_TheFuckeNing(){
 
     printf("\n2. uhm.. what?"); 
 
-    int USER_CHOICE_INPUT_TOO0CFqS = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_F5S6BqaY = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_TOO0CFqS == 1){
+  if (USER_CHOICE_INPUT_F5S6BqaY == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "She drags you in..");
@@ -202,9 +202,9 @@ void DEFINED_LOCATION_TheFuckeNing(){
 
     printf("\n4. Nap"); 
 
-    int USER_CHOICE_INPUT_Zkvh4noF = COMPILER_TOOL_GET_INPUT(4);
+    int USER_CHOICE_INPUT_4Kt4Ux0X = COMPILER_TOOL_GET_INPUT(4);
 
-  if (USER_CHOICE_INPUT_Zkvh4noF == 1){
+  if (USER_CHOICE_INPUT_4Kt4Ux0X == 1){
     i+=1;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -212,7 +212,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_Zkvh4noF == 2){
+  if (USER_CHOICE_INPUT_4Kt4Ux0X == 2){
     i+=1;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -220,7 +220,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_Zkvh4noF == 3){
+  if (USER_CHOICE_INPUT_4Kt4Ux0X == 3){
     i+=1;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -228,7 +228,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_Zkvh4noF == 4){
+  if (USER_CHOICE_INPUT_4Kt4Ux0X == 4){
     i+=1;
     PLAYER_STRUCT.health+=1;
 
@@ -247,7 +247,7 @@ void DEFINED_LOCATION_TheFuckeNing(){
     PLAYER_STRUCT.hasSword = true;
   }
 
-  if (USER_CHOICE_INPUT_TOO0CFqS == 2){
+  if (USER_CHOICE_INPUT_F5S6BqaY == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", " ~ Not a man of the night, I see. \nShe turn around..");
@@ -277,9 +277,9 @@ void DEFINED_LOCATION_Slottet(){
 
   if (PLAYER_STRUCT.hasSword) printf("\n3. Swing your Sword!"); 
 
-    int USER_CHOICE_INPUT_5on7BOk = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_2JnmvStO = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_5on7BOk == 1){
+  if (USER_CHOICE_INPUT_2JnmvStO == 1){
     enemy_health-=roll;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -289,7 +289,7 @@ void DEFINED_LOCATION_Slottet(){
 
  if (PLAYER_STRUCT.joints > 0){
 
-  if (USER_CHOICE_INPUT_5on7BOk == 2){
+  if (USER_CHOICE_INPUT_2JnmvStO == 2){
     PLAYER_STRUCT.health+=15;
     PLAYER_STRUCT.joints-=1;
 
@@ -298,11 +298,11 @@ void DEFINED_LOCATION_Slottet(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
- } else if (USER_CHOICE_INPUT_5on7BOk == 2) { USER_CHOICE_INPUT_5on7BOk = 3; } 
+ } else if (USER_CHOICE_INPUT_2JnmvStO == 2) { USER_CHOICE_INPUT_2JnmvStO = 3; } 
 
  if (PLAYER_STRUCT.hasSword){
 
-  if (USER_CHOICE_INPUT_5on7BOk == 3){
+  if (USER_CHOICE_INPUT_2JnmvStO == 3){
     enemy_health-=lroll;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -310,7 +310,7 @@ void DEFINED_LOCATION_Slottet(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
- } else if (USER_CHOICE_INPUT_5on7BOk == 3) { USER_CHOICE_INPUT_5on7BOk = 4; } 
+ } else if (USER_CHOICE_INPUT_2JnmvStO == 3) { USER_CHOICE_INPUT_2JnmvStO = 4; } 
 
   if (enemy_health<=0) {
 
@@ -382,17 +382,17 @@ void DEFINED_LOCATION_Hvidovre(){
 
     printf("\n8. Goto Lokale"); 
 
-    int USER_CHOICE_INPUT_FGtDP7vq = COMPILER_TOOL_GET_INPUT(8);
+    int USER_CHOICE_INPUT_N4wkkJMJ = COMPILER_TOOL_GET_INPUT(8);
 
-  if (USER_CHOICE_INPUT_FGtDP7vq == 1){
+  if (USER_CHOICE_INPUT_N4wkkJMJ == 1){
     PLAYER_STRUCT.health=1;
   }
 
-  if (USER_CHOICE_INPUT_FGtDP7vq == 2){
+  if (USER_CHOICE_INPUT_N4wkkJMJ == 2){
     PLAYER_STRUCT.health=Random_Int_Num(2, 100);
   }
 
-  if (USER_CHOICE_INPUT_FGtDP7vq == 3){
+  if (USER_CHOICE_INPUT_N4wkkJMJ == 3){
   if (PLAYER_STRUCT.hasSword == false) {
     PLAYER_STRUCT.hasSword = true;
 
@@ -410,23 +410,23 @@ void DEFINED_LOCATION_Hvidovre(){
 
   }
 
-  if (USER_CHOICE_INPUT_FGtDP7vq == 4){
+  if (USER_CHOICE_INPUT_N4wkkJMJ == 4){
     PLAYER_STRUCT.trollLevel+=1;
   }
 
-  if (USER_CHOICE_INPUT_FGtDP7vq == 5){
+  if (USER_CHOICE_INPUT_N4wkkJMJ == 5){
     PLAYER_STRUCT.trollLevel-=1;
   }
 
-  if (USER_CHOICE_INPUT_FGtDP7vq == 6){
+  if (USER_CHOICE_INPUT_N4wkkJMJ == 6){
     PLAYER_STRUCT.joints+=1;
   }
 
-  if (USER_CHOICE_INPUT_FGtDP7vq == 7){
+  if (USER_CHOICE_INPUT_N4wkkJMJ == 7){
     PLAYER_STRUCT.joints-=1;
   }
 
-  if (USER_CHOICE_INPUT_FGtDP7vq == 8){
+  if (USER_CHOICE_INPUT_N4wkkJMJ == 8){
 
 DEFINED_LOCATION_Lokale();
   }

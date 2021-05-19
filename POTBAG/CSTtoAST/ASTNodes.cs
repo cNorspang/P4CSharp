@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Antlr4.Runtime.Tree;
 
-namespace POTBAG.CSTtoAST
+namespace SWAE.CSTtoAST
 {
     //Setup Node, consisting of all locations, and where they go
     public abstract class ProgNode { }
@@ -11,8 +11,8 @@ namespace POTBAG.CSTtoAST
     {
         public SetupNode SetUpNode { get; set; } = new SetupNode();
         public List<ProgNode> inBlock = new List<ProgNode>();
-    } 
-    
+    }
+
     public class SetupNode : ProgNode
     {
         public LocationsSetupNode Locations { get; set; }
@@ -73,7 +73,7 @@ namespace POTBAG.CSTtoAST
     public class predicateNode : ProgNode
     {
         public ProgNode Left { get; set; }
-        public ProgNode Right{ get; set; }
+        public ProgNode Right { get; set; }
         public string Operator { get; set; }
     }
 
@@ -95,7 +95,7 @@ namespace POTBAG.CSTtoAST
 
     public class OptionStatementNode : StatementNode
     {
-       
+        public predicateNode predicate { get; set; }
         public ProgNode Left { get; set; } //var_name or string
         public List<ProgNode> Right = new List<ProgNode>();
 
@@ -104,6 +104,11 @@ namespace POTBAG.CSTtoAST
     //AssignNodes
     public abstract class AssignNode : ProgNode { }
 
+    public class AnonymousAssignNode : AssignNode
+    {
+        public variableNode Left { get; set; }
+        public variableNode Right { get; set; }
+    }
 
     public class IntAssignNode : AssignNode
     {
@@ -117,10 +122,10 @@ namespace POTBAG.CSTtoAST
     public class stringAssignNode : AssignNode
     {
         public ProgNode Left { get; set; }
-        public stringNode Right { get; set; }
+        public ProgNode Right { get; set; }
     }
 
-    public class BoolAssignNode : AssignNode 
+    public class BoolAssignNode : AssignNode
     {
         public ProgNode Left { get; set; }
         public BoolNode Right { get; set; }
@@ -160,9 +165,10 @@ namespace POTBAG.CSTtoAST
     public class variableNode : ProgNode
     {
         public string variableName { get; set; }
+
     }
 
-    public class DotNotaionNode : variableNode { }
+    public class DotNotationNode : variableNode { }
 
     public class stringNode : ProgNode
     {
@@ -176,12 +182,12 @@ namespace POTBAG.CSTtoAST
         public ExpressionNode Right { get; set; }
     }
 
-    public class ExpressionVarNameNode : ExpressionNode 
+    public class ExpressionVarNameNode : ExpressionNode
     {
         public string VarName { get; set; }
     }
-    
-    public class ExpressionDotNameNode : ExpressionNode 
+
+    public class ExpressionDotNameNode : ExpressionNode
     {
         public string VarName { get; set; }
     }
@@ -194,8 +200,8 @@ namespace POTBAG.CSTtoAST
 
     public class RandomExpressionNode : ExpressionNode
     {
-        public ExpressionNode MinValue {get; set;}
-        public ExpressionNode MaxValue {get; set;}
+        public ExpressionNode MinValue { get; set; }
+        public ExpressionNode MaxValue { get; set; }
     }
 
     public class AdditionNode : ExpressionNode { }
@@ -209,5 +215,10 @@ namespace POTBAG.CSTtoAST
     public class NumberNode : ExpressionNode
     {
         public int Value { get; set; }
+    }
+
+    public class NegativeNumNode : ExpressionNode 
+    {
+        public ExpressionNode negativeExpr { get; set; }
     }
 }

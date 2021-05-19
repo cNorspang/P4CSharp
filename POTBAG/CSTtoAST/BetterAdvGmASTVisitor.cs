@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
-using POTBAG.Exceptions;
-using static POTBAG.DebugPrinter;
+using SWAE.Exceptions;
+using static SWAE.DebugPrinter;
 
-namespace POTBAG.CSTtoAST
+namespace SWAE.CSTtoAST
 {
     public class BetterAdvGmASTVisitor : SWAEBaseVisitor<ProgNode>
     {
@@ -22,7 +22,9 @@ namespace POTBAG.CSTtoAST
         {
             Ccwl("Buffer_node");
             BufferNode node = new BufferNode {SetUpNode = (SetupNode) Visit(ctx.setup())};
-            ctx.inBlock().ToList().ForEach(i => node.inBlock.Add(Visit(i)));
+            //ctx.inBlock().ToList().ForEach(i => node.inBlock.Add(Visit(i)));
+
+            ctx.location_assign().ToList().ForEach(i => node.inBlock.Add(Visit(i)));
 
             return node;
         }
@@ -110,16 +112,24 @@ namespace POTBAG.CSTtoAST
             return node;
         }
 
+        public override ProgNode VisitAnonymous_assign([NotNull] SWAEParser.Anonymous_assignContext ctx)
+        {
+            AnonymousAssignNode node = new AnonymousAssignNode();
+            node.Left = (variableNode)Visit(ctx.GetChild(0));
+            node.Right = (variableNode)Visit(ctx.GetChild(2));
+            return node;
+        }
+
         public override ProgNode VisitInt_assign(SWAEParser.Int_assignContext ctx) {
             Ccwl("Int_assign");
             IntAssignNode node = new IntAssignNode();
 
             if (ctx.ASSIGN_OPERATOR() != null)
-                node.Operator = "ASSIGN_OPERATOR";
+                node.Operator = "=";
             else if (ctx.COMPOUND_OPERATOR() != null)
-                node.Operator = "COMPOUND_OPERATOR";
+                node.Operator = ctx.COMPOUND_OPERATOR().GetText();
             else
-                POTBAGErrorListener.Report( new InvalidOperationException(), this);
+                SWAEErrorListener.Report(new InvalidOperationException(), this);
 
             node.Left = Visit(ctx.GetChild(0));          
             Ccwl("    Left Child Int_assign: "+node.Left + "\n     Operator child Int_assign: "+node.Operator);
@@ -134,20 +144,18 @@ namespace POTBAG.CSTtoAST
             
             IntDeclarationNode node = new IntDeclarationNode {VarName = (variableNode)Visit(ctx.variable())};
             Ccwl("    Child Varname of Int_declaration: " + node.VarName);
-            //Ccw("yikes: "+node.getVarName());
 
             return node;
         }
        
         public override ProgNode VisitString_assign(SWAEParser.String_assignContext ctx) {
             Ccwl("string_assign");
-            //if check på left vari || string_dec
             stringAssignNode node = new stringAssignNode();
 
             node.Left = Visit(ctx.GetChild(0));
             Ccwl("    Left child of assign: " + node.Left);
 
-            node.Right = (stringNode)Visit(ctx.GetChild(2));
+            node.Right = Visit(ctx.GetChild(2));
             Ccwl("    Right child of assign: " + node.Right);
             return node;
 
@@ -218,11 +226,13 @@ namespace POTBAG.CSTtoAST
             if (ctx.PLUS_OPERATOR() != null) { op = "PLUS"; }
             else if (ctx.DIVISION_OPERATOR() != null) { op = "DIVISION"; }
             else if (ctx.TIMES_OPERATOR() != null) { op = "TIMES"; } 
-            else if (ctx.MINUS_OPERATOR() != null) { op = "MINUS"; }
+            else if (ctx.MINUS_OPERATOR() != null && ctx.expression().Length == 2) { op = "MINUS"; }
             else if (ctx.NUM() != null) { op = "NUM"; }
             else if (ctx.variable() != null) { op = "VAR"; }
             else if (ctx.PAREN_LEFT() != null) { op = "ISO"; }
-            else if (ctx.random() != null) {op = "RAND"; }
+            else if (ctx.random() != null) {op = "RNG"; }
+            else if (ctx.MINUS_OPERATOR() != null) {op = "NEG"; }
+
 
             ExpressionNode node = null;
 
@@ -273,22 +283,22 @@ namespace POTBAG.CSTtoAST
                     }
                     else
                     {
-                        Ccwl("DOTNOTATION     " + ctx.variable().dot_notaion().GetText());
+                        Ccwl("DOTVAR     " + ctx.variable().dot_notaion().GetText());
                         ExpressionDotNameNode nodeDOT = new ExpressionDotNameNode();
                         nodeDOT.VarName = ctx.variable().dot_notaion().VAR_NAME().GetText();
                         node = nodeDOT;
                     }
 
                     break;
-                case "RAND":
-                    Ccwl("RAND      " + ctx.random());
-                    RandomExpressionNode nodeRND = new RandomExpressionNode();
+                case "RNG":
+                    Ccwl("RNG      " + ctx.random());
+                    RandomExpressionNode nodeRNG = new RandomExpressionNode();
                     if (ctx.random().expression() != null)
                     {
-                        nodeRND.MinValue = (ExpressionNode)Visit(ctx.random().expression(0));
-                        nodeRND.MaxValue = (ExpressionNode)Visit(ctx.random().expression(1));
+                        nodeRNG.MinValue = (ExpressionNode)Visit(ctx.random().expression(0));
+                        nodeRNG.MaxValue = (ExpressionNode)Visit(ctx.random().expression(1));
                     }
-                    node = nodeRND;
+                    node = nodeRNG;
                     break;
                 case "ISO":
                     Ccwl("ISO     " + ctx.expression(0).GetText());
@@ -296,8 +306,14 @@ namespace POTBAG.CSTtoAST
                     nodeISO.expr = (ExpressionNode)Visit(ctx.GetChild(1));
                     node = nodeISO;
                     break;
+                case "NEG":
+                    Ccwl("NEG     " + ctx.expression(0).GetText());
+                    NegativeNumNode nodeNEG = new NegativeNumNode();
+                    nodeNEG.negativeExpr = (ExpressionNode)Visit(ctx.GetChild(1));
+                    node = nodeNEG;
+                    break;
                 default:
-                    POTBAGErrorListener.Report(new InvalidOperationException(), this);
+                    SWAEErrorListener.Report(new InvalidOperationException(), this);
                     break;
             }
             return node;
@@ -311,7 +327,7 @@ namespace POTBAG.CSTtoAST
 
             ctx.option_statment().ToList().ForEach(i => node.Options.Add((OptionStatementNode)Visit(i)));
 
-            node.Options.ForEach(i => Ccwl("    Child option of choice_statement: " + i.Left + " + codeblock (Option_statement)"));
+            node.Options.ForEach(i => Ccwl("    Child option of choice_statement: " + i + " + codeblock (Option_statement + ifchainstmt)"));
 
             return node;
         }
@@ -322,12 +338,20 @@ namespace POTBAG.CSTtoAST
             Ccwl("option_statement");
             OptionStatementNode node = new OptionStatementNode();
 
+            if(ctx.predicate() == null) { 
             node.Left = Visit(ctx.GetChild(0));
+            }
+            else
+            {
+                node.predicate = (predicateNode)Visit(ctx.predicate());
+                node.Left = Visit(ctx.GetChild(3));
+                Ccwl("    Child predicate of option_statement: " + node.predicate);              
+            }
+
             Ccwl("    Child Left of option_statement: " + node.Left);
 
             ctx.inBlock().ToList().ForEach(i => node.Right.Add(Visit(i)));
             node.Right.ForEach(i => Ccwl($"LIST ENTRY: {i}"));
-            //node.RightStatement.ForEach(i => Ccw("    Child stmt of option_statement: " + i.GetText()));
 
             return node;
         }
@@ -460,7 +484,7 @@ namespace POTBAG.CSTtoAST
         {
             //Tilgå hvad der står efter "player.", altså, hvis
             //der står player.health, så blir node.variableName = health;
-            DotNotaionNode node = new DotNotaionNode {variableName = ctx.VAR_NAME().GetText()};
+            DotNotationNode node = new DotNotationNode {variableName = ctx.VAR_NAME().GetText()};
 
             return node;
         }

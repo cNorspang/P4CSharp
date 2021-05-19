@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace POTBAG.CSTtoAST
+namespace SWAE.CSTtoAST
 {
     public abstract class ASTVistor<T> : SWAEBaseVisitor<T>
     {
@@ -25,12 +25,13 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(ChoiceStatementNode node);
         public abstract T Visit(OptionStatementNode node);
         public abstract T Visit(AssignNode node);
+        public abstract T Visit(AnonymousAssignNode node);
         public abstract T Visit(IntAssignNode node);
         public abstract T Visit(stringAssignNode node);
         public abstract T Visit(BoolAssignNode node);
         public abstract T Visit(InputAssignNode node);
         public abstract T Visit(variableNode node);
-        public abstract T Visit(DotNotaionNode node); 
+        public abstract T Visit(DotNotationNode node); 
         public abstract T Visit(LocationAssignNode node);
         public abstract T Visit(DeclarationNode node);
         public abstract T Visit(IntDeclarationNode node);
@@ -44,6 +45,7 @@ namespace POTBAG.CSTtoAST
         public abstract T Visit(MultiplicationNode node);
         public abstract T Visit(DivisionNode node);
         public abstract T Visit(NumberNode node);
+        public abstract T Visit(NegativeNumNode node);
         public abstract T Visit(RandomExpressionNode node);
 
         public T Visit(ProgNode node)
