@@ -1,0 +1,27 @@
+setup {
+    Locations = {
+        IntLocation -> StringLocation;
+        StringLocation -> BoolLocation;
+        BoolLocation -> EndLocation;
+        EndLocation -> EndLocation;
+    }
+    player = {
+        int health = 2;
+        string name = "";
+        bool visitedBoolLocation = false;
+    }
+}
+
+Location IntLocation = {
+    player.health = "Int Error";
+}
+
+Location StringLocation = {
+    player.name = 3;
+}
+
+Location BoolLocation = {
+    if (player.visitedBoolLocation == false) {
+        player.visitedBoolLocation = true;
+    }
+}

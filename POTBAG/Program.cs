@@ -25,7 +25,7 @@ namespace SWAE
                 //fileName = "UpdatedPseudoDrageCodeGenTest.txt";
                 //fileName = "SWAEBetaTest.txt";
                 //fileName = "Errors4Days.txt";
-                fileName = "THEDRAGONOFSMAGORUN";
+                fileName = "/ErrorGenerator/TravelError";
 
                 stream = FileHandler.readFromInputStream(fileName + ".txt");
             }

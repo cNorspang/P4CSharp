@@ -145,14 +145,14 @@ void DEFINED_LOCATION_DebugMenu(){
 
     printf("\n6. Travel"); 
 
-    int USER_CHOICE_INPUT_S1dClbFE = COMPILER_TOOL_GET_INPUT(6);
+    int USER_CHOICE_INPUT_eLYvG4B = COMPILER_TOOL_GET_INPUT(6);
 
-  if (USER_CHOICE_INPUT_S1dClbFE == 1){
+  if (USER_CHOICE_INPUT_eLYvG4B == 1){
 
 DEFINED_LOCATION_The_local_pub();
   }
 
-  if (USER_CHOICE_INPUT_S1dClbFE == 2){
+  if (USER_CHOICE_INPUT_eLYvG4B == 2){
 
     printf("%s", "Choose Wisely...");
     printf("\n\n /> ");
@@ -160,7 +160,7 @@ DEFINED_LOCATION_The_local_pub();
 
   }
 
-  if (USER_CHOICE_INPUT_S1dClbFE == 3){
+  if (USER_CHOICE_INPUT_eLYvG4B == 3){
 
     printf("%s", "\nWhat is your new name?");
     printf("\n\n /> ");
@@ -169,7 +169,7 @@ DEFINED_LOCATION_The_local_pub();
 
   }
 
-  if (USER_CHOICE_INPUT_S1dClbFE == 4){
+  if (USER_CHOICE_INPUT_eLYvG4B == 4){
 
     printf("%s", "Type number");
     printf("\n\n /> ");
@@ -177,7 +177,7 @@ DEFINED_LOCATION_The_local_pub();
 
   }
 
-  if (USER_CHOICE_INPUT_S1dClbFE == 5){
+  if (USER_CHOICE_INPUT_eLYvG4B == 5){
     PLAYER_STRUCT.Health_point+=10000;
     PLAYER_STRUCT.regular_sword_damage+=100;
     PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE+=150;
@@ -186,7 +186,7 @@ DEFINED_LOCATION_The_local_pub();
     PLAYER_STRUCT.isBlessedByWitch = true;
   }
 
-  if (USER_CHOICE_INPUT_S1dClbFE == 6){
+  if (USER_CHOICE_INPUT_eLYvG4B == 6){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "");
@@ -210,49 +210,49 @@ DEFINED_LOCATION_The_local_pub();
 
     printf("\n9. DeathEnd"); 
 
-    int USER_CHOICE_INPUT_onIvGN1 = COMPILER_TOOL_GET_INPUT(9);
+    int USER_CHOICE_INPUT_kkvtl8uK = COMPILER_TOOL_GET_INPUT(9);
 
-  if (USER_CHOICE_INPUT_onIvGN1 == 1){
+  if (USER_CHOICE_INPUT_kkvtl8uK == 1){
 
 DEFINED_LOCATION_Forrest();
   }
 
-  if (USER_CHOICE_INPUT_onIvGN1 == 2){
+  if (USER_CHOICE_INPUT_kkvtl8uK == 2){
 
 DEFINED_LOCATION_Street();
   }
 
-  if (USER_CHOICE_INPUT_onIvGN1 == 3){
+  if (USER_CHOICE_INPUT_kkvtl8uK == 3){
 
 DEFINED_LOCATION_Field();
   }
 
-  if (USER_CHOICE_INPUT_onIvGN1 == 4){
+  if (USER_CHOICE_INPUT_kkvtl8uK == 4){
 
 DEFINED_LOCATION_Old_Castle();
   }
 
-  if (USER_CHOICE_INPUT_onIvGN1 == 5){
+  if (USER_CHOICE_INPUT_kkvtl8uK == 5){
 
 DEFINED_LOCATION_Bed_Room();
   }
 
-  if (USER_CHOICE_INPUT_onIvGN1 == 6){
+  if (USER_CHOICE_INPUT_kkvtl8uK == 6){
 
 DEFINED_LOCATION_FightTheDragon();
   }
 
-  if (USER_CHOICE_INPUT_onIvGN1 == 7){
+  if (USER_CHOICE_INPUT_kkvtl8uK == 7){
 
 DEFINED_LOCATION_House();
   }
 
-  if (USER_CHOICE_INPUT_onIvGN1 == 8){
+  if (USER_CHOICE_INPUT_kkvtl8uK == 8){
 
 DEFINED_LOCATION_TheEnd();
   }
 
-  if (USER_CHOICE_INPUT_onIvGN1 == 9){
+  if (USER_CHOICE_INPUT_kkvtl8uK == 9){
 
 DEFINED_LOCATION_DeathEnd();
   }
@@ -274,9 +274,9 @@ void DEFINED_LOCATION_The_local_pub(){
 
     printf("\n3. Im sorry my old friend... i will be moving soon, just going to the bar"); 
 
-    int USER_CHOICE_INPUT_FnJyIbs = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_3ctPyP8g = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_FnJyIbs == 1){
+  if (USER_CHOICE_INPUT_3ctPyP8g == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s%s%s%s", "PUB OWNER: dammit", PLAYER_STRUCT.name, " You HAVE to move... ", "Either you go\non the street or go to the bar for the last beer... THEN move");
@@ -286,21 +286,21 @@ void DEFINED_LOCATION_The_local_pub(){
 
     printf("\n2. HMMMMMMMM.... (rising up for going on the street)"); 
 
-    int USER_CHOICE_INPUT_iMSQbtEw = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_JfMAN88 = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_iMSQbtEw == 1){
+  if (USER_CHOICE_INPUT_JfMAN88 == 1){
 
 DEFINED_LOCATION_Bar();
   }
 
-  if (USER_CHOICE_INPUT_iMSQbtEw == 2){
+  if (USER_CHOICE_INPUT_JfMAN88 == 2){
 
 DEFINED_LOCATION_Street();
   }
 
   }
 
-  if (USER_CHOICE_INPUT_FnJyIbs == 2){
+  if (USER_CHOICE_INPUT_3ctPyP8g == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "\'HELPFUL\' GUY: So drunk he would not even notice... HEHE");
@@ -318,7 +318,7 @@ DEFINED_LOCATION_Street();
 DEFINED_LOCATION_Garden();
   }
 
-  if (USER_CHOICE_INPUT_FnJyIbs == 3){
+  if (USER_CHOICE_INPUT_3ctPyP8g == 3){
 
 DEFINED_LOCATION_Bar();
   }
@@ -342,13 +342,13 @@ void DEFINED_LOCATION_Garden(){
 
     printf("\n2.  hmmmm.... (i am not gonna take any money and just leave)"); 
 
-    int USER_CHOICE_INPUT_FynVMOPp = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_04VyJJIY = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_FynVMOPp == 1){
+  if (USER_CHOICE_INPUT_04VyJJIY == 1){
     PLAYER_STRUCT.Gold+=PLAYER_STRUCT.money_on_people_in_Garden;
   }
 
-  if (USER_CHOICE_INPUT_FynVMOPp == 2){
+  if (USER_CHOICE_INPUT_04VyJJIY == 2){
 
 DEFINED_LOCATION_Bar();
   }
@@ -365,9 +365,9 @@ DEFINED_LOCATION_Bar();
 
     printf("\n2. Hmmmmmmm... (im am not gonna take this gold from these people besauce im no better my self)"); 
 
-    int USER_CHOICE_INPUT_dkWid3y = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_BE8W2Y6B = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_dkWid3y == 1){
+  if (USER_CHOICE_INPUT_BE8W2Y6B == 1){
   if (PLAYER_STRUCT.Gold >= 50 && PLAYER_STRUCT.Boost_of_internal_power_for_one_attack == true) {
 
     COMPILER_TOOL_PRINT_TUI();
@@ -378,9 +378,9 @@ DEFINED_LOCATION_Bar();
 
     printf("\n2. no"); 
 
-    int USER_CHOICE_INPUT_3A5fEVUZ = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_3iF3UqH9 = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_3A5fEVUZ == 1){
+  if (USER_CHOICE_INPUT_3iF3UqH9 == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "I need ALL the gold I can get");
@@ -388,7 +388,7 @@ DEFINED_LOCATION_Bar();
     PLAYER_STRUCT.Boost_of_internal_power_for_one_attack = false;
   }
 
-  if (USER_CHOICE_INPUT_3A5fEVUZ == 2){
+  if (USER_CHOICE_INPUT_3iF3UqH9 == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "I Have enough gold...");
@@ -414,7 +414,7 @@ DEFINED_LOCATION_Bar();
 
   }
 
-  if (USER_CHOICE_INPUT_dkWid3y == 2){
+  if (USER_CHOICE_INPUT_BE8W2Y6B == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "No... I am a good person");
@@ -454,9 +454,9 @@ void DEFINED_LOCATION_Bar(){
 
     printf("\n3. nothing... hm"); 
 
-    int USER_CHOICE_INPUT_JnSwCTa = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_GbtMdrlG = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_JnSwCTa == 1){
+  if (USER_CHOICE_INPUT_GbtMdrlG == 1){
     PLAYER_STRUCT.Gold-=2;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -473,7 +473,7 @@ void DEFINED_LOCATION_Bar(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_JnSwCTa == 2){
+  if (USER_CHOICE_INPUT_GbtMdrlG == 2){
     PLAYER_STRUCT.Gold-=1;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -490,7 +490,7 @@ void DEFINED_LOCATION_Bar(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_JnSwCTa == 3){
+  if (USER_CHOICE_INPUT_GbtMdrlG == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "my head hurts... hmm");
@@ -505,9 +505,9 @@ void DEFINED_LOCATION_Bar(){
 
     printf("\n2. beer... hm"); 
 
-    int USER_CHOICE_INPUT_OX1cXRk0 = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_aYl3Yggc = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_OX1cXRk0 == 1){
+  if (USER_CHOICE_INPUT_aYl3Yggc == 1){
     PLAYER_STRUCT.Gold-=1;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -520,7 +520,7 @@ void DEFINED_LOCATION_Bar(){
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_OX1cXRk0 == 2){
+  if (USER_CHOICE_INPUT_aYl3Yggc == 2){
     PLAYER_STRUCT.Gold-=2;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -559,9 +559,9 @@ void DEFINED_LOCATION_Bar(){
 
   if (PLAYER_STRUCT.CanLeaveBar) printf("\n6. ... (leave)"); 
 
-    int USER_CHOICE_INPUT_8xXyUrMu = COMPILER_TOOL_GET_INPUT(6);
+    int USER_CHOICE_INPUT_ETEUwne3 = COMPILER_TOOL_GET_INPUT(6);
 
-  if (USER_CHOICE_INPUT_8xXyUrMu == 1){
+  if (USER_CHOICE_INPUT_ETEUwne3 == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "congratulations... you played yourself for some virtual punani... now lost 2 gold");
@@ -569,7 +569,7 @@ void DEFINED_LOCATION_Bar(){
     PLAYER_STRUCT.Gold-=2;
   }
 
-  if (USER_CHOICE_INPUT_8xXyUrMu == 2){
+  if (USER_CHOICE_INPUT_ETEUwne3 == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "BARTENDER: more beer costs more than just 1 gold... remember that...");
@@ -578,7 +578,7 @@ void DEFINED_LOCATION_Bar(){
     PLAYER_STRUCT.Health_point-=5;
   }
 
-  if (USER_CHOICE_INPUT_8xXyUrMu == 3){
+  if (USER_CHOICE_INPUT_ETEUwne3 == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "BARTENDER: In the back.");
@@ -587,7 +587,7 @@ void DEFINED_LOCATION_Bar(){
 DEFINED_LOCATION_GamblingTable();
   }
 
-  if (USER_CHOICE_INPUT_8xXyUrMu == 4){
+  if (USER_CHOICE_INPUT_ETEUwne3 == 4){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "BARTENDER: Try the Garden.");
@@ -597,7 +597,7 @@ DEFINED_LOCATION_GamblingTable();
 DEFINED_LOCATION_Garden();
   }
 
-  if (USER_CHOICE_INPUT_8xXyUrMu == 5){
+  if (USER_CHOICE_INPUT_ETEUwne3 == 5){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "BARTENDER: Once upon a time, there was a cold hearted, backstabbing dragon that\nwas so mean and ugly. He loved to travel to the human world and snatch little\nkids out of their beds while they were sleeping, and he would drop them\ndown his green tortoise throat. Now back in those days all the kids would\nsit in his stomach and cry, \'Let us out, Let us out!!\' Of course he would not\nlet them out, but sometimes a brave little soul would travel the long journey\ntill he plopped out the other end.");
@@ -674,7 +674,7 @@ DEFINED_LOCATION_Street();
 
  if (PLAYER_STRUCT.CanLeaveBar){
 
-  if (USER_CHOICE_INPUT_8xXyUrMu == 6){
+  if (USER_CHOICE_INPUT_ETEUwne3 == 6){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "BARTENDER: May Sovngarde be with you!");
@@ -683,7 +683,7 @@ DEFINED_LOCATION_Street();
 DEFINED_LOCATION_Street();
   }
 
- } else if (USER_CHOICE_INPUT_8xXyUrMu == 6) { USER_CHOICE_INPUT_8xXyUrMu = 7; } 
+ } else if (USER_CHOICE_INPUT_ETEUwne3 == 6) { USER_CHOICE_INPUT_ETEUwne3 = 7; } 
 
   }
 
@@ -712,9 +712,9 @@ void DEFINED_LOCATION_GamblingTable(){
 
   if (PLAYER_STRUCT.Gold >= 1000) printf("\n6. Bet 1000"); 
 
-    int USER_CHOICE_INPUT_DUfYwmOH = COMPILER_TOOL_GET_INPUT(6);
+    int USER_CHOICE_INPUT_x5HS2CWf = COMPILER_TOOL_GET_INPUT(6);
 
-  if (USER_CHOICE_INPUT_DUfYwmOH == 1){
+  if (USER_CHOICE_INPUT_x5HS2CWf == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "You get up and go out into the bar.");
@@ -725,43 +725,43 @@ DEFINED_LOCATION_Bar();
 
  if (PLAYER_STRUCT.Gold >= 5){
 
-  if (USER_CHOICE_INPUT_DUfYwmOH == 2){
+  if (USER_CHOICE_INPUT_x5HS2CWf == 2){
     playerBet=5;
   }
 
- } else if (USER_CHOICE_INPUT_DUfYwmOH == 2) { USER_CHOICE_INPUT_DUfYwmOH = 3; } 
+ } else if (USER_CHOICE_INPUT_x5HS2CWf == 2) { USER_CHOICE_INPUT_x5HS2CWf = 3; } 
 
  if (PLAYER_STRUCT.Gold >= 10){
 
-  if (USER_CHOICE_INPUT_DUfYwmOH == 3){
+  if (USER_CHOICE_INPUT_x5HS2CWf == 3){
     playerBet=10;
   }
 
- } else if (USER_CHOICE_INPUT_DUfYwmOH == 3) { USER_CHOICE_INPUT_DUfYwmOH = 4; } 
+ } else if (USER_CHOICE_INPUT_x5HS2CWf == 3) { USER_CHOICE_INPUT_x5HS2CWf = 4; } 
 
  if (PLAYER_STRUCT.Gold >= 20){
 
-  if (USER_CHOICE_INPUT_DUfYwmOH == 4){
+  if (USER_CHOICE_INPUT_x5HS2CWf == 4){
     playerBet=20;
   }
 
- } else if (USER_CHOICE_INPUT_DUfYwmOH == 4) { USER_CHOICE_INPUT_DUfYwmOH = 5; } 
+ } else if (USER_CHOICE_INPUT_x5HS2CWf == 4) { USER_CHOICE_INPUT_x5HS2CWf = 5; } 
 
  if (PLAYER_STRUCT.Gold >= 50){
 
-  if (USER_CHOICE_INPUT_DUfYwmOH == 5){
+  if (USER_CHOICE_INPUT_x5HS2CWf == 5){
     playerBet=50;
   }
 
- } else if (USER_CHOICE_INPUT_DUfYwmOH == 5) { USER_CHOICE_INPUT_DUfYwmOH = 6; } 
+ } else if (USER_CHOICE_INPUT_x5HS2CWf == 5) { USER_CHOICE_INPUT_x5HS2CWf = 6; } 
 
  if (PLAYER_STRUCT.Gold >= 1000){
 
-  if (USER_CHOICE_INPUT_DUfYwmOH == 6){
+  if (USER_CHOICE_INPUT_x5HS2CWf == 6){
     playerBet=1000;
   }
 
- } else if (USER_CHOICE_INPUT_DUfYwmOH == 6) { USER_CHOICE_INPUT_DUfYwmOH = 7; } 
+ } else if (USER_CHOICE_INPUT_x5HS2CWf == 6) { USER_CHOICE_INPUT_x5HS2CWf = 7; } 
 
     dealerRoll=Random_Int_Num(1, 20);
     playerRoll=Random_Int_Num(1, 20);
@@ -784,33 +784,57 @@ DEFINED_LOCATION_Bar();
 
     printf("\n3. Bet your dice is equal"); 
 
-    int USER_CHOICE_INPUT_ux3BlJfu = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_pJlyMKai = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_ux3BlJfu == 1){
+  if (USER_CHOICE_INPUT_pJlyMKai == 1){
   if (playerRoll > dealerRoll) {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d", "You won:", playerBet);
+    COMPILER_TOOL_WAIT_FOR_INPUT();
     PLAYER_STRUCT.Gold+=playerBet;
   }
   else {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d", "You lost:", playerBet);
+    COMPILER_TOOL_WAIT_FOR_INPUT();
     PLAYER_STRUCT.Gold-=playerBet;
   }
 
   }
 
-  if (USER_CHOICE_INPUT_ux3BlJfu == 2){
+  if (USER_CHOICE_INPUT_pJlyMKai == 2){
   if (playerRoll < dealerRoll) {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d", "You won:", playerBet);
+    COMPILER_TOOL_WAIT_FOR_INPUT();
     PLAYER_STRUCT.Gold+=playerBet;
   }
   else {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d", "You lost:", playerBet);
+    COMPILER_TOOL_WAIT_FOR_INPUT();
     PLAYER_STRUCT.Gold-=playerBet;
   }
 
   }
 
-  if (USER_CHOICE_INPUT_ux3BlJfu == 3){
+  if (USER_CHOICE_INPUT_pJlyMKai == 3){
   if (playerRoll == dealerRoll) {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d", "You won:", playerBet);
+    COMPILER_TOOL_WAIT_FOR_INPUT();
     PLAYER_STRUCT.Gold+=playerBet*13;
   }
   else {
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d", "You lost:", playerBet);
+    COMPILER_TOOL_WAIT_FOR_INPUT();
     PLAYER_STRUCT.Gold-=playerBet;
   }
 
@@ -839,24 +863,24 @@ void DEFINED_LOCATION_Street(){
 
     printf("\n4. information about the town of honeywood"); 
 
-    int USER_CHOICE_INPUT_V6C7j8CA = COMPILER_TOOL_GET_INPUT(4);
+    int USER_CHOICE_INPUT_zyrNL4iC = COMPILER_TOOL_GET_INPUT(4);
 
-  if (USER_CHOICE_INPUT_V6C7j8CA == 1){
+  if (USER_CHOICE_INPUT_zyrNL4iC == 1){
 
 DEFINED_LOCATION_Forrest();
   }
 
-  if (USER_CHOICE_INPUT_V6C7j8CA == 2){
+  if (USER_CHOICE_INPUT_zyrNL4iC == 2){
 
 DEFINED_LOCATION_Bar();
   }
 
-  if (USER_CHOICE_INPUT_V6C7j8CA == 3){
+  if (USER_CHOICE_INPUT_zyrNL4iC == 3){
 
 DEFINED_LOCATION_Shop();
   }
 
-  if (USER_CHOICE_INPUT_V6C7j8CA == 4){
+  if (USER_CHOICE_INPUT_zyrNL4iC == 4){
   if (PLAYER_STRUCT.counter == 0) {
 
     COMPILER_TOOL_PRINT_TUI();
@@ -927,9 +951,9 @@ void DEFINED_LOCATION_Shop(){
 
     printf("\n3. ... (buy some bandages)"); 
 
-    int USER_CHOICE_INPUT_F7lWTRpD = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_VElhwHm = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_F7lWTRpD == 1){
+  if (USER_CHOICE_INPUT_VElhwHm == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "bye! hmm");
@@ -938,7 +962,7 @@ void DEFINED_LOCATION_Shop(){
 DEFINED_LOCATION_Street();
   }
 
-  if (USER_CHOICE_INPUT_F7lWTRpD == 2){
+  if (USER_CHOICE_INPUT_VElhwHm == 2){
   if (PLAYER_STRUCT.Gold >= 10) {
 
     COMPILER_TOOL_PRINT_TUI();
@@ -962,7 +986,7 @@ DEFINED_LOCATION_Street();
 
   }
 
-  if (USER_CHOICE_INPUT_F7lWTRpD == 3){
+  if (USER_CHOICE_INPUT_VElhwHm == 3){
   if (PLAYER_STRUCT.Gold >= 3) {
 
     COMPILER_TOOL_PRINT_TUI();
@@ -1032,19 +1056,19 @@ void DEFINED_LOCATION_Forrest(){
 
     printf("\n3. hmmm...I am a chicken... I go back to the town..."); 
 
-    int USER_CHOICE_INPUT_bcaQERD3 = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_74Wz95A = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_bcaQERD3 == 1){
+  if (USER_CHOICE_INPUT_74Wz95A == 1){
 
 DEFINED_LOCATION_Field();
   }
 
-  if (USER_CHOICE_INPUT_bcaQERD3 == 2){
+  if (USER_CHOICE_INPUT_74Wz95A == 2){
 
 DEFINED_LOCATION_Old_Castle();
   }
 
-  if (USER_CHOICE_INPUT_bcaQERD3 == 3){
+  if (USER_CHOICE_INPUT_74Wz95A == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!");
@@ -1079,9 +1103,9 @@ void DEFINED_LOCATION_Field(){
 
     printf("\n2. A fresh person"); 
 
-    int USER_CHOICE_INPUT_lDyHbwf4 = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_w1Kas2Oj = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_lDyHbwf4 == 1){
+  if (USER_CHOICE_INPUT_w1Kas2Oj == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "ZZZzzzZZZzzz .... ZZZzzzZZZzzz");
@@ -1099,9 +1123,9 @@ void DEFINED_LOCATION_Field(){
 
     printf("\n2. No.. life is meaningless, no matter the form or age... all shall die by my hand"); 
 
-    int USER_CHOICE_INPUT_i7eZ4EC3 = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_pCtbrO0T = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_i7eZ4EC3 == 1){
+  if (USER_CHOICE_INPUT_pCtbrO0T == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "VOICE IN HEAD: :-)");
@@ -1109,7 +1133,7 @@ void DEFINED_LOCATION_Field(){
     PLAYER_STRUCT.Health_point=100;
   }
 
-  if (USER_CHOICE_INPUT_i7eZ4EC3 == 2){
+  if (USER_CHOICE_INPUT_pCtbrO0T == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "VOICE IN HEAD: :-/");
@@ -1162,9 +1186,9 @@ void DEFINED_LOCATION_Field(){
 
     printf("\n3. Maybe the forrest can give me something... hmm the old castle there"); 
 
-    int USER_CHOICE_INPUT_NlTwxpUm = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_PwfisEBf = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_NlTwxpUm == 1){
+  if (USER_CHOICE_INPUT_PwfisEBf == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "To the house");
@@ -1173,7 +1197,7 @@ void DEFINED_LOCATION_Field(){
 DEFINED_LOCATION_House();
   }
 
-  if (USER_CHOICE_INPUT_NlTwxpUm == 2){
+  if (USER_CHOICE_INPUT_PwfisEBf == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!");
@@ -1182,7 +1206,7 @@ DEFINED_LOCATION_House();
 DEFINED_LOCATION_Street();
   }
 
-  if (USER_CHOICE_INPUT_NlTwxpUm == 3){
+  if (USER_CHOICE_INPUT_PwfisEBf == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "back to the forrest... hmm");
@@ -1193,7 +1217,7 @@ DEFINED_LOCATION_Forrest();
 
   }
 
-  if (USER_CHOICE_INPUT_lDyHbwf4 == 2){
+  if (USER_CHOICE_INPUT_w1Kas2Oj == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "I am good to go and want to move to other places, since the drake is not here or\nelse the writer would have made it appear..");
@@ -1209,9 +1233,9 @@ DEFINED_LOCATION_Forrest();
 
     printf("\n3. Maybe the forrest can give me something... hmm the old castle there"); 
 
-    int USER_CHOICE_INPUT_xWjoESCf = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_YeA5rzI = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_xWjoESCf == 1){
+  if (USER_CHOICE_INPUT_YeA5rzI == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "To the house");
@@ -1220,7 +1244,7 @@ DEFINED_LOCATION_Forrest();
 DEFINED_LOCATION_House();
   }
 
-  if (USER_CHOICE_INPUT_xWjoESCf == 2){
+  if (USER_CHOICE_INPUT_YeA5rzI == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!");
@@ -1229,7 +1253,7 @@ DEFINED_LOCATION_House();
 DEFINED_LOCATION_Street();
   }
 
-  if (USER_CHOICE_INPUT_xWjoESCf == 3){
+  if (USER_CHOICE_INPUT_YeA5rzI == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "back to the forrest... hmm");
@@ -1275,9 +1299,9 @@ DEFINED_LOCATION_WitchFight();
 
     printf("\n2. hmm there is nothing in this house, and that basement is not worth it... i want to live to fight the dragon..."); 
 
-    int USER_CHOICE_INPUT_M9lnlXDU = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_plZp0n2 = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_M9lnlXDU == 1){
+  if (USER_CHOICE_INPUT_plZp0n2 == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "DARK VOICE: \'are you sure that is what you want?\'");
@@ -1287,9 +1311,9 @@ DEFINED_LOCATION_WitchFight();
 
     printf("\n2. NO DONT BRING IT ON IHHHH"); 
 
-    int USER_CHOICE_INPUT_wP9r5A2n = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_OyFJKD4P = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_wP9r5A2n == 1){
+  if (USER_CHOICE_INPUT_OyFJKD4P == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "DARK VOICE: SO BE IT...");
@@ -1298,7 +1322,7 @@ DEFINED_LOCATION_WitchFight();
 DEFINED_LOCATION_Basement();
   }
 
-  if (USER_CHOICE_INPUT_wP9r5A2n == 2){
+  if (USER_CHOICE_INPUT_OyFJKD4P == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "DARK VOICE: good choice... NOW LEAVE!!!!!!!!!");
@@ -1313,7 +1337,7 @@ DEFINED_LOCATION_Field();
 
   }
 
-  if (USER_CHOICE_INPUT_M9lnlXDU == 2){
+  if (USER_CHOICE_INPUT_plZp0n2 == 2){
 
 DEFINED_LOCATION_Field();
   }
@@ -1369,9 +1393,9 @@ void DEFINED_LOCATION_WitchFight(){
 
   if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == true) printf("\n6. Attack with the Great old Sword!"); 
 
-    int USER_CHOICE_INPUT_bWaMHPnL = COMPILER_TOOL_GET_INPUT(6);
+    int USER_CHOICE_INPUT_0gWSbame = COMPILER_TOOL_GET_INPUT(6);
 
-  if (USER_CHOICE_INPUT_bWaMHPnL == 1){
+  if (USER_CHOICE_INPUT_0gWSbame == 1){
     roll=Random_Int_Num(3, 8);
     witch_HP-=roll;
 
@@ -1383,7 +1407,7 @@ void DEFINED_LOCATION_WitchFight(){
 
  if (PLAYER_STRUCT.regular_sword){
 
-  if (USER_CHOICE_INPUT_bWaMHPnL == 2){
+  if (USER_CHOICE_INPUT_0gWSbame == 2){
     roll=Random_Int_Num(PLAYER_STRUCT.regular_sword_damage-3, PLAYER_STRUCT.regular_sword_damage+3);
     witch_HP-=roll;
 
@@ -1393,11 +1417,11 @@ void DEFINED_LOCATION_WitchFight(){
     PLAYER_STRUCT.GreatSwordReady = false;
   }
 
- } else if (USER_CHOICE_INPUT_bWaMHPnL == 2) { USER_CHOICE_INPUT_bWaMHPnL = 3; } 
+ } else if (USER_CHOICE_INPUT_0gWSbame == 2) { USER_CHOICE_INPUT_0gWSbame = 3; } 
 
  if (PLAYER_STRUCT.potion_amount > 0){
 
-  if (USER_CHOICE_INPUT_bWaMHPnL == 3){
+  if (USER_CHOICE_INPUT_0gWSbame == 3){
     PLAYER_STRUCT.Health_point+=PLAYER_STRUCT.potion_health;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -1407,11 +1431,11 @@ void DEFINED_LOCATION_WitchFight(){
     PLAYER_STRUCT.potion_amount-=1;
   }
 
- } else if (USER_CHOICE_INPUT_bWaMHPnL == 3) { USER_CHOICE_INPUT_bWaMHPnL = 4; } 
+ } else if (USER_CHOICE_INPUT_0gWSbame == 3) { USER_CHOICE_INPUT_0gWSbame = 4; } 
 
  if (PLAYER_STRUCT.bandage_amount > 0){
 
-  if (USER_CHOICE_INPUT_bWaMHPnL == 4){
+  if (USER_CHOICE_INPUT_0gWSbame == 4){
     PLAYER_STRUCT.Health_point+=PLAYER_STRUCT.bandage_health;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -1421,11 +1445,11 @@ void DEFINED_LOCATION_WitchFight(){
     PLAYER_STRUCT.bandage_amount-=1;
   }
 
- } else if (USER_CHOICE_INPUT_bWaMHPnL == 4) { USER_CHOICE_INPUT_bWaMHPnL = 5; } 
+ } else if (USER_CHOICE_INPUT_0gWSbame == 4) { USER_CHOICE_INPUT_0gWSbame = 5; } 
 
  if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == false){
 
-  if (USER_CHOICE_INPUT_bWaMHPnL == 5){
+  if (USER_CHOICE_INPUT_0gWSbame == 5){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s%s", "When hand comes to hilt, question comes to heart, from soul is given heaven\'s\nanswer via either divine balancing scale or sword.", "For there is either hope, or\nthere is not, and one way or another, suffering must end.");
@@ -1433,11 +1457,11 @@ void DEFINED_LOCATION_WitchFight(){
     PLAYER_STRUCT.GreatSwordReady = true;
   }
 
- } else if (USER_CHOICE_INPUT_bWaMHPnL == 5) { USER_CHOICE_INPUT_bWaMHPnL = 6; } 
+ } else if (USER_CHOICE_INPUT_0gWSbame == 5) { USER_CHOICE_INPUT_0gWSbame = 6; } 
 
  if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == true){
 
-  if (USER_CHOICE_INPUT_bWaMHPnL == 6){
+  if (USER_CHOICE_INPUT_0gWSbame == 6){
     roll=Random_Int_Num(PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE-13, PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE+13);
     witch_HP-=roll;
 
@@ -1447,7 +1471,7 @@ void DEFINED_LOCATION_WitchFight(){
     PLAYER_STRUCT.GreatSwordReady = false;
   }
 
- } else if (USER_CHOICE_INPUT_bWaMHPnL == 6) { USER_CHOICE_INPUT_bWaMHPnL = 7; } 
+ } else if (USER_CHOICE_INPUT_0gWSbame == 6) { USER_CHOICE_INPUT_0gWSbame = 7; } 
 
   }
 
@@ -1482,9 +1506,9 @@ DEFINED_LOCATION_House();
 
     printf("\n2. Not yet"); 
 
-    int USER_CHOICE_INPUT_RiinZ3N8 = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_KovlVIR3 = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_RiinZ3N8 == 1){
+  if (USER_CHOICE_INPUT_KovlVIR3 == 1){
   if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE) {
 
     COMPILER_TOOL_PRINT_TUI();
@@ -1522,7 +1546,7 @@ DEFINED_LOCATION_House();
 
   }
 
-  if (USER_CHOICE_INPUT_RiinZ3N8 == 2){
+  if (USER_CHOICE_INPUT_KovlVIR3 == 2){
     PLAYER_STRUCT.Health_point+=4;
   }
 
@@ -1544,9 +1568,9 @@ DEFINED_LOCATION_House();
 
   if (Random_Int_Num(1, 15) == 1) printf("\n5. Smack that booty"); 
 
-    int USER_CHOICE_INPUT_m5h4GvMq = COMPILER_TOOL_GET_INPUT(5);
+    int USER_CHOICE_INPUT_G3UWCFX2 = COMPILER_TOOL_GET_INPUT(5);
 
-  if (USER_CHOICE_INPUT_m5h4GvMq == 1){
+  if (USER_CHOICE_INPUT_G3UWCFX2 == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "The Hag grows stronger");
@@ -1556,7 +1580,7 @@ DEFINED_LOCATION_House();
 
  if (Random_Int_Num(1, 3) == 1){
 
-  if (USER_CHOICE_INPUT_m5h4GvMq == 2){
+  if (USER_CHOICE_INPUT_G3UWCFX2 == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "You run towards the Hag, and push her over. She propels you away in an instant.");
@@ -1564,11 +1588,11 @@ DEFINED_LOCATION_House();
     PLAYER_STRUCT.Health_point-=3;
   }
 
- } else if (USER_CHOICE_INPUT_m5h4GvMq == 2) { USER_CHOICE_INPUT_m5h4GvMq = 3; } 
+ } else if (USER_CHOICE_INPUT_G3UWCFX2 == 2) { USER_CHOICE_INPUT_G3UWCFX2 = 3; } 
 
  if (Random_Int_Num(1, 3) == 1){
 
-  if (USER_CHOICE_INPUT_m5h4GvMq == 3){
+  if (USER_CHOICE_INPUT_G3UWCFX2 == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "You hide while the Hag chants");
@@ -1577,11 +1601,11 @@ DEFINED_LOCATION_House();
     PLAYER_STRUCT.Health_point+=5;
   }
 
- } else if (USER_CHOICE_INPUT_m5h4GvMq == 3) { USER_CHOICE_INPUT_m5h4GvMq = 4; } 
+ } else if (USER_CHOICE_INPUT_G3UWCFX2 == 3) { USER_CHOICE_INPUT_G3UWCFX2 = 4; } 
 
  if (Random_Int_Num(1, 4) == 1){
 
-  if (USER_CHOICE_INPUT_m5h4GvMq == 4){
+  if (USER_CHOICE_INPUT_G3UWCFX2 == 4){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "You join the Hag in chanting. You both grow stronger.");
@@ -1591,11 +1615,11 @@ DEFINED_LOCATION_House();
     PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE+=5;
   }
 
- } else if (USER_CHOICE_INPUT_m5h4GvMq == 4) { USER_CHOICE_INPUT_m5h4GvMq = 5; } 
+ } else if (USER_CHOICE_INPUT_G3UWCFX2 == 4) { USER_CHOICE_INPUT_G3UWCFX2 = 5; } 
 
  if (Random_Int_Num(1, 15) == 1){
 
-  if (USER_CHOICE_INPUT_m5h4GvMq == 5){
+  if (USER_CHOICE_INPUT_G3UWCFX2 == 5){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "The Hag is pleased, and you have been blessed.");
@@ -1603,7 +1627,7 @@ DEFINED_LOCATION_House();
     PLAYER_STRUCT.isBlessedByWitch = true;
   }
 
- } else if (USER_CHOICE_INPUT_m5h4GvMq == 5) { USER_CHOICE_INPUT_m5h4GvMq = 6; } 
+ } else if (USER_CHOICE_INPUT_G3UWCFX2 == 5) { USER_CHOICE_INPUT_G3UWCFX2 = 6; } 
 
   }
 
@@ -1717,16 +1741,16 @@ void DEFINED_LOCATION_Old_Castle(){
 
     printf("\n3. I want RIGHT NOW... hmmm to fight the dragon, which might, might not be on the roof... who knows... it is a dragon after all... hmm"); 
 
-    int USER_CHOICE_INPUT_GkB0hS2l = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_oDZoI9ga = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_GkB0hS2l == 1){
+  if (USER_CHOICE_INPUT_oDZoI9ga == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s%s%s%s%d%s%s%d%s%s%d%s%s%d%s%s%d%s", "name: ", PLAYER_STRUCT.name, " | ", "health: ", PLAYER_STRUCT.Health_point, " |\n", "gold: ", PLAYER_STRUCT.Gold, " | ", "amount og bandages ", PLAYER_STRUCT.bandage_amount, "\n(+21 hp) | ", "potion amount: ", PLAYER_STRUCT.potion_amount, " | ", "normal sword\ndmg: ", PLAYER_STRUCT.regular_sword_damage, " (good luck with that sword) ");
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_GkB0hS2l == 2){
+  if (USER_CHOICE_INPUT_oDZoI9ga == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "noice hmmm.... where do I want to go for further exploring?");
@@ -1742,21 +1766,21 @@ void DEFINED_LOCATION_Old_Castle(){
 
     printf("\n4. To the Dining room there is always something in the dining room"); 
 
-    int USER_CHOICE_INPUT_wx5IHaFL = COMPILER_TOOL_GET_INPUT(4);
+    int USER_CHOICE_INPUT_WaR0VHsY = COMPILER_TOOL_GET_INPUT(4);
 
-  if (USER_CHOICE_INPUT_wx5IHaFL == 1){
+  if (USER_CHOICE_INPUT_WaR0VHsY == 1){
 
 DEFINED_LOCATION_Bed_Room();
   }
 
-  if (USER_CHOICE_INPUT_wx5IHaFL == 2){
+  if (USER_CHOICE_INPUT_WaR0VHsY == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "What are you.... 5???? pick another");
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_wx5IHaFL == 3){
+  if (USER_CHOICE_INPUT_WaR0VHsY == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "cluck cluck cluck cluck cluck cluck CHICKEN!!!!!!");
@@ -1765,7 +1789,7 @@ DEFINED_LOCATION_Bed_Room();
 DEFINED_LOCATION_Forrest();
   }
 
-  if (USER_CHOICE_INPUT_wx5IHaFL == 4){
+  if (USER_CHOICE_INPUT_WaR0VHsY == 4){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", " TO THE DINING ROOM *shhhhhhhhhhuuuuuuussssss* (yes you are 5) ");
@@ -1779,7 +1803,7 @@ DEFINED_LOCATION_Dining_Room();
 
   }
 
-  if (USER_CHOICE_INPUT_GkB0hS2l == 3){
+  if (USER_CHOICE_INPUT_oDZoI9ga == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s%d%s", "AM I SURE I WANT TO FIGHT THE DRAGON NOW... WITH MY CURRENT HEALTH....", PLAYER_STRUCT.Health_point, "?");
@@ -1789,9 +1813,9 @@ DEFINED_LOCATION_Dining_Room();
 
     printf("\n2. not ready"); 
 
-    int USER_CHOICE_INPUT_DgNET14U = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_kXhYfWJv = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_DgNET14U == 1){
+  if (USER_CHOICE_INPUT_kXhYfWJv == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "are you REALLY REALLY SURE!!!!!!!!!!!!!!!! NO TURNING BACK... LIFE OR DEATH...\nNOT LIKE THE BASEMENT...");
@@ -1801,9 +1825,9 @@ DEFINED_LOCATION_Dining_Room();
 
     printf("\n2. no"); 
 
-    int USER_CHOICE_INPUT_iRrmwJPV = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_vmOR3Ye = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_iRrmwJPV == 1){
+  if (USER_CHOICE_INPUT_vmOR3Ye == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "okay say i didnt warn ya.... hmmm");
@@ -1812,7 +1836,7 @@ DEFINED_LOCATION_Dining_Room();
 DEFINED_LOCATION_FightTheDragon();
   }
 
-  if (USER_CHOICE_INPUT_iRrmwJPV == 2){
+  if (USER_CHOICE_INPUT_vmOR3Ye == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "thought so...");
@@ -1821,7 +1845,7 @@ DEFINED_LOCATION_FightTheDragon();
 
   }
 
-  if (USER_CHOICE_INPUT_DgNET14U == 2){
+  if (USER_CHOICE_INPUT_kXhYfWJv == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "thought so...");
@@ -1863,16 +1887,16 @@ void DEFINED_LOCATION_Bed_Room(){
 
     printf("\n5. go back to where i came from... hmm"); 
 
-    int USER_CHOICE_INPUT_YbVNQ7lf = COMPILER_TOOL_GET_INPUT(5);
+    int USER_CHOICE_INPUT_lmtGPv59 = COMPILER_TOOL_GET_INPUT(5);
 
-  if (USER_CHOICE_INPUT_YbVNQ7lf == 1){
+  if (USER_CHOICE_INPUT_lmtGPv59 == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "there is nothing there... hmm");
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_YbVNQ7lf == 2){
+  if (USER_CHOICE_INPUT_lmtGPv59 == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", " THERE IS SOMETHING HERE");
@@ -1894,9 +1918,9 @@ void DEFINED_LOCATION_Bed_Room(){
 
     printf("\n2. i will not pick up"); 
 
-    int USER_CHOICE_INPUT_gu5sKtb5 = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_H8EbXtTD = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_gu5sKtb5 == 1){
+  if (USER_CHOICE_INPUT_H8EbXtTD == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "hmm.. wao... there was: dead rat, non-magic dust and oh yea... A CRAZY STRONG SWORD\nFROM THE LEGENDARY OLD ONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
@@ -1931,21 +1955,21 @@ void DEFINED_LOCATION_Bed_Room(){
 
     printf("\n3. go back where I came from... hmm, then decide what to do next"); 
 
-    int USER_CHOICE_INPUT_qbQlTcP8 = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_Pd1Movx = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_qbQlTcP8 == 1){
+  if (USER_CHOICE_INPUT_Pd1Movx == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "Definition of sword\n1: a weapon (such as a cutlass or rapier) with a long blade for cutting or thrusting\nthat is often used as a symbol of honor or authority\n2a: an agency or instrument of destruction or combat");
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_qbQlTcP8 == 2){
+  if (USER_CHOICE_INPUT_Pd1Movx == 2){
 
 DEFINED_LOCATION_Dining_Room();
   }
 
-  if (USER_CHOICE_INPUT_qbQlTcP8 == 3){
+  if (USER_CHOICE_INPUT_Pd1Movx == 3){
 
 DEFINED_LOCATION_Old_Castle();
   }
@@ -1955,7 +1979,7 @@ DEFINED_LOCATION_Old_Castle();
 
   }
 
-  if (USER_CHOICE_INPUT_gu5sKtb5 == 2){
+  if (USER_CHOICE_INPUT_H8EbXtTD == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "your loss dude... hmmm");
@@ -1964,14 +1988,14 @@ DEFINED_LOCATION_Old_Castle();
 
   }
 
-  if (USER_CHOICE_INPUT_YbVNQ7lf == 3){
+  if (USER_CHOICE_INPUT_lmtGPv59 == 3){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "IDIOT... one cannot simply check behind a window...");
     COMPILER_TOOL_WAIT_FOR_INPUT();
   }
 
-  if (USER_CHOICE_INPUT_YbVNQ7lf == 4){
+  if (USER_CHOICE_INPUT_lmtGPv59 == 4){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "To the dining room hmmmmmmmmmmmmmm (deep hmm)");
@@ -1980,7 +2004,7 @@ DEFINED_LOCATION_Old_Castle();
 DEFINED_LOCATION_Dining_Room();
   }
 
-  if (USER_CHOICE_INPUT_YbVNQ7lf == 5){
+  if (USER_CHOICE_INPUT_lmtGPv59 == 5){
 
 DEFINED_LOCATION_Old_Castle();
   }
@@ -2063,9 +2087,9 @@ void DEFINED_LOCATION_FightTheDragon(){
 
   if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == true) printf("\n6. Attack with the Great old Sword!"); 
 
-    int USER_CHOICE_INPUT_Lsnrz44H = COMPILER_TOOL_GET_INPUT(6);
+    int USER_CHOICE_INPUT_t4DHEwxv = COMPILER_TOOL_GET_INPUT(6);
 
-  if (USER_CHOICE_INPUT_Lsnrz44H == 1){
+  if (USER_CHOICE_INPUT_t4DHEwxv == 1){
     roll=Random_Int_Num(3, 8);
     The_dragon_of_smaguron_health-=roll;
 
@@ -2077,7 +2101,7 @@ void DEFINED_LOCATION_FightTheDragon(){
 
  if (PLAYER_STRUCT.regular_sword){
 
-  if (USER_CHOICE_INPUT_Lsnrz44H == 2){
+  if (USER_CHOICE_INPUT_t4DHEwxv == 2){
     roll=Random_Int_Num(PLAYER_STRUCT.regular_sword_damage-3, PLAYER_STRUCT.regular_sword_damage+3);
     The_dragon_of_smaguron_health-=roll;
 
@@ -2087,11 +2111,11 @@ void DEFINED_LOCATION_FightTheDragon(){
     PLAYER_STRUCT.GreatSwordReady = false;
   }
 
- } else if (USER_CHOICE_INPUT_Lsnrz44H == 2) { USER_CHOICE_INPUT_Lsnrz44H = 3; } 
+ } else if (USER_CHOICE_INPUT_t4DHEwxv == 2) { USER_CHOICE_INPUT_t4DHEwxv = 3; } 
 
  if (PLAYER_STRUCT.potion_amount > 0){
 
-  if (USER_CHOICE_INPUT_Lsnrz44H == 3){
+  if (USER_CHOICE_INPUT_t4DHEwxv == 3){
     PLAYER_STRUCT.Health_point+=PLAYER_STRUCT.potion_health;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -2101,11 +2125,11 @@ void DEFINED_LOCATION_FightTheDragon(){
     PLAYER_STRUCT.potion_amount-=1;
   }
 
- } else if (USER_CHOICE_INPUT_Lsnrz44H == 3) { USER_CHOICE_INPUT_Lsnrz44H = 4; } 
+ } else if (USER_CHOICE_INPUT_t4DHEwxv == 3) { USER_CHOICE_INPUT_t4DHEwxv = 4; } 
 
  if (PLAYER_STRUCT.bandage_amount > 0){
 
-  if (USER_CHOICE_INPUT_Lsnrz44H == 4){
+  if (USER_CHOICE_INPUT_t4DHEwxv == 4){
     PLAYER_STRUCT.Health_point+=PLAYER_STRUCT.bandage_health;
 
     COMPILER_TOOL_PRINT_TUI();
@@ -2115,11 +2139,11 @@ void DEFINED_LOCATION_FightTheDragon(){
     PLAYER_STRUCT.bandage_amount-=1;
   }
 
- } else if (USER_CHOICE_INPUT_Lsnrz44H == 4) { USER_CHOICE_INPUT_Lsnrz44H = 5; } 
+ } else if (USER_CHOICE_INPUT_t4DHEwxv == 4) { USER_CHOICE_INPUT_t4DHEwxv = 5; } 
 
  if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == false){
 
-  if (USER_CHOICE_INPUT_Lsnrz44H == 5){
+  if (USER_CHOICE_INPUT_t4DHEwxv == 5){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s%s", "When hand comes to hilt, question comes to heart, from soul is given heaven\'s\nanswer via either divine balancing scale or sword.", "For there is either hope, or\nthere is not, and one way or another, suffering must end.");
@@ -2127,11 +2151,11 @@ void DEFINED_LOCATION_FightTheDragon(){
     PLAYER_STRUCT.GreatSwordReady = true;
   }
 
- } else if (USER_CHOICE_INPUT_Lsnrz44H == 5) { USER_CHOICE_INPUT_Lsnrz44H = 6; } 
+ } else if (USER_CHOICE_INPUT_t4DHEwxv == 5) { USER_CHOICE_INPUT_t4DHEwxv = 6; } 
 
  if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && PLAYER_STRUCT.GreatSwordReady == true){
 
-  if (USER_CHOICE_INPUT_Lsnrz44H == 6){
+  if (USER_CHOICE_INPUT_t4DHEwxv == 6){
     roll=Random_Int_Num(PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE-13, PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE+13);
     The_dragon_of_smaguron_health-=roll;
 
@@ -2141,7 +2165,7 @@ void DEFINED_LOCATION_FightTheDragon(){
     PLAYER_STRUCT.GreatSwordReady = false;
   }
 
- } else if (USER_CHOICE_INPUT_Lsnrz44H == 6) { USER_CHOICE_INPUT_Lsnrz44H = 7; } 
+ } else if (USER_CHOICE_INPUT_t4DHEwxv == 6) { USER_CHOICE_INPUT_t4DHEwxv = 7; } 
 
   if (The_dragon_of_smaguron_health<=0) {
 
@@ -2166,9 +2190,9 @@ DEFINED_LOCATION_TheEnd();
 
     printf("\n2. Not yet"); 
 
-    int USER_CHOICE_INPUT_D778uysm = COMPILER_TOOL_GET_INPUT(2);
+    int USER_CHOICE_INPUT_oxXHdz8 = COMPILER_TOOL_GET_INPUT(2);
 
-  if (USER_CHOICE_INPUT_D778uysm == 1){
+  if (USER_CHOICE_INPUT_oxXHdz8 == 1){
   if (PLAYER_STRUCT.THE_GREAT_SWORD_OF_THE_OLD_ONE && Random_Int_Num(1, 2) == 1) {
 
     COMPILER_TOOL_PRINT_TUI();
@@ -2206,7 +2230,7 @@ DEFINED_LOCATION_TheEnd();
 
   }
 
-  if (USER_CHOICE_INPUT_D778uysm == 2){
+  if (USER_CHOICE_INPUT_oxXHdz8 == 2){
     PLAYER_STRUCT.Health_point+=4;
   }
 
@@ -2224,9 +2248,9 @@ DEFINED_LOCATION_TheEnd();
 
     printf("\n3. Pray to your god"); 
 
-    int USER_CHOICE_INPUT_EGzaVhEv = COMPILER_TOOL_GET_INPUT(3);
+    int USER_CHOICE_INPUT_LxcPzqBC = COMPILER_TOOL_GET_INPUT(3);
 
-  if (USER_CHOICE_INPUT_EGzaVhEv == 1){
+  if (USER_CHOICE_INPUT_LxcPzqBC == 1){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s%d%s", "You slice open a fresh wound and deal ", roll, " damage");
@@ -2234,7 +2258,7 @@ DEFINED_LOCATION_TheEnd();
     The_dragon_of_smaguron_health-=roll;
   }
 
-  if (USER_CHOICE_INPUT_EGzaVhEv == 2){
+  if (USER_CHOICE_INPUT_LxcPzqBC == 2){
 
     COMPILER_TOOL_PRINT_TUI();
     printf("%s", "You catch your breath and feel the second wind.\n\nJust in time for the dragon\nagain facing you");
@@ -2242,7 +2266,7 @@ DEFINED_LOCATION_TheEnd();
     PLAYER_STRUCT.Health_point+=Random_Int_Num(3, 8);
   }
 
-  if (USER_CHOICE_INPUT_EGzaVhEv == 3){
+  if (USER_CHOICE_INPUT_LxcPzqBC == 3){
   if (PLAYER_STRUCT.Boost_of_internal_power_for_one_attack) {
 
     COMPILER_TOOL_PRINT_TUI();

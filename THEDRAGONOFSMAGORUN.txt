@@ -286,16 +286,34 @@ Location GamblingTable = {
 	else{
 		choice {
 			"Bet your dice is greater" {
-				if(playerRoll > dealerRoll) {player.Gold += playerBet; }
-				else {player.Gold -= playerBet;}
+				if(playerRoll > dealerRoll) {
+					Text "You won:" + playerBet;
+					player.Gold += playerBet; 
+				}
+				else {
+					Text "You lost:" + playerBet;
+					player.Gold -= playerBet;
+				}
 			}
 			"Bet your dice is lesser" {
-				if(playerRoll < dealerRoll) {player.Gold += playerBet; }
-				else {player.Gold -= playerBet;}
+				if(playerRoll < dealerRoll) {
+					Text "You won:" + playerBet;
+					player.Gold += playerBet; 
+				}
+				else {
+					Text "You lost:" + playerBet;
+					player.Gold -= playerBet;
+				}
 			}
 			"Bet your dice is equal" {
-				if(playerRoll == dealerRoll) {player.Gold += (playerBet * 13);}
-				else {player.Gold -= playerBet;}
+				if(playerRoll == dealerRoll) {
+					Text "You won:" + playerBet;
+					player.Gold += (playerBet * 13);
+				}
+				else {
+					Text "You lost:" + playerBet;
+					player.Gold -= playerBet;
+				}
 			}
 		}
 	}

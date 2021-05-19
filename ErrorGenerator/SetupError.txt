@@ -1,0 +1,8 @@
+setup {
+    Locations = {
+        FirstLocation -> SecondLocation;
+    }
+    player = {
+        int declarationInPlayerSetupFail = 3;
+    }
+}
