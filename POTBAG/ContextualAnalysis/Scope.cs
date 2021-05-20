@@ -1,6 +1,7 @@
 ﻿using SWAE.CSTtoAST;
 using System;
 using System.Collections.Generic;
+using Microsoft.VisualBasic;
 using SWAE.Exceptions;
 using static SWAE.DebugPrinter;
 
@@ -60,8 +61,8 @@ namespace SWAE.ContextualAnalysis
 
         public Symbol Resolve(string name, Type type, bool needsToBeAssigned)
         {
-            Symbol symbol;
-
+            Symbol symbol = new Symbol("Unassigned", typeof(Exception));
+            
             if (symbolMap.ContainsKey(name))
             {
                 symbol = symbolMap[name];
@@ -72,7 +73,7 @@ namespace SWAE.ContextualAnalysis
             if (enclosingScope != null) return enclosingScope.Resolve(name, type, needsToBeAssigned);
 
             SWAEErrorListener.Report(new VariableNotDeclaredException(name), this); // not found
-            return null;
+            return symbol;
         }
 
         public Symbol GetLocation()
