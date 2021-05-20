@@ -7,6 +7,7 @@ using SWAE.Exceptions;
 using static SWAE.DebugPrinter;
 using SWAE.CodeGen;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SWAE
 {
@@ -15,10 +16,15 @@ namespace SWAE
         static void Main(string[] args)
         {
             //debugging hell.
-            const bool debug = false;
+            bool debug = false;
+            bool showAnalysis = false;
 
+            string postfix = ".txt";
             string stream = string.Empty;
             string fileName = string.Empty;
+
+            bool CheckArgs(IEnumerable<string> args, string flag) => args.Contains(flag);
+
 
             if (args.Length == 0)
             {
@@ -27,12 +33,55 @@ namespace SWAE
                 //fileName = "Errors4Days.txt";
                 fileName = "THEDRAGONOFSMAGORUN";
 
-                stream = FileHandler.readFromInputStream(fileName + ".txt");
+                Console.WriteLine($"Try compile \'{fileName}{postfix}\'? (Y/N)\n");
+                if (Console.ReadKey().Key == ConsoleKey.Y)
+                {
+                    stream = FileHandler.readFromInputStream(fileName + postfix);
+                }
+                else
+                {
+                    Console.WriteLine($"\nUse format: swae Filename{postfix}");
+                    return;
+                }
+
+            }
+            else if (args[0] == "-h")
+            {
+                //leave empty
             }
             else
             {
-                stream = FileHandler.readFromInputStream(args[0]);
+                try
+                {
+                    stream = FileHandler.readFromInputStream(args[0]);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("\nFilename needs to be first argument.\n");
+                    return;
+                }
             }
+            
+            if (CheckArgs(args, "-dn"))
+            {
+                debug = true;
+                themePick = true;
+            }
+            if (CheckArgs(args, "-dr"))
+            {
+                debug = true;
+                DebugPrinter.themePick = false;
+            }
+            if (CheckArgs(args, "-a"))
+            {
+                showAnalysis = true;
+            }
+            if(CheckArgs(args, "-h"))
+            {
+                Console.WriteLine("\nGoogle it..");
+                return;
+            }
+            
 
 
             ICharStream input = CharStreams.fromString(stream);
@@ -44,6 +93,7 @@ namespace SWAE
 
             SWAEErrorListener.conTroller = debug;
             DebugPrinter.isDebug = debug;
+            DebugPrinter.ShowAnalysis = showAnalysis;
             //set start node
             try
             {

@@ -20,7 +20,7 @@ namespace SWAE.CSTtoAST
 
         public static void WriteToFile(List<string> code, string fileName)
         {
-            Console.WriteLine("Writing to file...");
+            Console.WriteLine("\nWriting to file...");
 
             try
             {

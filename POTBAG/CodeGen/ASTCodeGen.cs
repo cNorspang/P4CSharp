@@ -55,7 +55,7 @@ namespace SWAE.CodeGen
                     "\n    printf(\"##| SWAE TEST |##################################################################\\n\");" + 
                     "\n    printf(\"#################################################################################\\n\\n\");}");
             code.Add(Tui);
-            Console.WriteLine(Tui);
+            //Console.WriteLine(Tui);
 
             //exit func
             code.Add("void COMPILER_TOOL_EXIT_CHECK(){ printf(\"\\nThank you for playing :)\"); exit(0);}");
