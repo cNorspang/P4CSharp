@@ -10,17 +10,16 @@ setup {
 }
 
 Location FirstLocation = {
-    Text "Hello Summoner with" + player.health + "\n Welcome to FIRST Location";
     choice {
-        "Second Location"{Travel SecondLocation;}
+        "Second Location" {Travel SecondLocation;}
+        "End Location" {Travel EndLocation;}
     }
 }
 
 Location SecondLocation = {
-    Text "Hello Summoner with" + player.health + "\n Welcome to SECOND Location";
     choice {
         "First Location" {Travel FirstLocation;}
-        "End" {Travel EndLocation;}
+        "End Location" {Travel EndLocation;}
     }
 }
 

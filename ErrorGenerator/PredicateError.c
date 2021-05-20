@@ -52,29 +52,31 @@ void DEFINED_LOCATION_EndLocation();
 
 struct GENERATED_PLAYER_STRUCT { 
 int health;
+char name[256] ;
 };
 struct GENERATED_PLAYER_STRUCT PLAYER_STRUCT;
 
 void COMPILER_PLAYER_STRUCT_INIT(){
-    PLAYER_STRUCT.health =2;}
+    PLAYER_STRUCT.health =2;
+    strcpy(PLAYER_STRUCT.name, "Name");}
 
 void DEFINED_LOCATION_FirstLocation(){
+  if (PLAYER_STRUCT.health == 2) {
+    char x[256] = "Incorrect predicate";
+    int a=3;
+  }
 
-DEFINED_LOCATION_SecondLocation();
 DEFINED_LOCATION_FirstLocation();
 }
 
 void DEFINED_LOCATION_SecondLocation(){
-
-DEFINED_LOCATION_FirstLocation();
+    int a=4;
+    char c[256] = "fkdljf";
 DEFINED_LOCATION_SecondLocation();
 }
 
 void DEFINED_LOCATION_EndLocation(){
-
-    COMPILER_TOOL_PRINT_TUI();
-    printf("%s", "You died:(");
-    COMPILER_TOOL_WAIT_FOR_INPUT();
+    char x[256] = "Placeholder";
 DEFINED_LOCATION_EndLocation();
 }
 

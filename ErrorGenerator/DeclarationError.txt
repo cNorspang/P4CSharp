@@ -1,0 +1,26 @@
+setup {
+    Locations = {
+        FirstLocation -> SecondLocation;
+        SecondLocation -> EndLocation;
+        EndLocation -> EndLocation;
+    }
+
+    player = {
+        int health = 2;
+    }
+}
+
+Location FirstLocation = {
+    int first;
+    bool first;
+}
+
+Location SecondLocation = {
+    string second;
+    int second;
+}
+
+Location EndLocation = {
+    bool end;
+    string end;
+}

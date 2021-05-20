@@ -59,22 +59,30 @@ void COMPILER_PLAYER_STRUCT_INIT(){
     PLAYER_STRUCT.health =2;}
 
 void DEFINED_LOCATION_FirstLocation(){
+    int Integer=2;
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d", "First integer: ", Integer);
+    COMPILER_TOOL_WAIT_FOR_INPUT();
 
 DEFINED_LOCATION_SecondLocation();
 DEFINED_LOCATION_FirstLocation();
 }
 
 void DEFINED_LOCATION_SecondLocation(){
+    int Integer=2;
+    Integer+=2;
+
+    COMPILER_TOOL_PRINT_TUI();
+    printf("%s%d", "Second integer: ", Integer);
+    COMPILER_TOOL_WAIT_FOR_INPUT();
 
 DEFINED_LOCATION_FirstLocation();
 DEFINED_LOCATION_SecondLocation();
 }
 
 void DEFINED_LOCATION_EndLocation(){
-
-    COMPILER_TOOL_PRINT_TUI();
-    printf("%s", "You died:(");
-    COMPILER_TOOL_WAIT_FOR_INPUT();
+    char x[256] = "something";
 DEFINED_LOCATION_EndLocation();
 }
 

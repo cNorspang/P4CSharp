@@ -1,0 +1,27 @@
+setup {
+    Locations = {
+        FirstLocation -> SecondLocation;
+        SecondLocation -> EndLocation;
+        EndLocation -> EndLocation;
+    }
+    player = {
+        int health = 2;
+        string name = "Name";
+    }
+}
+
+Location FirstLocation = {
+    if (player.health + player.name) {
+        string x = "Incorrect predicate";
+    }
+}
+
+Location SecondLocation = {
+    while (player.name) {
+        string x = "Incorrect predicate";
+    }
+}
+
+Location EndLocation = {
+    string x = "Placeholder";
+}

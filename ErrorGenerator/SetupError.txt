@@ -1,8 +1,8 @@
 setup {
-    Locations = {
+    Lacations = {
         FirstLocation -> SecondLocation;
     }
     player = {
-        int declarationInPlayerSetupFail = 3;
+        int declarationInPlayerSetupFail;
     }
 }
