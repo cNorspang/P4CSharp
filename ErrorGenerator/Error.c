@@ -52,37 +52,32 @@ void DEFINED_LOCATION_EndLocation();
 
 struct GENERATED_PLAYER_STRUCT { 
 int health;
+char name[256] ;
 };
 struct GENERATED_PLAYER_STRUCT PLAYER_STRUCT;
 
 void COMPILER_PLAYER_STRUCT_INIT(){
-    PLAYER_STRUCT.health =2;}
+    PLAYER_STRUCT.health =2;
+    strcpy(PLAYER_STRUCT.name, "Name");}
 
 void DEFINED_LOCATION_FirstLocation(){
-    int Integer=2;
 
-    COMPILER_TOOL_PRINT_TUI();
-    printf("%s%d", "First integer: ", Integer);
-    COMPILER_TOOL_WAIT_FOR_INPUT();
+    int x;
 
-DEFINED_LOCATION_SecondLocation();
+    printf("%s", "hej");
+    printf("\n\n /> ");
+    x = COMPILER_TOOL_GET_INTERGER_INPUT();
+
 DEFINED_LOCATION_FirstLocation();
 }
 
 void DEFINED_LOCATION_SecondLocation(){
-    int Integer=2;
-    Integer+=2;
-
-    COMPILER_TOOL_PRINT_TUI();
-    printf("%s%d", "Second integer: ", Integer);
-    COMPILER_TOOL_WAIT_FOR_INPUT();
-
-DEFINED_LOCATION_FirstLocation();
+    char x[256] = "Placeholder";
 DEFINED_LOCATION_SecondLocation();
 }
 
 void DEFINED_LOCATION_EndLocation(){
-    char x[256] = "something";
+    char x[256] = "Placeholder";
 DEFINED_LOCATION_EndLocation();
 }
 

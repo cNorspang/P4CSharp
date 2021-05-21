@@ -11,17 +11,11 @@ setup {
 }
 
 Location FirstLocation = {
-    int x = 5;
-    if (x + 4) {
-        string x = "Incorrect predicate";
-    }
+    int x = userInput "hej"; 
 }
 
 Location SecondLocation = {
-    string predicateError
-    while (predicateError) {
-        string x = "Incorrect predicate";
-    }
+    string x = "Placeholder";
 }
 
 Location EndLocation = {
