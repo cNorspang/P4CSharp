@@ -1,27 +1,15 @@
 setup {
     Locations = {
-        IntLocation -> StringLocation;
-        StringLocation -> BoolLocation;
-        BoolLocation -> EndLocation;
-        EndLocation -> EndLocation;
+        TypeError -> TypeError;
     }
     player = {
         int health = 2;
-        string name = "";
-        bool visitedBoolLocation = false;
     }
 }
 
-Location IntLocation = {
-    player.health = "Int Error";
+Location TypeError = {
+    int IntegerError = "Int Error";
+    string StringError = 3;
+    bool BoolError = "Bool Error";
 }
 
-Location StringLocation = {
-    player.name = 3;
-}
-
-Location BoolLocation = {
-    if (player.visitedBoolLocation == false) {
-        player.visitedBoolLocation = true;
-    }
-}
