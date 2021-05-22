@@ -8,27 +8,26 @@ namespace SWAE.CSTtoAST
     public static class FileHandler
     {
         private static List<string> list = new List<string>();
+        public static string pathPrefix = Environment.CurrentDirectory + "\\";
 
         //Read file content into the string with - Files.lines(Path path, Charset cs)
 
         public static string readFromInputStream(string filePath)
         {
-            string fileAsString = File.ReadAllText("..\\..\\..\\..\\"+filePath);
+            string fileAsString = File.ReadAllText(pathPrefix + filePath);
 
             return fileAsString;
         }
 
         public static void WriteToFile(List<string> code, string fileName)
         {
-            Console.WriteLine("\nWriting to file...");
-
             try
             {
-                File.CreateText("..\\..\\..\\..\\" + fileName + ".c").Dispose();
+                File.CreateText(pathPrefix + fileName + ".c").Dispose();
 
-                File.WriteAllLines("..\\..\\..\\..\\" + fileName + ".c", code);
-
-                Console.WriteLine("Successfully wrote to the file. ");
+                File.WriteAllLines(pathPrefix + fileName + ".c", code);
+               
+                Console.WriteLine($"Successfully compiled \nPath: {pathPrefix}{fileName}");
             }
             catch (IOException e)
             {
@@ -53,5 +52,6 @@ namespace SWAE.CSTtoAST
                 Ccwl(str);
             }
         }
+
     }
 }

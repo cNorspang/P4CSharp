@@ -16,7 +16,11 @@ struct GENERATED_PLAYER_STRUCT {
 struct GENERATED_PLAYER_STRUCT xCarier;
 
 void locationOne(){
+    int hej = 2;
     printText("%s","\nlocation One");
+    if(1){
+        int hej = 1;
+    }
     getchar();
 }
 

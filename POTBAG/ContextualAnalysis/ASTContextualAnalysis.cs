@@ -409,7 +409,14 @@ namespace SWAE.ContextualAnalysis
                 default:
                     throw new BennoException($"### ERROR OptionStatementNode Left => {node.Left.GetType().Name}");
             }
-            node.Right.ForEach(i => Visit(i));
+            //node.Right.ForEach(i => Visit(i));
+
+            foreach (ProgNode nd in node.Right)
+            {
+                st.PushScope();
+                Visit(nd);
+                st.PopScope();
+            }
 
             return true;
         }

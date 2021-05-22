@@ -8,6 +8,7 @@ using static SWAE.DebugPrinter;
 using SWAE.CodeGen;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace SWAE
 {
@@ -36,11 +37,14 @@ namespace SWAE
                 Console.WriteLine($"Try compile \'{fileName}{postfix}\'? (Y/N)\n");
                 if (Console.ReadKey().Key == ConsoleKey.Y)
                 {
-                    stream = FileHandler.readFromInputStream(fileName + postfix);
+                    Console.WriteLine("\nUse debug pathing? (Y/N)");
+                    if (Console.ReadKey().Key == ConsoleKey.Y)
+                        FileHandler.pathPrefix = "..\\..\\..\\..\\";
+
+                    stream = FileHandler.readFromInputStream(fileName + postfix);                 
                 }
                 else
                 {
-                    Console.WriteLine($"\nUse format: swae Filename{postfix}");
                     return;
                 }
 
@@ -53,19 +57,27 @@ namespace SWAE
             {
                 try
                 {
+                    postfix = args[0].Split('.')[1];
+
+                    if (postfix != "txt" && postfix != "swae")
+                    {
+                        Console.WriteLine("\nFile type not supported. Use \'.txt\' or \'.swae\'");
+                        return;
+                    }
                     stream = FileHandler.readFromInputStream(args[0]);
+                    fileName = args[0].Split('.')[0];
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("\nFilename needs to be first argument.\n");
+                    Console.WriteLine($"\nFilename needs to be first argument. Got first argument as \'{args[0]}\'\n");
                     return;
                 }
             }
             
-            if (CheckArgs(args, "-dn"))
+            if (CheckArgs(args, "-d"))
             {
                 debug = true;
-                themePick = true;
+                DebugPrinter.themePick = true;
             }
             if (CheckArgs(args, "-dr"))
             {
@@ -76,9 +88,9 @@ namespace SWAE
             {
                 showAnalysis = true;
             }
-            if(CheckArgs(args, "-h"))
+            if(CheckArgs(args, "-h") || CheckArgs(args, "help"))
             {
-                Console.WriteLine("\nGoogle it..");
+                Console.WriteLine("\n ~ SWAE ~ Simple Written Adventure Engine\n\n -a    Displays contextual analysis.\n -d    Enable dev tools.");
                 return;
             }
             
@@ -111,6 +123,7 @@ namespace SWAE
 
                 //FileHandler.PrintCCodeDebug(code);
                 FileHandler.WriteToFile(code, fileName);
+              
             }
             //IMPORTANT TODO: Der er blevet ændret, husk når merge
             catch (Exception e)
