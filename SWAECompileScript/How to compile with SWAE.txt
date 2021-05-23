@@ -1,0 +1,22 @@
+# for windows users:
+
+1. Add SWAE.exe to path
+2. Add swaec.bat to path 
+   OR copy swaec.bat to location where needed
+3. Run 'swaec <file>'
+?. Run 'swaec -h' for list of arguments 
+
+
+# for Zsh add command to ~/.zshrc:
+
+alias SWAE="/mnt/u/vatpri/Code/CS/P4CSharp/POTBAG/bin/Release/netcoreapp3.1/SWAE.exe"
+swaec() {
+	SWAE "$@"
+	fileName=${1%%\.*}
+	if [ $fileName != "-h" ]
+		then
+		gcc $fileName.c -o $fileName.out
+		rm $fileName.c
+	fi
+	
+}

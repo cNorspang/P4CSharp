@@ -62,12 +62,15 @@ Location DebugMenu = {
 		"Change world level" {player.WORLD_LEVEL = userInput "Choose Wisely...";}
 		"Change name" {player.name = userInput "\nWhat is your new name?"; }
 		"Change gold" {player.Gold = userInput "Type number";}
+		"Change health" {player.Health_point = userInput "Type number";}
 		"Activate God Mode" 
 		{
 			player.Health_point += 10000; 
 			player.regular_sword_damage += 100; 
 			player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE += 150; 
 			player.Gold += 100000;
+			player.potion_amount += 1000;
+			player.potion_health += 1000;
 			player.THE_GREAT_SWORD_OF_THE_OLD_ONE = true;
 			player.isBlessedByWitch = true;
 		}
@@ -553,7 +556,7 @@ Location WitchFight = {
 					player.regular_sword_damage += 3; 
 					player.THE_GREAT_SWORD_OF_THE_OLD_ONE_DAMAGE += 5;
 				}
-				(Roll(1,15) == 1) "Smack that booty" {Text "The Hag is pleased, and you have been blessed."; player.isBlessedByWitch = true; }
+				(Roll(1,8) == 1) "Smack that booty" {Text "The Hag is pleased, and you have been blessed."; player.isBlessedByWitch = true; }
             }
         }
 
