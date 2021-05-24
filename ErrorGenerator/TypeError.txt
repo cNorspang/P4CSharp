@@ -8,8 +8,16 @@ setup {
 }
 
 Location TypeError = {
-    int IntegerError = "Int Error";
-    string StringError = 3;
-    bool BoolError = "Bool Error";
+    /*Integer error*/
+    int x;
+    x = "Int Error";
+    
+    /*String error*/
+    string y;
+    y = 3;
+
+    /*Bool error*/
+    bool z;
+    z = "Bool Error";
 }
 

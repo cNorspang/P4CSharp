@@ -1,0 +1,23 @@
+setup {
+    Locations = {
+        FirstLocation -> SecondLocation;
+        EndLocation -> EndLocation;
+    }
+    player = {
+        int declarationInPlayerSetupFail;
+        int intFail = "fail";
+        string stringFail = 1;
+        
+    }
+}
+
+Location FirstLocation = {
+    int x;
+    string hej = "hej";
+    x = userInput hej; 
+    x = userInput "userInput fail";
+}
+
+Location SecondLocation = {
+    int NotValidVarName123;
+}
