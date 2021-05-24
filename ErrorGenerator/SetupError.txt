@@ -1,5 +1,5 @@
 setup {
-    Lacations = {
+    Locations = {
         FirstLocation -> SecondLocation;
     }
     player = {
