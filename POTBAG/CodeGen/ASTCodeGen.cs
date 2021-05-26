@@ -760,21 +760,11 @@ namespace SWAE.CodeGen
         {
             string locationStr = "";
             string locationName = "";
-            switch (node.Left)
-            {
-                case DotNotationNode dotNode:
-                    locationStr += Visit(dotNode);
-                    locationName = locationStr + "()";
-                    break;
-                case variableNode varNode:
-                    locationStr += Visit(varNode);
-                    locationName = locationStr + "()";
-                    break;
-                case LocationDeclarationNode locationDclNode:
-                    locationStr += Visit(locationDclNode);
-                    locationName = locationStr.Split(' ')[1];
-                    break;
-            }
+
+            LocationDeclarationNode locationDclNode = (LocationDeclarationNode)node.Left;
+            locationStr += Visit(locationDclNode);
+            locationName = locationStr.Split(' ')[1];
+
             locationStr += "{";
             code.Add(locationStr);
             Visit(node.Right);

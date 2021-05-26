@@ -49,7 +49,7 @@ namespace SWAE
                 }
 
             }
-            else if (args[0] == "-h")
+            else if (args[0] == "-h" || args[0] == "help")
             {
                 //leave empty
             }
